@@ -23,20 +23,24 @@ def get_chat_response(prompt, context=""):
     if not prompt:
         prompt = "No question provided."
 
+    # Enviar uma mensagem clara e estruturada para a API
     response = openai.ChatCompletion.create(
         model="gpt-4-turbo",
         messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": context},
-            {"role": "user", "content": prompt},
+            {
+                "role": "system",
+                "content": "Você é um assistente útil que auxilia na análise de avaliações de pais sobre uma escola.",
+            },
+            {"role": "user", "content": f"Contexto:\n{context}"},
+            {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
         ],
-        max_tokens=1050,
+        max_tokens=2050,
     )
     print(f"Total tokens usados: {response['usage']['total_tokens']}")
     formatted_response = response["choices"][0]["message"]["content"].strip()
 
     # Formatações adicionais
-    formatted_response = re.sub(r"###", "<br>###", formatted_response)
+    formatted_response = re.sub(r"###", "<br>", formatted_response)
     formatted_response = re.sub(
         r"\*\*(.*?)\*\*",
         r"<span style='font-weight: bold;'><br>\1</span>",

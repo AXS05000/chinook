@@ -69,91 +69,36 @@ def chat_view(request):
             user_message = data.get("message", "")
             context = ""
 
+            # Escalas de avaliação
+            escalas = {
+                "Metodologia de ensino": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
+                "Infraestrutura": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
+                "Atendimento pedagógico": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
+                "Atendimento administrativo/financeiro": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
+                "Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?": "0 - Horrível a 10 - Perfeito",
+            }
+
+            # Consultar o banco de dados para obter informações relevantes
             informacoes = Informacao.objects.all()
-            total_respostas, stats = calculate_statistics(informacoes)
-
+            total_respostas = informacoes.count()
             if total_respostas > 0:
-                context += f"Total de respostas: {total_respostas}\n"
-                context += f"Respostas negativas: {stats['Negativo']}\n"
-                context += f"Respostas neutras: {stats['Neutro']}\n"
-                context += f"Respostas positivas: {stats['Positivo']}\n"
-                context += f"Detratores: {stats['Detrator']}\n"
-                context += f"Promotores: {stats['Promotor']}\n"
-
-                if "respostas por dia" in user_message.lower():
-                    contagem_dias = respostas_por_dia(informacoes)
-                    for dia, contagem in contagem_dias.items():
-                        context += f"{dia}: {contagem} respostas\n"
-
-                if (
-                    "resumo por pergunta" in user_message.lower()
-                    or "resumo dos comentários" in user_message.lower()
-                ):
-                    resumo = resumo_por_pergunta(informacoes)
-                    for pergunta, dados in resumo.items():
-                        context += f"\nPergunta: {pergunta}\n"
-                        context += f"Total de Respostas: {dados['total']}\n"
-                        context += f"Respostas Negativas: {dados['negativo']}\n"
-                        context += f"Respostas Neutras: {dados['neutro']}\n"
-                        context += f"Respostas Positivas: {dados['positivo']}\n"
-                        context += "Comentários:\n"
-                        for comentario in dados["comentarios"]:
-                            context += f"- {comentario}\n"
-
-            if "nps" in user_message.lower():
-                informacoes_nps = informacoes.filter(
-                    questao="Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
+                soma_respostas = sum(info.resposta for info in informacoes)
+                media_respostas = soma_respostas / total_respostas
+                context_list = []
+                for info in informacoes:
+                    escala = escalas.get(info.questao, "")
+                    context_list.append(
+                        f"Nome: {info.nome}, Persona: {info.persona}, Data da Resposta: {info.data_resposta}, Unidade: {info.unidade}, Questão: {info.questao} (Escala: {escala}), Resposta: {info.resposta}, Comentário: {info.comentario}"
+                    )
+                context = "\n".join(context_list)
+                context += (
+                    f"\n\nA média das respostas para a escola é: {media_respostas:.2f}"
                 )
-
-                # Verificar se há suposições
-                suposicao_promotores = 0
-                suposicao_neutros = 0
-                suposicao_detratores = 0
-                if "mais" in user_message.lower():
-                    suposicao_str = user_message.lower().split("mais")[1].strip()
-                    try:
-                        if (
-                            "respostas positivas" in suposicao_str
-                            or "promotores" in suposicao_str
-                        ):
-                            suposicao_promotores = int(suposicao_str.split()[0].strip())
-                        elif (
-                            "respostas neutras" in suposicao_str
-                            or "neutros" in suposicao_str
-                        ):
-                            suposicao_neutros = int(suposicao_str.split()[0].strip())
-                        elif (
-                            "respostas negativas" in suposicao_str
-                            or "detratores" in suposicao_str
-                        ):
-                            suposicao_detratores = int(suposicao_str.split()[0].strip())
-                    except ValueError:
-                        pass
-
-                nps = calculate_nps(
-                    informacoes_nps,
-                    suposicao_promotores,
-                    suposicao_neutros,
-                    suposicao_detratores,
-                )
-                if nps is not None:
-                    if (
-                        suposicao_promotores > 0
-                        or suposicao_neutros > 0
-                        or suposicao_detratores > 0
-                    ):
-                        response = f"O NPS da sua escola, considerando as suposições, seria {nps:.0f}."
-                    else:
-                        response = f"O NPS da sua escola é {nps:.0f}."
-                else:
-                    response = "Não há dados suficientes para calcular o NPS."
             else:
-                response = get_chat_response(user_message, context)
+                context = "No relevant information found in the database."
 
-            if "tabela" in user_message.lower() or "relatório" in user_message.lower():
-                file_path = generate_excel_report(informacoes)
-                file_url = request.build_absolute_uri(file_path)
-                response += f"Você pode baixar o relatório em Excel clicando no link fornecido.\n\n<a href='{file_url}' target='_blank'>Baixar Relatório Excel</a>"
+            # Obter resposta do ChatGPT
+            response = get_chat_response(user_message, context)
 
             return JsonResponse({"response": response})
         except json.JSONDecodeError:
