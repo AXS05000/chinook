@@ -8,6 +8,51 @@ import json
 import openpyxl
 from openpyxl.utils import get_column_letter
 from django.conf import settings
+from django.views import View
+
+
+class ExcelImportView(View):
+    def get(self, request):
+        # Retorna o template de upload de arquivo
+        return render(request, "chatapp/importar_nps.html")
+
+    def post(self, request):
+        excel_file = request.FILES["excel_file"]
+
+        # Carrega o arquivo Excel na memória
+        workbook = openpyxl.load_workbook(excel_file)
+        sheet = workbook.active
+
+        # Itera sobre as linhas do arquivo Excel
+        for row in sheet.iter_rows(min_row=2, values_only=True):  # Ignora o cabeçalho
+            nome = row[0]
+            persona = row[1]
+            data_resposta = row[2]
+            unidade = row[3]
+            questao = row[4]
+            resposta = row[5]
+            comentario = row[6]
+
+            if (
+                nome
+                and persona
+                and data_resposta
+                and unidade
+                and questao
+                and resposta is not None
+            ):
+                # Cria um novo objeto Informacao
+                Informacao.objects.create(
+                    nome=nome,
+                    persona=persona,
+                    data_resposta=data_resposta,
+                    unidade=unidade,
+                    questao=questao,
+                    resposta=resposta,
+                    comentario=comentario,
+                )
+
+        return HttpResponse("Importação realizada com sucesso!")
 
 
 @csrf_exempt
