@@ -69,13 +69,20 @@ def calculate_statistics(informacoes):
     return total_respostas, stats
 
 
-def calculate_nps(informacoes):
-    total_respostas = informacoes.count()
+def calculate_nps(
+    informacoes, suposicao_promotores=0, suposicao_neutros=0, suposicao_detratores=0
+):
+    total_respostas = (
+        informacoes.count()
+        + suposicao_promotores
+        + suposicao_neutros
+        + suposicao_detratores
+    )
     if total_respostas == 0:
         return None  # Evita divisão por zero se não houver respostas
 
-    promotores = informacoes.filter(resposta__in=[9, 10]).count()
-    detratores = informacoes.filter(resposta__lte=6).count()
+    promotores = informacoes.filter(resposta__in=[9, 10]).count() + suposicao_promotores
+    detratores = informacoes.filter(resposta__lte=6).count() + suposicao_detratores
 
     percentual_promotores = (promotores / total_respostas) * 100
     percentual_detratores = (detratores / total_respostas) * 100

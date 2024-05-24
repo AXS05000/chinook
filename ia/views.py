@@ -84,36 +84,41 @@ def chat_view(request):
                     questao="Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
                 )
 
-                # Verificar se há suposição
-                suposicao_positivos = 0
+                # Verificar se há suposições
+                suposicao_promotores = 0
+                suposicao_neutros = 0
+                suposicao_detratores = 0
                 if "mais" in user_message.lower():
                     suposicao_str = user_message.lower().split("mais")[1].strip()
                     try:
-                        suposicao_positivos = int(
-                            suposicao_str.split("respostas positivas")[0].strip()
-                        )
+                        if "respostas positivas" in suposicao_str:
+                            suposicao_promotores = int(
+                                suposicao_str.split("respostas positivas")[0].strip()
+                            )
+                        elif "respostas neutras" in suposicao_str:
+                            suposicao_neutros = int(
+                                suposicao_str.split("respostas neutras")[0].strip()
+                            )
+                        elif "respostas negativas" in suposicao_str:
+                            suposicao_detratores = int(
+                                suposicao_str.split("respostas negativas")[0].strip()
+                            )
                     except ValueError:
                         pass
 
-                nps = calculate_nps(informacoes_nps)
+                nps = calculate_nps(
+                    informacoes_nps,
+                    suposicao_promotores,
+                    suposicao_neutros,
+                    suposicao_detratores,
+                )
                 if nps is not None:
-                    if suposicao_positivos > 0:
-                        novos_promotores = (
-                            informacoes_nps.filter(resposta__in=[9, 10]).count()
-                            + suposicao_positivos
-                        )
-                        total_respostas_nova = (
-                            informacoes_nps.count() + suposicao_positivos
-                        )
-                        percentual_promotores = (
-                            novos_promotores / total_respostas_nova
-                        ) * 100
-                        percentual_detratores = (
-                            informacoes_nps.filter(resposta__lte=6).count()
-                            / total_respostas_nova
-                        ) * 100
-                        nps_novo = percentual_promotores - percentual_detratores
-                        response = f"O NPS da sua escola, considerando mais {suposicao_positivos} respostas positivas, seria {nps_novo:.0f}."
+                    if (
+                        suposicao_promotores > 0
+                        or suposicao_neutros > 0
+                        or suposicao_detratores > 0
+                    ):
+                        response = f"O NPS da sua escola, considerando mais {suposicao_promotores} respostas positivas, {suposicao_neutros} respostas neutras, e {suposicao_detratores} respostas negativas, seria {nps:.0f}."
                     else:
                         response = f"O NPS da sua escola é {nps:.0f}."
                 else:
