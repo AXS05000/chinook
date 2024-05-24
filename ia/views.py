@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -6,7 +7,7 @@ from .utils import get_chat_response
 import json
 import openpyxl
 from openpyxl.utils import get_column_letter
-from openpyxl.writer.excel import save_virtual_workbook
+from django.conf import settings
 
 
 @csrf_exempt
@@ -44,13 +45,23 @@ def chat_view(request):
             # Obter resposta do ChatGPT
             response = get_chat_response(user_message, context)
 
+            # Verifica se o usuário pediu um relatório ou uma tabela
+            if "tabela" in user_message.lower() or "relatório" in user_message.lower():
+                file_path = generate_excel_report(informacoes)
+                file_url = request.build_absolute_uri(file_path)
+                response += f"\n\n<a href='{file_url}' target='_blank'>Baixar Relatório Excel</a>"
+
             return JsonResponse({"response": response})
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON"}, status=400)
     return render(request, "chatapp/chat.html")
 
 
-def generate_excel_report(request):
+def generate_excel_report(informacoes):
+    # Cria a pasta 'media' se não existir
+    if not os.path.exists(settings.MEDIA_ROOT):
+        os.makedirs(settings.MEDIA_ROOT)
+
     # Cria uma planilha
     wb = openpyxl.Workbook()
     ws = wb.active
@@ -69,7 +80,6 @@ def generate_excel_report(request):
     ws.append(headers)
 
     # Adiciona os dados
-    informacoes = Informacao.objects.all()
     for info in informacoes:
         row = [
             info.nome,
@@ -87,10 +97,9 @@ def generate_excel_report(request):
         column_letter = get_column_letter(col_num)
         ws.column_dimensions[column_letter].width = 20
 
-    # Cria uma resposta HTTP com o arquivo Excel
-    response = HttpResponse(
-        content=save_virtual_workbook(wb),
-        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    )
-    response["Content-Disposition"] = "attachment; filename=relatorio_avaliacoes.xlsx"
-    return response
+    # Salva o arquivo no sistema de arquivos do servidor
+    file_name = "relatorio_avaliacoes.xlsx"
+    file_path = os.path.join(settings.MEDIA_ROOT, file_name)
+    wb.save(file_path)
+
+    return settings.MEDIA_URL + file_name

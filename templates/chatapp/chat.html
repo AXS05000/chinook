@@ -24,7 +24,6 @@
         <input type="text" id="message" name="message" placeholder="Type your message here..." required>
         <button type="submit">Send</button>
     </form>
-    <button id="download-report" style="margin-top: 20px;">Download Relatório Excel</button>
     <script>
         const form = document.getElementById('chat-form');
         form.addEventListener('submit', async (e) => {
@@ -47,11 +46,6 @@
             chatBox.innerHTML += `<p><strong>ChatGPT:</strong> ${data.response}</p>`;
 
             messageInput.value = '';
-        });
-
-        const downloadButton = document.getElementById('download-report');
-        downloadButton.addEventListener('click', () => {
-            window.location.href = "{% url 'generate_report' %}";
         });
     </script>
 </body>
