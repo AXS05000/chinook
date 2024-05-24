@@ -8,6 +8,12 @@ import re
 openai.api_key = settings.OPENAI_API_KEY
 
 
+## model="gpt-4o" - Modelo mais rapido e inteligente - 30 000 TPM
+## model="gpt-4-turbo" - 2 Modelo mais rapido e inteligente - 30 000 TPM
+## model="gpt-4" - 2 Modelo mais rapido e inteligente - 10 000 TPM
+## model="gpt-3.5-turbo" - Modelo menos inteligente - 60 000 TPM
+
+
 def get_chat_response(prompt, context=""):
     if not context:
         context = "No relevant information found in the database."
@@ -15,7 +21,7 @@ def get_chat_response(prompt, context=""):
         prompt = "No question provided."
 
     response = openai.ChatCompletion.create(
-        model="gpt-4-turbo",
+        model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": context},
@@ -29,10 +35,10 @@ def get_chat_response(prompt, context=""):
     # Adicionar quebra de linha antes de números seguidos por um ponto
     formatted_response = re.sub(r"(\d+\.)", r"<br><br>\1", formatted_response)
 
-    # Substituir ":" por ":<br><br>"
+    # Substituir ":" por ":<br>"
     formatted_response = formatted_response.replace(":", ":<br>")
 
-    # Substituir "###" por "<br><br>"
+    # Substituir "###" por "<br>"
     formatted_response = formatted_response.replace("###", "<br>")
 
     # Envolver palavras entre ** com uma tag <span> com a classe 'highlight'
@@ -42,10 +48,17 @@ def get_chat_response(prompt, context=""):
         formatted_response,
     )
 
-    # Envolver palavras entre ** com uma tag <span> com a classe 'highlight'
+    # Envolver palavras entre * com uma tag <span> com a classe 'highlight'
     formatted_response = re.sub(
         r"\*(.*?)\*",
         r"<span style='font-weight: bold;'>\1</span>",
+        formatted_response,
+    )
+
+    # Adicionar quebra de linha antes de ". - Texto:"
+    formatted_response = re.sub(
+        r"\.\s-\s(.*?):",
+        r".<br> - \1:",
         formatted_response,
     )
 
