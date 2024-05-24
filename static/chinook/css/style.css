@@ -640,7 +640,7 @@ body {
     max-height: calc(20px + ((14px * 2) * 6));
 }
 .conversation-form-input:focus {
-    border-color: var(--slate-400);
+    border-color: var(--red-400);
 }
 .conversation-form-record {
     position: absolute;
