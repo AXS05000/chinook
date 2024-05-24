@@ -203,7 +203,7 @@ body {
     font-size: 14px;
 }
 .content-sidebar-input:focus {
-    border-color: var(--slate-400);
+    border-color: var(--red-400);
 }
 .content-sidebar-submit {
     position: absolute;
