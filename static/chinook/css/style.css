@@ -10,6 +10,10 @@
     font: inherit;
 }
 
+strong {
+    font-weight: bold;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     color: var(--slate-700);
@@ -76,6 +80,8 @@ body {
     position: relative;
     transition: color .15s ease-in-out;
 }
+
+
 .chat-sidebar-menu > * > a:hover {
     color: var(--red-400);
 }

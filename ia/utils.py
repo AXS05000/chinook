@@ -13,10 +13,6 @@ def get_chat_response(prompt, context=""):
     if not prompt:
         prompt = "No question provided."
 
-    # Verifica se o usuário pediu uma tabela ou um relatório
-    if "tabela" in prompt.lower() or "relatório" in prompt.lower():
-        return "Você pode baixar o relatório em Excel clicando no link fornecido."
-
     response = openai.ChatCompletion.create(
         model="gpt-4-turbo",
         messages=[
@@ -24,9 +20,12 @@ def get_chat_response(prompt, context=""):
             {"role": "user", "content": context},
             {"role": "user", "content": prompt},
         ],
-        max_tokens=550,
+        max_tokens=1050,
     )
-    return response["choices"][0]["message"]["content"].strip()
+
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+
+    return formatted_response
 
 
 def generate_excel_report(informacoes):
