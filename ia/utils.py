@@ -91,44 +91,7 @@ def calculate_nps(
     return nps
 
 
-def filter_respostas(informacoes, filtro):
-    if filtro == "positivas":
-        return informacoes.filter(
-            (
-                Q(
-                    questao="Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
-                )
-                & Q(resposta__in=[9, 10])
-            )
-            | (Q(resposta__gte=4) & Q(resposta__lte=5))
-        )
-    elif filtro == "neutras":
-        return informacoes.filter(
-            (
-                Q(
-                    questao="Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
-                )
-                & Q(resposta__in=[7, 8])
-            )
-            | (Q(resposta=3))
-        )
-    elif filtro == "negativas":
-        return informacoes.filter(
-            (
-                Q(
-                    questao="Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
-                )
-                & Q(resposta__lte=6)
-            )
-            | (Q(resposta__gte=1) & Q(resposta__lte=2))
-        )
-    return informacoes
-
-
-def generate_excel_report(informacoes, filtro=None):
-    if filtro:
-        informacoes = filter_respostas(informacoes, filtro)
-
+def generate_excel_report(informacoes):
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = "Relatório de Avaliações"

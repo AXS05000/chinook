@@ -130,15 +130,7 @@ def chat_view(request):
                 response = get_chat_response(user_message, context)
 
             if "tabela" in user_message.lower() or "relatório" in user_message.lower():
-                filtro = None
-                if "positivas" in user_message.lower():
-                    filtro = "positivas"
-                elif "neutras" in user_message.lower():
-                    filtro = "neutras"
-                elif "negativas" in user_message.lower():
-                    filtro = "negativas"
-
-                file_path = generate_excel_report(informacoes, filtro)
+                file_path = generate_excel_report(informacoes)
                 file_url = request.build_absolute_uri(file_path)
                 response = f"Você pode baixar o relatório em Excel clicando no link fornecido.\n\n<a href='{file_url}' target='_blank'>Baixar Relatório Excel</a>"
 
