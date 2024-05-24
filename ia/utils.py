@@ -35,6 +35,20 @@ def get_chat_response(prompt, context=""):
     # Substituir "###" por "<br><br>"
     formatted_response = formatted_response.replace("###", "<br>")
 
+    # Envolver palavras entre ** com uma tag <span> com a classe 'highlight'
+    formatted_response = re.sub(
+        r"\*\*(.*?)\*\*",
+        r"<span style='font-weight: bold;'>\1</span>",
+        formatted_response,
+    )
+
+    # Envolver palavras entre ** com uma tag <span> com a classe 'highlight'
+    formatted_response = re.sub(
+        r"\*(.*?)\*",
+        r"<span style='font-weight: bold;'>\1</span>",
+        formatted_response,
+    )
+
     return formatted_response
 
 

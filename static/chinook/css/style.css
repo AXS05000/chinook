@@ -39,12 +39,6 @@ body {
 }
 /* end: Chat */
 
-.highlight {
-    font-weight: bold;
-    color: #333;  /* Cor do texto */
-    /* Adicione mais estilos conforme necessário */
-}
-
 
 /* start: Sidebar */
 .chat-sidebar {
