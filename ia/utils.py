@@ -6,6 +6,7 @@ import os
 import re
 from django.db.models import Q
 from django.db import models
+from collections import Counter
 
 openai.api_key = settings.OPENAI_API_KEY
 
@@ -128,3 +129,9 @@ def generate_excel_report(informacoes):
     wb.save(file_path)
 
     return settings.MEDIA_URL + file_name
+
+
+def respostas_por_dia(informacoes):
+    datas = [info.data_resposta for info in informacoes]
+    contagem = Counter(datas)
+    return contagem

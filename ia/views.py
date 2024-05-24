@@ -1,4 +1,4 @@
-import os
+import json
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -8,8 +8,8 @@ from .utils import (
     generate_excel_report,
     calculate_statistics,
     calculate_nps,
+    respostas_por_dia,
 )
-import json
 import openpyxl
 from openpyxl.utils import get_column_letter
 from django.conf import settings
@@ -79,6 +79,11 @@ def chat_view(request):
                 context += f"Detratores: {stats['Detrator']}\n"
                 context += f"Promotores: {stats['Promotor']}\n"
 
+                if "respostas por dia" in user_message.lower():
+                    contagem_dias = respostas_por_dia(informacoes)
+                    for dia, contagem in contagem_dias.items():
+                        context += f"{dia}: {contagem} respostas\n"
+
             if "nps" in user_message.lower():
                 informacoes_nps = informacoes.filter(
                     questao="Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
@@ -132,57 +137,9 @@ def chat_view(request):
             if "tabela" in user_message.lower() or "relatório" in user_message.lower():
                 file_path = generate_excel_report(informacoes)
                 file_url = request.build_absolute_uri(file_path)
-                response = f"Você pode baixar o relatório em Excel clicando no link fornecido.\n\n<a href='{file_url}' target='_blank'>Baixar Relatório Excel</a>"
+                response += f"Você pode baixar o relatório em Excel clicando no link fornecido.\n\n<a href='{file_url}' target='_blank'>Baixar Relatório Excel</a>"
 
             return JsonResponse({"response": response})
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON"}, status=400)
     return render(request, "chatapp/chat.html")
-
-
-def generate_excel_report(informacoes):
-    # Cria a pasta 'media' se não existir
-    if not os.path.exists(settings.MEDIA_ROOT):
-        os.makedirs(settings.MEDIA_ROOT)
-
-    # Cria uma planilha
-    wb = openpyxl.Workbook()
-    ws = wb.active
-    ws.title = "Relatório de Avaliações"
-
-    # Adiciona o cabeçalho
-    headers = [
-        "Nome",
-        "Persona",
-        "Data da Resposta",
-        "Unidade",
-        "Questão",
-        "Resposta",
-        "Comentário",
-    ]
-    ws.append(headers)
-
-    # Adiciona os dados
-    for info in informacoes:
-        row = [
-            info.nome,
-            info.persona,
-            info.data_resposta,
-            info.unidade,
-            info.questao,
-            info.resposta,
-            info.comentario,
-        ]
-        ws.append(row)
-
-    # Ajusta a largura das colunas
-    for col_num, column_title in enumerate(headers, 1):
-        column_letter = get_column_letter(col_num)
-        ws.column_dimensions[column_letter].width = 20
-
-    # Salva o arquivo no sistema de arquivos do servidor
-    file_name = "relatorio_avaliacoes.xlsx"
-    file_path = os.path.join(settings.MEDIA_ROOT, file_name)
-    wb.save(file_path)
-
-    return settings.MEDIA_URL + file_name
