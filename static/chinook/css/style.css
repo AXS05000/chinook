@@ -10,9 +10,7 @@
     font: inherit;
 }
 
-strong {
-    font-weight: bold;
-}
+
 
 body {
     font-family: 'Inter', sans-serif;
@@ -41,6 +39,11 @@ body {
 }
 /* end: Chat */
 
+.highlight {
+    font-weight: bold;
+    color: #333;  /* Cor do texto */
+    /* Adicione mais estilos conforme necessário */
+}
 
 
 /* start: Sidebar */

@@ -80,7 +80,12 @@ def chat_view(request):
                 media_respostas = soma_respostas / total_respostas
                 for info in informacoes:
                     escala = escalas.get(info.questao, "")
-                    context += f"{info.nome},{info.persona},{info.data_resposta},{info.unidade},{info.questao} (Escala: {escala}),{info.resposta},{info.comentario}\n"
+                    if (
+                        user_message.lower().find("comentário") != -1
+                        and not info.comentario
+                    ):
+                        continue
+                    context += f"{info.nome},{info.persona},{info.data_resposta},{info.unidade},{info.questao} (Escala: {escala}),{info.resposta},{info.comentario or 'Comentário não fornecido'}\n"
                 context += (
                     f"\nA média das respostas para a escola é: {media_respostas:.2f}\n"
                 )

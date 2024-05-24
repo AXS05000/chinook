@@ -3,6 +3,7 @@ from django.conf import settings
 import openpyxl
 from openpyxl.utils import get_column_letter
 import os
+import re
 
 openai.api_key = settings.OPENAI_API_KEY
 
@@ -24,6 +25,15 @@ def get_chat_response(prompt, context=""):
     )
 
     formatted_response = response["choices"][0]["message"]["content"].strip()
+
+    # Adicionar quebra de linha antes de números seguidos por um ponto
+    formatted_response = re.sub(r"(\d+\.)", r"<br><br>\1", formatted_response)
+
+    # Substituir ":" por ":<br><br>"
+    formatted_response = formatted_response.replace(":", ":<br>")
+
+    # Substituir "###" por "<br><br>"
+    formatted_response = formatted_response.replace("###", "<br>")
 
     return formatted_response
 
