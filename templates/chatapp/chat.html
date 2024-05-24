@@ -47,28 +47,28 @@
         <div class="chat-content">
             <!-- start: Content side -->
             <div class="content-sidebar">
-                <div class="content-sidebar-title">Chats</div>
+                <div class="content-sidebar-title">Chinooks</div>
                 <form action="" class="content-sidebar-form">
                     <input type="search" class="content-sidebar-input" placeholder="Search...">
                     <button type="submit" class="content-sidebar-submit"><i class="ri-search-line"></i></button>
                 </form>
                 <div class="content-messages">
                     <ul class="content-messages-list">
-                        <li class="content-message-title"><span>Recently</span></li>
+                        {% comment %} <li class="content-message-title"><span>Recently</span></li> {% endcomment %}
                         <li>
                             <a href="#" data-conversation="#conversation-1">
                                 <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                                 <span class="content-message-info">
-                                    <span class="content-message-name">Someone</span>
-                                    <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
+                                    <span class="content-message-name">Chinook Owner</span>
+                                    {% comment %} <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span> {% endcomment %}
                                 </span>
                                 <span class="content-message-more">
-                                    <span class="content-message-unread">5</span>
-                                    <span class="content-message-time">12:30</span>
+                                    {% comment %} <span class="content-message-unread">5</span>
+                                    <span class="content-message-time">12:30</span> {% endcomment %}
                                 </span>
                             </a>
                         </li>
-                        <li>
+                        {% comment %} <li>
                             <a href="#" data-conversation="#conversation-2">
                                 <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                                 <span class="content-message-info">
@@ -207,35 +207,35 @@
                                     <span class="content-message-time">12:30</span>
                                 </span>
                             </a>
-                        </li>
+                        </li> {% endcomment %}
                     </ul>
                 </div>
             </div>
             <!-- end: Content side -->
             <!-- start: Conversation -->
-            <div class="conversation conversation-default active">
-                <i class="ri-chat-3-line"></i>
-                <p>Select chat and view conversation!</p>
+            <div class="conversation conversation-default conversation-item2 active">
+                <i class="ri-chat-3-line" style="color: var(--red-400);"></i>
+                <a href='#' target='_blank'>Clique aqui para iniciar um novo chat!</a>
             </div>
             <div class="conversation" id="conversation-1">
               <div class="conversation-top">
                   <div class="conversation-user">
                       <img class="conversation-user-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                       <div>
-                          <div class="conversation-user-name">ChatGPT</div>
+                          <div class="conversation-user-name">Fale com o nosso Chinook especializado para Owners</div>
                           <div class="conversation-user-status online">online</div>
                       </div>
                   </div>
               </div>
               <div class="conversation-main" id="chat-box">
                   <ul class="conversation-wrapper">
-                      <div class="coversation-divider"><span>Today</span></div>
+                      {% comment %} <div class="coversation-divider"><span>Today</span></div> {% endcomment %}
                   </ul>
               </div>
               <div class="conversation-form">
                   <button type="button" class="conversation-form-button"><i class="ri-emotion-line"></i></button>
                   <div class="conversation-form-group">
-                      <textarea id="message" class="conversation-form-input" rows="1" placeholder="Type here..." required></textarea>
+                      <textarea id="message" class="conversation-form-input" rows="1" placeholder="Digite aqui..." required></textarea>
                   </div>
                   <button type="submit" id="send-button" class="conversation-form-button conversation-form-submit"><i class="ri-send-plane-2-line"></i></button>
               </div>
@@ -460,7 +460,7 @@
           });
           const data = await response.json();
 
-          // Add ChatGPT response to chat
+          // Add Chat Chinook response to chat
           chatBox.innerHTML += `
               <li class="conversation-item">
                   <div class="conversation-item-side">
