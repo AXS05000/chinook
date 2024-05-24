@@ -1,9 +1,12 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Informacao
 from .utils import get_chat_response
 import json
+import openpyxl
+from openpyxl.utils import get_column_letter
+from openpyxl.writer.excel import save_virtual_workbook
 
 
 @csrf_exempt
@@ -45,3 +48,49 @@ def chat_view(request):
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON"}, status=400)
     return render(request, "chatapp/chat.html")
+
+
+def generate_excel_report(request):
+    # Cria uma planilha
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Relatório de Avaliações"
+
+    # Adiciona o cabeçalho
+    headers = [
+        "Nome",
+        "Persona",
+        "Data da Resposta",
+        "Unidade",
+        "Questão",
+        "Resposta",
+        "Comentário",
+    ]
+    ws.append(headers)
+
+    # Adiciona os dados
+    informacoes = Informacao.objects.all()
+    for info in informacoes:
+        row = [
+            info.nome,
+            info.persona,
+            info.data_resposta,
+            info.unidade,
+            info.questao,
+            info.resposta,
+            info.comentario,
+        ]
+        ws.append(row)
+
+    # Ajusta a largura das colunas
+    for col_num, column_title in enumerate(headers, 1):
+        column_letter = get_column_letter(col_num)
+        ws.column_dimensions[column_letter].width = 20
+
+    # Cria uma resposta HTTP com o arquivo Excel
+    response = HttpResponse(
+        content=save_virtual_workbook(wb),
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+    response["Content-Disposition"] = "attachment; filename=relatorio_avaliacoes.xlsx"
+    return response

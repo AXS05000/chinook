@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import chat_view
+from .views import chat_view, generate_excel_report
 
 urlpatterns = [
     path("chat/", chat_view, name="chat"),
+    path("generate_report/", generate_excel_report, name="generate_report"),
 ]
