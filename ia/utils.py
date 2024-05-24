@@ -20,6 +20,15 @@ def get_chat_response(prompt, context=""):
     if not prompt:
         prompt = "No question provided."
 
+    # Dividir contexto em mensagens
+    context_messages = context.split("\n")
+
+    # Limitar o número de mensagens no contexto
+    max_context_messages = 50  # Limitar a quantidade de mensagens no contexto
+    if len(context_messages) > max_context_messages:
+        context_messages = context_messages[-max_context_messages:]
+    context = "\n".join(context_messages)
+
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -59,6 +68,13 @@ def get_chat_response(prompt, context=""):
     formatted_response = re.sub(
         r"\.\s-\s(.*?):",
         r".<br> - \1:",
+        formatted_response,
+    )
+
+    # Adicionar quebra de linha antes de ". Texto:"
+    formatted_response = re.sub(
+        r"\.\s(.*?):",
+        r".<br> \1:",
         formatted_response,
     )
 

@@ -61,36 +61,41 @@ def chat_view(request):
         try:
             data = json.loads(request.body)
             user_message = data.get("message", "")
+            clear_history = data.get("clear_history", False)
             context = ""
 
-            # Escalas de avaliação
-            escalas = {
-                "Metodologia de ensino": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
-                "Infraestrutura": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
-                "Atendimento pedagógico": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
-                "Atendimento administrativo/financeiro": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
-                "Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?": "0 - Horrível a 10 - Perfeito",
-            }
-
-            # Consultar o banco de dados para obter informações relevantes
-            informacoes = Informacao.objects.all()
-            total_respostas = informacoes.count()
-            if total_respostas > 0:
-                soma_respostas = sum(info.resposta for info in informacoes)
-                media_respostas = soma_respostas / total_respostas
-                for info in informacoes:
-                    escala = escalas.get(info.questao, "")
-                    if (
-                        user_message.lower().find("comentário") != -1
-                        and not info.comentario
-                    ):
-                        continue
-                    context += f"{info.nome},{info.persona},{info.data_resposta},{info.unidade},{info.questao} (Escala: {escala}),{info.resposta},{info.comentario or 'Comentário não fornecido'}\n"
-                context += (
-                    f"\nA média das respostas para a escola é: {media_respostas:.2f}\n"
-                )
+            if clear_history:
+                # Se o histórico for limpo, apenas resetar o contexto
+                context = ""
             else:
-                context = "No relevant information found in the database."
+                # Escalas de avaliação
+                escalas = {
+                    "Metodologia de ensino": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
+                    "Infraestrutura": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
+                    "Atendimento pedagógico": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
+                    "Atendimento administrativo/financeiro": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
+                    "Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?": "0 - Horrível a 10 - Perfeito",
+                }
+
+                # Consultar o banco de dados para obter informações relevantes
+                informacoes = Informacao.objects.all()
+                total_respostas = informacoes.count()
+                if total_respostas > 0:
+                    soma_respostas = sum(info.resposta for info in informacoes)
+                    media_respostas = soma_respostas / total_respostas
+                    for info in informacoes:
+                        escala = escalas.get(info.questao, "")
+                        context += f"{info.nome},{info.persona},{info.data_resposta},{info.unidade},{info.questao} (Escala: {escala}),{info.resposta},{info.comentario}\n"
+                    context += f"\nA média das respostas para a escola é: {media_respostas:.2f}\n"
+                else:
+                    context = "No relevant information found in the database."
+
+                # Limitar o contexto para evitar ultrapassar o limite de tokens
+                context_messages = context.split("\n")
+                max_context_messages = 50
+                if len(context_messages) > max_context_messages:
+                    context_messages = context_messages[-max_context_messages:]
+                context = "\n".join(context_messages)
 
             # Obter resposta do ChatGPT
             response = get_chat_response(user_message, context)

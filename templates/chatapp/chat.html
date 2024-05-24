@@ -240,6 +240,7 @@
                       <textarea id="message" class="conversation-form-input" rows="1" placeholder="Digite aqui..." required></textarea>
                   </div>
                   <button type="submit" id="send-button" class="conversation-form-button conversation-form-submit"><i class="ri-send-plane-2-line"></i></button>
+                  <button type="button" id="clear-history-button" class="conversation-form-button conversation-form-submit"><i class="ri-delete-bin-line"></i></button>
               </div>
           </div>
             <div class="conversation" id="conversation-2">
@@ -423,76 +424,82 @@
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
     <script>
-      const form = document.getElementById('conversation-1');
-      const messageInput = document.getElementById('message');
-      const chatBox = document.getElementById('chat-box');
-      const sendButton = document.getElementById('send-button');
-
-      sendButton.addEventListener('click', async () => {
-          const message = messageInput.value;
-          if (message.trim() === "") return;
-
-          // Add user message to chat
-          chatBox.innerHTML += `
-              <li class="conversation-item me">
-                  <div class="conversation-item-side">
-                      <img class="conversation-item-image" src="{% static 'assets_2/img/maple.png' %}" alt="">
-                  </div>
-                  <div class="conversation-item-content">
-                      <div class="conversation-item-box">
-                          <div class="conversation-item-text">
-                              <p>${message}</p>
-                              <div class="conversation-item-time">${new Date().toLocaleTimeString()}</div>
-                          </div>
-                      </div>
-                  </div>
-              </li>
-          `;
-
-          messageInput.value = '';
-
-          // Send message to server
-          const response = await fetch("{% url 'chat' %}", {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'X-CSRFToken': '{{ csrf_token }}'
-              },
-              body: JSON.stringify({ message: message })
-          });
-          const data = await response.json();
-
-          // Add Chat Chinook response to chat
-          chatBox.innerHTML += `
-              <li class="conversation-item">
-                  <div class="conversation-item-side">
-                      <img class="conversation-item-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
-                  </div>
-                  <div class="conversation-item-content">
-                      <div class="conversation-item-box">
-                          <div class="conversation-item-text">
-                              <p>${data.response}</p>
-                              <div class="conversation-item-time">${new Date().toLocaleTimeString()}</div>
-                          </div>
-                      </div>
-                  </div>
-              </li>
-          `;
-
-          // Scroll to the bottom of the chat
-          chatBox.scrollTop = chatBox.scrollHeight;
-      });
-
-      messageInput.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault();
-              sendButton.click();
-          }
-      });
-  </script>
+        const form = document.getElementById('conversation-1');
+        const messageInput = document.getElementById('message');
+        const chatBox = document.getElementById('chat-box');
+        const sendButton = document.getElementById('send-button');
+        const clearHistoryButton = document.getElementById('clear-history-button');
+    
+        sendButton.addEventListener('click', async () => {
+            const message = messageInput.value;
+            if (message.trim() === "") return;
+    
+            // Add user message to chat
+            chatBox.innerHTML += `
+                <li class="conversation-item me">
+                    <div class="conversation-item-side">
+                        <img class="conversation-item-image" src="{% static 'assets_2/img/maple.png' %}" alt="">
+                    </div>
+                    <div class="conversation-item-content">
+                        <div class="conversation-item-box">
+                            <div class="conversation-item-text">
+                                <p>${message}</p>
+                                <div class="conversation-item-time">${new Date().toLocaleTimeString()}</div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            `;
+    
+            messageInput.value = '';
+    
+            // Send message to server
+            const response = await fetch("{% url 'chat' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ message: message })
+            });
+            const data = await response.json();
+    
+            // Add Chat Chinook response to chat
+            chatBox.innerHTML += `
+                <li class="conversation-item">
+                    <div class="conversation-item-side">
+                        <img class="conversation-item-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
+                    </div>
+                    <div class="conversation-item-content">
+                        <div class="conversation-item-box">
+                            <div class="conversation-item-text">
+                                <p>${data.response}</p>
+                                <div class="conversation-item-time">${new Date().toLocaleTimeString()}</div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            `;
+    
+            // Scroll to the bottom of the chat
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+    
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendButton.click();
+            }
+        });
+    
+        // Clear chat history
+        clearHistoryButton.addEventListener('click', () => {
+            chatBox.innerHTML = '';
+        });
+    </script>
     <script src="{% static 'chinook/js/script.js' %}"></script>
     <script>
-      window.STATIC_URL = "{% static '' %}";
+        window.STATIC_URL = "{% static '' %}";
     </script>
     
   </body>
