@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Informacao
-from .utils import get_chat_response
+from .utils import get_chat_response, generate_excel_report
 import json
 import openpyxl
 from openpyxl.utils import get_column_letter
@@ -47,6 +47,13 @@ def chat_view(request):
 
             # Verifica se o usuário pediu um relatório ou uma tabela
             if "tabela" in user_message.lower() or "relatório" in user_message.lower():
+                # Aplicar filtros com base no pedido do usuário
+                if "nota" in user_message.lower():
+                    try:
+                        nota_filter = int(user_message.split("nota")[-1].strip())
+                        informacoes = informacoes.filter(resposta=nota_filter)
+                    except ValueError:
+                        pass
                 file_path = generate_excel_report(informacoes)
                 file_url = request.build_absolute_uri(file_path)
                 response += f"\n\n<a href='{file_url}' target='_blank'>Baixar Relatório Excel</a>"
