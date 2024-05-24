@@ -12,6 +12,7 @@
     <title>Chat Chinook</title>
 
     <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'chinook/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'chinook/css/tailwindcss-colors.css' %}">
   </head>
@@ -32,7 +33,7 @@
                 <li><a href="#" data-title="Settings"><i class="ri-settings-line"></i></a></li>
                 <li class="chat-sidebar-profile">
                     <button type="button" class="chat-sidebar-profile-toggle">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                        <img src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                     </button>
                     <ul class="chat-sidebar-profile-dropdown">
                         <li><a href="#"><i class="ri-user-line"></i> Profile</a></li>
@@ -56,7 +57,7 @@
                         <li class="content-message-title"><span>Recently</span></li>
                         <li>
                             <a href="#" data-conversation="#conversation-1">
-                                <img class="content-message-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                                <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                                 <span class="content-message-info">
                                     <span class="content-message-name">Someone</span>
                                     <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
@@ -69,7 +70,7 @@
                         </li>
                         <li>
                             <a href="#" data-conversation="#conversation-2">
-                                <img class="content-message-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                                <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                                 <span class="content-message-info">
                                     <span class="content-message-name">Someone</span>
                                     <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
@@ -81,32 +82,7 @@
                         </li>
                         <li>
                             <a href="#">
-                                <img class="content-message-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
-                                <span class="content-message-info">
-                                    <span class="content-message-name">Someone</span>
-                                    <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
-                                </span>
-                                <span class="content-message-more">
-                                    <span class="content-message-unread">5</span>
-                                    <span class="content-message-time">12:30</span>
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <img class="content-message-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
-                                <span class="content-message-info">
-                                    <span class="content-message-name">Someone</span>
-                                    <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
-                                </span>
-                                <span class="content-message-more">
-                                    <span class="content-message-time">12:30</span>
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <img class="content-message-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                                <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                                 <span class="content-message-info">
                                     <span class="content-message-name">Someone</span>
                                     <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
@@ -119,7 +95,32 @@
                         </li>
                         <li>
                             <a href="#">
-                                <img class="content-message-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                                <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
+                                <span class="content-message-info">
+                                    <span class="content-message-name">Someone</span>
+                                    <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
+                                </span>
+                                <span class="content-message-more">
+                                    <span class="content-message-time">12:30</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
+                                <span class="content-message-info">
+                                    <span class="content-message-name">Someone</span>
+                                    <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
+                                </span>
+                                <span class="content-message-more">
+                                    <span class="content-message-unread">5</span>
+                                    <span class="content-message-time">12:30</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                                 <span class="content-message-info">
                                     <span class="content-message-name">Someone</span>
                                     <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
@@ -134,7 +135,7 @@
                         <li class="content-message-title"><span>Recently</span></li>
                         <li>
                             <a href="#">
-                                <img class="content-message-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                                <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                                 <span class="content-message-info">
                                     <span class="content-message-name">Someone</span>
                                     <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
@@ -147,7 +148,7 @@
                         </li>
                         <li>
                             <a href="#">
-                                <img class="content-message-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                                <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                                 <span class="content-message-info">
                                     <span class="content-message-name">Someone</span>
                                     <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
@@ -159,32 +160,7 @@
                         </li>
                         <li>
                             <a href="#">
-                                <img class="content-message-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
-                                <span class="content-message-info">
-                                    <span class="content-message-name">Someone</span>
-                                    <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
-                                </span>
-                                <span class="content-message-more">
-                                    <span class="content-message-unread">5</span>
-                                    <span class="content-message-time">12:30</span>
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <img class="content-message-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
-                                <span class="content-message-info">
-                                    <span class="content-message-name">Someone</span>
-                                    <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
-                                </span>
-                                <span class="content-message-more">
-                                    <span class="content-message-time">12:30</span>
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <img class="content-message-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                                <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                                 <span class="content-message-info">
                                     <span class="content-message-name">Someone</span>
                                     <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
@@ -197,7 +173,32 @@
                         </li>
                         <li>
                             <a href="#">
-                                <img class="content-message-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                                <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
+                                <span class="content-message-info">
+                                    <span class="content-message-name">Someone</span>
+                                    <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
+                                </span>
+                                <span class="content-message-more">
+                                    <span class="content-message-time">12:30</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
+                                <span class="content-message-info">
+                                    <span class="content-message-name">Someone</span>
+                                    <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
+                                </span>
+                                <span class="content-message-more">
+                                    <span class="content-message-unread">5</span>
+                                    <span class="content-message-time">12:30</span>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                                 <span class="content-message-info">
                                     <span class="content-message-name">Someone</span>
                                     <span class="content-message-text">Lorem ipsum dolor sit amet consectetur.</span>
@@ -219,7 +220,7 @@
             <div class="conversation" id="conversation-1">
               <div class="conversation-top">
                   <div class="conversation-user">
-                      <img class="conversation-user-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                      <img class="conversation-user-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                       <div>
                           <div class="conversation-user-name">ChatGPT</div>
                           <div class="conversation-user-status online">online</div>
@@ -243,7 +244,7 @@
                 <div class="conversation-top">
                     <button type="button" class="conversation-back"><i class="ri-arrow-left-line"></i></button>
                     <div class="conversation-user">
-                        <img class="conversation-user-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                        <img class="conversation-user-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                         <div>
                             <div class="conversation-user-name">Someone 1</div>
                             <div class="conversation-user-status online">online</div>
@@ -260,7 +261,7 @@
                         <div class="coversation-divider"><span>Today</span></div>
                         <li class="conversation-item me">
                             <div class="conversation-item-side">
-                                <img class="conversation-item-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                                <img class="conversation-item-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                             </div>
                             <div class="conversation-item-content">
                                 <div class="conversation-item-wrapper">
@@ -297,7 +298,7 @@
                         </li>
                         <li class="conversation-item">
                             <div class="conversation-item-side">
-                                <img class="conversation-item-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                                <img class="conversation-item-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                             </div>
                             <div class="conversation-item-content">
                                 <div class="conversation-item-wrapper">
@@ -349,7 +350,7 @@
                         </li>
                         <li class="conversation-item me">
                             <div class="conversation-item-side">
-                                <img class="conversation-item-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                                <img class="conversation-item-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                             </div>
                             <div class="conversation-item-content">
                                 <div class="conversation-item-wrapper">
@@ -433,7 +434,7 @@
           chatBox.innerHTML += `
               <li class="conversation-item me">
                   <div class="conversation-item-side">
-                      <img class="conversation-item-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                      <img class="conversation-item-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                   </div>
                   <div class="conversation-item-content">
                       <div class="conversation-item-box">
@@ -463,7 +464,7 @@
           chatBox.innerHTML += `
               <li class="conversation-item">
                   <div class="conversation-item-side">
-                      <img class="conversation-item-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
+                      <img class="conversation-item-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                   </div>
                   <div class="conversation-item-content">
                       <div class="conversation-item-box">
