@@ -31,7 +31,7 @@ def chat_view(request):
                 media_respostas = soma_respostas / total_respostas
                 for info in informacoes:
                     escala = escalas.get(info.questao, "")
-                    context += f"Nome: {info.nome}, Persona: {info.persona}, Data da Resposta: {info.data_resposta}, Unidade: {info.unidade}, Questão: {info.questao} (Escala: {escala}), Resposta: {info.resposta}, Comentário: {info.comentario}\n"
+                    context += f"{info.nome},{info.persona},{info.data_resposta},{info.unidade},{info.questao} (Escala: {escala}),{info.resposta},{info.comentario}\n"
                 context += (
                     f"\nA média das respostas para a escola é: {media_respostas:.2f}\n"
                 )
