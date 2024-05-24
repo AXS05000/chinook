@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Informacao
-from .utils import get_chat_response, generate_excel_report
+from .utils import get_chat_response, generate_excel_report, calculate_statistics
 import json
 import openpyxl
 from openpyxl.utils import get_column_letter
@@ -61,46 +61,23 @@ def chat_view(request):
         try:
             data = json.loads(request.body)
             user_message = data.get("message", "")
-            clear_history = data.get("clear_history", False)
             context = ""
 
-            if clear_history:
-                # Se o histórico for limpo, apenas resetar o contexto
-                context = ""
+            # Consultar o banco de dados para obter informações relevantes
+            informacoes = Informacao.objects.all()
+            total_respostas, stats = calculate_statistics(informacoes)
+
+            if total_respostas > 0:
+                context += f"Total de respostas: {total_respostas}\n"
+                context += f"Respostas negativas: {stats['Negativo']}\n"
+                context += f"Respostas neutras: {stats['Neutro']}\n"
+                context += f"Respostas positivas: {stats['Positivo']}\n"
+                context += f"Detratores: {stats['Detrator']}\n"
+                context += f"Promotores: {stats['Promotor']}\n"
             else:
-                # Escalas de avaliação
-                escalas = {
-                    "Metodologia de ensino": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
-                    "Infraestrutura": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
-                    "Atendimento pedagógico": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
-                    "Atendimento administrativo/financeiro": "1 - Péssimo, 2 - Ruim, 3 - Mediano, 4 - Bom, 5 - Excelente",
-                    "Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?": "0 - Horrível a 10 - Perfeito",
-                }
+                context = "No relevant information found in the database."
 
-                # Consultar o banco de dados para obter informações relevantes
-                informacoes = Informacao.objects.all()
-                total_respostas = informacoes.count()
-                if total_respostas > 0:
-                    soma_respostas = sum(info.resposta for info in informacoes)
-                    media_respostas = soma_respostas / total_respostas
-                    for info in informacoes:
-                        escala = escalas.get(info.questao, "")
-                        context += f"{info.nome},{info.persona},{info.data_resposta},{info.unidade},{info.questao} (Escala: {escala}),{info.resposta},{info.comentario}\n"
-                    context += f"\nA média das respostas para a escola é: {media_respostas:.2f}\n"
-                else:
-                    context = "No relevant information found in the database."
-
-                # Limitar o contexto para evitar ultrapassar o limite de tokens
-                context_messages = context.split("\n")
-                max_context_messages = 50
-                if len(context_messages) > max_context_messages:
-                    context_messages = context_messages[-max_context_messages:]
-                context = "\n".join(context_messages)
-
-            # Obter resposta do ChatGPT
-            response = get_chat_response(user_message, context)
-
-            # Verifica se o usuário pediu um relatório ou uma tabela
+            # Verificar se o usuário pediu um relatório ou uma tabela
             if "tabela" in user_message.lower() or "relatório" in user_message.lower():
                 # Aplicar filtros com base no pedido do usuário
                 if "nota" in user_message.lower():
@@ -111,7 +88,10 @@ def chat_view(request):
                         pass
                 file_path = generate_excel_report(informacoes)
                 file_url = request.build_absolute_uri(file_path)
-                response += f"\n\n<a href='{file_url}' target='_blank'>Baixar Relatório Excel</a>"
+                response = f"Você pode baixar o relatório em Excel clicando no link fornecido.\n\n<a href='{file_url}' target='_blank'>Baixar Relatório Excel</a>"
+            else:
+                # Obter resposta do ChatGPT
+                response = get_chat_response(user_message, context)
 
             return JsonResponse({"response": response})
         except json.JSONDecodeError:

@@ -20,17 +20,8 @@ def get_chat_response(prompt, context=""):
     if not prompt:
         prompt = "No question provided."
 
-    # Dividir contexto em mensagens
-    context_messages = context.split("\n")
-
-    # Limitar o número de mensagens no contexto
-    max_context_messages = 50  # Limitar a quantidade de mensagens no contexto
-    if len(context_messages) > max_context_messages:
-        context_messages = context_messages[-max_context_messages:]
-    context = "\n".join(context_messages)
-
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": context},
@@ -38,47 +29,42 @@ def get_chat_response(prompt, context=""):
         ],
         max_tokens=1050,
     )
+    print(f"Total tokens usados: {response['usage']['total_tokens']}")
+    return response["choices"][0]["message"]["content"].strip()
 
-    formatted_response = response["choices"][0]["message"]["content"].strip()
 
-    # Adicionar quebra de linha antes de números seguidos por um ponto
-    formatted_response = re.sub(r"(\d+\.)", r"<br><br>\1", formatted_response)
+def calculate_statistics(informacoes):
+    total_respostas = informacoes.count()
+    stats = {
+        "Negativo": 0,
+        "Neutro": 0,
+        "Positivo": 0,
+        "Detrator": 0,
+        "Promotor": 0,
+    }
 
-    # Substituir ":" por ":<br>"
-    formatted_response = formatted_response.replace(":", ":<br>")
+    for info in informacoes:
+        if (
+            info.questao
+            == "Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
+        ):
+            if info.resposta >= 1 and info.resposta <= 6:
+                stats["Negativo"] += 1
+                stats["Detrator"] += 1
+            elif info.resposta == 7 or info.resposta == 8:
+                stats["Neutro"] += 1
+            elif info.resposta == 9 or info.resposta == 10:
+                stats["Positivo"] += 1
+                stats["Promotor"] += 1
+        else:
+            if info.resposta >= 1 and info.resposta <= 2:
+                stats["Negativo"] += 1
+            elif info.resposta == 3:
+                stats["Neutro"] += 1
+            elif info.resposta >= 4 and info.resposta <= 5:
+                stats["Positivo"] += 1
 
-    # Substituir "###" por "<br>"
-    formatted_response = formatted_response.replace("###", "<br>")
-
-    # Envolver palavras entre ** com uma tag <span> com a classe 'highlight'
-    formatted_response = re.sub(
-        r"\*\*(.*?)\*\*",
-        r"<span style='font-weight: bold;'>\1</span>",
-        formatted_response,
-    )
-
-    # Envolver palavras entre * com uma tag <span> com a classe 'highlight'
-    formatted_response = re.sub(
-        r"\*(.*?)\*",
-        r"<span style='font-weight: bold;'>\1</span>",
-        formatted_response,
-    )
-
-    # Adicionar quebra de linha antes de ". - Texto:"
-    formatted_response = re.sub(
-        r"\.\s-\s(.*?):",
-        r".<br> - \1:",
-        formatted_response,
-    )
-
-    # Adicionar quebra de linha antes de ". Texto:"
-    formatted_response = re.sub(
-        r"\.\s(.*?):",
-        r".<br> \1:",
-        formatted_response,
-    )
-
-    return formatted_response
+    return total_respostas, stats
 
 
 def generate_excel_report(informacoes):
