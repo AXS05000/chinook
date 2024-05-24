@@ -9,6 +9,7 @@ from .utils import (
     calculate_statistics,
     calculate_nps,
     respostas_por_dia,
+    resumo_por_pergunta,
 )
 import openpyxl
 from openpyxl.utils import get_column_letter
@@ -83,6 +84,21 @@ def chat_view(request):
                     contagem_dias = respostas_por_dia(informacoes)
                     for dia, contagem in contagem_dias.items():
                         context += f"{dia}: {contagem} respostas\n"
+
+                if (
+                    "resumo por pergunta" in user_message.lower()
+                    or "resumo dos comentários" in user_message.lower()
+                ):
+                    resumo = resumo_por_pergunta(informacoes)
+                    for pergunta, dados in resumo.items():
+                        context += f"\nPergunta: {pergunta}\n"
+                        context += f"Total de Respostas: {dados['total']}\n"
+                        context += f"Respostas Negativas: {dados['negativo']}\n"
+                        context += f"Respostas Neutras: {dados['neutro']}\n"
+                        context += f"Respostas Positivas: {dados['positivo']}\n"
+                        context += "Comentários:\n"
+                        for comentario in dados["comentarios"]:
+                            context += f"- {comentario}\n"
 
             if "nps" in user_message.lower():
                 informacoes_nps = informacoes.filter(

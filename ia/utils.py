@@ -33,7 +33,22 @@ def get_chat_response(prompt, context=""):
         max_tokens=1050,
     )
     print(f"Total tokens usados: {response['usage']['total_tokens']}")
-    return response["choices"][0]["message"]["content"].strip()
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+
+    # Formatações adicionais
+    formatted_response = re.sub(r"###", "<br>###", formatted_response)
+    formatted_response = re.sub(
+        r"\*\*(.*?)\*\*",
+        r"<span style='font-weight: bold;'><br>\1</span>",
+        formatted_response,
+    )
+    formatted_response = re.sub(
+        r"\*(.*?)\*",
+        r"<span style='font-weight: bold;'>\1</span>",
+        formatted_response,
+    )
+
+    return formatted_response
 
 
 def calculate_statistics(informacoes):
@@ -135,3 +150,25 @@ def respostas_por_dia(informacoes):
     datas = [info.data_resposta for info in informacoes]
     contagem = Counter(datas)
     return contagem
+
+
+def resumo_por_pergunta(informacoes):
+    perguntas = informacoes.values_list("questao", flat=True).distinct()
+    resumo = {}
+
+    for pergunta in perguntas:
+        respostas = informacoes.filter(questao=pergunta)
+        total = respostas.count()
+        negativo = respostas.filter(resposta__in=[1, 2]).count()
+        neutro = respostas.filter(resposta=3).count()
+        positivo = respostas.filter(resposta__in=[4, 5]).count()
+        comentarios = respostas.values_list("comentario", flat=True)
+
+        resumo[pergunta] = {
+            "total": total,
+            "negativo": negativo,
+            "neutro": neutro,
+            "positivo": positivo,
+            "comentarios": list(comentarios),
+        }
+    return resumo
