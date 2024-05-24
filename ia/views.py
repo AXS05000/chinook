@@ -6,8 +6,7 @@ from .models import Informacao
 from .utils import (
     get_chat_response,
     generate_excel_report,
-    calculate_statistics,
-    calculate_nps,
+    calcular_nps,
     respostas_por_dia,
     resumo_por_pergunta,
 )
@@ -97,8 +96,19 @@ def chat_view(request):
             else:
                 context = "No relevant information found in the database."
 
-            # Obter resposta do ChatGPT
-            response = get_chat_response(user_message, context)
+            # Checar se a pergunta é relacionada ao NPS
+            if any(
+                term in user_message.lower()
+                for term in ["nps", "promotores", "detratores", "passivas", "neutras"]
+            ):
+                nps_score = calcular_nps(informacoes)
+                context += (
+                    f"\n\nO Net Promoter Score (NPS) da escola é: {nps_score:.2f}"
+                )
+                response = f"O Net Promoter Score (NPS) da escola é: {nps_score:.2f}"
+            else:
+                # Obter resposta do ChatGPT
+                response = get_chat_response(user_message, context)
 
             return JsonResponse({"response": response})
         except json.JSONDecodeError:

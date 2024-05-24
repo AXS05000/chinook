@@ -43,7 +43,7 @@ def get_chat_response(prompt, context=""):
     formatted_response = re.sub(r"###", "<br>", formatted_response)
     formatted_response = re.sub(
         r"\*\*(.*?)\*\*",
-        r"<span style='font-weight: bold;'><br>\1</span>",
+        r"<span style='font-weight: bold;'>\1</span>",
         formatted_response,
     )
     formatted_response = re.sub(
@@ -55,38 +55,21 @@ def get_chat_response(prompt, context=""):
     return formatted_response
 
 
-def calculate_statistics(informacoes):
-    total_respostas = informacoes.count()
-    stats = {
-        "Negativo": 0,
-        "Neutro": 0,
-        "Positivo": 0,
-        "Detrator": 0,
-        "Promotor": 0,
-    }
+def calcular_nps(informacoes):
+    nps_responses = informacoes.filter(
+        questao="Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
+    )
+    total_respostas = nps_responses.count()
+    if total_respostas == 0:
+        return "Não há respostas suficientes para calcular o NPS."
 
-    for info in informacoes:
-        if (
-            info.questao
-            == "Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
-        ):
-            if info.resposta >= 1 and info.resposta <= 6:
-                stats["Negativo"] += 1
-                stats["Detrator"] += 1
-            elif info.resposta == 7 or info.resposta == 8:
-                stats["Neutro"] += 1
-            elif info.resposta == 9 or info.resposta == 10:
-                stats["Positivo"] += 1
-                stats["Promotor"] += 1
-        else:
-            if info.resposta >= 1 and info.resposta <= 2:
-                stats["Negativo"] += 1
-            elif info.resposta == 3:
-                stats["Neutro"] += 1
-            elif info.resposta >= 4 and info.resposta <= 5:
-                stats["Positivo"] += 1
+    promotores = nps_responses.filter(resposta__gte=9).count()
+    neutros = nps_responses.filter(resposta__in=[7, 8]).count()
+    detratores = nps_responses.filter(resposta__lte=6).count()
 
-    return total_respostas, stats
+    nps = ((promotores - detratores) / total_respostas) * 100
+
+    return nps
 
 
 def calculate_nps(
