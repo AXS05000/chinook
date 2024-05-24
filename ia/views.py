@@ -3,7 +3,12 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Informacao
-from .utils import get_chat_response, generate_excel_report, calculate_statistics
+from .utils import (
+    get_chat_response,
+    generate_excel_report,
+    calculate_statistics,
+    calculate_nps,
+)
 import json
 import openpyxl
 from openpyxl.utils import get_column_letter
@@ -74,8 +79,20 @@ def chat_view(request):
                 context += f"Respostas positivas: {stats['Positivo']}\n"
                 context += f"Detratores: {stats['Detrator']}\n"
                 context += f"Promotores: {stats['Promotor']}\n"
+
+            # Verificar se o usuário pediu o NPS
+            if "nps" in user_message.lower():
+                informacoes_nps = informacoes.filter(
+                    questao="Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
+                )
+                nps = calculate_nps(informacoes_nps)
+                if nps is not None:
+                    response = f"O NPS da sua escola é {nps:.2f}."
+                else:
+                    response = "Não há dados suficientes para calcular o NPS."
             else:
-                context = "No relevant information found in the database."
+                # Obter resposta do ChatGPT
+                response = get_chat_response(user_message, context)
 
             # Verificar se o usuário pediu um relatório ou uma tabela
             if "tabela" in user_message.lower() or "relatório" in user_message.lower():
@@ -89,9 +106,6 @@ def chat_view(request):
                 file_path = generate_excel_report(informacoes)
                 file_url = request.build_absolute_uri(file_path)
                 response = f"Você pode baixar o relatório em Excel clicando no link fornecido.\n\n<a href='{file_url}' target='_blank'>Baixar Relatório Excel</a>"
-            else:
-                # Obter resposta do ChatGPT
-                response = get_chat_response(user_message, context)
 
             return JsonResponse({"response": response})
         except json.JSONDecodeError:

@@ -67,6 +67,21 @@ def calculate_statistics(informacoes):
     return total_respostas, stats
 
 
+def calculate_nps(informacoes):
+    total_respostas = informacoes.count()
+    if total_respostas == 0:
+        return None  # Evita divisão por zero se não houver respostas
+
+    promotores = informacoes.filter(resposta__in=[9, 10]).count()
+    detratores = informacoes.filter(resposta__lte=6).count()
+
+    percentual_promotores = (promotores / total_respostas) * 100
+    percentual_detratores = (detratores / total_respostas) * 100
+
+    nps = percentual_promotores - percentual_detratores
+    return nps
+
+
 def generate_excel_report(informacoes):
     # Cria uma planilha
     wb = openpyxl.Workbook()
