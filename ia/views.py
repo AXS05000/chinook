@@ -68,7 +68,6 @@ def chat_view(request):
             user_message = data.get("message", "")
             context = ""
 
-            # Consultar o banco de dados para obter informações relevantes
             informacoes = Informacao.objects.all()
             total_respostas, stats = calculate_statistics(informacoes)
 
@@ -80,30 +79,58 @@ def chat_view(request):
                 context += f"Detratores: {stats['Detrator']}\n"
                 context += f"Promotores: {stats['Promotor']}\n"
 
-            # Verificar se o usuário pediu o NPS
             if "nps" in user_message.lower():
                 informacoes_nps = informacoes.filter(
                     questao="Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
                 )
+
+                # Verificar se há suposição
+                suposicao_positivos = 0
+                if "mais" in user_message.lower():
+                    suposicao_str = user_message.lower().split("mais")[1].strip()
+                    try:
+                        suposicao_positivos = int(
+                            suposicao_str.split("respostas positivas")[0].strip()
+                        )
+                    except ValueError:
+                        pass
+
                 nps = calculate_nps(informacoes_nps)
                 if nps is not None:
-                    response = f"O NPS da sua escola é {nps:.2f}."
+                    if suposicao_positivos > 0:
+                        novos_promotores = (
+                            informacoes_nps.filter(resposta__in=[9, 10]).count()
+                            + suposicao_positivos
+                        )
+                        total_respostas_nova = (
+                            informacoes_nps.count() + suposicao_positivos
+                        )
+                        percentual_promotores = (
+                            novos_promotores / total_respostas_nova
+                        ) * 100
+                        percentual_detratores = (
+                            informacoes_nps.filter(resposta__lte=6).count()
+                            / total_respostas_nova
+                        ) * 100
+                        nps_novo = percentual_promotores - percentual_detratores
+                        response = f"O NPS da sua escola, considerando mais {suposicao_positivos} respostas positivas, seria {nps_novo:.0f}."
+                    else:
+                        response = f"O NPS da sua escola é {nps:.0f}."
                 else:
                     response = "Não há dados suficientes para calcular o NPS."
             else:
-                # Obter resposta do ChatGPT
                 response = get_chat_response(user_message, context)
 
-            # Verificar se o usuário pediu um relatório ou uma tabela
             if "tabela" in user_message.lower() or "relatório" in user_message.lower():
-                # Aplicar filtros com base no pedido do usuário
-                if "nota" in user_message.lower():
-                    try:
-                        nota_filter = int(user_message.split("nota")[-1].strip())
-                        informacoes = informacoes.filter(resposta=nota_filter)
-                    except ValueError:
-                        pass
-                file_path = generate_excel_report(informacoes)
+                filtro = None
+                if "positivas" in user_message.lower():
+                    filtro = "positivas"
+                elif "neutras" in user_message.lower():
+                    filtro = "neutras"
+                elif "negativas" in user_message.lower():
+                    filtro = "negativas"
+
+                file_path = generate_excel_report(informacoes, filtro)
                 file_url = request.build_absolute_uri(file_path)
                 response = f"Você pode baixar o relatório em Excel clicando no link fornecido.\n\n<a href='{file_url}' target='_blank'>Baixar Relatório Excel</a>"
 

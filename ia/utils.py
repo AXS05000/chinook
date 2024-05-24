@@ -4,6 +4,8 @@ import openpyxl
 from openpyxl.utils import get_column_letter
 import os
 import re
+from django.db.models import Q
+from django.db import models
 
 openai.api_key = settings.OPENAI_API_KEY
 
@@ -82,13 +84,48 @@ def calculate_nps(informacoes):
     return nps
 
 
-def generate_excel_report(informacoes):
-    # Cria uma planilha
+def filter_respostas(informacoes, filtro):
+    if filtro == "positivas":
+        return informacoes.filter(
+            (
+                Q(
+                    questao="Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
+                )
+                & Q(resposta__in=[9, 10])
+            )
+            | (Q(resposta__gte=4) & Q(resposta__lte=5))
+        )
+    elif filtro == "neutras":
+        return informacoes.filter(
+            (
+                Q(
+                    questao="Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
+                )
+                & Q(resposta__in=[7, 8])
+            )
+            | (Q(resposta=3))
+        )
+    elif filtro == "negativas":
+        return informacoes.filter(
+            (
+                Q(
+                    questao="Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
+                )
+                & Q(resposta__lte=6)
+            )
+            | (Q(resposta__gte=1) & Q(resposta__lte=2))
+        )
+    return informacoes
+
+
+def generate_excel_report(informacoes, filtro=None):
+    if filtro:
+        informacoes = filter_respostas(informacoes, filtro)
+
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = "Relatório de Avaliações"
 
-    # Adiciona o cabeçalho
     headers = [
         "Nome",
         "Persona",
@@ -100,7 +137,6 @@ def generate_excel_report(informacoes):
     ]
     ws.append(headers)
 
-    # Adiciona os dados
     for info in informacoes:
         row = [
             info.nome,
@@ -113,12 +149,10 @@ def generate_excel_report(informacoes):
         ]
         ws.append(row)
 
-    # Ajusta a largura das colunas
     for col_num, column_title in enumerate(headers, 1):
         column_letter = get_column_letter(col_num)
         ws.column_dimensions[column_letter].width = 20
 
-    # Salva o arquivo no sistema de arquivos do servidor
     file_name = "relatorio_avaliacoes.xlsx"
     file_path = os.path.join(settings.MEDIA_ROOT, file_name)
     wb.save(file_path)
