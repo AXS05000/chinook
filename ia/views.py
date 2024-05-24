@@ -91,18 +91,21 @@ def chat_view(request):
                 if "mais" in user_message.lower():
                     suposicao_str = user_message.lower().split("mais")[1].strip()
                     try:
-                        if "respostas positivas" in suposicao_str:
-                            suposicao_promotores = int(
-                                suposicao_str.split("respostas positivas")[0].strip()
-                            )
-                        elif "respostas neutras" in suposicao_str:
-                            suposicao_neutros = int(
-                                suposicao_str.split("respostas neutras")[0].strip()
-                            )
-                        elif "respostas negativas" in suposicao_str:
-                            suposicao_detratores = int(
-                                suposicao_str.split("respostas negativas")[0].strip()
-                            )
+                        if (
+                            "respostas positivas" in suposicao_str
+                            or "promotores" in suposicao_str
+                        ):
+                            suposicao_promotores = int(suposicao_str.split()[0].strip())
+                        elif (
+                            "respostas neutras" in suposicao_str
+                            or "neutros" in suposicao_str
+                        ):
+                            suposicao_neutros = int(suposicao_str.split()[0].strip())
+                        elif (
+                            "respostas negativas" in suposicao_str
+                            or "detratores" in suposicao_str
+                        ):
+                            suposicao_detratores = int(suposicao_str.split()[0].strip())
                     except ValueError:
                         pass
 
@@ -118,7 +121,7 @@ def chat_view(request):
                         or suposicao_neutros > 0
                         or suposicao_detratores > 0
                     ):
-                        response = f"O NPS da sua escola, considerando mais {suposicao_promotores} respostas positivas, {suposicao_neutros} respostas neutras, e {suposicao_detratores} respostas negativas, seria {nps:.0f}."
+                        response = f"O NPS da sua escola, considerando as suposições, seria {nps:.0f}."
                     else:
                         response = f"O NPS da sua escola é {nps:.0f}."
                 else:
