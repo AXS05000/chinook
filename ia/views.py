@@ -7,7 +7,7 @@ from .utils import (
     get_chat_response,
     generate_excel_report,
     calcular_nps,
-    respostas_por_dia,
+    obter_distribuicao_nps,
     resumo_por_pergunta,
 )
 import openpyxl
@@ -101,11 +101,16 @@ def chat_view(request):
                 term in user_message.lower()
                 for term in ["nps", "promotores", "detratores", "passivas", "neutras"]
             ):
-                nps_score = calcular_nps(informacoes)
-                context += (
-                    f"\n\nO Net Promoter Score (NPS) da escola é: {nps_score:.2f}"
-                )
-                response = f"O Net Promoter Score (NPS) da escola é: {nps_score:.2f}"
+                if "quantas pessoas" in user_message.lower():
+                    promotores, neutros, detratores = obter_distribuicao_nps(
+                        informacoes
+                    )
+                    response = f"No NPS, houve {promotores} promotores, {neutros} neutros e {detratores} detratores."
+                else:
+                    nps_score = calcular_nps(informacoes)
+                    response = (
+                        f"O Net Promoter Score (NPS) da escola é: {nps_score:.2f}"
+                    )
             else:
                 # Obter resposta do ChatGPT
                 response = get_chat_response(user_message, context)

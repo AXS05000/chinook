@@ -72,6 +72,17 @@ def calcular_nps(informacoes):
     return nps
 
 
+def obter_distribuicao_nps(informacoes):
+    nps_responses = informacoes.filter(
+        questao="Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
+    )
+    promotores = nps_responses.filter(resposta__gte=9).count()
+    neutros = nps_responses.filter(resposta__in=[7, 8]).count()
+    detratores = nps_responses.filter(resposta__lte=6).count()
+
+    return promotores, neutros, detratores
+
+
 def calculate_nps(
     informacoes, suposicao_promotores=0, suposicao_neutros=0, suposicao_detratores=0
 ):
