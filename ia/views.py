@@ -65,7 +65,7 @@ def chat_view(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
-            user_message = data.get("message", "")
+            user_message = data.get("message", "").lower()
             context = ""
 
             # Escalas de avaliação
@@ -96,21 +96,21 @@ def chat_view(request):
             else:
                 context = "No relevant information found in the database."
 
-            # Checar se a pergunta é relacionada ao NPS
-            if any(
-                term in user_message.lower()
+            # Checar se a pergunta é sobre a distribuição de NPS
+            if "quantos" in user_message and (
+                "promotores" in user_message
+                or "detratores" in user_message
+                or "neutros" in user_message
+            ):
+                promotores, neutros, detratores = obter_distribuicao_nps(informacoes)
+                response = f"No NPS, houve {promotores} promotores, {neutros} neutros e {detratores} detratores."
+            # Checar se a pergunta é sobre o valor do NPS
+            elif any(
+                term in user_message
                 for term in ["nps", "promotores", "detratores", "passivas", "neutras"]
             ):
-                if "quantas pessoas" in user_message.lower():
-                    promotores, neutros, detratores = obter_distribuicao_nps(
-                        informacoes
-                    )
-                    response = f"No NPS, houve {promotores} promotores, {neutros} neutros e {detratores} detratores."
-                else:
-                    nps_score = calcular_nps(informacoes)
-                    response = (
-                        f"O Net Promoter Score (NPS) da escola é: {nps_score:.2f}"
-                    )
+                nps_score = calcular_nps(informacoes)
+                response = f"O Net Promoter Score (NPS) da escola é: {nps_score:.2f}"
             else:
                 # Obter resposta do ChatGPT
                 response = get_chat_response(user_message, context)
