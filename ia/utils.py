@@ -11,10 +11,10 @@ from collections import Counter
 import openai
 from ia.api_key_loader import get_api_key
 
-# # Obter a chave da API do banco de dados
-# openai_api_key = get_api_key("OpenAI")
+# Obter a chave da API do banco de dados
+openai_api_key = get_api_key("OpenAI")
 
-# openai.api_key = openai_api_key
+openai.api_key = openai_api_key
 
 
 ## model="gpt-4o" - Modelo mais rapido e inteligente - 30 000 TPM
