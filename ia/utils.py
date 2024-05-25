@@ -8,7 +8,13 @@ from django.db.models import Q
 from django.db import models
 from collections import Counter
 
-openai.api_key = settings.OPENAI_API_KEY
+import openai
+from ia.api_key_loader import get_api_key
+
+# Obter a chave da API do banco de dados
+openai_api_key = get_api_key("OpenAI")
+
+openai.api_key = openai_api_key
 
 
 ## model="gpt-4o" - Modelo mais rapido e inteligente - 30 000 TPM

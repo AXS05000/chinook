@@ -12,3 +12,11 @@ class Informacao(models.Model):
 
     def __str__(self):
         return f"{self.nome} ({self.persona}): {self.questao[:50]}"
+
+
+class APIKey(models.Model):
+    name = models.CharField(max_length=255)
+    key = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
