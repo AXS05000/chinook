@@ -10,6 +10,7 @@ from .utils import (
     obter_distribuicao_nps,
     resumo_por_pergunta,
     config_chat_rh,
+    classify_question,
 )
 import openpyxl
 from openpyxl.utils import get_column_letter
@@ -133,15 +134,15 @@ def hr_assistant_view(request):
             user_message = data.get("message", "").lower()
             context = ""
 
-            # Obter resposta do ChatGPT
-            response, tipo_informacao = config_chat_rh(user_message, context)
+            # Classificar a pergunta do usuário
+            tipo_informacao = classify_question(user_message)
 
             # Definir os modelos a serem verificados
             modelos = {
-                "beneficio": Beneficio,
+                "benefício": Beneficio,
                 "folha de ponto": FolhaPonto,
-                "salario": Salario,
-                "ferias": Ferias,
+                "salário": Salario,
+                "férias": Ferias,
             }
 
             # Buscar a informação correta baseada no tipo de informação identificado
@@ -150,9 +151,24 @@ def hr_assistant_view(request):
                 informacoes = modelo.objects.all()
                 if informacoes.exists():
                     context = informacoes.first().descricao
+                    response = config_chat_rh(user_message, context)
                 else:
                     context = f"No relevant information found for {tipo_informacao} in the database."
-                response = config_chat_rh(user_message, context)[0]
+                    response = config_chat_rh(user_message, context)
+            else:
+                context = f"No relevant information found for {tipo_informacao} in the database."
+                response = config_chat_rh(user_message, context)
+
+            # Se a resposta não for satisfatória ou não houver informações, buscar em todas as categorias
+            if "No relevant information found" in context or not context:
+                context_list = []
+                for key, model in modelos.items():
+                    informacoes = model.objects.all()
+                    if informacoes.exists():
+                        context_list.append(informacoes.first().descricao)
+                if context_list:
+                    context = "\n".join(context_list)
+                    response = config_chat_rh(user_message, context)
 
             return JsonResponse({"response": response})
         except json.JSONDecodeError:

@@ -181,19 +181,41 @@ def resumo_por_pergunta(informacoes):
 ##############################################################################################
 
 
+def classify_question(prompt):
+    response = openai.ChatCompletion.create(
+        model="gpt-4-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é um assistente útil que classifica perguntas de funcionários em categorias: 'benefício', 'folha de ponto', 'salário', 'férias' ou 'banco de horas'. Responda apenas com a categoria apropriada.",
+            },
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=50,
+    )
+    category = response["choices"][0]["message"]["content"].strip().lower()
+    # Ajustar para garantir que 'banco de horas' seja tratado como 'folha de ponto'
+    if category == "banco de horas":
+        category = "folha de ponto"
+    return category
+
+
 def config_chat_rh(prompt, context=""):
     if not context:
         context = "No relevant information found in the database."
     if not prompt:
         prompt = "No question provided."
 
-    # Enviar uma mensagem clara e estruturada para a API
     response = openai.ChatCompletion.create(
         model="gpt-4-turbo",
         messages=[
             {
                 "role": "system",
-                "content": "Você é um assistente de recursos humanos útil que auxilia na resposta de perguntas dos funcionários. Você deve identificar o tipo de informação solicitada (benefícios, folha de ponto, salário, férias) e responder apropriadamente.",
+                "content": (
+                    "Você é o assistente Chinook de recursos humanos da Empresa Maple Bear auxiliando o setor Gente Gestão, que auxilia na resposta de perguntas dos funcionários. "
+                    "Observação importante: sempre que for realizar listagem ou fazer uma lista onde tem indicativos de números antes dos números colocar esses 3 símbolos ###. "
+                    "Formate todos os links utilizando Markdown da seguinte forma: [texto do link](URL). "
+                ),
             },
             {"role": "user", "content": f"Contexto:\n{context}"},
             {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
@@ -202,17 +224,6 @@ def config_chat_rh(prompt, context=""):
     )
     print(f"Total tokens usados: {response['usage']['total_tokens']}")
     formatted_response = response["choices"][0]["message"]["content"].strip()
-
-    # Extração do tipo de informação
-    tipo_informacao = "unknown"
-    if "benefícios" in formatted_response:
-        tipo_informacao = "beneficio"
-    elif "folha de ponto" in formatted_response:
-        tipo_informacao = "folha de ponto"
-    elif "salário" in formatted_response:
-        tipo_informacao = "salario"
-    elif "férias" in formatted_response:
-        tipo_informacao = "ferias"
 
     # Formatações adicionais
     formatted_response = re.sub(r"###", "<br>", formatted_response)
@@ -228,8 +239,13 @@ def config_chat_rh(prompt, context=""):
     )
     formatted_response = re.sub(
         r"\[(.*?)\]\((.*?)\)",
-        r'<a href="\2">\1</a>',
+        r'<a href="\2" target="_blank">\1</a>',
+        formatted_response,
+    )
+    formatted_response = re.sub(
+        r'(?<!")\b(https?://[^\s]+)\b(?!")',
+        r'<a href="\1" target="_blank">\1</a>',
         formatted_response,
     )
 
-    return formatted_response, tipo_informacao
+    return formatted_response
