@@ -211,11 +211,7 @@ def config_chat_rh(prompt, context=""):
         messages=[
             {
                 "role": "system",
-                "content": (
-                    "Você é o assistente Chinook de recursos humanos da Empresa Maple Bear auxiliando o setor Gente Gestão, que auxilia na resposta de perguntas dos funcionários. "
-                    "Observação importante: sempre que for realizar listagem ou fazer uma lista onde tem indicativos de números antes dos números colocar esses 3 símbolos ###. "
-                    "Formate todos os links utilizando Markdown da seguinte forma: [texto do link](URL). "
-                ),
+                "content": "Você é o assistente Chinook de recursos humanos da Empresa Maple Bear auxiliando o setor Gente Gestão, que auxilia na resposta de perguntas dos funcionários. Observação importante: sempre que for realizar listagem ou fazer uma lista onde tem indicativos de números antes dos números colocar esses 3 símbolos ### e formate todos os links utilizando Markdown da seguinte forma: [texto do link](URL).",
             },
             {"role": "user", "content": f"Contexto:\n{context}"},
             {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
