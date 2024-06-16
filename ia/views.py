@@ -2,13 +2,14 @@ import json
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Informacao
+from .models import Informacao, Beneficio, FolhaPonto, Salario, Ferias
 from .utils import (
     get_chat_response,
     generate_excel_report,
     calcular_nps,
     obter_distribuicao_nps,
     resumo_por_pergunta,
+    config_chat_rh,
 )
 import openpyxl
 from openpyxl.utils import get_column_letter
@@ -119,3 +120,41 @@ def chat_view(request):
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON"}, status=400)
     return render(request, "chatapp/chat.html")
+
+
+####################################################################################################################
+
+
+@csrf_exempt
+def hr_assistant_view(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            user_message = data.get("message", "").lower()
+            context = ""
+
+            # Obter resposta do ChatGPT
+            response, tipo_informacao = config_chat_rh(user_message, context)
+
+            # Definir os modelos a serem verificados
+            modelos = {
+                "beneficio": Beneficio,
+                "folha de ponto": FolhaPonto,
+                "salario": Salario,
+                "ferias": Ferias,
+            }
+
+            # Buscar a informação correta baseada no tipo de informação identificado
+            if tipo_informacao in modelos:
+                modelo = modelos[tipo_informacao]
+                informacoes = modelo.objects.all()
+                if informacoes.exists():
+                    context = informacoes.first().descricao
+                else:
+                    context = f"No relevant information found for {tipo_informacao} in the database."
+                response = config_chat_rh(user_message, context)[0]
+
+            return JsonResponse({"response": response})
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+    return render(request, "chatapp/hr_chat.html")

@@ -176,3 +176,60 @@ def resumo_por_pergunta(informacoes):
             "comentarios": list(comentarios),
         }
     return resumo
+
+
+##############################################################################################
+
+
+def config_chat_rh(prompt, context=""):
+    if not context:
+        context = "No relevant information found in the database."
+    if not prompt:
+        prompt = "No question provided."
+
+    # Enviar uma mensagem clara e estruturada para a API
+    response = openai.ChatCompletion.create(
+        model="gpt-4-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é um assistente de recursos humanos útil que auxilia na resposta de perguntas dos funcionários. Você deve identificar o tipo de informação solicitada (benefícios, folha de ponto, salário, férias) e responder apropriadamente.",
+            },
+            {"role": "user", "content": f"Contexto:\n{context}"},
+            {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
+        ],
+        max_tokens=2050,
+    )
+    print(f"Total tokens usados: {response['usage']['total_tokens']}")
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+
+    # Extração do tipo de informação
+    tipo_informacao = "unknown"
+    if "benefícios" in formatted_response:
+        tipo_informacao = "beneficio"
+    elif "folha de ponto" in formatted_response:
+        tipo_informacao = "folha de ponto"
+    elif "salário" in formatted_response:
+        tipo_informacao = "salario"
+    elif "férias" in formatted_response:
+        tipo_informacao = "ferias"
+
+    # Formatações adicionais
+    formatted_response = re.sub(r"###", "<br>", formatted_response)
+    formatted_response = re.sub(
+        r"\*\*(.*?)\*\*",
+        r"<span style='font-weight: bold;'>\1</span>",
+        formatted_response,
+    )
+    formatted_response = re.sub(
+        r"\*(.*?)\*",
+        r"<span style='font-weight: bold;'>\1</span>",
+        formatted_response,
+    )
+    formatted_response = re.sub(
+        r"\[(.*?)\]\((.*?)\)",
+        r'<a href="\2">\1</a>',
+        formatted_response,
+    )
+
+    return formatted_response, tipo_informacao

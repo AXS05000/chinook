@@ -20,3 +20,34 @@ class APIKey(models.Model):
 
     def __str__(self):
         return self.name
+
+
+########################################################################################################
+
+
+class Beneficio(models.Model):
+    descricao = models.TextField()
+
+    def __str__(self):
+        return "Informações sobre Benefícios"
+
+
+class FolhaPonto(models.Model):
+    descricao = models.TextField()
+
+    def __str__(self):
+        return "Informações sobre Folha de Ponto"
+
+
+class Salario(models.Model):
+    descricao = models.TextField()
+
+    def __str__(self):
+        return "Informações sobre Salário"
+
+
+class Ferias(models.Model):
+    descricao = models.TextField()
+
+    def __str__(self):
+        return "Informações sobre Férias"
