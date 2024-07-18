@@ -19,12 +19,12 @@ class TabelaFormsGlex(TemplateView):
 class AdministrativoCreateView(CreateView):
     model = Administrativo
     form_class = AdministrativoForm
-    template_name = "formulario.html"
+    template_name = "glex/formulario.html"
     success_url = reverse_lazy("administrativo_form")
 
 
 class ComercialCreateView(CreateView):
     model = Comercial
     form_class = ComercialForm
-    template_name = "formulario.html"
+    template_name = "glex/formulario2.html"
     success_url = reverse_lazy("comercial_form")
