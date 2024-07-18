@@ -71,7 +71,7 @@ html{font-family:sans-serif;line-height:1.15;-webkit-text-size-adjust:100%;-ms-t
 
 /* ICONE */
 
-.card.bg-success,.card .card-header-success .card-icon,.card .card-header-success .card-text,.card .card-header-success:not(.card-header-icon):not(.card-header-text),.card.card-rotate.bg-success .back,.card.card-rotate.bg-success .front{background:#66bb6a;background:linear-gradient(60deg,#66bb6a,#43a047)}
+.card.bg-success,.card .card-header-success .card-icon,.card .card-header-success .card-text,.card .card-header-success:not(.card-header-icon):not(.card-header-text),.card.card-rotate.bg-success .back,.card.card-rotate.bg-success .front{background:#C00000;background:linear-gradient(60deg,#C00000,#C00000)}
 
 .card-title a,.card[class*=bg-] .icon i,.card [class*=card-header-],.card [class*=card-header-] .card-title,.card [class*=card-header-] .card-title a,.card [class*=card-header-] 
 
