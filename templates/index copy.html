@@ -44,22 +44,22 @@
               <li class="nav-item dropdown">
                 <a class="nav-link page-scroll nav-link-ded dropdown-toggle" id="dropdownContratos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contratos</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 200px;">
-                  <a class="nav-link" href="{% url 'busca_candidato' %}">Buscar Candidatos</a>
-                  <a class="nav-link" href="{% url 'form_candidato' %}">Formulário PCF</a>
-                  <a class="nav-link" href="{% url 'upload_template' %}">Importar Modelo de Contrato</a>
+                  <a class="nav-link" href="#">Buscar Candidatos</a>
+                  <a class="nav-link" href="#">Formulário PCF</a>
+                  <a class="nav-link" href="#">Importar Modelo de Contrato</a>
                 </div>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link page-scroll nav-link-ded dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Escolas</a>
                 <div class="dropdown-menu" style="min-width: 200px;">
-                  <a class="nav-link" href="{% url 'busca_escolas' %}">Buscar Escolas</a>
-                  <a class="nav-link" href="{% url 'form_fdmp' %}">Formulário FDMP</a>
+                  <a class="nav-link" href="#">Buscar Escolas</a>
+                  <a class="nav-link" href="#">Formulário FDMP</a>
                 </div>
               </li>
               {% if user.is_anonymous %}
               {% else %}
               <li class="nav-item">
-                <a class="nav-link page-scroll" href="{% url 'logout' %}">Sair</a>
+                <a class="nav-link page-scroll" href="#">Sair</a>
               </li>
               {% endif %}  
 
@@ -68,6 +68,15 @@
         </div>
       </nav> 
 
+
+
+
+
+
+
+
+
+      
       <!-- Main Carousel Section -->
       <div id="carousel-area">
         <div id="carousel-slider" class="carousel slide carousel-fade" data-ride="carousel">
