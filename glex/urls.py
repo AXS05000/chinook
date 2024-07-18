@@ -12,9 +12,9 @@ urlpatterns = [
     path("glex", Glex.as_view(), name="glex"),
     path("tabel_forms_glex", TabelaFormsGlex.as_view(), name="table_forms_glex"),
     path(
-        "administrativo/",
+        "glex_administrativo/",
         AdministrativoCreateView.as_view(),
         name="administrativo_form",
     ),
-    path("comercial/", ComercialCreateView.as_view(), name="comercial_form"),
+    path("glex_comercial/", ComercialCreateView.as_view(), name="comercial_form"),
 ]
