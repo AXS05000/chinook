@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "ia",
     "usuarios",
     "rest_framework",
+    "glex",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
