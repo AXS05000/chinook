@@ -32,13 +32,16 @@
     <link id="pagestyle" href="{% static 'css/paginacao.css' %}" rel="stylesheet" />
     <link href="{% static 'glex/css/mat2.css' %}" rel="stylesheet" />
     <style>
-      .btn {
+      .btn .button-content {
         display: flex;
         align-items: center;
+        font-size: 12px; /* Ajuste o tamanho da fonte conforme necessário */
+        font-family: 'Cambria', sans-serif; /* Substitua 'Arial' pela família de fonte desejada */
       }
-    
-      .btn i.material-icons {
-        margin-right: 8px; /* Espaçamento entre o ícone e o texto */
+      
+      .btn .material-icons {
+        margin-right: 8px; /* Ajuste o espaço entre o ícone e o texto conforme necessário */
+        font-size: 12px; /* Ajuste o tamanho do ícone conforme necessário */
       }
     </style>
   </head>
@@ -156,14 +159,27 @@
                     <tbody>
                       <tr>
                         <td>Administrativo</td>
-                        <td>Oud-Turnhout</td>
+                        <td>
+                          <button class="btn btn-danger btn-round">
+                            <span class="button-content">
+                              <i class="material-icons">close</i>
+                              Pendente
+                            </span>
+                            <div class="ripple-container"></div>
+                          </button>
+                        </td>
                         <td class="text-center"><i class="material-icons">assignment</i></td>
                       </tr>
                       <tr>
                         <td>Comercial</td>
-                        <td><button class="btn btn-primary btn-round">
-                          <i class="material-icons">favorite</i> With Icon
-                          <div class="ripple-container"></div></button>
+                        <td>
+                          <button class="btn btn-success btn-round">
+                            <span class="button-content">
+                              <i class="material-icons">check</i>
+                              Concluído
+                            </span>
+                            <div class="ripple-container"></div>
+                          </button>
                         </td>
                         <td class="text-center"><i class="material-icons">assignment</i></td>
                       </tr>
