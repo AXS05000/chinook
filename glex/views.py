@@ -5,5 +5,9 @@ class HomeGlex(TemplateView):
     template_name = "glex/home_glex.html"
 
 
-class HomeGlex2(TemplateView):
-    template_name = "glex/home_glex2.html"
+class Glex(TemplateView):
+    template_name = "glex/glex.html"
+
+
+class TabelaFormsGlex(TemplateView):
+    template_name = "glex/tabel_forms_glex.html"
