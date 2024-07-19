@@ -76,10 +76,11 @@
                   </div>
                   <div class="input-group input-group-outline my-3">
                     <label for="password" class="form-label">Senha</label>
-                    <input type="text" id="password" name="password" class="form-control" maxlength="18" placeholder="" required autofocus>
+                    <input type="password" id="password" name="password" class="form-control" maxlength="18" placeholder="" required autofocus>
                   </div>
                   <div class="text-center">
-                    <input class="btn bg-gradient-primary w-100 my-4 mb-2" type="submit" value="Entrar">
+
+                    <a class="btn bg-gradient-primary w-100 my-4 mb-2" href="{% url 'home_glex' %}">Entrar</a>
                   </div>
 
                 </form>

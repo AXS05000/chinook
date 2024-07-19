@@ -48,7 +48,7 @@
   
   <body>
     <!-- Header Section Start -->
-    <header id="slider-area">  
+    <header>  
       <nav class="navbar navbar-expand-md fixed-top scrolling-navbar bg-white">
         <div class="container">  
           <a class="navbar-brand" href="{% url 'index' %}"><img  src="{% static 'assets_2/img/maple_bear.svg' %}" alt="" style="max-height: 40px;">  Maple Bear</a>
@@ -63,7 +63,8 @@
               <li class="nav-item dropdown">
                 <a class="nav-link page-scroll nav-link-ded dropdown-toggle" id="dropdownContratos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Glex</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 200px;">
-                  <a class="nav-link" href="#">Buscar</a>
+                  <a class="nav-link" href="{% url 'home_glex' %}">Home Glex</a>
+                  <a class="nav-link" href="{% url 'table_forms_glex' %}">Formulários</a>
 
                 </div>
               </li>
@@ -160,20 +161,20 @@
                       <tr>
                         <td>Administrativo</td>
                         <td>
-                          <button class="btn btn-danger btn-round">
+                          <button class="btn btn-danger btn-round" style="cursor: default;">
                             <span class="button-content">
-                              <i class="material-icons">close</i>
+                              <i class="material-icons" >close</i>
                               Pendente
                             </span>
                             <div class="ripple-container"></div>
                           </button>
                         </td>
-                        <td class="text-center"><i class="material-icons">assignment</i></td>
+                        <td class="text-center"><a href="{% url 'administrativo_form' %}"><i class="material-icons">assignment</i></a></td>
                       </tr>
                       <tr>
                         <td>Comercial</td>
                         <td>
-                          <button class="btn btn-danger btn-round">
+                          <button class="btn btn-danger btn-round"  style="cursor: default;">
                             <span class="button-content">
                               <i class="material-icons">close</i>
                               Pendente
@@ -181,12 +182,12 @@
                             <div class="ripple-container"></div>
                           </button>
                         </td>
-                        <td class="text-center"><i class="material-icons">assignment</i></td>
+                        <td class="text-center"><a href="{% url 'comercial_form' %}"><i class="material-icons">assignment</i></a></td>
                       </tr>
                       <tr>
                         <td>Gente</td>
                         <td>
-                          <button class="btn btn-success btn-round">
+                          <button class="btn btn-success btn-round"  style="cursor: default;">
                             <span class="button-content">
                               <i class="material-icons">check</i>
                               Concluído
@@ -194,12 +195,12 @@
                             <div class="ripple-container"></div>
                           </button>
                         </td>
-                        <td class="text-center"><i class="material-icons">assignment</i></td>
+                        <td class="text-center"><i class="material-icons" style="color: #28a745;">assignment</i></td>
                       </tr>
                       <tr>
                         <td>Gestão de Parceria</td>
                         <td>
-                          <button class="btn btn-danger btn-round">
+                          <button class="btn btn-danger btn-round"  style="cursor: default;">
                             <span class="button-content">
                               <i class="material-icons">close</i>
                               Pendente
@@ -207,12 +208,12 @@
                             <div class="ripple-container"></div>
                           </button>
                         </td>
-                        <td class="text-center"><i class="material-icons">assignment</i></td>
+                        <td class="text-center"><a href="{% url 'table_forms_glex' %}"><i class="material-icons">assignment</i></a></td>
                       </tr>
                       <tr>
                         <td>Gestão Escolar</td>
                         <td>
-                          <button class="btn btn-danger btn-round">
+                          <button class="btn btn-danger btn-round"  style="cursor: default;">
                             <span class="button-content">
                               <i class="material-icons">close</i>
                               Pendente
@@ -220,12 +221,12 @@
                             <div class="ripple-container"></div>
                           </button>
                         </td>
-                        <td class="text-center"><i class="material-icons">assignment</i></td>
+                        <td class="text-center"><a href="{% url 'table_forms_glex' %}"><i class="material-icons">assignment</i></a></td>
                       </tr>
                       <tr>
                         <td>Implantação</td>
                         <td>
-                          <button class="btn btn-danger btn-round">
+                          <button class="btn btn-danger btn-round"  style="cursor: default;">
                             <span class="button-content">
                               <i class="material-icons">close</i>
                               Pendente
@@ -233,12 +234,12 @@
                             <div class="ripple-container"></div>
                           </button>
                         </td>
-                        <td class="text-center"><i class="material-icons">assignment</i></td>
+                        <td class="text-center"><a href="{% url 'table_forms_glex' %}"><i class="material-icons">assignment</i></a></td>
                       </tr>
                       <tr>
                         <td>Marketing</td>
                         <td>
-                          <button class="btn btn-danger btn-round">
+                          <button class="btn btn-danger btn-round"  style="cursor: default;">
                             <span class="button-content">
                               <i class="material-icons">close</i>
                               Pendente
@@ -246,12 +247,12 @@
                             <div class="ripple-container"></div>
                           </button>
                         </td>
-                        <td class="text-center"><i class="material-icons">assignment</i></td>
+                        <td class="text-center"><a href="{% url 'table_forms_glex' %}"><i class="material-icons">assignment</i></a></td>
                       </tr>
                       <tr>
                         <td>Operação Acadêmica</td>
                         <td>
-                          <button class="btn btn-danger btn-round">
+                          <button class="btn btn-danger btn-round"  style="cursor: default;">
                             <span class="button-content">
                               <i class="material-icons">close</i>
                               Pendente
@@ -259,12 +260,12 @@
                             <div class="ripple-container"></div>
                           </button>
                         </td>
-                        <td class="text-center"><i class="material-icons">assignment</i></td>
+                        <td class="text-center"><a href="{% url 'table_forms_glex' %}"><i class="material-icons">assignment</i></a></td>
                       </tr>
                       <tr>
                         <td>Resultados</td>
                         <td>
-                          <button class="btn btn-danger btn-round">
+                          <button class="btn btn-danger btn-round" style="cursor: default;">
                             <span class="button-content">
                               <i class="material-icons">close</i>
                               Pendente
@@ -272,12 +273,12 @@
                             <div class="ripple-container"></div>
                           </button>
                         </td>
-                        <td class="text-center"><i class="material-icons">assignment</i></td>
+                        <td class="text-center"><a href="{% url 'table_forms_glex' %}"><i class="material-icons">assignment</i></a></td>
                       </tr>
                       <tr>
                         <td>Tecnologia</td>
                         <td>
-                          <button class="btn btn-danger btn-round">
+                          <button class="btn btn-danger btn-round" style="cursor: default;">
                             <span class="button-content">
                               <i class="material-icons">close</i>
                               Pendente
@@ -285,7 +286,7 @@
                             <div class="ripple-container"></div>
                           </button>
                         </td>
-                        <td class="text-center"><i class="material-icons">assignment</i></td>
+                        <td class="text-center"><a href="{% url 'table_forms_glex' %}"><i class="material-icons">assignment</i></a></td>
                       </tr>
                     </tbody>
                   </table>
