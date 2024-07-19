@@ -22,7 +22,14 @@
 
 
 
-
+<style>
+  .img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover; /* Ajusta a imagem para cobrir o card mantendo a proporção */
+  }
+</style>
 
 
 
@@ -272,18 +279,18 @@
   </div>
 </div>  
 
-<!-- 
+
 
 <div class="content">
   <div class="container-fluid">
-    <h3>Manage Listings</h3>
+    <h3>Lista por País</h3>
     <br>
     <div class="row">
       <div class="col-md-4">
         <div class="card card-product">
           <div class="card-header card-header-image" data-header-animation="true">
             <a href="#pablo">
-              <img class="img" src="{% static 'glex/img/card-2.jpg' %}">
+              <img class="img" src="{% static 'glex/img/sp.jpg' %}">
             </a>
           </div>
           <div class="card-body">
@@ -291,29 +298,23 @@
               <button type="button" class="btn btn-danger btn-link fix-broken-card">
                 <i class="material-icons">build</i> Fix Header!
               </button>
-              <button type="button" class="btn btn-default btn-link" rel="tooltip" data-placement="bottom" title="View">
-                <i class="material-icons">art_track</i>
-              </button>
-              <button type="button" class="btn btn-success btn-link" rel="tooltip" data-placement="bottom" title="Edit">
-                <i class="material-icons">edit</i>
-              </button>
-              <button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Remove">
-                <i class="material-icons">close</i>
-              </button>
+              <a type="button" class="btn btn-default btn-link" rel="tooltip" data-placement="bottom" title="Lista">
+                <i class="material-icons">assignment</i>
+              </a>
+              <a type="button" class="btn btn-success btn-link" rel="tooltip" data-placement="bottom" title="Baixar Relatório">
+                <i class="material-icons">download</i>
+              </a>
             </div>
             <h4 class="card-title">
-              <a href="#pablo">Cozy 5 Stars Apartment</a>
+              <a href="#">Cozy 5 Stars Apartment</a>
             </h4>
-            <div class="card-description">
-              The place is close to Barceloneta Beach and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the main night life in Barcelona.
-            </div>
           </div>
           <div class="card-footer">
             <div class="price">
-              <h4>$899/night</h4>
+              <h4>Brasil</h4>
             </div>
             <div class="stats">
-              <p class="card-category"><i class="material-icons">place</i> Barcelona, Spain</p>
+              <p class="card-category"><i class="material-icons">place</i> São Paulo, Brazil</p>
             </div>
           </div>
         </div>
@@ -322,7 +323,7 @@
         <div class="card card-product">
           <div class="card-header card-header-image" data-header-animation="true">
             <a href="#pablo">
-              <img class="img" src="{% static 'glex/img/card-3.jpg' %}">
+              <img class="img" src="{% static 'glex/img/toronto.jpg' %}">
             </a>
           </div>
           <div class="card-body">
@@ -330,29 +331,23 @@
               <button type="button" class="btn btn-danger btn-link fix-broken-card">
                 <i class="material-icons">build</i> Fix Header!
               </button>
-              <button type="button" class="btn btn-default btn-link" rel="tooltip" data-placement="bottom" title="View">
-                <i class="material-icons">art_track</i>
-              </button>
-              <button type="button" class="btn btn-success btn-link" rel="tooltip" data-placement="bottom" title="Edit">
-                <i class="material-icons">edit</i>
-              </button>
-              <button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Remove">
-                <i class="material-icons">close</i>
-              </button>
+              <a type="button" class="btn btn-default btn-link" rel="tooltip" data-placement="bottom" title="Lista">
+                <i class="material-icons">assignment</i>
+              </a>
+              <a type="button" class="btn btn-success btn-link" rel="tooltip" data-placement="bottom" title="Baixar Relatório">
+                <i class="material-icons">download</i>
+              </a>
             </div>
             <h4 class="card-title">
               <a href="#pablo">Office Studio</a>
             </h4>
-            <div class="card-description">
-              The place is close to Metro Station and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the night life in London, UK.
-            </div>
           </div>
           <div class="card-footer">
             <div class="price">
-              <h4>$1.119/night</h4>
+              <h4>Canada</h4>
             </div>
             <div class="stats">
-              <p class="card-category"><i class="material-icons">place</i> London, UK</p>
+              <p class="card-category"><i class="material-icons">place</i> Toronto, Canada</p>
             </div>
           </div>
         </div>
@@ -361,37 +356,28 @@
         <div class="card card-product">
           <div class="card-header card-header-image" data-header-animation="true">
             <a href="#pablo">
-              <img class="img" src="{% static 'glex/img/card-1.jpg' %}">
+              <img class="img" src="{% static 'glex/img/miami.jpg' %}">
             </a>
           </div>
           <div class="card-body">
             <div class="card-actions text-center">
-              <button type="button" class="btn btn-danger btn-link fix-broken-card">
-                <i class="material-icons">build</i> Fix Header!
-              </button>
-              <button type="button" class="btn btn-default btn-link" rel="tooltip" data-placement="bottom" title="View">
-                <i class="material-icons">art_track</i>
-              </button>
-              <button type="button" class="btn btn-success btn-link" rel="tooltip" data-placement="bottom" title="Edit">
-                <i class="material-icons">edit</i>
-              </button>
-              <button type="button" class="btn btn-danger btn-link" rel="tooltip" data-placement="bottom" title="Remove">
-                <i class="material-icons">close</i>
-              </button>
+              <a type="button" class="btn btn-default btn-link" rel="tooltip" data-placement="bottom" title="Lista">
+                <i class="material-icons">assignment</i>
+              </a>
+              <a type="button" class="btn btn-success btn-link" rel="tooltip" data-placement="bottom" title="Baixar Relatório">
+                <i class="material-icons">download</i>
+              </a>
             </div>
             <h4 class="card-title">
               <a href="#pablo">Beautiful Castle</a>
             </h4>
-            <div class="card-description">
-              The place is close to Metro Station and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the main night life in Milan.
-            </div>
           </div>
           <div class="card-footer">
             <div class="price">
-              <h4>$459/night</h4>
+              <h4>Estados Unidos</h4>
             </div>
             <div class="stats">
-              <p class="card-category"><i class="material-icons">place</i> Milan, Italy</p>
+              <p class="card-category"><i class="material-icons">place</i> Miami, USA</p>
             </div>
           </div>
         </div>
@@ -399,7 +385,7 @@
     </div>
   </div>
 </div>
--->
+
 
 </section>
 
