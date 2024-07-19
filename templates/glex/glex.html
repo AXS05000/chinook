@@ -5,6 +5,7 @@
 
 <head>
   <meta charset="utf-8" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets_2/img/maple_bear.svg' %}">
   <link rel="icon" type="image/png" href="{% static 'assets_2/img/maple_bear.svg' %}">
@@ -15,20 +16,57 @@
   <link href="{% static 'assets/css/nucleo-icons.css' %}" rel="stylesheet" />
   <link href="{% static 'assets/css/nucleo-svg.css' %}" rel="stylesheet" />
 
+
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="{% static 'assets/css/material-dashboard.css' %}" rel="stylesheet" />
+  <link href="{% static 'glex/css/relogio.css' %}" rel="stylesheet" />
+
 </head>
 
 <body class="bg-gray-200">
 
+
+
   <main class="main-content  mt-0">
+
+
+
+
     <div class="page-header align-items-start min-vh-100" style="background-image: url('{% static 'assets_2/img/slider/bg-13.jpg' %}');">
+
       <span class="mask bg-gradient-dark opacity-6"></span>
       <div class="container my-auto">
+          <div id="relogio-glex"  class="relogio-glex">
+            <h1 class="text-center">Contagem regressiva para o GLEX</h1>
+            <div>
+              <div id="countdown" class="countdown">
+                <div class="time">
+                  <h2 id="days" style="color: #fff;">00</h2>
+                  <small>dias</small>
+                </div>
+                <div class="time">
+                  <h2 id="hours" style="color: #fff;">00</h2>
+                  <small>horas</small>
+                </div>
+                <div class="time">
+                  <h2 id="minutes" style="color: #fff;">00</h2>
+                  <small>minutos</small>
+                </div>
+                <div class="time">
+                  <h2 id="seconds" style="color: #fff;">00</h2>
+                  <small>segundos</small>
+                </div>
+            </div>
+          </div>
+
+
+        </div>
+
+          
         <div class="row">
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
             <div class="card z-index-0 fadeIn3 fadeInBottom">
@@ -90,6 +128,9 @@
         </div>
       </div>
     </div>
+
+
+
   </main>
   <!--   Core JS Files   -->
   <script src="{% static 'assets/js/core/popper.min.js' %}"></script>
@@ -149,6 +190,43 @@
       }
     });
     </script>
+
+    <script>
+      // Função para formatar os números com duas casas decimais
+      function formatNumber(num) {
+          return num < 10 ? "0" + num : num;
+      }
+
+      // Defina a data e hora de destino para a contagem regressiva
+      var countDownDate = new Date("Jan 01, 2025 00:00:00").getTime();
+
+      // Atualiza a contagem regressiva a cada segundo
+      var x = setInterval(function() {
+          // Obtenha a data e hora atual
+          var now = new Date().getTime();
+
+          // Calcule a diferença entre a data de agora e a data de contagem regressiva
+          var distance = countDownDate - now;
+
+          // Calcule o tempo restante em dias, horas, minutos e segundos
+          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          // Exiba os resultados nos elementos correspondentes com duas casas decimais
+          document.getElementById("days").innerHTML = formatNumber(days);
+          document.getElementById("hours").innerHTML = formatNumber(hours);
+          document.getElementById("minutes").innerHTML = formatNumber(minutes);
+          document.getElementById("seconds").innerHTML = formatNumber(seconds);
+
+          // Se a contagem regressiva acabar, oculte o elemento de contagem regressiva
+          if (distance < 0) {
+              clearInterval(x);
+              document.getElementById("relogio-glex").style.display = "none";
+          }
+      }, 1000);
+  </script>
   
 </body>
 
