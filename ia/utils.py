@@ -248,15 +248,13 @@ def config_chat_rh(prompt, context=""):
 
 
 ################################ CHAT CENTRAL########################################
-
-
 def classify_question_chat_central(prompt):
     response = openai.ChatCompletion.create(
         model="gpt-4-turbo",
         messages=[
             {
                 "role": "system",
-                "content": "Você é um assistente útil que classifica perguntas sobre escolas em categorias: 'informações gerais', 'NPS'. Responda apenas com a categoria apropriada.",
+                "content": "Você é um assistente útil que classifica perguntas sobre escolas em categorias: 'informações gerais', 'NPS', 'vendas', 'relatório de vendas'. Responda apenas com a categoria apropriada.",
             },
             {"role": "user", "content": prompt},
         ],

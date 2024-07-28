@@ -278,6 +278,16 @@ def import_vendas_slm_2024(request):
 ############################################# CHAT CENTRAL###########################################################
 
 
+def generate_excel_report(vendas):
+    df = pd.DataFrame(list(vendas.values()))
+    response = HttpResponse(
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    response["Content-Disposition"] = 'attachment; filename="vendas_slm_2024.xlsx"'
+    df.to_excel(response, index=False)
+    return response
+
+
 def filtered_chat_view(request):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -310,6 +320,12 @@ def filtered_chat_view(request):
                     f"As notas variam de 1 a 5, exceto para a pergunta de recomendação, que varia de 0 a 10.\n"
                     f"Comentário: {response.comentario}\n\n"
                 )
+        elif question_type in ["vendas", "relatório de vendas"]:
+            vendas_responses = Vendas_SLM_2024.objects.filter(
+                escola__id_escola=school_id
+            )
+            total_vendas = vendas_responses.count()
+            context = f"O total de vendas da escola foi {total_vendas}. Para outras informações, você pode ver o relatório completo em Excel clicando [aqui](/download_excel_report/?school_id={school_id})."
         else:
             context = (
                 f"Nome da Escola: {school.nome_da_escola}\n"
@@ -354,3 +370,17 @@ def filtered_chat_view(request):
     else:
         schools = CRM_FUI.objects.all()
         return render(request, "chatapp/filtered_chat.html", {"schools": schools})
+
+
+def download_excel_report_slm_2024(request):
+    school_id = request.GET.get("school_id")
+    vendas_responses = Vendas_SLM_2024.objects.filter(escola__id_escola=school_id)
+    df = pd.DataFrame(list(vendas_responses.values()))
+    response = HttpResponse(
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    response["Content-Disposition"] = (
+        f'attachment; filename="vendas_slm_2024_{school_id}.xlsx"'
+    )
+    df.to_excel(response, index=False)
+    return response
