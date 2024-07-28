@@ -248,15 +248,19 @@ def filtered_chat_view(request):
         question_type = classify_question_chat_central(message)
 
         if question_type == "nps":
-            nps_responses = Respostas_NPS.objects.filter(escola__id_escola=school_id)
+            nps_responses = (
+                Respostas_NPS.objects.filter(escola__id_escola=school_id)
+                .exclude(comentario__isnull=True)
+                .exclude(comentario__exact="")
+                .exclude(comentario__exact="nan")
+            )
             context = ""
             for response in nps_responses:
                 context += (
-                    f"Nome: {response.nome} - "
-                    f"Este campo é o Nome do respondente.\n"
+                    f"Nome do respondente: {response.nome}\n"
                     f"Questão perguntada no NPS: {response.questao}\n"
                     f"Nota: {response.nota} - "
-                    f"Nesse campo são as notas das perguntas que são valores 1 a 5 com exceção da pergunta - Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar? - que é de 0 a 10\n"
+                    f"As notas variam de 1 a 5, exceto para a pergunta de recomendação, que varia de 0 a 10.\n"
                     f"Comentário: {response.comentario}\n\n"
                 )
         else:
