@@ -178,3 +178,20 @@ class Respostas_NPS(models.Model):
 
     def __str__(self):
         return f"{self.nome} - {self.data_da_resposta}"
+
+
+class Vendas_SLM_2024(models.Model):
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="nome_escola_venda_slm_2024",
+        verbose_name="Nome da Escola Venda 2024",
+    )
+    data_do_pedido = models.DateField(verbose_name="Data do Pedido")
+    quantidade = models.IntegerField(verbose_name="Quantidade Vendida")
+    nome_pais = models.CharField(verbose_name="Nomes dos Pais")
+    nome_do_aluno = models.CharField(verbose_name="Nome do Aluno")
+    numero_do_pedido = models.CharField(verbose_name="Numero do Pedido")
+
+    def __str__(self):
+        return f"{self.numero_do_pedido} - {self.nome_pais} - {self.nome_do_aluno}"
