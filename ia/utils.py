@@ -250,6 +250,22 @@ def config_chat_rh(prompt, context=""):
 ################################ CHAT CENTRAL########################################
 
 
+def classify_question_chat_central(prompt):
+    response = openai.ChatCompletion.create(
+        model="gpt-4-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é um assistente útil que classifica perguntas sobre escolas em categorias: 'informações gerais', 'NPS'. Responda apenas com a categoria apropriada.",
+            },
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=20,
+    )
+    category = response["choices"][0]["message"]["content"].strip().lower()
+    return category
+
+
 def config_chat_central(prompt, context=""):
     if not context:
         context = "No relevant information found in the database."
@@ -257,7 +273,7 @@ def config_chat_central(prompt, context=""):
         prompt = "No question provided."
 
     response = openai.ChatCompletion.create(
-        model="gpt-4",
+        model="gpt-4-turbo",
         messages=[
             {
                 "role": "system",
@@ -272,6 +288,7 @@ def config_chat_central(prompt, context=""):
     formatted_response = response["choices"][0]["message"]["content"].strip()
 
     # Formatações adicionais
+    formatted_response = re.sub(r"\+\+\+", "<br>", formatted_response)
     formatted_response = re.sub(r"###", "<br>", formatted_response)
     formatted_response = re.sub(
         r"\*\*(.*?)\*\*",

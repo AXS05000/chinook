@@ -16,6 +16,7 @@ from .models import (
 from .utils import (
     get_chat_response,
     generate_excel_report,
+    classify_question_chat_central,
     calcular_nps,
     config_chat_central,
     obter_distribuicao_nps,
@@ -143,68 +144,6 @@ def hr_assistant_view(request):
     return render(request, "chatapp/hr_chat.html")
 
 
-############################################# CHAT CENTRAL###########################################################
-
-
-def filtered_chat_view(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        school_id = data.get("school_id")
-        message = data.get("message")
-
-        if not school_id:
-            return JsonResponse({"error": "School ID not provided"}, status=400)
-
-        try:
-            school = CRM_FUI.objects.get(id_escola=school_id)
-        except CRM_FUI.DoesNotExist:
-            return JsonResponse({"error": "School not found"}, status=404)
-
-        context = (
-            f"Nome da Escola: {school.nome_da_escola}\n"
-            f"CNPJ: {school.CNPJ}\n"
-            f"Status: {school.status_da_escola}\n"
-            f"SLMs Vendidos: {school.slms_vendidos}\n"
-            f"Meta: {school.meta}\n"
-            f"Cluster: {school.cluster}\n"
-            f"Endereço: {school.endereco}\n"
-            f"CEP: {school.cep_escola}\n"
-            f"Bairro: {school.bairro_escola}\n"
-            f"Cidade: {school.cidade_da_escola}\n"
-            f"Estado: {school.estado_da_escola}\n"
-            f"Região: {school.regiao_da_escola}\n"
-            f"Telefone: {school.telefone_de_contato_da_escola}\n"
-            f"Email: {school.email_da_escola}\n"
-            f"Segmento: {school.segmento_da_escola}\n"
-            f"Atual Série: {school.atual_serie}\n"
-            f"Avanço Segmento: {school.avanco_segmento}\n"
-            f"NPS Pais 2024 - 1° Onda: {school.nps_pais_2024_1_onda} - "
-            f"Este campo indica a pontuação referente ao NPS(Net Promoter Score) dos pais dos alunos que estudam na escola, que foi realizado no 1° semestre no ano(1° Onda).\n"
-            f"Cliente Oculto 2024: {school.cliente_oculto_2024} - "
-            f"Este campo indica a pontuação referente ao Cliente Oculto, que uma avaliação realizada por uma empresa terceirizada onde consiste em um falso cliente ir até a escola para avaliar ela.\n"
-            f"Quality Assurance 2024: {school.quality_assurance_2024} - "
-            f"Este campo indica a pontuação referente Quality Assurance uma avaliação realizada para ver a qualidade da escola.\n"
-            f"Status de Adimplência/Inadimplência: {school.status_de_adimplencia} - "
-            f"Este campo indica se a escola está Adimplente ou Inadimplente referente aos seus pagamentos que devem ser feitos à franqueada Maple Bear.\n"
-            f"Ticket Médio: {school.ticket_medio} - Este é o valor médio de mensalidade cobrada pela escola.\n"
-        )
-
-        if school.status_de_adimplencia == "Inadimplente":
-            context += f"Inadimplência: {school.inadimplencia} - Este é o valor que a escola está devendo para a Maple Bear.\n"
-
-        context += (
-            f"Consultor Comercial: {school.consultor_comercial}\n"
-            f"Consultor Gestão Escolar: {school.consultor_gestao_escolar}\n"
-        )
-
-        response = config_chat_central(message, context)
-
-        return JsonResponse({"response": response})
-    else:
-        schools = CRM_FUI.objects.all()
-        return render(request, "chatapp/filtered_chat.html", {"schools": schools})
-
-
 ################################################# IMPORTAR FUI######################################################
 
 
@@ -287,3 +226,80 @@ def import_resposta(request):
         messages.success(request, "Dados importados com sucesso!")
         return redirect("import_respostas_nps")
     return render(request, "chatapp/import/import_resposta.html")
+
+
+############################################# CHAT CENTRAL###########################################################
+
+
+def filtered_chat_view(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        school_id = data.get("school_id")
+        message = data.get("message")
+
+        if not school_id:
+            return JsonResponse({"error": "School ID not provided"}, status=400)
+
+        try:
+            school = CRM_FUI.objects.get(id_escola=school_id)
+        except CRM_FUI.DoesNotExist:
+            return JsonResponse({"error": "School not found"}, status=404)
+
+        question_type = classify_question_chat_central(message)
+
+        if question_type == "nps":
+            nps_responses = Respostas_NPS.objects.filter(escola__id_escola=school_id)
+            context = ""
+            for response in nps_responses:
+                context += (
+                    f"Nome: {response.nome} - "
+                    f"Este campo é o Nome do respondente.\n"
+                    f"Questão perguntada no NPS: {response.questao}\n"
+                    f"Nota: {response.nota} - "
+                    f"Nesse campo são as notas das perguntas que são valores 1 a 5 com exceção da pergunta - Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar? - que é de 0 a 10\n"
+                    f"Comentário: {response.comentario}\n\n"
+                )
+        else:
+            context = (
+                f"Nome da Escola: {school.nome_da_escola}\n"
+                f"CNPJ: {school.CNPJ}\n"
+                f"Status: {school.status_da_escola}\n"
+                f"SLMs Vendidos: {school.slms_vendidos}\n"
+                f"Meta: {school.meta}\n"
+                f"Cluster: {school.cluster}\n"
+                f"Endereço: {school.endereco}\n"
+                f"CEP: {school.cep_escola}\n"
+                f"Bairro: {school.bairro_escola}\n"
+                f"Cidade: {school.cidade_da_escola}\n"
+                f"Estado: {school.estado_da_escola}\n"
+                f"Região: {school.regiao_da_escola}\n"
+                f"Telefone: {school.telefone_de_contato_da_escola}\n"
+                f"Email: {school.email_da_escola}\n"
+                f"Segmento: {school.segmento_da_escola}\n"
+                f"Atual Série: {school.atual_serie}\n"
+                f"Avanço Segmento: {school.avanco_segmento}\n"
+                f"NPS Pais 2024 - 1° Onda: {school.nps_pais_2024_1_onda} - "
+                f"Este campo indica a pontuação referente ao NPS(Net Promoter Score) dos pais dos alunos que estudam na escola, que foi realizado no 1° semestre no ano(1° Onda).\n"
+                f"Cliente Oculto 2024: {school.cliente_oculto_2024} - "
+                f"Este campo indica a pontuação referente ao Cliente Oculto, que uma avaliação realizada por uma empresa terceirizada onde consiste em um falso cliente ir até a escola para avaliar ela.\n"
+                f"Quality Assurance 2024: {school.quality_assurance_2024} - "
+                f"Este campo indica a pontuação referente Quality Assurance uma avaliação realizada para ver a qualidade da escola.\n"
+                f"Status de Adimplência/Inadimplência: {school.status_de_adimplencia} - "
+                f"Este campo indica se a escola está Adimplente ou Inadimplente referente aos seus pagamentos que devem ser feitos à franqueada Maple Bear.\n"
+                f"Ticket Médio: {school.ticket_medio} - Este é o valor médio de mensalidade cobrada pela escola.\n"
+            )
+
+            if school.status_de_adimplencia == "Inadimplente":
+                context += f"Inadimplência: {school.inadimplencia} - Este é o valor que a escola está devendo para a Maple Bear.\n"
+
+            context += (
+                f"Consultor Comercial: {school.consultor_comercial}\n"
+                f"Consultor Gestão Escolar: {school.consultor_gestao_escolar}\n"
+            )
+
+        response = config_chat_central(message, context)
+
+        return JsonResponse({"response": response})
+    else:
+        schools = CRM_FUI.objects.all()
+        return render(request, "chatapp/filtered_chat.html", {"schools": schools})

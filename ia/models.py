@@ -159,7 +159,8 @@ class CRM_FUI(models.Model):
     )
 
     def __str__(self):
-        return self.nome_da_escola
+
+        return f"{self.id_escola} - {self.nome_da_escola}"
 
 
 class Respostas_NPS(models.Model):
