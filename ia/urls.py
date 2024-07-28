@@ -6,6 +6,7 @@ from .views import (
     import_crm_fui,
     import_resposta,
     filtered_chat_view,
+    import_vendas_slm_2024,
 )
 
 urlpatterns = [
@@ -15,4 +16,7 @@ urlpatterns = [
     path("import_crm_fui/", import_crm_fui, name="import_crm_fui"),
     path("import_respostas_nps/", import_resposta, name="import_respostas_nps"),
     path("filtered_chat/", filtered_chat_view, name="filtered_chat"),
+    path(
+        "import_vendas_slm_2024/", import_vendas_slm_2024, name="import_vendas_slm_2024"
+    ),
 ]

@@ -10,6 +10,7 @@ from .models import (
     Ferias,
     CRM_FUI,
     Respostas_NPS,
+    Vendas_SLM_2024,
 )
 
 # Register your models here.
@@ -25,3 +26,4 @@ admin.site.register(Ferias)
 
 admin.site.register(CRM_FUI)
 admin.site.register(Respostas_NPS)
+admin.site.register(Vendas_SLM_2024)

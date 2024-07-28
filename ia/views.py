@@ -12,6 +12,7 @@ from .models import (
     Ferias,
     CRM_FUI,
     Respostas_NPS,
+    Vendas_SLM_2024,
 )
 from .utils import (
     get_chat_response,
@@ -212,9 +213,9 @@ def import_resposta(request):
                     escola=escola,
                     nome=row["nome"],
                     data_da_resposta=row["data_da_resposta"],
+                    questao=row["questao"],
+                    nota=row["nota"],
                     defaults={
-                        "questao": row["questao"],
-                        "nota": row["nota"],
                         "comentario": row["comentario"],
                     },
                 )
@@ -226,6 +227,52 @@ def import_resposta(request):
         messages.success(request, "Dados importados com sucesso!")
         return redirect("import_respostas_nps")
     return render(request, "chatapp/import/import_resposta.html")
+
+
+################################################# IMPORTAR VENDAS 2024######################################################
+
+
+def import_vendas_slm_2024(request):
+    if request.method == "POST":
+        file = request.FILES.get("file")
+        if not file or not file.name.endswith(".xlsx"):
+            messages.error(request, "Por favor, envie um arquivo Excel.")
+            return redirect("import_vendas_slm_2024")
+
+        try:
+            df = pd.read_excel(file)
+        except Exception as e:
+            messages.error(request, f"Erro ao ler o arquivo Excel: {e}")
+            return redirect("import_vendas_slm_2024")
+
+        for _, row in df.iterrows():
+            try:
+                escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
+                Vendas_SLM_2024.objects.update_or_create(
+                    escola=escola,
+                    numero_do_pedido=row["numero_do_pedido"],
+                    nome_pais=row["nome_pais"],
+                    nome_do_aluno=row["nome_do_aluno"],
+                    defaults={
+                        "data_do_pedido": row["data_do_pedido"],
+                        "quantidade": row["quantidade"],
+                    },
+                )
+            except CRM_FUI.DoesNotExist:
+                messages.error(
+                    request, f"Escola com id_escola {row['id_escola']} não encontrada."
+                )
+                continue
+            except Exception as e:
+                messages.error(
+                    request,
+                    f"Erro ao importar a linha com id_escola {row['id_escola']}: {e}",
+                )
+                continue
+
+        messages.success(request, "Dados importados com sucesso!")
+        return redirect("import_vendas_slm_2024")
+    return render(request, "chatapp/import/import_vendas_slm_2024.html")
 
 
 ############################################# CHAT CENTRAL###########################################################
