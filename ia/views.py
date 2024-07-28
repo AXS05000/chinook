@@ -160,7 +160,38 @@ def filtered_chat_view(request):
         except CRM_FUI.DoesNotExist:
             return JsonResponse({"error": "School not found"}, status=404)
 
-        context = f"Nome da Escola: {school.nome_da_escola}\nCNPJ: {school.CNPJ}\nStatus: {school.status_da_escola}\nAlunos: {school.alunos}"
+        context = (
+            f"Nome da Escola: {school.nome_da_escola}\n"
+            f"CNPJ: {school.CNPJ}\n"
+            f"Status: {school.status_da_escola}\n"
+            f"SLMs Vendidos: {school.slms_vendidos}\n"
+            f"Alunos: {school.alunos}\n"
+            f"Meta: {school.meta}\n"
+            f"Cluster: {school.cluster}\n"
+            f"Endereço: {school.endereco}\n"
+            f"CEP: {school.cep_escola}\n"
+            f"Bairro: {school.bairro_escola}\n"
+            f"Cidade: {school.cidade_da_escola}\n"
+            f"Estado: {school.estado_da_escola}\n"
+            f"Região: {school.regiao_da_escola}\n"
+            f"Telefone: {school.telefone_de_contato_da_escola}\n"
+            f"Email: {school.email_da_escola}\n"
+            f"Segmento: {school.segmento_da_escola}\n"
+            f"Atual Série: {school.atual_serie}\n"
+            f"Avanço Segmento: {school.avanco_segmento}\n"
+            f"Status de Adimplência/Inadimplência: {school.status_de_adimplencia} - "
+            f"Este campo indica se a escola está Adimplente ou Inadimplente referente aos seus pagamentos que devem ser feitos à franqueada Maple Bear.\n"
+            f"Ticket Médio: {school.ticket_medio} - Este é o valor médio de mensalidade cobrada pela escola.\n"
+        )
+
+        if school.status_de_adimplencia == "Inadimplente":
+            context += f"Inadimplência: {school.inadimplencia} - Este é o valor que a escola está devendo para a Maple Bear.\n"
+
+        context += (
+            f"Consultor Comercial: {school.consultor_comercial}\n"
+            f"Consultor Gestão Escolar: {school.consultor_gestao_escolar}\n"
+        )
+
         response = config_chat_central(message, context)
 
         return JsonResponse({"response": response})
