@@ -7,7 +7,7 @@ import re
 from django.db.models import Q
 from django.db import models
 from collections import Counter
-
+from .models import CRM_FUI
 import openai
 from ia.api_key_loader import get_api_key
 
@@ -212,6 +212,56 @@ def config_chat_rh(prompt, context=""):
             {
                 "role": "system",
                 "content": "Você é o assistente Chinook de recursos humanos da Empresa Maple Bear auxiliando o setor Gente Gestão, que auxilia na resposta de perguntas dos funcionários. Observação importante: sempre que for realizar listagem ou fazer uma lista onde tem indicativos de números antes dos números colocar esses 3 símbolos ### e formate todos os links utilizando Markdown da seguinte forma: [texto do link](URL).",
+            },
+            {"role": "user", "content": f"Contexto:\n{context}"},
+            {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
+        ],
+        max_tokens=2050,
+    )
+    print(f"Total tokens usados: {response['usage']['total_tokens']}")
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+
+    # Formatações adicionais
+    formatted_response = re.sub(r"###", "<br>", formatted_response)
+    formatted_response = re.sub(
+        r"\*\*(.*?)\*\*",
+        r"<span style='font-weight: bold;'>\1</span>",
+        formatted_response,
+    )
+    formatted_response = re.sub(
+        r"\*(.*?)\*",
+        r"<span style='font-weight: bold;'>\1</span>",
+        formatted_response,
+    )
+    formatted_response = re.sub(
+        r"\[(.*?)\]\((.*?)\)",
+        r'<a href="\2" target="_blank">\1</a>',
+        formatted_response,
+    )
+    formatted_response = re.sub(
+        r'(?<!")\b(https?://[^\s]+)\b(?!")',
+        r'<a href="\1" target="_blank">\1</a>',
+        formatted_response,
+    )
+
+    return formatted_response
+
+
+################################ CHAT CENTRAL########################################
+
+
+def config_chat_central(prompt, context=""):
+    if not context:
+        context = "No relevant information found in the database."
+    if not prompt:
+        prompt = "No question provided."
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é o assistente Chinook da Empresa Maple Bear auxiliando na informações das escolas e na resposta de perguntas dos funcionários. Observação importante: sempre que for realizar listagem ou fazer uma lista onde tem indicativos de números antes dos números colocar esses 3 símbolos ### e formate todos os links utilizando Markdown da seguinte forma: [texto do link](URL).",
             },
             {"role": "user", "content": f"Contexto:\n{context}"},
             {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},

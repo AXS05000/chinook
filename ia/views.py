@@ -17,6 +17,7 @@ from .utils import (
     get_chat_response,
     generate_excel_report,
     calcular_nps,
+    config_chat_central,
     obter_distribuicao_nps,
     resumo_por_pergunta,
     config_chat_rh,
@@ -140,6 +141,32 @@ def hr_assistant_view(request):
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON"}, status=400)
     return render(request, "chatapp/hr_chat.html")
+
+
+############################################# CHAT CENTRAL###########################################################
+
+
+def filtered_chat_view(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        school_id = data.get("school_id")
+        message = data.get("message")
+
+        if not school_id:
+            return JsonResponse({"error": "School ID not provided"}, status=400)
+
+        try:
+            school = CRM_FUI.objects.get(id_escola=school_id)
+        except CRM_FUI.DoesNotExist:
+            return JsonResponse({"error": "School not found"}, status=404)
+
+        context = f"Nome da Escola: {school.nome_da_escola}\nCNPJ: {school.CNPJ}\nStatus: {school.status_da_escola}\nAlunos: {school.alunos}"
+        response = config_chat_central(message, context)
+
+        return JsonResponse({"response": response})
+    else:
+        schools = CRM_FUI.objects.all()
+        return render(request, "chatapp/filtered_chat.html", {"schools": schools})
 
 
 ################################################# IMPORTAR FUI######################################################
