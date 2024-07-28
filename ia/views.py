@@ -165,7 +165,6 @@ def filtered_chat_view(request):
             f"CNPJ: {school.CNPJ}\n"
             f"Status: {school.status_da_escola}\n"
             f"SLMs Vendidos: {school.slms_vendidos}\n"
-            f"Alunos: {school.alunos}\n"
             f"Meta: {school.meta}\n"
             f"Cluster: {school.cluster}\n"
             f"Endereço: {school.endereco}\n"
@@ -179,6 +178,12 @@ def filtered_chat_view(request):
             f"Segmento: {school.segmento_da_escola}\n"
             f"Atual Série: {school.atual_serie}\n"
             f"Avanço Segmento: {school.avanco_segmento}\n"
+            f"NPS Pais 2024 - 1° Onda: {school.nps_pais_2024_1_onda} - "
+            f"Este campo indica a pontuação referente ao NPS(Net Promoter Score) dos pais dos alunos que estudam na escola, que foi realizado no 1° semestre no ano(1° Onda).\n"
+            f"Cliente Oculto 2024: {school.cliente_oculto_2024} - "
+            f"Este campo indica a pontuação referente ao Cliente Oculto, que uma avaliação realizada por uma empresa terceirizada onde consiste em um falso cliente ir até a escola para avaliar ela.\n"
+            f"Quality Assurance 2024: {school.quality_assurance_2024} - "
+            f"Este campo indica a pontuação referente Quality Assurance uma avaliação realizada para ver a qualidade da escola.\n"
             f"Status de Adimplência/Inadimplência: {school.status_de_adimplencia} - "
             f"Este campo indica se a escola está Adimplente ou Inadimplente referente aos seus pagamentos que devem ser feitos à franqueada Maple Bear.\n"
             f"Ticket Médio: {school.ticket_medio} - Este é o valor médio de mensalidade cobrada pela escola.\n"
@@ -238,6 +243,9 @@ def import_crm_fui(request):
                     "status_de_adimplencia": row["status_de_adimplencia"],
                     "ticket_medio": row["ticket_medio"],
                     "inadimplencia": row["inadimplencia"],
+                    "nps_pais_2024_1_onda": row["nps_pais_2024_1_onda"],
+                    "cliente_oculto_2024": row["cliente_oculto_2024"],
+                    "quality_assurance_2024": row["quality_assurance_2024"],
                     "consultor_comercial": row["consultor_comercial"],
                     "consultor_gestao_escolar": row["consultor_gestao_escolar"],
                 },

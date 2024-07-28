@@ -130,6 +130,27 @@ class CRM_FUI(models.Model):
         blank=True,
         verbose_name="Total do Valor de Inadimplência",
     )
+    nps_pais_2024_1_onda = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="NPS Pais 2024 - 1° Onda",
+    )
+    cliente_oculto_2024 = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Cliente Oculto 2024",
+    )
+    quality_assurance_2024 = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Quality Assurance 2024",
+    )
     consultor_comercial = models.CharField(
         max_length=100, null=True, blank=True, verbose_name="Consultor Comercial"
     )
