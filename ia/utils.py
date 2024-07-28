@@ -191,7 +191,7 @@ def classify_question(prompt):
             },
             {"role": "user", "content": prompt},
         ],
-        max_tokens=50,
+        max_tokens=2050,
     )
     category = response["choices"][0]["message"]["content"].strip().lower()
     # Ajustar para garantir que 'banco de horas' seja tratado como 'folha de ponto'
