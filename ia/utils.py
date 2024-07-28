@@ -31,7 +31,7 @@ def get_chat_response(prompt, context=""):
 
     # Enviar uma mensagem clara e estruturada para a API
     response = openai.ChatCompletion.create(
-        model="gpt-4-turbo",
+        model="gpt-4",
         messages=[
             {
                 "role": "system",
@@ -183,7 +183,7 @@ def resumo_por_pergunta(informacoes):
 
 def classify_question(prompt):
     response = openai.ChatCompletion.create(
-        model="gpt-4-turbo",
+        model="gpt-4",
         messages=[
             {
                 "role": "system",
@@ -207,7 +207,7 @@ def config_chat_rh(prompt, context=""):
         prompt = "No question provided."
 
     response = openai.ChatCompletion.create(
-        model="gpt-4-turbo",
+        model="gpt-4",
         messages=[
             {
                 "role": "system",

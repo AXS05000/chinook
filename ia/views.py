@@ -1,8 +1,20 @@
 import json
+
+
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Informacao, Beneficio, FolhaPonto, Salario, Ferias
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from .models import (
+    Informacao,
+    Beneficio,
+    FolhaPonto,
+    Salario,
+    Ferias,
+    CRM_FUI,
+    Respostas_NPS,
+)
 from .utils import (
     get_chat_response,
     generate_excel_report,
@@ -13,8 +25,8 @@ from .utils import (
     classify_question,
 )
 import openpyxl
+import pandas as pd
 from openpyxl.utils import get_column_letter
-from django.conf import settings
 from django.views import View
 
 
@@ -174,3 +186,84 @@ def hr_assistant_view(request):
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON"}, status=400)
     return render(request, "chatapp/hr_chat.html")
+
+
+################################################# IMPORTAR FUI######################################################
+
+
+def import_crm_fui(request):
+    if request.method == "POST":
+        file = request.FILES["file"]
+        if not file.name.endswith(".xlsx"):
+            messages.error(request, "Por favor, envie um arquivo Excel.")
+            return redirect("import_crm_fui")
+
+        df = pd.read_excel(file)
+        for _, row in df.iterrows():
+            CRM_FUI.objects.update_or_create(
+                id_escola=row["id_escola"],
+                defaults={
+                    "nome_da_escola": row["nome_da_escola"],
+                    "CNPJ": row["CNPJ"],
+                    "status_da_escola": row["status_da_escola"],
+                    "slms_vendidos": row["slms_vendidos"],
+                    "alunos": row["alunos"],
+                    "meta": row["meta"],
+                    "cluster": row["cluster"],
+                    "endereco": row["endereco"],
+                    "cep_escola": row["cep_escola"],
+                    "bairro_escola": row["bairro_escola"],
+                    "cidade_da_escola": row["cidade_da_escola"],
+                    "estado_da_escola": row["estado_da_escola"],
+                    "regiao_da_escola": row["regiao_da_escola"],
+                    "telefone_de_contato_da_escola": row[
+                        "telefone_de_contato_da_escola"
+                    ],
+                    "email_da_escola": row["email_da_escola"],
+                    "segmento_da_escola": row["segmento_da_escola"],
+                    "atual_serie": row["atual_serie"],
+                    "avanco_segmento": row["avanco_segmento"],
+                    "status_de_adimplencia": row["status_de_adimplencia"],
+                    "ticket_medio": row["ticket_medio"],
+                    "inadimplencia": row["inadimplencia"],
+                    "consultor_comercial": row["consultor_comercial"],
+                    "consultor_gestao_escolar": row["consultor_gestao_escolar"],
+                },
+            )
+        messages.success(request, "Dados importados com sucesso!")
+        return redirect("import_crm_fui")
+    return render(request, "chatapp/import/import_crm_fui.html")
+
+
+################################################# IMPORTAR RESPOSTA######################################################
+
+
+def import_resposta(request):
+    if request.method == "POST":
+        file = request.FILES["file"]
+        if not file.name.endswith(".xlsx"):
+            messages.error(request, "Por favor, envie um arquivo Excel.")
+            return redirect("import_respostas_nps")
+
+        df = pd.read_excel(file)
+        for _, row in df.iterrows():
+            try:
+                escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
+                Respostas_NPS.objects.update_or_create(
+                    escola=escola,
+                    nome=row["nome"],
+                    data_da_resposta=row["data_da_resposta"],
+                    defaults={
+                        "questao": row["questao"],
+                        "nota": row["nota"],
+                        "comentario": row["comentario"],
+                    },
+                )
+            except CRM_FUI.DoesNotExist:
+                messages.error(
+                    request, f"Escola com id_escola {row['id_escola']} não encontrada."
+                )
+                continue
+        messages.success(request, "Dados importados com sucesso!")
+        return redirect("import_respostas_nps")
+    return render(request, "chatapp/import/import_resposta.html")
