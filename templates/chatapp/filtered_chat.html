@@ -76,7 +76,7 @@
                   <a href="#" data-conversation="#conversation-3">
                     <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                     <span class="content-message-info">
-                      <span class="content-message-name">Chinook Vendas</span>
+                      <span class="content-message-name">Chinook SAF</span>
                     </span>
                   </a>
                 </li>
@@ -142,7 +142,7 @@
               <div class="conversation-user">
                 <img class="conversation-user-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                 <div>
-                  <div class="conversation-user-name">Chinook Vendas</div>
+                  <div class="conversation-user-name">Chinook SAF</div>
                   <div class="conversation-user-status online">online</div>
                     <form id="school-selection-form">
                         <label for="school-select">Selecione uma escola:</label>
@@ -151,7 +151,6 @@
                                 <option value="{{ school.id_escola }}">{{ school.nome_da_escola }}</option>
                             {% endfor %}
                         </select>
-                        <button type="button" onclick="startChat()">Iniciar Chat</button>
                     </form>
                 </div>
               </div>
@@ -191,6 +190,7 @@
             }
             return cookieValue;
         }
+
       document.addEventListener('DOMContentLoaded', () => {
         // Configurações para conversation-1
         const sendButton1 = document.getElementById('send-button');
@@ -326,7 +326,7 @@
           }
         });
 
-        // Configurações para conversation-3 (Chinook Vendas)
+        // Configurações para conversation-3 (Chinook SAF)
         const sendButton3 = document.getElementById('send-button-3');
         const messageInput3 = document.getElementById('message-3');
         const chatBox3 = document.getElementById('chat-box-3');
@@ -409,11 +409,32 @@
             targetConversation.classList.add('active');
           });
         });
-        window.startChat = function() {
-            const schoolId = document.getElementById('school-select').value;
-            window.selectedSchoolId = schoolId;
-        }
 
+        // Atualiza a seleção da escola sem clicar no botão
+        const schoolSelect = document.getElementById('school-select');
+        schoolSelect.addEventListener('change', () => {
+            const schoolId = schoolSelect.value;
+            window.selectedSchoolId = schoolId;
+
+            // Opcional: Fazer uma requisição ao servidor para filtrar os dados imediatamente
+            // fetchSchoolData(schoolId);
+        });
+
+        // Função opcional para fazer a requisição de filtragem ao servidor ao selecionar a escola
+        async function fetchSchoolData(schoolId) {
+            const response = await fetch("{% url 'filtered_chat' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ school_id: schoolId })
+            });
+            const data = await response.json();
+
+            // Atualizar a interface do chat com os dados filtrados
+            // ...
+        }
       });
     </script>
     <script src="{% static 'chinook/js/script.js' %}"></script>
