@@ -368,7 +368,9 @@ def filtered_chat_view(request):
 
         return JsonResponse({"response": response})
     else:
-        schools = CRM_FUI.objects.all()
+        schools = CRM_FUI.objects.all().order_by(
+            "nome_da_escola"
+        )  # Ordenar alfabeticamente
         return render(request, "chatapp/filtered_chat.html", {"schools": schools})
 
 

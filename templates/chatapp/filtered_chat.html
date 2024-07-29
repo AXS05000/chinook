@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="keywords" content="Bootstrap, Landing page, Template, Registration, Landing">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="width=device-width, maximum-scale=1">
     <meta name="author" content="Grayrids">
     <title>Chat Chinook</title>
 
@@ -144,9 +144,12 @@
                 <div>
                   <div class="conversation-user-name">Chinook SAF</div>
                   <div class="conversation-user-status online">online</div>
-                    <form id="school-selection-form">
-                        <label for="school-select">Selecione uma escola:</label>
+                  <br>
+                    <form id="school-selection-form" class="conversation-user">
+                        <br>
+                        <label for="school-select">Selecione uma escola:<span>&nbsp;&nbsp;</span></label>
                         <select id="school-select" name="school">
+                            <option value="">-------</option>
                             {% for school in schools %}
                                 <option value="{{ school.id_escola }}">{{ school.nome_da_escola }}</option>
                             {% endfor %}
