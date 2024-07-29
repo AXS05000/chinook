@@ -254,7 +254,7 @@ def classify_question_chat_central(prompt):
         messages=[
             {
                 "role": "system",
-                "content": "Você é um assistente útil que classifica perguntas sobre escolas em categorias: 'informações gerais', 'NPS', 'vendas', 'relatório de vendas'. Responda apenas com a categoria apropriada.",
+                "content": "Você é um assistente útil que classifica perguntas sobre escolas em categorias: 'informações gerais', 'NPS', 'vendas', 'relatório de vendas', 'base de conhecimento'. Responda apenas com a categoria apropriada. Se você não conseguir categorizar a pergunta, responda com 'base de conhecimento'.",
             },
             {"role": "user", "content": prompt},
         ],
