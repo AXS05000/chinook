@@ -11,19 +11,16 @@ from .models import (
     CRM_FUI,
     Respostas_NPS,
     Vendas_SLM_2024,
+    Base_de_Conhecimento,
 )
 
-# Register your models here.
 admin.site.register(Informacao)
-
 admin.site.register(APIKey)
-
-
 admin.site.register(Beneficio)
 admin.site.register(FolhaPonto)
 admin.site.register(Salario)
 admin.site.register(Ferias)
-
 admin.site.register(CRM_FUI)
 admin.site.register(Respostas_NPS)
 admin.site.register(Vendas_SLM_2024)
+admin.site.register(Base_de_Conhecimento)

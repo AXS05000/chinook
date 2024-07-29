@@ -195,3 +195,13 @@ class Vendas_SLM_2024(models.Model):
 
     def __str__(self):
         return f"{self.numero_do_pedido} - {self.nome_pais} - {self.nome_do_aluno}"
+
+
+class Base_de_Conhecimento(models.Model):
+    titulo = models.CharField(blank=True, null=True, verbose_name="Título")
+    assunto = models.CharField(blank=True, null=True, verbose_name="Assunto")
+    sub_assunto = models.CharField(blank=True, null=True, verbose_name="Sub Assunto")
+    texto = models.TextField(blank=True, null=True, verbose_name="Texto")
+
+    def __str__(self):
+        return f"{self.titulo} - {self.assunto} - {self.sub_assunto}"
