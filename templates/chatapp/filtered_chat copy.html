@@ -1,0 +1,204 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Chat Chinook</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'chinook/css/style.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'assets_2/img/maple2.png' %}">
+</head>
+<body>
+    <section class="chat-section">
+        <div class="chat-container">
+            <aside class="chat-sidebar">
+                <a href="#" class="chat-sidebar-logo">
+                    <img class="ri-chat-1-fill" style="max-width: 100%;" src="{% static 'assets_2/img/maple2.png' %}" alt="Chat Icon">
+                </a>
+                <ul class="chat-sidebar-menu">
+                    <li class="active"><a href="#" data-title="Chats"><i class="ri-chat-3-line"></i></a></li>
+                    <li><a href="#" data-title="Documents"><i class="ri-folder-line"></i></a></li>
+                    <li><a href="#" data-title="Settings"><i class="ri-settings-line"></i></a></li>
+                    <li class="chat-sidebar-profile">
+                        <button type="button" class="chat-sidebar-profile-toggle">
+                            <img src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
+                        </button>
+                        <ul class="chat-sidebar-profile-dropdown">
+                            <li><a href="#"><i class="ri-user-line"></i> Profile</a></li>
+                            <li><a href="#"><i class="ri-logout-box-line"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            <div class="chat-content">
+                <div class="content-sidebar">
+                    <div class="content-sidebar-title">Chinooks</div>
+                    <form action="" class="content-sidebar-form">
+                        <input type="search" class="content-sidebar-input" placeholder="Search...">
+                        <button type="submit" class="content-sidebar-submit"><i class="ri-search-line"></i></button>
+                    </form>
+                    <div class="content-messages">
+                        <ul class="content-messages-list">
+                            <li>
+                                <a href="#" data-conversation="#conversation-1">
+                                    <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
+                                    <span class="content-message-info">
+                                        <span class="content-message-name">Chinook SAF</span>
+                                    </span>
+                                    <span class="content-message-more"></span>
+                                </a>
+                            </li>
+                            <li class="content-message-title"><span>Recently</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="conversation conversation-default conversation-item2 active">
+                    <i class="ri-chat-3-line" style="color: var(--red-400);"></i>
+                    <p style="color: var(--red-400);">Selecione um Chinook para começar!</p>
+                </div>
+                <div class="conversation" id="conversation-1" style="display:none;">
+                    <div class="conversation-top">
+                        <div class="conversation-user">
+                            <img class="conversation-user-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
+                            <div>
+                                <div class="conversation-user-name">Chinook SAF</div>
+                                <div class="conversation-user-status online">online</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="conversation-main" id="chat-box">
+                        <ul class="conversation-wrapper"></ul>
+                    </div>
+                    <div class="conversation-form">
+                        <div class="conversation-form-group">
+                            <textarea id="message" class="conversation-form-input" rows="1" placeholder="Digite aqui..." required></textarea>
+                        </div>
+                        <button type="submit" id="send-button" class="conversation-form-button conversation-form-submit"><i class="ri-send-plane-2-line"></i></button>
+                    </div>
+                </div>
+                <form id="school-selection-form">
+                    <label for="school-select">Selecione uma escola:</label>
+                    <select id="school-select" name="school">
+                        {% for school in schools %}
+                            <option value="{{ school.id_escola }}">{{ school.nome_da_escola }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="button" onclick="startChat()">Iniciar Chat</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('conversation-1');
+            const messageInput = document.getElementById('message');
+            const chatBox = document.getElementById('chat-box');
+            const sendButton = document.getElementById('send-button');
+
+            sendButton.addEventListener('click', async () => {
+                const message = messageInput.value;
+                if (message.trim() === "") return;
+
+                chatBox.innerHTML += `
+                    <li class="conversation-item me">
+                        <div class="conversation-item-side">
+                            <img class="conversation-item-image" src="{% static 'assets_2/img/maple2.png' %}" alt="">
+                        </div>
+                        <div class="conversation-item-content">
+                            <div class="conversation-item-box">
+                                <div class="conversation-item-text">
+                                    <p>${message}</p>
+                                    <div class="conversation-item-time">${new Date().toLocaleTimeString()}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                `;
+
+                messageInput.value = '';
+
+                const response = await fetch("{% url 'filtered_chat' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ message: message, school_id: window.selectedSchoolId })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    chatBox.innerHTML += `
+                        <li class="conversation-item">
+                            <div class="conversation-item-side">
+                                <img class="conversation-item-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
+                            </div>
+                            <div class="conversation-item-content">
+                                <div class="conversation-item-box">
+                                    <div class="conversation-item-text">
+                                        <p>${data.response}</p>
+                                        <div class="conversation-item-time">${new Date().toLocaleTimeString()}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    `;
+                } else {
+                    chatBox.innerHTML += `
+                        <li class="conversation-item">
+                            <div class="conversation-item-side">
+                                <img class="conversation-item-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
+                            </div>
+                            <div class="conversation-item-content">
+                                <div class="conversation-item-box">
+                                    <div class="conversation-item-text">
+                                        <p>Erro: ${data.error}</p>
+                                        <div class="conversation-item-time">${new Date().toLocaleTimeString()}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    `;
+                }
+
+                chatBox.scrollTop = chatBox.scrollHeight;
+            });
+
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendButton.click();
+                }
+            });
+
+            window.startChat = function() {
+                const schoolId = document.getElementById('school-select').value;
+                window.selectedSchoolId = schoolId;
+                document.getElementById('school-selection-form').style.display = 'none';
+                document.getElementById('conversation-1').style.display = 'block';
+            }
+        });
+    </script>
+    <script src="{% static 'chinook/js/script.js' %}"></script>
+    <script>
+        window.STATIC_URL = "{% static '' %}";
+    </script>
+</body>
+</html>
