@@ -7,6 +7,7 @@ from .views import (
     filtered_chat_view,
     import_vendas_slm_2024,
     download_excel_report_slm_2024,
+    simple_chat_view,
 )
 
 urlpatterns = [
@@ -23,4 +24,5 @@ urlpatterns = [
         download_excel_report_slm_2024,
         name="download_excel_report",
     ),
+    path("simple_chat/", simple_chat_view, name="simple_chat"),
 ]

@@ -69,7 +69,7 @@
                   <a href="#" data-conversation="#conversation-2">
                     <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                     <span class="content-message-info">
-                      <span class="content-message-name">Chinook NPS</span>
+                      <span class="content-message-name">Chinook Central</span>
                     </span>
                   </a>
                 </li>
@@ -120,7 +120,7 @@
               <div class="conversation-user">
                 <img class="conversation-user-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                 <div>
-                  <div class="conversation-user-name">Chinook NPS</div>
+                  <div class="conversation-user-name">Chinook Central</div>
                   <div class="conversation-user-status online">online</div>
                 </div>
               </div>
@@ -292,7 +292,7 @@
           messageInput2.value = '';
 
           // Envia a mensagem para o servidor
-          const response = await fetch("{% url 'chat' %}", {
+          const response = await fetch("{% url 'simple_chat' %}", {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

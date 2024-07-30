@@ -247,7 +247,7 @@ def config_chat_rh(prompt, context=""):
     return formatted_response
 
 
-################################ CHAT CENTRAL########################################
+################################ CHAT SAF########################################
 def classify_question_chat_central(prompt):
     response = openai.ChatCompletion.create(
         model="gpt-4-turbo",
@@ -276,6 +276,58 @@ def config_chat_central(prompt, context=""):
             {
                 "role": "system",
                 "content": "Você é o assistente Chinook da Empresa Maple Bear auxiliando na informações das escolas e na resposta de perguntas dos funcionários. Observação importante: sempre que for realizar listagem, um resumo, uma tabela ou fazer uma lista colocar esses 3 símbolos ### antes de cada tópico e formate todos os links utilizando Markdown da seguinte forma: [texto do link](URL).",
+            },
+            {"role": "user", "content": f"Contexto:\n{context}"},
+            {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
+        ],
+        max_tokens=2050,
+    )
+    print(f"Total tokens usados: {response['usage']['total_tokens']}")
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+
+    # Formatações adicionais
+    formatted_response = re.sub(r"###", "<br>", formatted_response)
+    formatted_response = re.sub(r"####", "<br>", formatted_response)
+
+    formatted_response = re.sub(
+        r"\*\*(.*?)\*\*",
+        r"<span style='font-weight: bold;'>\1</span>",
+        formatted_response,
+    )
+    formatted_response = re.sub(
+        r"\*(.*?)\*",
+        r"<span style='font-weight: bold;'>\1</span>",
+        formatted_response,
+    )
+    formatted_response = re.sub(
+        r"\[(.*?)\]\((.*?)\)",
+        r'<a href="\2" target="_blank">\1</a>',
+        formatted_response,
+    )
+    formatted_response = re.sub(
+        r'(?<!")\b(https?://[^\s]+)\b(?!")',
+        r'<a href="\1" target="_blank">\1</a>',
+        formatted_response,
+    )
+
+    return formatted_response
+
+
+############################################# CHAT CENTRAL###########################################################
+
+
+def config_simple_chat(prompt, context=""):
+    if not context:
+        context = "No relevant information found in the database."
+    if not prompt:
+        prompt = "No question provided."
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é o assistente simples da Empresa Maple Bear auxiliando na informações das escolas e na resposta de perguntas dos funcionários. Observação importante: sempre que for realizar listagem, um resumo, uma tabela ou fazer uma lista colocar esses 3 símbolos ### antes de cada tópico e formate todos os links utilizando Markdown da seguinte forma: [texto do link](URL).",
             },
             {"role": "user", "content": f"Contexto:\n{context}"},
             {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
