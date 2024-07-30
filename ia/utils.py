@@ -286,8 +286,9 @@ def config_chat_central(prompt, context=""):
     formatted_response = response["choices"][0]["message"]["content"].strip()
 
     # Formatações adicionais
-    formatted_response = re.sub(r"\+\+\+", "<br>", formatted_response)
     formatted_response = re.sub(r"###", "<br>", formatted_response)
+    formatted_response = re.sub(r"####", "<br>", formatted_response)
+
     formatted_response = re.sub(
         r"\*\*(.*?)\*\*",
         r"<span style='font-weight: bold;'>\1</span>",
