@@ -82,8 +82,8 @@ WSGI_APPLICATION = "projeto_maple.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "mb_chinook",
-        "USER": "sa",
+        "NAME": "mb_chinook_ia",
+        "USER": "sa4",
         "PASSWORD": "2241",
         "HOST": "localhost",
         "PORT": "5432",

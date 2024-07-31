@@ -250,7 +250,7 @@ def config_chat_rh(prompt, context=""):
 ################################ CHAT SAF########################################
 def classify_question_chat_central(prompt):
     response = openai.ChatCompletion.create(
-        model="gpt-4-turbo",
+        model="gpt-4o",
         messages=[
             {
                 "role": "system",
