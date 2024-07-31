@@ -296,17 +296,26 @@ def filtered_chat_view(request):
         school_id = data.get("school_id")
         message = data.get("message")
 
+        print("Received POST request")
+        print(f"School ID: {school_id}")
+        print(f"Message: {message}")
+
         if not school_id:
+            print("Error: School ID not provided")
             return JsonResponse({"error": "School ID not provided"}, status=400)
 
         try:
             school = CRM_FUI.objects.get(id_escola=school_id)
+            print(f"School found: {school.nome_da_escola}")
         except CRM_FUI.DoesNotExist:
+            print("Error: School not found")
             return JsonResponse({"error": "School not found"}, status=404)
 
         question_type = classify_question_chat_central(message)
+        print(f"Question type: {question_type}")
 
         if question_type == "nps":
+            print("Handling NPS category")
             nps_responses = (
                 Respostas_NPS.objects.filter(escola__id_escola=school_id)
                 .exclude(comentario__isnull=True)
@@ -322,14 +331,17 @@ def filtered_chat_view(request):
                     f"As notas variam de 1 a 5, exceto para a pergunta de recomendação, que varia de 0 a 10.\n"
                     f"Comentário: {response.comentario}\n\n"
                 )
-        elif question_type in ["vendas", "relatório de vendas"]:
+            print("NPS context generated")
+        elif question_type == "relatório de vendas":
+            print("Handling relatório de vendas category")
             vendas_responses = Vendas_SLM_2024.objects.filter(
                 escola__id_escola=school_id
             )
             total_vendas = vendas_responses.count()
             context = f"O total de vendas da escola foi {total_vendas}. Para outras informações, você pode ver o relatório completo em Excel clicando [aqui](/download_excel_report/?school_id={school_id})."
-        else:
-            # Adicionar lógica para base de conhecimento
+            print("Relatório de vendas context generated")
+        elif question_type == "conhecimento":
+            print("Handling conhecimento category")
             knowledge_base_entries = Base_de_Conhecimento.objects.filter(
                 assunto__icontains=message
             )
@@ -342,48 +354,56 @@ def filtered_chat_view(request):
                         f"Sub Assunto: {entry.sub_assunto}\n"
                         f"Texto: {entry.texto}\n\n"
                     )
+                print("Conhecimento context generated")
             else:
-                context = (
-                    f"Nome da Escola: {school.nome_da_escola}\n"
-                    f"CNPJ: {school.CNPJ}\n"
-                    f"Status: {school.status_da_escola}\n"
-                    f"SLMs Vendidos: {school.slms_vendidos} - SLM ou SLMs no plural são os materiais vendidos.\n"
-                    f"Meta: {school.meta} - Esse campo é a meta de Vendas de SLM vendidos.\n"
-                    f"Cluster: {school.cluster}\n"
-                    f"Endereço: {school.endereco}\n"
-                    f"CEP: {school.cep_escola}\n"
-                    f"Bairro: {school.bairro_escola}\n"
-                    f"Cidade: {school.cidade_da_escola}\n"
-                    f"Estado: {school.estado_da_escola}\n"
-                    f"Região: {school.regiao_da_escola}\n"
-                    f"Telefone: {school.telefone_de_contato_da_escola}\n"
-                    f"Email: {school.email_da_escola}\n"
-                    f"Segmento: {school.segmento_da_escola}\n"
-                    f"Atual Série: {school.atual_serie}\n"
-                    f"Avanço Segmento: {school.avanco_segmento}\n"
-                    f"NPS Pais 2024 - 1° Onda: {school.nps_pais_2024_1_onda} - "
-                    f"Este campo indica a pontuação referente ao NPS(Net Promoter Score) dos pais dos alunos que estudam na escola, que foi realizado no 1° semestre no ano(1° Onda).\n"
-                    f"Cliente Oculto 2024: {school.cliente_oculto_2024} - "
-                    f"Este campo indica a pontuação referente ao Cliente Oculto, que uma avaliação realizada por uma empresa terceirizada onde consiste em um falso cliente ir até a escola para avaliar ela.\n"
-                    f"Quality Assurance 2024: {school.quality_assurance_2024} - "
-                    f"Este campo indica a pontuação referente Quality Assurance uma avaliação realizada para ver a qualidade da escola.\n"
-                    f"Status de Adimplência/Inadimplência: {school.status_de_adimplencia} - "
-                    f"Este campo indica se a escola está Adimplente ou Inadimplente referente aos seus pagamentos que devem ser feitos à franqueada Maple Bear.\n"
-                    f"Ticket Médio: {school.ticket_medio} - Este é o valor médio de mensalidade cobrada pela escola.\n"
-                )
+                context = "Nenhuma informação relevante encontrada na base de conhecimento."
+                print("No relevant knowledge base entries found")
+        else:  # Categoria CRM
+            print("Handling CRM category")
+            context = (
+                f"Nome da Escola: {school.nome_da_escola}\n"
+                f"CNPJ: {school.CNPJ}\n"
+                f"Status: {school.status_da_escola}\n"
+                f"SLMs Vendidos: {school.slms_vendidos} - SLM ou SLMs no plural são os materiais vendidos.\n"
+                f"Meta: {school.meta} - Esse campo é a meta de Vendas de SLM vendidos.\n"
+                f"Cluster: {school.cluster}\n"
+                f"Endereço: {school.endereco}\n"
+                f"CEP: {school.cep_escola}\n"
+                f"Bairro: {school.bairro_escola}\n"
+                f"Cidade: {school.cidade_da_escola}\n"
+                f"Estado: {school.estado_da_escola}\n"
+                f"Região: {school.regiao_da_escola}\n"
+                f"Telefone: {school.telefone_de_contato_da_escola}\n"
+                f"Email: {school.email_da_escola}\n"
+                f"Segmento: {school.segmento_da_escola}\n"
+                f"Atual Série: {school.atual_serie}\n"
+                f"Avanço Segmento: {school.avanco_segmento}\n"
+                f"NPS Pais 2024 - 1° Onda: {school.nps_pais_2024_1_onda} - "
+                f"Este campo indica a pontuação referente ao NPS(Net Promoter Score) dos pais dos alunos que estudam na escola, que foi realizado no 1° semestre no ano(1° Onda).\n"
+                f"Cliente Oculto 2024: {school.cliente_oculto_2024} - "
+                f"Este campo indica a pontuação referente ao Cliente Oculto, que uma avaliação realizada por uma empresa terceirizada onde consiste em um falso cliente ir até a escola para avaliar ela.\n"
+                f"Quality Assurance 2024: {school.quality_assurance_2024} - "
+                f"Este campo indica a pontuação referente Quality Assurance uma avaliação realizada para ver a qualidade da escola.\n"
+                f"Status de Adimplência/Inadimplência: {school.status_de_adimplencia} - "
+                f"Este campo indica se a escola está Adimplente ou Inadimplente referente aos seus pagamentos que devem ser feitos à franqueada Maple Bear.\n"
+                f"Ticket Médio: {school.ticket_medio} - Este é o valor médio de mensalidade cobrada pela escola.\n"
+            )
 
-                if school.status_de_adimplencia == "Inadimplente":
-                    context += f"Inadimplência: {school.inadimplencia} - Este é o valor que a escola está devendo para a Maple Bear.\n"
+            if school.status_de_adimplencia == "Inadimplente":
+                context += f"Inadimplência: {school.inadimplencia} - Este é o valor que a escola está devendo para a Maple Bear.\n"
 
-                context += (
-                    f"Consultor Comercial: {school.consultor_comercial}\n"
-                    f"Consultor Gestão Escolar: {school.consultor_gestao_escolar}\n"
-                )
+            context += (
+                f"Consultor Comercial: {school.consultor_comercial}\n"
+                f"Consultor Gestão Escolar: {school.consultor_gestao_escolar}\n"
+            )
+            print("CRM context generated")
 
         response = config_chat_central(message, context)
+        print("Response generated")
 
         return JsonResponse({"response": response})
     else:
+        print("Received GET request")
         schools = CRM_FUI.objects.all().order_by(
             "nome_da_escola"
         )  # Ordenar alfabeticamente

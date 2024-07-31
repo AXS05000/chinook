@@ -250,17 +250,19 @@ def config_chat_rh(prompt, context=""):
 ################################ CHAT SAF########################################
 def classify_question_chat_central(prompt):
     response = openai.ChatCompletion.create(
-        model="gpt-4o",
+        model="gpt-4-turbo",
         messages=[
             {
                 "role": "system",
-                "content": "Você é um assistente útil que classifica perguntas sobre escolas em categorias: 'informações gerais', 'NPS', 'vendas', 'relatório de vendas', 'base de conhecimento'. Responda apenas com a categoria apropriada. Se você não conseguir categorizar a pergunta, responda com 'base de conhecimento'.",
+                "content": "Você é um assistente útil que classifica perguntas em categorias: 'crm', 'nps', 'relatório de vendas', 'conhecimento'. Responda apenas com a categoria apropriada. Se você não conseguir categorizar a pergunta, responda com 'conhecimento'.",
             },
             {"role": "user", "content": prompt},
         ],
         max_tokens=20,
     )
     category = response["choices"][0]["message"]["content"].strip().lower()
+    print(f"Classified question category: {category}")
+    print(f"Total tokens usados: {response['usage']['total_tokens']}")
     return category
 
 
@@ -275,7 +277,7 @@ def config_chat_central(prompt, context=""):
         messages=[
             {
                 "role": "system",
-                "content": "Você é o assistente Chinook da Empresa Maple Bear auxiliando na informações das escolas e na resposta de perguntas dos funcionários. Observação importante: sempre que for realizar listagem, um resumo, uma tabela ou fazer uma lista colocar esses 3 símbolos ### antes de cada tópico e formate todos os links utilizando Markdown da seguinte forma: [texto do link](URL).",
+                "content": "Você é o assistente Chinook da Empresa Maple Bear auxiliando na informações e na resposta de perguntas dos funcionários. Observação importante: sempre que for realizar listagem, um resumo, uma tabela ou fazer uma lista colocar esses 3 símbolos ### antes de cada tópico e formate todos os links utilizando Markdown da seguinte forma: [texto do link](URL).",
             },
             {"role": "user", "content": f"Contexto:\n{context}"},
             {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
@@ -311,8 +313,6 @@ def config_chat_central(prompt, context=""):
     )
 
     return formatted_response
-
-
 ############################################# CHAT CENTRAL###########################################################
 
 
