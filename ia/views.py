@@ -287,8 +287,9 @@ def generate_excel_report(vendas):
     )
     response["Content-Disposition"] = 'attachment; filename="vendas_slm_2024.xlsx"'
     df.to_excel(response, index=False)
-    return response
 
+
+    return response
 
 def filtered_chat_view(request):
     if request.method == "POST":
@@ -296,33 +297,34 @@ def filtered_chat_view(request):
         school_id = data.get("school_id")
         message = data.get("message")
 
-        print("Received POST request")
-        print(f"School ID: {school_id}")
-        print(f"Message: {message}")
+        print("Recebido POST request")
+        print(f"ID da escola: {school_id}")
+        print(f"Mensagem: {message}")
 
         if not school_id:
-            print("Error: School ID not provided")
+            print("Erro: ID da escola não fornecido")
             return JsonResponse({"error": "School ID not provided"}, status=400)
 
         try:
             school = CRM_FUI.objects.get(id_escola=school_id)
-            print(f"School found: {school.nome_da_escola}")
+            print(f"Escola encontrada: {school.nome_da_escola}")
         except CRM_FUI.DoesNotExist:
-            print("Error: School not found")
+            print("Erro: Escola não encontrada")
             return JsonResponse({"error": "School not found"}, status=404)
 
         question_type = classify_question_chat_central(message)
-        print(f"Question type: {question_type}")
+        print(f"Tipo de pergunta: {question_type}")
+
+        context = ""
 
         if question_type == "nps":
-            print("Handling NPS category")
+            print("Lidando com categoria NPS")
             nps_responses = (
                 Respostas_NPS.objects.filter(escola__id_escola=school_id)
                 .exclude(comentario__isnull=True)
                 .exclude(comentario__exact="")
                 .exclude(comentario__exact="nan")
             )
-            context = ""
             for response in nps_responses:
                 context += (
                     f"Nome do respondente: {response.nome}\n"
@@ -331,35 +333,28 @@ def filtered_chat_view(request):
                     f"As notas variam de 1 a 5, exceto para a pergunta de recomendação, que varia de 0 a 10.\n"
                     f"Comentário: {response.comentario}\n\n"
                 )
-            print("NPS context generated")
+            print("Contexto NPS gerado")
         elif question_type == "relatório de vendas":
-            print("Handling relatório de vendas category")
+            print("Lidando com categoria relatório de vendas")
             vendas_responses = Vendas_SLM_2024.objects.filter(
                 escola__id_escola=school_id
             )
             total_vendas = vendas_responses.count()
             context = f"O total de vendas da escola foi {total_vendas}. Para outras informações, você pode ver o relatório completo em Excel clicando [aqui](/download_excel_report/?school_id={school_id})."
-            print("Relatório de vendas context generated")
+            print("Contexto de relatório de vendas gerado")
         elif question_type == "conhecimento":
-            print("Handling conhecimento category")
-            knowledge_base_entries = Base_de_Conhecimento.objects.filter(
-                assunto__icontains=message
-            )
+            print("Lidando com categoria conhecimento")
+            knowledge_base_entries = Base_de_Conhecimento.objects.all()
             if knowledge_base_entries.exists():
                 context = ""
                 for entry in knowledge_base_entries:
-                    context += (
-                        f"Título: {entry.titulo}\n"
-                        f"Assunto: {entry.assunto}\n"
-                        f"Sub Assunto: {entry.sub_assunto}\n"
-                        f"Texto: {entry.texto}\n\n"
-                    )
-                print("Conhecimento context generated")
+                    context += f"Sub Assunto: {entry.sub_assunto}\nTexto: {entry.texto}\n\n"
+                print("Contexto de conhecimento gerado")
             else:
                 context = "Nenhuma informação relevante encontrada na base de conhecimento."
-                print("No relevant knowledge base entries found")
+                print("Nenhuma entrada relevante encontrada na base de conhecimento")
         else:  # Categoria CRM
-            print("Handling CRM category")
+            print("Lidando com categoria CRM")
             context = (
                 f"Nome da Escola: {school.nome_da_escola}\n"
                 f"CNPJ: {school.CNPJ}\n"
@@ -396,14 +391,14 @@ def filtered_chat_view(request):
                 f"Consultor Comercial: {school.consultor_comercial}\n"
                 f"Consultor Gestão Escolar: {school.consultor_gestao_escolar}\n"
             )
-            print("CRM context generated")
+            print("Contexto CRM gerado")
 
-        response = config_chat_central(message, context)
-        print("Response generated")
+        response = config_chat_central(message, context, question_type)
+        print("Resposta gerada")
 
         return JsonResponse({"response": response})
     else:
-        print("Received GET request")
+        print("Recebido GET request")
         schools = CRM_FUI.objects.all().order_by(
             "nome_da_escola"
         )  # Ordenar alfabeticamente

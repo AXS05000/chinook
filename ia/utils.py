@@ -248,6 +248,7 @@ def config_chat_rh(prompt, context=""):
 
 
 ################################ CHAT SAF########################################
+
 def classify_question_chat_central(prompt):
     response = openai.ChatCompletion.create(
         model="gpt-4-turbo",
@@ -261,56 +262,58 @@ def classify_question_chat_central(prompt):
         max_tokens=20,
     )
     category = response["choices"][0]["message"]["content"].strip().lower()
-    print(f"Classified question category: {category}")
-    print(f"Total tokens usados: {response['usage']['total_tokens']}")
+    print(f"Categoria de pergunta classificada: {category}")
+    print(f"Total de tokens usados: {response['usage']['total_tokens']}")
     return category
 
 
-def config_chat_central(prompt, context=""):
+def config_chat_central(prompt, context="", category=""):
     if not context:
-        context = "No relevant information found in the database."
+        context = "Nenhuma informação relevante encontrada no banco de dados."
     if not prompt:
-        prompt = "No question provided."
+        prompt = "Nenhuma pergunta fornecida."
 
-    response = openai.ChatCompletion.create(
-        model="gpt-4-turbo",
-        messages=[
-            {
-                "role": "system",
-                "content": "Você é o assistente Chinook da Empresa Maple Bear auxiliando na informações e na resposta de perguntas dos funcionários. Observação importante: sempre que for realizar listagem, um resumo, uma tabela ou fazer uma lista colocar esses 3 símbolos ### antes de cada tópico e formate todos os links utilizando Markdown da seguinte forma: [texto do link](URL).",
-            },
-            {"role": "user", "content": f"Contexto:\n{context}"},
-            {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
-        ],
-        max_tokens=2050,
-    )
-    print(f"Total tokens usados: {response['usage']['total_tokens']}")
-    formatted_response = response["choices"][0]["message"]["content"].strip()
+    if category == "conhecimento":
+        print("Respondendo apenas com o contexto da base de conhecimento")
+        response = openai.ChatCompletion.create(
+            model="gpt-4-turbo",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "Você é o assistente Chinook da Empresa Maple Bear auxiliando na informações e na resposta de perguntas dos funcionários. Observação importante: sempre que for realizar listagem, um resumo, uma tabela ou fazer uma lista colocar esses 3 símbolos ### antes de cada tópico e formate todos os links utilizando Markdown da seguinte forma: [texto do link](URL).",
+                },
+                {"role": "user", "content": f"Contexto:\n{context}"},
+                {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
+            ],
+            max_tokens=2050,
+        )
+        print(f"Total de tokens usados: {response['usage']['total_tokens']}")
+        formatted_response = response["choices"][0]["message"]["content"].strip()
 
-    # Formatações adicionais
-    formatted_response = re.sub(r"###", "<br>", formatted_response)
-    formatted_response = re.sub(r"####", "<br>", formatted_response)
+        # Formatações adicionais
+        formatted_response = re.sub(r"###", "<br>", formatted_response)
+        formatted_response = re.sub(r"####", "<br>", formatted_response)
 
-    formatted_response = re.sub(
-        r"\*\*(.*?)\*\*",
-        r"<span style='font-weight: bold;'>\1</span>",
-        formatted_response,
-    )
-    formatted_response = re.sub(
-        r"\*(.*?)\*",
-        r"<span style='font-weight: bold;'>\1</span>",
-        formatted_response,
-    )
-    formatted_response = re.sub(
-        r"\[(.*?)\]\((.*?)\)",
-        r'<a href="\2" target="_blank">\1</a>',
-        formatted_response,
-    )
-    formatted_response = re.sub(
-        r'(?<!")\b(https?://[^\s]+)\b(?!")',
-        r'<a href="\1" target="_blank">\1</a>',
-        formatted_response,
-    )
+        formatted_response = re.sub(
+            r"\*\*(.*?)\*\*",
+            r"<span style='font-weight: bold;'>\1</span>",
+            formatted_response,
+        )
+        formatted_response = re.sub(
+            r"\*(.*?)\*",
+            r"<span style='font-weight: bold;'>\1</span>",
+            formatted_response,
+        )
+        formatted_response = re.sub(
+            r"\[(.*?)\]\((.*?)\)",
+            r'<a href="\2" target="_blank">\1</a>',
+            formatted_response,
+        )
+        formatted_response = re.sub(
+            r'(?<!")\b(https?://[^\s]+)\b(?!")',
+            r'<a href="\1" target="_blank">\1</a>',
+            formatted_response,
+        )
 
     return formatted_response
 ############################################# CHAT CENTRAL###########################################################
