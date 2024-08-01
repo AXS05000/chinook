@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import (
     Informacao,
@@ -149,7 +150,7 @@ def hr_assistant_view(request):
 
 ################################################# IMPORTAR FUI######################################################
 
-
+# @login_required(login_url='/login/')
 def import_crm_fui(request):
     if request.method == "POST":
         file = request.FILES["file"]
@@ -199,7 +200,7 @@ def import_crm_fui(request):
 
 ################################################# IMPORTAR RESPOSTA######################################################
 
-
+# @login_required(login_url='/login/')
 def import_resposta(request):
     if request.method == "POST":
         file = request.FILES["file"]
@@ -233,7 +234,7 @@ def import_resposta(request):
 
 ################################################# IMPORTAR VENDAS 2024######################################################
 
-
+# @login_required(login_url='/login/')
 def import_vendas_slm_2024(request):
     if request.method == "POST":
         file = request.FILES.get("file")
@@ -291,6 +292,7 @@ def generate_excel_report(vendas):
 
     return response
 
+# @login_required(login_url='/login/')
 def filtered_chat_view(request):
     if request.method == "POST":
         data = json.loads(request.body)
