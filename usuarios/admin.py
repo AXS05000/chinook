@@ -20,7 +20,6 @@ class CustomUsuarioChangeForm(UserChangeForm):
         model = CustomUsuario
         fields = UserChangeForm.Meta.fields
 
-
 @admin.register(CustomUsuario)
 class CustomUsuarioAdmin(UserAdmin):
     add_form = CustomUsuarioCreateForm
@@ -28,17 +27,15 @@ class CustomUsuarioAdmin(UserAdmin):
     model = CustomUsuario
     list_display = ('first_name', 'last_name', 'email', 'fone', 'is_staff')
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
-        ('Informações Pessoais', {
-         'fields': ('first_name', 'last_name', 'fone')}),
-        ('Permissões', {'fields': ('is_active', 'is_staff',
-         'is_superuser', 'groups', 'user_permissions')}),
+        (None, {'fields': ('email', 'password', 'api_key')}),
+        ('Informações Pessoais', {'fields': ('first_name', 'last_name', 'fone')}),
+        ('Permissões', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Datas Importantes', {'fields': ('last_login', 'date_joined')}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'username', 'first_name', 'last_name', 'password1', 'password2'),
+            'fields': ('email', 'username', 'first_name', 'last_name', 'password1', 'password2', 'api_key'),
         }),
     )
     search_fields = ('email', 'first_name', 'last_name')

@@ -104,10 +104,16 @@ def hr_assistant_view(request):
         try:
             data = json.loads(request.body)
             user_message = data.get("message", "").lower()
+            user = request.user
+
+            if not user.api_key:
+                return JsonResponse({"error": "Usuário não possui chave API válida"}, status=403)
+
+            api_key = user.api_key
             context = ""
 
             # Classificar a pergunta do usuário
-            tipo_informacao = classify_question(user_message)
+            tipo_informacao = classify_question(user_message, api_key)
 
             # Definir os modelos a serem verificados
             modelos = {
@@ -123,13 +129,13 @@ def hr_assistant_view(request):
                 informacoes = modelo.objects.all()
                 if informacoes.exists():
                     context = informacoes.first().descricao
-                    response = config_chat_rh(user_message, context)
+                    response = config_chat_rh(user_message, api_key, context)
                 else:
                     context = f"No relevant information found for {tipo_informacao} in the database."
-                    response = config_chat_rh(user_message, context)
+                    response = config_chat_rh(user_message, api_key, context)
             else:
                 context = f"No relevant information found for {tipo_informacao} in the database."
-                response = config_chat_rh(user_message, context)
+                response = config_chat_rh(user_message, api_key, context)
 
             # Se a resposta não for satisfatória ou não houver informações, buscar em todas as categorias
             if "No relevant information found" in context or not context:
@@ -140,13 +146,12 @@ def hr_assistant_view(request):
                         context_list.append(informacoes.first().descricao)
                 if context_list:
                     context = "\n".join(context_list)
-                    response = config_chat_rh(user_message, context)
+                    response = config_chat_rh(user_message, api_key, context)
 
             return JsonResponse({"response": response})
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON"}, status=400)
     return render(request, "chatapp/hr_chat.html")
-
 
 ################################################# IMPORTAR FUI######################################################
 
@@ -292,12 +297,21 @@ def generate_excel_report(vendas):
 
     return response
 
+
+
 # @login_required(login_url='/login/')
 def filtered_chat_view(request):
     if request.method == "POST":
         data = json.loads(request.body)
         school_id = data.get("school_id")
         message = data.get("message")
+
+        user = request.user
+
+        if not user.api_key:
+            return JsonResponse({"error": "Usuário não possui chave API válida"}, status=403)
+
+        api_key = user.api_key
 
         print("Recebido POST request")
         print(f"ID da escola: {school_id}")
@@ -314,7 +328,7 @@ def filtered_chat_view(request):
             print("Erro: Escola não encontrada")
             return JsonResponse({"error": "School not found"}, status=404)
 
-        question_type = classify_question_chat_central(message)
+        question_type = classify_question_chat_central(message, api_key)
         print(f"Tipo de pergunta: {question_type}")
 
         if question_type == "nps":
@@ -392,7 +406,7 @@ def filtered_chat_view(request):
                     f"Consultor Gestão Escolar: {school.consultor_gestao_escolar}\n"
                 )
 
-        response = config_chat_central(message, context)
+        response = config_chat_central(message, api_key, context)
 
         return JsonResponse({"response": response})
     else:
