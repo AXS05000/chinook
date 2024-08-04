@@ -78,7 +78,7 @@ class CRM_FUI(models.Model):
     slms_vendidos_25 = models.IntegerField(
         null=True, blank=True, verbose_name="SLM Vendidos 2025"
     )
-    meta = models.IntegerField(null=True, blank=True, verbose_name="Meta")
+    meta = models.IntegerField(null=True, blank=True, verbose_name="Meta 2024")
     cluster = models.CharField(
         max_length=100, null=True, blank=True, verbose_name="Cluster"
     )

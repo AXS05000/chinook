@@ -6,6 +6,7 @@ from .views import (chat_view, generate_excel_report, ExcelImportView,hr_assista
     import_vendas_slm_2024,
     import_vendas_slm_2025,
     download_excel_report_slm_2024,
+    download_excel_report_slm_2025,
     simple_chat_view,
     )
 
@@ -27,6 +28,11 @@ urlpatterns = [
         "download_excel_report/",
         download_excel_report_slm_2024,
         name="download_excel_report",
+    ),
+    path(
+        "download_excel_report_25/",
+        download_excel_report_slm_2025,
+        name="download_excel_report_25",
     ),
     path("simple_chat/", simple_chat_view, name="simple_chat"),
 ]
