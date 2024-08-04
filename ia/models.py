@@ -22,6 +22,9 @@ class APIKey(models.Model):
         return self.name
 
 
+
+
+
 ########################################################################################################
 
 
@@ -170,7 +173,7 @@ class Respostas_NPS(models.Model):
         related_name="nome_escola",
         verbose_name="Nome da Escola",
     )
-    nome = models.CharField(verbose_name="Nome")
+    nome = models.CharField(verbose_name="Nome", max_length=200)
     data_da_resposta = models.DateField(verbose_name="Data da Resposta")
     questao = models.TextField(verbose_name="Questão")
     nota = models.IntegerField(verbose_name="Nota")
@@ -189,18 +192,18 @@ class Vendas_SLM_2024(models.Model):
     )
     data_do_pedido = models.DateField(verbose_name="Data do Pedido")
     quantidade = models.IntegerField(verbose_name="Quantidade Vendida")
-    nome_pais = models.CharField(verbose_name="Nomes dos Pais")
-    nome_do_aluno = models.CharField(verbose_name="Nome do Aluno")
-    numero_do_pedido = models.CharField(verbose_name="Numero do Pedido")
+    nome_pais = models.CharField(verbose_name="Nomes dos Pais", max_length=200)
+    nome_do_aluno = models.CharField(verbose_name="Nome do Aluno", max_length=200)
+    numero_do_pedido = models.CharField(verbose_name="Numero do Pedido", max_length=200)
 
     def __str__(self):
         return f"{self.numero_do_pedido} - {self.nome_pais} - {self.nome_do_aluno}"
 
 
 class Base_de_Conhecimento(models.Model):
-    titulo = models.CharField(blank=True, null=True, verbose_name="Título")
-    assunto = models.CharField(blank=True, null=True, verbose_name="Assunto")
-    sub_assunto = models.CharField(blank=True, null=True, verbose_name="Sub Assunto")
+    titulo = models.CharField(blank=True, null=True, verbose_name="Título", max_length=200)
+    assunto = models.CharField(blank=True, null=True, verbose_name="Assunto", max_length=200)
+    sub_assunto = models.CharField(blank=True, null=True, verbose_name="Sub Assunto", max_length=200)
     texto = models.TextField(blank=True, null=True, verbose_name="Texto")
 
     def __str__(self):

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
 from .models import (
+    Informacao,
     APIKey,
     Beneficio,
     FolhaPonto,
@@ -12,6 +12,8 @@ from .models import (
     Vendas_SLM_2024,
     Base_de_Conhecimento,
 )
+# Register your models here.
+admin.site.register(Informacao)
 
 admin.site.register(APIKey)
 admin.site.register(Beneficio)

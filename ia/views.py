@@ -1,10 +1,8 @@
 import json
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 from .models import (
     Informacao,
     Beneficio,
@@ -16,22 +14,67 @@ from .models import (
     Vendas_SLM_2024,
     Base_de_Conhecimento,
 )
+from django.shortcuts import render, redirect
+from django.contrib import messages
+import pandas as pd
 from .utils import (
     get_chat_response,
-    generate_excel_report,
-    classify_question_chat_central,
     calcular_nps,
-    config_chat_central,
     obter_distribuicao_nps,
-    resumo_por_pergunta,
     config_chat_rh,
     classify_question,
     config_simple_chat,
+    config_chat_central,
+    classify_question_chat_central,
 )
 import openpyxl
-import pandas as pd
 from openpyxl.utils import get_column_letter
+from django.conf import settings
 from django.views import View
+
+
+class ExcelImportView(View):
+    def get(self, request):
+        # Retorna o template de upload de arquivo
+        return render(request, "chatapp/importar_nps.html")
+
+    def post(self, request):
+        excel_file = request.FILES["excel_file"]
+
+        # Carrega o arquivo Excel na memória
+        workbook = openpyxl.load_workbook(excel_file)
+        sheet = workbook.active
+
+        # Itera sobre as linhas do arquivo Excel
+        for row in sheet.iter_rows(min_row=2, values_only=True):  # Ignora o cabeçalho
+            nome = row[0]
+            persona = row[1]
+            data_resposta = row[2]
+            unidade = row[3]
+            questao = row[4]
+            resposta = row[5]
+            comentario = row[6]
+
+            if (
+                nome
+                and persona
+                and data_resposta
+                and unidade
+                and questao
+                and resposta is not None
+            ):
+                # Cria um novo objeto Informacao
+                Informacao.objects.create(
+                    nome=nome,
+                    persona=persona,
+                    data_resposta=data_resposta,
+                    unidade=unidade,
+                    questao=questao,
+                    resposta=resposta,
+                    comentario=comentario,
+                )
+
+        return HttpResponse("Importação realizada com sucesso!")
 
 
 @csrf_exempt
@@ -95,10 +138,12 @@ def chat_view(request):
     return render(request, "chatapp/chat.html")
 
 
+
+
 ####################################################################################################################
 
-
 @csrf_exempt
+@login_required(login_url='/login/')
 def hr_assistant_view(request):
     if request.method == "POST":
         try:
@@ -155,7 +200,7 @@ def hr_assistant_view(request):
 
 ################################################# IMPORTAR FUI######################################################
 
-# @login_required(login_url='/login/')
+@login_required(login_url='/login/')
 def import_crm_fui(request):
     if request.method == "POST":
         file = request.FILES["file"]
@@ -205,7 +250,8 @@ def import_crm_fui(request):
 
 ################################################# IMPORTAR RESPOSTA######################################################
 
-# @login_required(login_url='/login/')
+
+@login_required(login_url='/login/')
 def import_resposta(request):
     if request.method == "POST":
         file = request.FILES["file"]
@@ -217,15 +263,13 @@ def import_resposta(request):
         for _, row in df.iterrows():
             try:
                 escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
-                Respostas_NPS.objects.update_or_create(
+                Respostas_NPS.objects.create(
                     escola=escola,
                     nome=row["nome"],
                     data_da_resposta=row["data_da_resposta"],
                     questao=row["questao"],
                     nota=row["nota"],
-                    defaults={
-                        "comentario": row["comentario"],
-                    },
+                    comentario=row["comentario"]
                 )
             except CRM_FUI.DoesNotExist:
                 messages.error(
@@ -239,7 +283,8 @@ def import_resposta(request):
 
 ################################################# IMPORTAR VENDAS 2024######################################################
 
-# @login_required(login_url='/login/')
+
+@login_required(login_url='/login/')
 def import_vendas_slm_2024(request):
     if request.method == "POST":
         file = request.FILES.get("file")
@@ -256,15 +301,13 @@ def import_vendas_slm_2024(request):
         for _, row in df.iterrows():
             try:
                 escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
-                Vendas_SLM_2024.objects.update_or_create(
+                Vendas_SLM_2024.objects.create(
                     escola=escola,
                     numero_do_pedido=row["numero_do_pedido"],
                     nome_pais=row["nome_pais"],
                     nome_do_aluno=row["nome_do_aluno"],
-                    defaults={
-                        "data_do_pedido": row["data_do_pedido"],
-                        "quantidade": row["quantidade"],
-                    },
+                    data_do_pedido=row["data_do_pedido"],
+                    quantidade=row["quantidade"],
                 )
             except CRM_FUI.DoesNotExist:
                 messages.error(
@@ -282,7 +325,6 @@ def import_vendas_slm_2024(request):
         return redirect("import_vendas_slm_2024")
     return render(request, "chatapp/import/import_vendas_slm_2024.html")
 
-
 ############################################# CHAT SAF###########################################################
 
 
@@ -297,9 +339,7 @@ def generate_excel_report(vendas):
 
     return response
 
-
-
-# @login_required(login_url='/login/')
+@login_required(login_url='/login/')
 def filtered_chat_view(request):
     if request.method == "POST":
         data = json.loads(request.body)

@@ -7,9 +7,14 @@ import re
 from django.db.models import Q
 from django.db import models
 from collections import Counter
-from .models import CRM_FUI
 
+import openai
+from ia.api_key_loader import get_api_key
 
+# Obter a chave da API do banco de dados
+openai_api_key = get_api_key("OpenAI")
+
+openai.api_key = openai_api_key
 
 
 ## model="gpt-4o" - Modelo mais rapido e inteligente - 30 000 TPM
@@ -18,19 +23,15 @@ from .models import CRM_FUI
 ## model="gpt-3.5-turbo" - Modelo menos inteligente - 60 000 TPM
 
 
-
-def get_chat_response(prompt, api_key, context=""):
+def get_chat_response(prompt, context=""):
     if not context:
         context = "No relevant information found in the database."
     if not prompt:
         prompt = "No question provided."
 
-    # Configure a chave da API do OpenAI dinamicamente
-    openai.api_key = api_key
-
     # Enviar uma mensagem clara e estruturada para a API
     response = openai.ChatCompletion.create(
-        model="gpt-4",
+        model="gpt-4-turbo",
         messages=[
             {
                 "role": "system",
@@ -59,7 +60,6 @@ def get_chat_response(prompt, api_key, context=""):
 
     return formatted_response
 
-# Outras funções permanecem as mesmas
 
 def calcular_nps(informacoes):
     nps_responses = informacoes.filter(
@@ -77,6 +77,7 @@ def calcular_nps(informacoes):
 
     return nps
 
+
 def obter_distribuicao_nps(informacoes):
     nps_responses = informacoes.filter(
         questao="Em uma escala de 0 a 10, o quanto você recomendaria a escola para um amigo ou familiar?"
@@ -86,6 +87,7 @@ def obter_distribuicao_nps(informacoes):
     detratores = nps_responses.filter(resposta__lte=6).count()
 
     return promotores, neutros, detratores
+
 
 def calculate_nps(
     informacoes, suposicao_promotores=0, suposicao_neutros=0, suposicao_detratores=0
@@ -107,6 +109,7 @@ def calculate_nps(
 
     nps = percentual_promotores - percentual_detratores
     return nps
+
 
 def generate_excel_report(informacoes):
     wb = openpyxl.Workbook()
@@ -146,10 +149,12 @@ def generate_excel_report(informacoes):
 
     return settings.MEDIA_URL + file_name
 
+
 def respostas_por_dia(informacoes):
     datas = [info.data_resposta for info in informacoes]
     contagem = Counter(datas)
     return contagem
+
 
 def resumo_por_pergunta(informacoes):
     perguntas = informacoes.values_list("questao", flat=True).distinct()
@@ -172,7 +177,10 @@ def resumo_por_pergunta(informacoes):
         }
     return resumo
 
+
 ##############################################################################################
+
+
 
 def classify_question(prompt, api_key):
     openai.api_key = api_key
@@ -243,6 +251,8 @@ def config_chat_rh(prompt, api_key, context=""):
     return formatted_response
 
 
+
+
 ################################ CHAT SAF########################################
 
 def classify_question_chat_central(prompt, api_key):
@@ -310,9 +320,6 @@ def config_chat_central(prompt, api_key, context=""):
     )
 
     return formatted_response
-
-
-
 ############################################# CHAT CENTRAL###########################################################
 
 
