@@ -12,8 +12,10 @@ from .models import (
     CRM_FUI,
     Respostas_NPS,
     Vendas_SLM_2024,
+    Vendas_SLM_2025,
     Base_de_Conhecimento,
 )
+from django.db import transaction
 from django.shortcuts import render, redirect
 from django.contrib import messages
 import pandas as pd
@@ -217,30 +219,36 @@ def import_crm_fui(request):
                     "CNPJ": row["CNPJ"],
                     "status_da_escola": row["status_da_escola"],
                     "slms_vendidos": row["slms_vendidos"],
-                    "alunos": row["alunos"],
+                    "slms_vendidos_25": row["slms_vendidos_25"],
                     "meta": row["meta"],
                     "cluster": row["cluster"],
-                    "endereco": row["endereco"],
                     "cep_escola": row["cep_escola"],
+                    "endereco": row["endereco"],
+                    "complemento_escola": row["complemento_escola"],
                     "bairro_escola": row["bairro_escola"],
                     "cidade_da_escola": row["cidade_da_escola"],
                     "estado_da_escola": row["estado_da_escola"],
                     "regiao_da_escola": row["regiao_da_escola"],
+                    "status_de_adimplencia": row["status_de_adimplencia"],
+                    "inadimplencia": row["inadimplencia"],
+                    "ticket_medio": row["ticket_medio"],
+                    "valor_royalties": row["valor_royalties"],
+                    "valor_fdmp": row["valor_fdmp"],
+                    "segmento_da_escola": row["segmento_da_escola"],
+                    "atual_serie": row["atual_serie"],
+                    "avanco_segmento": row["avanco_segmento"],
                     "telefone_de_contato_da_escola": row[
                         "telefone_de_contato_da_escola"
                     ],
                     "email_da_escola": row["email_da_escola"],
-                    "segmento_da_escola": row["segmento_da_escola"],
-                    "atual_serie": row["atual_serie"],
-                    "avanco_segmento": row["avanco_segmento"],
-                    "status_de_adimplencia": row["status_de_adimplencia"],
-                    "ticket_medio": row["ticket_medio"],
-                    "inadimplencia": row["inadimplencia"],
                     "nps_pais_2024_1_onda": row["nps_pais_2024_1_onda"],
-                    "cliente_oculto_2024": row["cliente_oculto_2024"],
                     "quality_assurance_2024": row["quality_assurance_2024"],
+                    "cliente_oculto_2024": row["cliente_oculto_2024"],
+                    "consultor_saf": row["consultor_saf"],
+                    "consultor_academico": row["consultor_academico"],
                     "consultor_comercial": row["consultor_comercial"],
                     "consultor_gestao_escolar": row["consultor_gestao_escolar"],
+                    "dias_uteis_entrega_slm": row["dias_uteis_entrega_slm"],
                 },
             )
         messages.success(request, "Dados importados com sucesso!")
@@ -283,7 +291,6 @@ def import_resposta(request):
 
 ################################################# IMPORTAR VENDAS 2024######################################################
 
-
 @login_required(login_url='/login/')
 def import_vendas_slm_2024(request):
     if request.method == "POST":
@@ -298,32 +305,83 @@ def import_vendas_slm_2024(request):
             messages.error(request, f"Erro ao ler o arquivo Excel: {e}")
             return redirect("import_vendas_slm_2024")
 
-        for _, row in df.iterrows():
-            try:
-                escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
-                Vendas_SLM_2024.objects.create(
-                    escola=escola,
-                    numero_do_pedido=row["numero_do_pedido"],
-                    nome_pais=row["nome_pais"],
-                    nome_do_aluno=row["nome_do_aluno"],
-                    data_do_pedido=row["data_do_pedido"],
-                    quantidade=row["quantidade"],
-                )
-            except CRM_FUI.DoesNotExist:
-                messages.error(
-                    request, f"Escola com id_escola {row['id_escola']} não encontrada."
-                )
-                continue
-            except Exception as e:
-                messages.error(
-                    request,
-                    f"Erro ao importar a linha com id_escola {row['id_escola']}: {e}",
-                )
-                continue
+        with transaction.atomic():
+            Vendas_SLM_2024.objects.all().delete()  # Limpar a tabela antes de importar novos dados
+
+            for _, row in df.iterrows():
+                try:
+                    escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
+                    Vendas_SLM_2024.objects.create(
+                        escola=escola,
+                        numero_do_pedido=row["numero_do_pedido"],
+                        nome_pais=row["nome_pais"],
+                        nome_do_aluno=row["nome_do_aluno"],
+                        data_do_pedido=row["data_do_pedido"],
+                        quantidade=row["quantidade"],
+                    )
+                except CRM_FUI.DoesNotExist:
+                    messages.error(
+                        request, f"Escola com id_escola {row['id_escola']} não encontrada."
+                    )
+                    continue
+                except Exception as e:
+                    messages.error(
+                        request,
+                        f"Erro ao importar a linha com id_escola {row['id_escola']}: {e}",
+                    )
+                    continue
 
         messages.success(request, "Dados importados com sucesso!")
         return redirect("import_vendas_slm_2024")
     return render(request, "chatapp/import/import_vendas_slm_2024.html")
+
+
+################################################# IMPORTAR VENDAS 2025######################################################
+
+
+@login_required(login_url='/login/')
+def import_vendas_slm_2025(request):
+    if request.method == "POST":
+        file = request.FILES.get("file")
+        if not file or not file.name.endswith(".xlsx"):
+            messages.error(request, "Por favor, envie um arquivo Excel.")
+            return redirect("import_vendas_slm_2025")
+
+        try:
+            df = pd.read_excel(file)
+        except Exception as e:
+            messages.error(request, f"Erro ao ler o arquivo Excel: {e}")
+            return redirect("import_vendas_slm_2025")
+
+        with transaction.atomic():
+            Vendas_SLM_2025.objects.all().delete()  # Limpar a tabela antes de importar novos dados
+
+            for _, row in df.iterrows():
+                try:
+                    escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
+                    Vendas_SLM_2025.objects.create(
+                        escola=escola,
+                        numero_do_pedido=row["numero_do_pedido"],
+                        nome_pais=row["nome_pais"],
+                        nome_do_aluno=row["nome_do_aluno"],
+                        data_do_pedido=row["data_do_pedido"],
+                        quantidade=row["quantidade"],
+                    )
+                except CRM_FUI.DoesNotExist:
+                    messages.error(
+                        request, f"Escola com id_escola {row['id_escola']} não encontrada."
+                    )
+                    continue
+                except Exception as e:
+                    messages.error(
+                        request,
+                        f"Erro ao importar a linha com id_escola {row['id_escola']}: {e}",
+                    )
+                    continue
+
+        messages.success(request, "Dados importados com sucesso!")
+        return redirect("import_vendas_slm_2025")
+    return render(request, "chatapp/import/import_vendas_slm_2025.html")
 
 ############################################# CHAT SAF###########################################################
 

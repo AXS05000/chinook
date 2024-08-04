@@ -73,9 +73,11 @@ class CRM_FUI(models.Model):
         verbose_name="Status da Escola",
     )
     slms_vendidos = models.IntegerField(
-        null=True, blank=True, verbose_name="SLM Vendidos"
+        null=True, blank=True, verbose_name="SLM Vendidos 2024"
     )
-    alunos = models.IntegerField(null=True, blank=True, verbose_name="Alunos")
+    slms_vendidos_25 = models.IntegerField(
+        null=True, blank=True, verbose_name="SLM Vendidos 2025"
+    )
     meta = models.IntegerField(null=True, blank=True, verbose_name="Meta")
     cluster = models.CharField(
         max_length=100, null=True, blank=True, verbose_name="Cluster"
@@ -85,6 +87,9 @@ class CRM_FUI(models.Model):
     )
     cep_escola = models.CharField(
         max_length=10, null=True, blank=True, verbose_name="CEP Escola"
+    )
+    complemento_escola = models.CharField(
+        max_length=100, null=True, blank=True, verbose_name="Complemento Escola"
     )
     bairro_escola = models.CharField(
         max_length=100, null=True, blank=True, verbose_name="Bairro Escola"
@@ -133,6 +138,20 @@ class CRM_FUI(models.Model):
         blank=True,
         verbose_name="Total do Valor de Inadimplência",
     )
+    valor_royalties = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Total do Valor dos Royalties",
+    )
+    valor_fdmp = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Total do Valor FDMP",
+    )
     nps_pais_2024_1_onda = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -158,7 +177,16 @@ class CRM_FUI(models.Model):
         max_length=100, null=True, blank=True, verbose_name="Consultor Comercial"
     )
     consultor_gestao_escolar = models.CharField(
-        max_length=100, null=True, blank=True, verbose_name="Consultor Gestão Escoalr"
+        max_length=100, null=True, blank=True, verbose_name="Consultor Gestão Escolar"
+    )
+    consultor_saf = models.CharField(
+        max_length=100, null=True, blank=True, verbose_name="Consultor SAF"
+    )
+    consultor_academico = models.CharField(
+        max_length=100, null=True, blank=True, verbose_name="Consultor Acadêmico"
+    )
+    dias_uteis_entrega_slm = models.CharField(
+        max_length=100, null=True, blank=True, verbose_name="Dias Úteis para entrega do SLM"
     )
 
     def __str__(self):
@@ -197,7 +225,23 @@ class Vendas_SLM_2024(models.Model):
     numero_do_pedido = models.CharField(verbose_name="Numero do Pedido", max_length=200)
 
     def __str__(self):
-        return f"{self.numero_do_pedido} - {self.nome_pais} - {self.nome_do_aluno}"
+        return f"{self.numero_do_pedido} - {self.nome_pais} - {self.nome_do_aluno} - SLM 2024"
+    
+class Vendas_SLM_2025(models.Model):
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="nome_escola_venda_slm_2025",
+        verbose_name="Nome da Escola Venda 2025",
+    )
+    data_do_pedido = models.DateField(verbose_name="Data do Pedido 2025")
+    quantidade = models.IntegerField(verbose_name="Quantidade Vendida 2025")
+    nome_pais = models.CharField(verbose_name="Nomes dos Pais 2025", max_length=200)
+    nome_do_aluno = models.CharField(verbose_name="Nome do Aluno 2025", max_length=200)
+    numero_do_pedido = models.CharField(verbose_name="Numero do Pedido 2025", max_length=200)
+
+    def __str__(self):
+        return f"{self.numero_do_pedido} - {self.nome_pais} - {self.nome_do_aluno} - SLM 2025"
 
 
 class Base_de_Conhecimento(models.Model):
