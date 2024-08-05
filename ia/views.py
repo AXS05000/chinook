@@ -448,17 +448,112 @@ def filtered_chat_view(request):
                     f"Comentário: {response.comentario}\n\n"
                 )
             print("Contexto NPS gerado")
+
+        elif question_type == "analise completa da escola":
+            print("Lidando com análise completa da escola")
+            knowledge_base_entries = Base_de_Conhecimento.objects.all()
+            nps_responses = (
+                Respostas_NPS.objects.filter(escola__id_escola=school_id)
+                .exclude(comentario__isnull=True)
+                .exclude(comentario__exact="")
+                .exclude(comentario__exact="nan")
+            )
+            context = (
+                f"Informações Básicas da Escola:\n"
+                f"Nome da Escola: {school.nome_da_escola}\n"
+                f"Status: {school.status_da_escola}\n"
+                f"Cluster: {school.cluster}\n"
+                f"CEP: {school.cep_escola}\n"
+                f"Endereço: {school.endereco}\n"
+                f"Bairro: {school.bairro_escola}\n"
+                f"Cidade: {school.cidade_da_escola}\n"
+                f"Estado: {school.estado_da_escola}\n"
+                f"Região: {school.regiao_da_escola}\n"
+                f"Segmento: {school.segmento_da_escola}\n"
+                f"Atual Série: {school.atual_serie}\n"
+                f"Avanço Segmento: {school.avanco_segmento}\n"
+                f"Vendas e Metas de SLM da Escola:\n"
+                f"SLMs Vendidos 2024: {school.slms_vendidos} - SLM ou SLMs no plural são os materiais vendidos, esses aqui são referente a 2024.\n"
+                f"SLMs Vendidos 2025: {school.slms_vendidos_25} - SLM ou SLMs no plural são os materiais vendidos, esses aqui são referente a 2025.\n"
+                f"Meta de SLMs 2024: {school.meta} - Esse campo é a meta de Vendas de SLM vendidos.\n"
+                f"Meta de SLMs 2025: Ainda não foi definido a meta por escola.\n"
+                f"Resultados Gerais das Avaliações da Escola:\n"
+                f"NPS Pais 2024 - 1° Onda: {school.nps_pais_2024_1_onda} - Este campo indica a pontuação referente ao NPS(Net Promoter Score) dos pais dos alunos que estudam na escola, que foi realizado no 1° semestre no ano(1° Onda).\n"
+                f"Cliente Oculto 2024: {school.cliente_oculto_2024} - Este campo indica a pontuação referente ao Cliente Oculto, que uma avaliação realizada por uma empresa terceirizada onde consiste em um falso cliente ir até a escola para avaliar ela.\n"
+                f"Quality Assurance 2024: {school.quality_assurance_2024} - Este campo indica a pontuação referente Quality Assurance uma avaliação realizada para ver a qualidade da escola.\n"
+                f"Financeiro da Escola:\n"
+                f"Ticket Médio: {school.ticket_medio} - Este é o valor médio de mensalidade cobrada pela escola.\n"
+                f"Valor Royalties: {school.valor_royalties} - Este é o valor de royalties que a escola deve pagar por mês à franqueada Maple Bear.\n"
+                f"Valor de FDMP(Fundo de Marketing): {school.valor_fdmp} - Este é o valor de FDMP(Fundo de Marketing) que a escola deve pagar por mês à franqueada Maple Bear.\n"
+                f"Status de Adimplência/Inadimplência: {school.status_de_adimplencia} - Este campo indica se a escola está Adimplente ou Inadimplente referente aos seus pagamentos(Royalties e FDMP) que devem ser feitos à franqueada Maple Bear.\n"
+            )
+            if school.status_de_adimplencia == "Inadimplente":
+                context += f"Inadimplência: {school.inadimplencia} - Este é o valor que a escola está devendo para a Maple Bear.\n"
+
+            for response in nps_responses:
+                context += (
+                    f"Questão perguntada no NPS dessa escola: {response.questao}\n"
+                    f"Comentário: {response.comentario}\n\n"
+                )
+            context += (
+                f"Base de Conhecimento, aqui é onde contem todas as informações e planos da Maple Bear use como complemento para ajudar os Owners(Donos das escolas) para atinjir seus objetivos e responder também as perguntas da usuario:\n"
+            )
+
+            for entry in knowledge_base_entries:
+                context += f"Titulo: {entry.titulo}\nSub Assunto: {entry.sub_assunto}\nTexto: {entry.texto}\n\n"
+
+
+            print("Contexto de análise completa da escola gerado")
         elif question_type == "base de conhecimento":
             print("Lidando com categoria conhecimento")
             knowledge_base_entries = Base_de_Conhecimento.objects.all()
-            if knowledge_base_entries.exists():
-                context = ""
-                for entry in knowledge_base_entries:
-                    context += f"Sub Assunto: {entry.sub_assunto}\nTexto: {entry.texto}\n\n"
-                print("Contexto de conhecimento gerado")
-            else:
-                context = "Nenhuma informação relevante encontrada na base de conhecimento."
-                print("Nenhuma entrada relevante encontrada na base de conhecimento")
+            context = (
+                f"Informações Básicas da Escola:\n"
+                f"Nome da Escola: {school.nome_da_escola}\n"
+                f"CNPJ: {school.CNPJ}\n"
+                f"Status: {school.status_da_escola}\n"
+                f"Cluster: {school.cluster}\n"
+                f"CEP: {school.cep_escola}\n"
+                f"Endereço: {school.endereco}\n"
+                f"Complemento: {school.complemento_escola}\n"
+                f"Bairro: {school.bairro_escola}\n"
+                f"Cidade: {school.cidade_da_escola}\n"
+                f"Estado: {school.estado_da_escola}\n"
+                f"Região: {school.regiao_da_escola}\n"
+                f"Telefone: {school.telefone_de_contato_da_escola}\n"
+                f"Email: {school.email_da_escola}\n"
+                f"Segmento: {school.segmento_da_escola}\n"
+                f"Atual Série: {school.atual_serie}\n"
+                f"Avanço Segmento: {school.avanco_segmento}\n"
+                f"Vendas e Metas de SLM:\n"
+                f"SLMs Vendidos 2024: {school.slms_vendidos} - SLM ou SLMs no plural são os materiais vendidos, esses aqui são referente a 2024.\n"
+                f"SLMs Vendidos 2025: {school.slms_vendidos_25} - SLM ou SLMs no plural são os materiais vendidos, esses aqui são referente a 2025.\n"
+                f"Meta de SLMs 2024: {school.meta} - Esse campo é a meta de Vendas de SLM vendidos.\n"
+                f"Meta de SLMs 2025: Ainda não foi definido a meta por escola.\n"
+                f"Dias Úteis para Entrega do SLM nessa escola: {school.dias_uteis_entrega_slm}\n"
+                f"Avaliações:\n"
+                f"NPS Pais 2024 - 1° Onda: {school.nps_pais_2024_1_onda} - Este campo indica a pontuação referente ao NPS(Net Promoter Score) dos pais dos alunos que estudam na escola, que foi realizado no 1° semestre no ano(1° Onda).\n"
+                f"Cliente Oculto 2024: {school.cliente_oculto_2024} - Este campo indica a pontuação referente ao Cliente Oculto, que uma avaliação realizada por uma empresa terceirizada onde consiste em um falso cliente ir até a escola para avaliar ela.\n"
+                f"Quality Assurance 2024: {school.quality_assurance_2024} - Este campo indica a pontuação referente Quality Assurance uma avaliação realizada para ver a qualidade da escola.\n"
+                f"Financeiro:\n"
+                f"Ticket Médio: {school.ticket_medio} - Este é o valor médio de mensalidade cobrada pela escola.\n"
+                f"Valor Royalties: {school.valor_royalties} - Este é o valor de royalties que a escola deve pagar por mês à franqueada Maple Bear.\n"
+                f"Valor de FDMP(Fundo de Marketing): {school.valor_fdmp} - Este é o valor de FDMP(Fundo de Marketing) que a escola deve pagar por mês à franqueada Maple Bear.\n"
+                f"Status de Adimplência/Inadimplência: {school.status_de_adimplencia} - Este campo indica se a escola está Adimplente ou Inadimplente referente aos seus pagamentos(Royalties e FDMP) que devem ser feitos à franqueada Maple Bear.\n"
+            )
+            if school.status_de_adimplencia == "Inadimplente":
+                context += f"Inadimplência: {school.inadimplencia} - Este é o valor que a escola está devendo para a Maple Bear.\n"
+            context += (
+                f"Consultores:\n"
+                f"Consultor Comercial: {school.consultor_comercial}\n"
+                f"Consultor Gestão Escolar: {school.consultor_gestao_escolar}\n"
+                f"Consultor Acadêmico: {school.consultor_academico}\n"
+                f"Consultor SAF(Serviço de Atendimento ao Franqueado): {school.consultor_saf}\n"
+            )
+
+            for entry in knowledge_base_entries:
+                context += f"Sub Assunto: {entry.sub_assunto}\nTexto: {entry.texto}\n\n"
+            print("Contexto de conhecimento gerado")
         
         elif question_type in ["vendas", "relatório de vendas"]:
             vendas_responses_2024 = Vendas_SLM_2024.objects.filter(
