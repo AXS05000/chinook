@@ -263,12 +263,13 @@ def classify_question_chat_central(prompt, api_key):
         messages=[
             {
                 "role": "system",
-                "content": "Você é um assistente útil que classifica perguntas sobre escolas em categorias: 'informações gerais', 'NPS', 'vendas', 'relatório de vendas', 'analise completa da escola', 'base de conhecimento'. Responda apenas com a categoria apropriada. Se você não conseguir categorizar a pergunta, responda com 'base de conhecimento'.",
+                "content": "Você é um assistente útil que classifica perguntas sobre escolas em categorias: ('informações gerais' - Se o usuário pedir informações como resumo da escola, informações basicas como nome, cnpj, cluster, endereço, avaliações. Exemplos de perguntas para essa categoria: Faça um resumo dessa escola.), ('NPS' -  - Se o usuário pedir informações relacionado ao Net Promoter Score(NPS) responda com essa categoria), ('vendas' ou 'relatório de vendas' - Se o usuário pedir informações sobre vendas da escola ou relatório de vendas da escola escolha essa categoria.), ('base de conhecimento' - Se o usuário pedir algo que pareça estar em uma base de conhecimento escolha essa categoria. Por exemplo se na pergunta tiver algo como conforme base de conhecimento, como na base de conhecimento, no conhecimento.), ('analise completa da escola' - Só escolha essa categoria se tiver esse conjunto de palavras ou algo muito similiar. Por exemplo: 'Faça uma analise completa dessa escola', 'Faça uma avaliação geral dessa escola' ou até algo com 'Olhe todas as informações dessa escola'). Responda apenas com a categoria apropriada.  Se você não conseguir categorizar a pergunta, responda com 'base de conhecimento'.",
             },
             {"role": "user", "content": prompt},
         ],
-        max_tokens=20,
+        max_tokens=2500,
     )
+    print(f"Total tokens usados para classificar a categoria: {response['usage']['total_tokens']}")
     category = response["choices"][0]["message"]["content"].strip().lower()
     return category
 
@@ -281,7 +282,7 @@ def config_chat_central(prompt, api_key, context=""):
     openai.api_key = api_key
 
     response = openai.ChatCompletion.create(
-        model="gpt-4-turbo",
+        model="gpt-4o",
         messages=[
             {
                 "role": "system",
