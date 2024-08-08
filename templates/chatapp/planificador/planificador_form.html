@@ -421,9 +421,15 @@
                                             <div class="comp-nota-1">Pedidos Entregues:</div>
                                             <div class="comp-nota-1">{{ form.pedidos_entregues }}</div>
                                         </div>
+
+                                        <br><br>
+                                        <h7 class="navbar-brand-ajuste">Porcentagem Da Escola:</h7>
+                                        <br><br>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Porcentagem Planificador:</div>
-                                            <div class="comp-nota-1"> </div>
+                                            <div class="comp-nota-1">
+                                                <input type="text" value="{{ porcentagem_planificador }}%" readonly class="form-control" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -432,15 +438,7 @@
                         <div class="login-button">
                             <button type="submit" class="btn btn-primary">Salvar</button>
                         </div>
-                        <br><br>
-                        <h7 class="navbar-brand-ajuste">ATENÇÃO</h7>
-                        <p class="ajuste-fonte">Caso tenha muitas dúvidas para responder o formulário, entre em contato pelo link abaixo.</p>
-                        <br>
-                        <div class="navbar-brand-ajuste">
-                            <a href="https://wa.me/5511997762326/" class="btn btn-lg btn-common btn-effect" target="_blank">
-                                <i class="fa fa-whatsapp text-white text-lg ajuste-icon"></i>Clique Aqui
-                            </a>
-                        </div>
+
                     </div>
                   </form>
 

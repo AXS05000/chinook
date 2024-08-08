@@ -866,41 +866,98 @@ class PlanificadorCreateView(LoginRequiredMixin, View):
         return render(request, "chatapp/planificador/planificador_form.html", {"form": form})
 
 
-
-
 class PlanificadorUpdateView(LoginRequiredMixin, View):
     login_url = '/login/'
 
     def get(self, request, pk):
         planificador = get_object_or_404(Planificador_2024, pk=pk)
         form = PlanificadorForm(instance=planificador)
+        
         # Definindo os campos como readonly
         form.fields['slm_2022'].widget.attrs['readonly'] = True
         form.fields['slm_2023'].widget.attrs['readonly'] = True
+        
+        # Calculando a porcentagem de "SIM"
+        sim_nao_fields = [
+            planificador.crm_b2c,
+            planificador.circular_oferta_2025_publicado,
+            planificador.toddle,
+            planificador.arvore,
+            planificador.setup_plano_comercial_segundo_semestre,
+            planificador.acao_1_elegivel_trade_marketing,
+            planificador.acao_2_experience_day_10_08_24,
+            planificador.acao_2_experience_day_24_08_24,
+            planificador.acao_2_experience_day_21_09_24,
+            planificador.acao_2_experience_day_26_10_24,
+            planificador.acao_2_experience_day_09_11_24,
+            planificador.acao_3_friend_get_friend,
+            planificador.acao_4_webinars_com_autoridades_pre,
+            planificador.acao_4_webinars_com_autoridades_pos,
+            planificador.piloto_welcome_baby_bear,
+            planificador.acao_6_alinhado_resgate_leads,
+            planificador.acao_6_todos_leads_resgatados_contatados
+        ]
+        
+        total_fields = len(sim_nao_fields)
+        sim_count = sim_nao_fields.count('SIM')
+        porcentagem_planificador = (sim_count / total_fields) * 100
+        porcentagem_planificador = f"{porcentagem_planificador:.2f}"  # Formatar com duas casas decimais
+
         escola = planificador.escola
         context = {
             "form": form,
             "crm_fui_meta": escola.meta,
             "crm_fui_slms_vendidos": escola.slms_vendidos,
-            "crm_fui_slms_vendidos_25": escola.slms_vendidos_25
+            "crm_fui_slms_vendidos_25": escola.slms_vendidos_25,
+            "porcentagem_planificador": porcentagem_planificador
         }
         return render(request, "chatapp/planificador/planificador_form.html", context)
 
     def post(self, request, pk):
         planificador = get_object_or_404(Planificador_2024, pk=pk)
         form = PlanificadorForm(request.POST, instance=planificador)
+        
         # Definindo os campos como readonly na postagem também
         form.fields['slm_2022'].widget.attrs['readonly'] = True
         form.fields['slm_2023'].widget.attrs['readonly'] = True
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Dados atualizados com sucesso!")
+            return redirect("planificador_list")
+        
+        # Calculando a porcentagem de "SIM"
+        sim_nao_fields = [
+            planificador.crm_b2c,
+            planificador.circular_oferta_2025_publicado,
+            planificador.toddle,
+            planificador.arvore,
+            planificador.setup_plano_comercial_segundo_semestre,
+            planificador.acao_1_elegivel_trade_marketing,
+            planificador.acao_2_experience_day_10_08_24,
+            planificador.acao_2_experience_day_24_08_24,
+            planificador.acao_2_experience_day_21_09_24,
+            planificador.acao_2_experience_day_26_10_24,
+            planificador.acao_2_experience_day_09_11_24,
+            planificador.acao_3_friend_get_friend,
+            planificador.acao_4_webinars_com_autoridades_pre,
+            planificador.acao_4_webinars_com_autoridades_pos,
+            planificador.piloto_welcome_baby_bear,
+            planificador.acao_6_alinhado_resgate_leads,
+            planificador.acao_6_todos_leads_resgatados_contatados
+        ]
+        
+        total_fields = len(sim_nao_fields)
+        sim_count = sim_nao_fields.count('SIM')
+        porcentagem_planificador = (sim_count / total_fields) * 100
+        porcentagem_planificador = f"{porcentagem_planificador:.2f}"  # Formatar com duas casas decimais
+
         escola = planificador.escola
         context = {
             "form": form,
             "crm_fui_meta": escola.meta,
             "crm_fui_slms_vendidos": escola.slms_vendidos,
-            "crm_fui_slms_vendidos_25": escola.slms_vendidos_25
+            "crm_fui_slms_vendidos_25": escola.slms_vendidos_25,
+            "porcentagem_planificador": porcentagem_planificador
         }
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Dados atualizados com sucesso!")
-            return redirect("planificador_list")
         return render(request, "chatapp/planificador/planificador_form.html", context)
