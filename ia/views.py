@@ -865,19 +865,42 @@ class PlanificadorCreateView(LoginRequiredMixin, View):
             return redirect("planificador_list")
         return render(request, "chatapp/planificador/planificador_form.html", {"form": form})
 
+
+
+
 class PlanificadorUpdateView(LoginRequiredMixin, View):
     login_url = '/login/'
 
     def get(self, request, pk):
         planificador = get_object_or_404(Planificador_2024, pk=pk)
         form = PlanificadorForm(instance=planificador)
-        return render(request, "chatapp/planificador/planificador_form.html", {"form": form})
+        # Definindo os campos como readonly
+        form.fields['slm_2022'].widget.attrs['readonly'] = True
+        form.fields['slm_2023'].widget.attrs['readonly'] = True
+        escola = planificador.escola
+        context = {
+            "form": form,
+            "crm_fui_meta": escola.meta,
+            "crm_fui_slms_vendidos": escola.slms_vendidos,
+            "crm_fui_slms_vendidos_25": escola.slms_vendidos_25
+        }
+        return render(request, "chatapp/planificador/planificador_form.html", context)
 
     def post(self, request, pk):
         planificador = get_object_or_404(Planificador_2024, pk=pk)
         form = PlanificadorForm(request.POST, instance=planificador)
+        # Definindo os campos como readonly na postagem também
+        form.fields['slm_2022'].widget.attrs['readonly'] = True
+        form.fields['slm_2023'].widget.attrs['readonly'] = True
+        escola = planificador.escola
+        context = {
+            "form": form,
+            "crm_fui_meta": escola.meta,
+            "crm_fui_slms_vendidos": escola.slms_vendidos,
+            "crm_fui_slms_vendidos_25": escola.slms_vendidos_25
+        }
         if form.is_valid():
             form.save()
             messages.success(request, "Dados atualizados com sucesso!")
             return redirect("planificador_list")
-        return render(request, "chatapp/planificador/planificador_form.html", {"form": form})
+        return render(request, "chatapp/planificador/planificador_form.html", context)

@@ -176,14 +176,6 @@
 
 /*As caixinhas do formulario*/
 
-.input-box {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 1.1rem;
-    min-height: 24rem;
-    min-width: 28rem;
-}
-
 .input-box input {
     margin: 0.6rem 0;
     padding: 0.8rem 1.2rem;
@@ -214,14 +206,7 @@
 
 
 
- /* .................................................................................... */
 
-  
- .select {
-    padding-left: 2px;
-    width: 50%;
-
- }
 
  .select select:focus-visible{
 

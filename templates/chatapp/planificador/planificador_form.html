@@ -15,9 +15,7 @@
 
     <link rel="stylesheet" href="{% static 'assets_2/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'assets_2/css/line-icons.css' %}">
-    <link rel="stylesheet" href="{% static 'assets_2/css/owl.carousel.css' %}">
-    <link rel="stylesheet" href="{% static 'assets_2/css/owl.theme.css' %}">
-    <link rel="stylesheet" href="{% static 'assets_2/css/nivo-lightbox.css' %}">
+
 
     <link rel="stylesheet" href="{% static 'assets_2/css/main.css' %}"> 
     <link rel="stylesheet" href="{% static 'css/formulario.css' %}">    
@@ -101,7 +99,7 @@
     <div class="container">
         <div class="section-header text-center" >          
             <h2 class="section-title" style="padding-top: 2rem;">Planificador:</h2>
-            <span style="padding-top: 2rem;">Maple Bear</span>
+            <span style="padding-top: 2rem;">MAPLE BEAR</span>
         </div>
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -149,9 +147,11 @@
                         <div class="input-group container">
                             <div class="input-box ">
                                 <div class="select">
+                                    <h7 class="navbar-brand-ajuste">BLOCO DRIVERS COMERCIAIS ESTRATÉGICOS:</h7>
+                                    <br><br>
                                     <div id="camposAdicionais" class="select produto-quantidade">
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Data de Atualização do Bloco Drivers Comerciais Estrategicos:</div>
+                                            <div class="comp-nota-1">Data de Atualização do Bloco:</div>
                                             <div class="comp-nota-1">{{ form.ultima_data_atualizacao_bloc_drivers_comerciais_estrategicos }}</div>
                                         </div>
                                         <div class="form-contratos">
@@ -159,7 +159,7 @@
                                             <div class="comp-nota-1">{{ form.crm_b2c }}</div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Data de Abertura da Matrícula 2025:</div>
+                                            <div class="comp-nota-1">Se não, Data de Abertura da Matrícula 2025:</div>
                                             <div class="comp-nota-1">{{ form.data_abertura_matricula_2025 }}</div>
                                         </div>
                                         <div class="form-contratos">
@@ -167,7 +167,7 @@
                                             <div class="comp-nota-1">{{ form.circular_oferta_2025_publicado }}</div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Data de Abertura da Circular 2025:</div>
+                                            <div class="comp-nota-1">Se não, Data de Abertura da Circular 2025:</div>
                                             <div class="comp-nota-1">{{ form.data_de_abertura_da_circular_2025 }}</div>
                                         </div>
                                         <div class="form-contratos">
@@ -187,48 +187,66 @@
                                             <div class="comp-nota-1">{{ form.arvore }}</div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Data de Implementação da Árvore:</div>
+                                            <div class="comp-nota-1">Se não, Data de Implementação da Árvore:</div>
                                             <div class="comp-nota-1">{{ form.data_implementacao_arvore }}</div>
                                         </div>
+                                        <br><br>
+                                        <h7 class="navbar-brand-ajuste">BLOCO FUNIL COMERCIAL:</h7>
+                                        <br><br>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Última Data de Atualização do Bloco Funil Comercial:</div>
+                                            <div class="comp-nota-1">Data de Atualização do Bloco:</div>
                                             <div class="comp-nota-1">{{ form.ultima_data_atualizacao_bloc_funil_comercial }}</div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Leads Central Ago/24:</div>
+                                            <div class="comp-nota-1">Leads Central Ago/24 (SEM CRM):</div>
                                             <div class="comp-nota-1">{{ form.leads_central_ago_24 }}</div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Leads Escolas Ago/24:</div>
+                                            <div class="comp-nota-1">Leads Escolas Ago/24 (SEM CRM):</div>
                                             <div class="comp-nota-1">{{ form.leads_escolas_ago_24 }}</div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Visitas Ago/24:</div>
+                                            <div class="comp-nota-1">Visitas Ago/24 (SEM CRM):</div>
                                             <div class="comp-nota-1">{{ form.visitas_ago_24 }}</div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Taxa de Conversão Atual Leads x Visitas:</div>
+                                            <div class="comp-nota-1">Taxa de Conversão Atual Leads x Visitas (SEM CRM):</div>
                                             <div class="comp-nota-1">{{ form.taxa_conversao_atual_leads_visitas }}</div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Matrículas Ago/24:</div>
+                                            <div class="comp-nota-1">Matrículas Ago/24 (SEM CRM):</div>
                                             <div class="comp-nota-1">{{ form.matriculas_ago_24 }}</div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Taxa de Conversão Atual Visitas x Matrículas:</div>
+                                            <div class="comp-nota-1">Taxa de Conversão Atual Visitas x Matrículas (SEM CRM):</div>
                                             <div class="comp-nota-1">{{ form.taxa_conversao_atual_visitas_matriculas }}</div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Taxa de Conversão Leads x Matrículas:</div>
+                                            <div class="comp-nota-1">Taxa de Conversão Leads x Matrículas (SEM CRM):</div>
                                             <div class="comp-nota-1">{{ form.taxa_conversao_leads_matriculas }}</div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Última Data de Atualização do Bloco Drivers Comerciais de Meio:</div>
+                                            <div class="comp-nota-1">Taxa De Conversão Atual Acumulada (COM CRM):</div>
+                                            <div class="comp-nota-1">Trazer Automatico</div>
+                                        </div>
+                                        <br><br>
+                                        <h7 class="navbar-brand-ajuste">BLOCO DRIVERS COMERCIAIS MEIO:</h7>
+                                        <br><br>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Data de Atualização do Bloco:</div>
                                             <div class="comp-nota-1">{{ form.ultima_data_atualizacao_bloc_drivers_comerciais_meio }}</div>
                                         </div>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Meta Alunos 5K 2024:</div>
                                             <div class="comp-nota-1">{{ form.meta_alunos_5k_2024 }}</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Real Alunos 5K 2024:</div>
+                                            <div class="comp-nota-1">Trazer Automatico</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Gap Alunos 5K 2024:</div>
+                                            <div class="comp-nota-1">Trazer Automatico  </div>
                                         </div>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Setup Plano Comercial de 2° Semestre - 5K:</div>
@@ -303,6 +321,9 @@
                                             <div class="comp-nota-1">Ação 6: Todos Leads Resgatados Contatados:</div>
                                             <div class="comp-nota-1">{{ form.acao_6_todos_leads_resgatados_contatados }}</div>
                                         </div>
+                                        <br><br>
+                                        <h7 class="navbar-brand-ajuste">BLOCO RESULTADOS:</h7>
+                                        <br><br>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Data de Atualização - Resultados:</div>
                                             <div class="comp-nota-1">{{ form.data_atualizacao_resultados }}</div>
@@ -316,12 +337,22 @@
                                             <div class="comp-nota-1">{{ form.slm_2023 }}</div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Meta Orçamentária 2024:</div>
-                                            <div class="comp-nota-1">{{ form.meta_orcamentaria_2024 }}</div>
+                                            <div class="comp-nota-1">SLM Vendidos 2024:</div>
+                                            <div class="comp-nota-1">
+                                                <input type="text" value="{{ crm_fui_slms_vendidos }}" readonly class="form-control" />
+                                            </div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">GAP Meta Orçamentária 2024:</div>
-                                            <div class="comp-nota-1"> </div>
+                                            <div class="comp-nota-1">Meta Orçamentária 2024:</div>
+                                            <div class="comp-nota-1">
+                                                <input type="text" value="{{ crm_fui_meta }}" readonly class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">SLM Vendidos 2025:</div>
+                                            <div class="comp-nota-1">
+                                                <input type="text" value="{{ crm_fui_slms_vendidos_25 }}" readonly class="form-control" />
+                                            </div>
                                         </div>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Base de Rematriculáveis 2025:</div>
