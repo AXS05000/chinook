@@ -132,7 +132,7 @@
                           <p>{{ escola.porcentagem_planificador }}%</p>
                         </td>
                         <td>
-                            <a href="{% url 'planificador_edit' escola.id_escola %}">
+                          <a href="{% url 'editar_planificador' escola.planificador.pk %}">
                                 <i class="material-icons" aria-hidden="true">edit_square</i>
                             </a>
                         </td>

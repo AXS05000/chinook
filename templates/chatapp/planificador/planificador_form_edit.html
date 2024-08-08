@@ -105,26 +105,18 @@
             <div class="col-md-8">
                 <div class="form">
 
-                <form action="{% url 'planificador_edit' pk=planificador.pk %}" method="POST" class="form-horizontal container" autocomplete="off" enctype="multipart/form-data">
+                <form method="POST" class="form-horizontal container" autocomplete="off" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-header">
                         {% if messages %}
                             {% for message in messages %}
                                 {% if message.tags == 'success' %}
-                                    <div class="position-fixed bottom-1 end-1 z-index-2">
-                                        <div class="toast fade show p-2 bg-white" role="alert" aria-live="assertive" id="successToast" aria-atomic="true">
-                                            <div class="toast-header border-0">
-                                                <i class="material-icons text-success me-2">check</i>
-                                                <span class="me-auto font-weight-bold">Notificação do sistema</span>
-                                                <small class="text-body">1 seg atrás</small>
-                                                <i class="fas fa-times text-md ms-3 cursor-pointer" data-bs-dismiss="toast" aria-label="Close"></i>
-                                            </div>
-                                            <hr class="horizontal dark m-0">
-                                            <div class="toast-body">
-                                                {{ message }}<br>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="alert alert-sucess alert-dismissible text-white" role="alert">
+                                    <span class="text-sm">{{ message }}</span>
+                                    <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
                                 {% elif message.tags == 'error' %}
                                     <div class="alert alert-danger alert-dismissible text-white" role="alert">
                                         <span class="text-sm">{{ message }}</span>
@@ -150,6 +142,10 @@
                                     <h7 class="navbar-brand-ajuste">BLOCO DRIVERS COMERCIAIS ESTRATÉGICOS:</h7>
                                     <br><br>
                                     <div id="camposAdicionais" class="select produto-quantidade">
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">CRM B2C:</div>
+                                            <div class="comp-nota-1">{{ form.escola }}</div>
+                                        </div>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Data de Atualização do Bloco:</div>
                                             <div class="comp-nota-1">{{ form.ultima_data_atualizacao_bloc_drivers_comerciais_estrategicos }}</div>
@@ -421,7 +417,6 @@
                                             <div class="comp-nota-1">Pedidos Entregues:</div>
                                             <div class="comp-nota-1">{{ form.pedidos_entregues }}</div>
                                         </div>
-                                        <input type="hidden" name="escola" value="{{ planificador.escola.pk }}" />
 
                                         <br><br>
                                         <h7 class="navbar-brand-ajuste">Porcentagem Da Escola:</h7>

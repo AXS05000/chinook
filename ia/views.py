@@ -868,6 +868,7 @@ class PlanificadorCreateView(LoginRequiredMixin, View):
         return render(request, "chatapp/planificador/planificador_form.html", {"form": form})
 
 
+
 class PlanificadorUpdateView(LoginRequiredMixin, View):
     login_url = '/login/'
 
@@ -929,8 +930,7 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
         if form.is_valid():
             try:
                 form.save()
-                messages.success(request, "Dados atualizados com sucesso!")
-                return redirect("planificador_edit", pk=pk)
+                return redirect("buscar_escolas")
             except Exception as e:
                 messages.error(request, "Erro ao atualizar os dados.")
         else:
@@ -972,9 +972,7 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
             "porcentagem_planificador": porcentagem_planificador
         }
         return render(request, "chatapp/planificador/planificador_form_edit.html", context)
-    
 ######################## BUSCA ESCOLAS PLANIFICADOR #################################################
-
 class EscolaSearchView(ListView):
     model = CRM_FUI
     template_name = "chatapp/planificador/busca_escolas.html"  # Altere para o caminho correto do seu template
@@ -1032,8 +1030,10 @@ class EscolaSearchView(ListView):
                         planificador.acao_6_todos_leads_resgatados_contatados
                     ] if field == 'SIM'
                 ])
+                escola.planificador = planificador
                 escola.porcentagem_planificador = round((sim_count / total_campos) * 100, 2)
             else:
+                escola.planificador = None
                 escola.porcentagem_planificador = 0
 
         return context
@@ -1043,5 +1043,4 @@ class EscolaSearchView(ListView):
         order_by = self.request.GET.get("order_by", "nome_da_escola")
         if query:
             return CRM_FUI.objects.filter(Q(nome_da_escola__icontains=query)).order_by(order_by)
-        return CRM_FUI.objects.all().order_by(order_by)    
-
+        return CRM_FUI.objects.all().order_by(order_by)

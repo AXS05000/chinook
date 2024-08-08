@@ -37,7 +37,7 @@ urlpatterns = [
     path("simple_chat/", simple_chat_view, name="simple_chat"),
     path('import_planificador/', ImportPlanificadorView.as_view(), name='import_planificador'),
     path('planificador/create/', PlanificadorCreateView.as_view(), name='planificador_create'),
-    path('planificador/edit/<int:pk>/', PlanificadorUpdateView.as_view(), name='planificador_edit'),
-    path('search_escolas/', EscolaSearchView.as_view(), name='search_escolas'),
+    path('planificador/<int:pk>/editar/', PlanificadorUpdateView.as_view(), name='editar_planificador'),
+    path('search_escolas/', EscolaSearchView.as_view(), name='buscar_escolas'),
 
 ]
