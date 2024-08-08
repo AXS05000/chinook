@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Sum
 from .forms import PlanificadorForm
 from datetime import datetime
+from django.db.models import Q
 from .models import (
     Informacao,
     Beneficio,
@@ -36,8 +37,8 @@ from .utils import (
 )
 import openpyxl
 from openpyxl.utils import get_column_letter
-from django.conf import settings
 from django.views import View
+from django.views.generic import ListView
 
 
 class ExcelImportView(View):
@@ -906,6 +907,7 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
         escola = planificador.escola
         context = {
             "form": form,
+            "planificador": planificador,  # Passando o planificador para o template
             "crm_fui_meta": escola.meta,
             "crm_fui_slms_vendidos": escola.slms_vendidos,
             "crm_fui_slms_vendidos_25": escola.slms_vendidos_25,
@@ -924,9 +926,9 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
         if form.is_valid():
             form.save()
             messages.success(request, "Dados atualizados com sucesso!")
-            return redirect("planificador_list")
+            return redirect("planificador_edit", pk=pk)
         
-        # Calculando a porcentagem de "SIM"
+        # Recalcula a porcentagem de "SIM" em caso de erro no formulário
         sim_nao_fields = [
             planificador.crm_b2c,
             planificador.circular_oferta_2025_publicado,
@@ -955,9 +957,90 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
         escola = planificador.escola
         context = {
             "form": form,
+            "planificador": planificador,  # Passando o planificador para o template
             "crm_fui_meta": escola.meta,
             "crm_fui_slms_vendidos": escola.slms_vendidos,
             "crm_fui_slms_vendidos_25": escola.slms_vendidos_25,
             "porcentagem_planificador": porcentagem_planificador
         }
-        return render(request, "chatapp/planificador/planificador_form.html", context)
+        return render(request, "chatapp/planificador/planificador_form.html", context)  
+    
+
+
+
+
+
+
+
+######################## BUSCA ESCOLAS PLANIFICADOR #################################################
+
+class EscolaSearchView(ListView):
+    model = CRM_FUI
+    template_name = "chatapp/planificador/busca_escolas.html"  # Altere para o caminho correto do seu template
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["q"] = self.request.GET.get("q", "")
+        context["order_by"] = self.request.GET.get("order_by", "nome_da_escola")
+        page_obj = context["page_obj"]
+
+        # Obtém o número da página atual
+        current_page = page_obj.number
+
+        # Se há mais de 5 páginas
+        if page_obj.paginator.num_pages > 5:
+            if current_page - 2 < 1:
+                start_page = 1
+                end_page = 5
+            elif current_page + 2 > page_obj.paginator.num_pages:
+                start_page = page_obj.paginator.num_pages - 4
+                end_page = page_obj.paginator.num_pages
+            else:
+                start_page = current_page - 2
+                end_page = current_page + 2
+        else:
+            start_page = 1
+            end_page = page_obj.paginator.num_pages
+
+        context["page_range"] = range(start_page, end_page + 1)
+
+        # Adiciona porcentagem_planificador ao contexto
+        for escola in context['object_list']:
+            planificador = Planificador_2024.objects.filter(escola=escola).first()
+            if planificador:
+                total_campos = 16  # Número total de campos SIM/NÃO
+                sim_count = sum([
+                    1 for field in [
+                        planificador.crm_b2c,
+                        planificador.circular_oferta_2025_publicado,
+                        planificador.toddle,
+                        planificador.arvore,
+                        planificador.setup_plano_comercial_segundo_semestre,
+                        planificador.acao_1_elegivel_trade_marketing,
+                        planificador.acao_2_experience_day_10_08_24,
+                        planificador.acao_2_experience_day_24_08_24,
+                        planificador.acao_2_experience_day_21_09_24,
+                        planificador.acao_2_experience_day_26_10_24,
+                        planificador.acao_2_experience_day_09_11_24,
+                        planificador.acao_3_friend_get_friend,
+                        planificador.acao_4_webinars_com_autoridades_pre,
+                        planificador.acao_4_webinars_com_autoridades_pos,
+                        planificador.piloto_welcome_baby_bear,
+                        planificador.acao_6_alinhado_resgate_leads,
+                        planificador.acao_6_todos_leads_resgatados_contatados
+                    ] if field == 'SIM'
+                ])
+                escola.porcentagem_planificador = round((sim_count / total_campos) * 100, 2)
+            else:
+                escola.porcentagem_planificador = 0
+
+        return context
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        order_by = self.request.GET.get("order_by", "nome_da_escola")
+        if query:
+            return CRM_FUI.objects.filter(Q(nome_da_escola__icontains=query)).order_by(order_by)
+        return CRM_FUI.objects.all().order_by(order_by)    
+

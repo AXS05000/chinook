@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (chat_view, generate_excel_report, ExcelImportView, ImportPlanificadorView, PlanificadorCreateView, PlanificadorUpdateView,hr_assistant_view,
+from .views import (chat_view, generate_excel_report, ExcelImportView, EscolaSearchView, ImportPlanificadorView, PlanificadorCreateView, PlanificadorUpdateView,hr_assistant_view,
     import_crm_fui,
     import_resposta,
     filtered_chat_view,
@@ -38,5 +38,6 @@ urlpatterns = [
     path('import_planificador/', ImportPlanificadorView.as_view(), name='import_planificador'),
     path('planificador/create/', PlanificadorCreateView.as_view(), name='planificador_create'),
     path('planificador/edit/<int:pk>/', PlanificadorUpdateView.as_view(), name='planificador_edit'),
+    path('search_escolas/', EscolaSearchView.as_view(), name='search_escolas'),
 
 ]
