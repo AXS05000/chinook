@@ -27,4 +27,5 @@ class PlanificadorForm(forms.ModelForm):
             'ultima_data_atualizacao_bloc_funil_comercial': DateInput(),
             'ultima_data_atualizacao_bloc_drivers_comerciais_meio': DateInput(),
             'data_atualizacao_resultados': DateInput(),
+            'escola': forms.HiddenInput()  # Tornar o campo oculto no formulário
         }

@@ -1,4 +1,5 @@
 import json
+import logging
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -873,11 +874,11 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
     def get(self, request, pk):
         planificador = get_object_or_404(Planificador_2024, pk=pk)
         form = PlanificadorForm(instance=planificador)
-        
+
         # Definindo os campos como readonly
         form.fields['slm_2022'].widget.attrs['readonly'] = True
         form.fields['slm_2023'].widget.attrs['readonly'] = True
-        
+
         # Calculando a porcentagem de "SIM"
         sim_nao_fields = [
             planificador.crm_b2c,
@@ -898,7 +899,7 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
             planificador.acao_6_alinhado_resgate_leads,
             planificador.acao_6_todos_leads_resgatados_contatados
         ]
-        
+
         total_fields = len(sim_nao_fields)
         sim_count = sim_nao_fields.count('SIM')
         porcentagem_planificador = (sim_count / total_fields) * 100
@@ -913,21 +914,28 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
             "crm_fui_slms_vendidos_25": escola.slms_vendidos_25,
             "porcentagem_planificador": porcentagem_planificador
         }
-        return render(request, "chatapp/planificador/planificador_form.html", context)
+        return render(request, "chatapp/planificador/planificador_form_edit.html", context)
 
     def post(self, request, pk):
         planificador = get_object_or_404(Planificador_2024, pk=pk)
-        form = PlanificadorForm(request.POST, instance=planificador)
-        
+        data = request.POST.copy()
+        data['escola'] = planificador.escola.pk  # Inclua o campo escola nos dados do formulário
+        form = PlanificadorForm(data, instance=planificador)
+
         # Definindo os campos como readonly na postagem também
         form.fields['slm_2022'].widget.attrs['readonly'] = True
         form.fields['slm_2023'].widget.attrs['readonly'] = True
-        
+
         if form.is_valid():
-            form.save()
-            messages.success(request, "Dados atualizados com sucesso!")
-            return redirect("planificador_edit", pk=pk)
-        
+            try:
+                form.save()
+                messages.success(request, "Dados atualizados com sucesso!")
+                return redirect("planificador_edit", pk=pk)
+            except Exception as e:
+                messages.error(request, "Erro ao atualizar os dados.")
+        else:
+            messages.error(request, "Erro ao atualizar os dados: %s" % form.errors)
+
         # Recalcula a porcentagem de "SIM" em caso de erro no formulário
         sim_nao_fields = [
             planificador.crm_b2c,
@@ -948,7 +956,7 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
             planificador.acao_6_alinhado_resgate_leads,
             planificador.acao_6_todos_leads_resgatados_contatados
         ]
-        
+
         total_fields = len(sim_nao_fields)
         sim_count = sim_nao_fields.count('SIM')
         porcentagem_planificador = (sim_count / total_fields) * 100
@@ -963,15 +971,8 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
             "crm_fui_slms_vendidos_25": escola.slms_vendidos_25,
             "porcentagem_planificador": porcentagem_planificador
         }
-        return render(request, "chatapp/planificador/planificador_form.html", context)  
+        return render(request, "chatapp/planificador/planificador_form_edit.html", context)
     
-
-
-
-
-
-
-
 ######################## BUSCA ESCOLAS PLANIFICADOR #################################################
 
 class EscolaSearchView(ListView):
