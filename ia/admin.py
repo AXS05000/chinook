@@ -12,6 +12,7 @@ from .models import (
     Vendas_SLM_2024,
     Vendas_SLM_2025,
     Base_de_Conhecimento,
+    Planificador_2024,
 )
 # Register your models here.
 admin.site.register(Informacao)
@@ -26,3 +27,4 @@ admin.site.register(Respostas_NPS)
 admin.site.register(Vendas_SLM_2024)
 admin.site.register(Vendas_SLM_2025)
 admin.site.register(Base_de_Conhecimento)
+admin.site.register(Planificador_2024)

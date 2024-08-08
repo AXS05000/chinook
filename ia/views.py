@@ -1,9 +1,12 @@
 import json
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Sum
+from .forms import PlanificadorForm
+from datetime import datetime
 from .models import (
     Informacao,
     Beneficio,
@@ -15,6 +18,7 @@ from .models import (
     Vendas_SLM_2024,
     Vendas_SLM_2025,
     Base_de_Conhecimento,
+    Planificador_2024,
 )
 from django.db import transaction
 from django.shortcuts import render, redirect
@@ -728,3 +732,152 @@ def simple_chat_view(request):
             "nome_da_escola"
         )  # Ordenar alfabeticamente
         return render(request, "chatapp/simple_chat.html", {"schools": schools})
+    
+
+
+
+
+
+
+
+
+
+
+################################### PLANIFICADOR #####################################################
+
+class ImportPlanificadorView(LoginRequiredMixin, View):
+    login_url = '/login/'
+
+    def get(self, request):
+        return render(request, "chatapp/import/import_planificador.html")
+
+    def post(self, request):
+        file = request.FILES["file"]
+        if not file.name.endswith(".xlsx"):
+            messages.error(request, "Por favor, envie um arquivo Excel.")
+            return redirect("import_planificador")
+
+        df = pd.read_excel(file)
+        for _, row in df.iterrows():
+            try:
+                escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
+                Planificador_2024.objects.update_or_create(
+                    escola=escola,
+                    defaults={
+                        "ultima_data_atualizacao_bloc_drivers_comerciais_estrategicos": self.parse_date(row["ultima_data_atualizacao_bloc_drivers_comerciais_estrategicos"]),
+                        "crm_b2c": self.parse_text(row["crm_b2c"]),
+                        "data_abertura_matricula_2025": self.parse_date(row["data_abertura_matricula_2025"]),
+                        "circular_oferta_2025_publicado": self.parse_text(row["circular_oferta_2025_publicado"]),
+                        "data_de_abertura_da_circular_2025": self.parse_date(row["data_de_abertura_da_circular_2025"]),
+                        "toddle": self.parse_text(row["toddle"]),
+                        "toddle_planejamento": self.parse_text(row["toddle_planejamento"]),
+                        "toddle_portfolio": self.parse_text(row["toddle_portfolio"]),
+                        "arvore": self.parse_text(row["arvore"]),
+                        "data_implementacao_arvore": self.parse_date(row["data_implementacao_arvore"]),
+                        "ultima_data_atualizacao_bloc_funil_comercial": self.parse_date(row["ultima_data_atualizacao_bloc_funil_comercial"]),
+                        "leads_central_ago_24": self.parse_number(row["leads_central_ago_24"]),
+                        "leads_escolas_ago_24": self.parse_number(row["leads_escolas_ago_24"]),
+                        "visitas_ago_24": self.parse_number(row["visitas_ago_24"]),
+                        "taxa_conversao_atual_leads_visitas": self.parse_number(row["taxa_conversao_atual_leads_visitas"]),
+                        "matriculas_ago_24": self.parse_number(row["matriculas_ago_24"]),
+                        "taxa_conversao_atual_visitas_matriculas": self.parse_number(row["taxa_conversao_atual_visitas_matriculas"]),
+                        "taxa_conversao_leads_matriculas": self.parse_number(row["taxa_conversao_leads_matriculas"]),
+                        "ultima_data_atualizacao_bloc_drivers_comerciais_meio": self.parse_date(row["ultima_data_atualizacao_bloc_drivers_comerciais_meio"]),
+                        "meta_alunos_5k_2024": self.parse_number(row["meta_alunos_5k_2024"]),
+                        "setup_plano_comercial_segundo_semestre": self.parse_text(row["setup_plano_comercial_segundo_semestre"]),
+                        "acao_1_elegivel_trade_marketing": self.parse_text(row["acao_1_elegivel_trade_marketing"]),
+                        "acao_1_trade_valor": self.parse_number(row["acao_1_trade_valor"]),
+                        "acao_1_trade_marketing_acoes_alinhadas": self.parse_text(row["acao_1_trade_marketing_acoes_alinhadas"]),
+                        "acao_2_experience_day_10_08_24": self.parse_text(row["acao_2_experience_day_10_08_24"]),
+                        "acao_2_experience_day_24_08_24": self.parse_text(row["acao_2_experience_day_24_08_24"]),
+                        "acao_2_experience_day_21_09_24": self.parse_text(row["acao_2_experience_day_21_09_24"]),
+                        "acao_2_experience_day_26_10_24": self.parse_text(row["acao_2_experience_day_26_10_24"]),
+                        "acao_2_experience_day_09_11_24": self.parse_text(row["acao_2_experience_day_09_11_24"]),
+                        "acao_3_friend_get_friend": self.parse_text(row["acao_3_friend_get_friend"]),
+                        "acao_4_webinars_com_autoridades_pre": self.parse_text(row["acao_4_webinars_com_autoridades_pre"]),
+                        "acao_4_webinars_com_autoridades_pos": self.parse_text(row["acao_4_webinars_com_autoridades_pos"]),
+                        "piloto_welcome_baby_bear": self.parse_text(row["piloto_welcome_baby_bear"]),
+                        "acao_5_sdr_taxa_conversao_validacao_lead": self.parse_number(row["acao_5_sdr_taxa_conversao_validacao_lead"]),
+                        "acao_5_sdr_taxa_conversao_visitas": self.parse_number(row["acao_5_sdr_taxa_conversao_visitas"]),
+                        "acao_6_alinhado_resgate_leads": self.parse_text(row["acao_6_alinhado_resgate_leads"]),
+                        "acao_6_quantidade_leads_resgatados": self.parse_number(row["acao_6_quantidade_leads_resgatados"]),
+                        "acao_6_todos_leads_resgatados_contatados": self.parse_text(row["acao_6_todos_leads_resgatados_contatados"]),
+                        "data_atualizacao_resultados": self.parse_date(row["data_atualizacao_resultados"]),
+                        "slm_2022": self.parse_number(row["slm_2022"]),
+                        "slm_2023": self.parse_number(row["slm_2023"]),
+                        "meta_orcamentaria_2024": self.parse_number(row["meta_orcamentaria_2024"]),
+                        "base_rematriculaveis_2025": self.parse_number(row["base_rematriculaveis_2025"]),
+                        "meta_rematricula_2025": self.parse_number(row["meta_rematricula_2025"]),
+                        "real_rematriculas_2025": self.parse_number(row["real_rematriculas_2025"]),
+                        "atingimento_rematriculas_2025": self.parse_number(row["atingimento_rematriculas_2025"]),
+                        "meta_matricula_2025": self.parse_number(row["meta_matricula_2025"]),
+                        "real_matricula_2025": self.parse_number(row["real_matricula_2025"]),
+                        "atingimento_matriculas_2025": self.parse_number(row["atingimento_matriculas_2025"]),
+                        "total_meta_alunos_2025": self.parse_number(row["total_meta_alunos_2025"]),
+                        "total_real_alunos_2025": self.parse_number(row["total_real_alunos_2025"]),
+                        "atingimento_real_alunos_2025": self.parse_number(row["atingimento_real_alunos_2025"]),
+                        "correlacao_alunos_slms_2025": self.parse_number(row["correlacao_alunos_slms_2025"]),
+                        "mc_2025": self.parse_number(row["mc_2025"]),
+                        "slms_2025_m": self.parse_number(row["slms_2025_m"]),
+                        "pedidos_represados_logistica_2025": self.parse_number(row["pedidos_represados_logistica_2025"]),
+                        "pedidos_faturados": self.parse_number(row["pedidos_faturados"]),
+                        "pedidos_entregues": self.parse_number(row["pedidos_entregues"]),
+                    }
+                )
+            except CRM_FUI.DoesNotExist:
+                messages.error(request, f"Escola com id_escola {row['id_escola']} não encontrada.")
+        messages.success(request, "Dados importados com sucesso!")
+        return redirect("import_planificador")
+
+    def parse_date(self, date):
+        if pd.isna(date):
+            return None
+        if isinstance(date, str):
+            return datetime.fromisoformat(date).date()
+        if isinstance(date, pd.Timestamp):
+            return date.to_pydatetime().date()
+        if isinstance(date, datetime):
+            return date.date()
+        return date
+
+    def parse_number(self, value):
+        if pd.isna(value):
+            return None
+        return value
+
+    def parse_text(self, value):
+        if pd.isna(value):
+            return ''
+        return value
+
+class PlanificadorCreateView(LoginRequiredMixin, View):
+    login_url = '/login/'
+
+    def get(self, request):
+        form = PlanificadorForm()
+        return render(request, "chatapp/planificador/planificador_form.html", {"form": form})
+
+    def post(self, request):
+        form = PlanificadorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Dados criados com sucesso!")
+            return redirect("planificador_list")
+        return render(request, "chatapp/planificador/planificador_form.html", {"form": form})
+
+class PlanificadorUpdateView(LoginRequiredMixin, View):
+    login_url = '/login/'
+
+    def get(self, request, pk):
+        planificador = get_object_or_404(Planificador_2024, pk=pk)
+        form = PlanificadorForm(instance=planificador)
+        return render(request, "chatapp/planificador/planificador_form.html", {"form": form})
+
+    def post(self, request, pk):
+        planificador = get_object_or_404(Planificador_2024, pk=pk)
+        form = PlanificadorForm(request.POST, instance=planificador)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Dados atualizados com sucesso!")
+            return redirect("planificador_list")
+        return render(request, "chatapp/planificador/planificador_form.html", {"form": form})

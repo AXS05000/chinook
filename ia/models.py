@@ -252,3 +252,96 @@ class Base_de_Conhecimento(models.Model):
 
     def __str__(self):
         return f"{self.titulo} - {self.assunto} - {self.sub_assunto}"
+    
+
+
+
+
+
+
+
+
+
+
+
+################################## PLANIFICADOR ###############################################
+
+class Planificador_2024(models.Model):
+    
+    SIM_NAO_CHOICES = [
+        ('SIM', 'Sim'),
+        ('NAO', 'Não'),
+    ]
+    escola = models.ForeignKey(
+            CRM_FUI,
+            on_delete=models.CASCADE,
+            related_name="nome_escola_planificador",
+            verbose_name="Nome da Escola Planificador",
+        )
+    ultima_data_atualizacao_bloc_drivers_comerciais_estrategicos = models.DateField(null=True, blank=True)
+    crm_b2c = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    data_abertura_matricula_2025 = models.DateField(null=True, blank=True)
+    circular_oferta_2025_publicado = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    data_de_abertura_da_circular_2025 = models.DateField(null=True, blank=True)
+    toddle = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    toddle_planejamento = models.CharField(max_length=255, null=True, blank=True)
+    toddle_portfolio = models.CharField(max_length=255, null=True, blank=True)
+    arvore = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    data_implementacao_arvore = models.DateField(null=True, blank=True)
+    ultima_data_atualizacao_bloc_funil_comercial = models.DateField(null=True, blank=True)
+    leads_central_ago_24 = models.IntegerField(null=True, blank=True)
+    leads_escolas_ago_24 = models.IntegerField(null=True, blank=True)
+    visitas_ago_24 = models.IntegerField(null=True, blank=True)
+    taxa_conversao_atual_leads_visitas = models.FloatField(null=True, blank=True)
+    matriculas_ago_24 = models.IntegerField(null=True, blank=True)
+    taxa_conversao_atual_visitas_matriculas = models.FloatField(null=True, blank=True)
+    taxa_conversao_leads_matriculas = models.FloatField(null=True, blank=True)
+    
+    ultima_data_atualizacao_bloc_drivers_comerciais_meio = models.DateField(null=True, blank=True)
+    meta_alunos_5k_2024 = models.IntegerField(null=True, blank=True)
+    
+    
+    setup_plano_comercial_segundo_semestre = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    acao_1_elegivel_trade_marketing = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    acao_1_trade_valor = models.FloatField(null=True, blank=True)
+    acao_1_trade_marketing_acoes_alinhadas = models.CharField(max_length=255, null=True, blank=True)
+    acao_2_experience_day_10_08_24 = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    acao_2_experience_day_24_08_24 = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    acao_2_experience_day_21_09_24 = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    acao_2_experience_day_26_10_24 = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    acao_2_experience_day_09_11_24 = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    acao_3_friend_get_friend = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    acao_4_webinars_com_autoridades_pre = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    acao_4_webinars_com_autoridades_pos = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    piloto_welcome_baby_bear = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    acao_5_sdr_taxa_conversao_validacao_lead = models.FloatField(null=True, blank=True)
+    acao_5_sdr_taxa_conversao_visitas = models.FloatField(null=True, blank=True)
+    acao_6_alinhado_resgate_leads = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    acao_6_quantidade_leads_resgatados = models.IntegerField(null=True, blank=True)
+    acao_6_todos_leads_resgatados_contatados = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
+    data_atualizacao_resultados = models.DateField(null=True, blank=True)
+    slm_2022 = models.FloatField(null=True, blank=True)
+    slm_2023 = models.FloatField(null=True, blank=True)
+    
+    meta_orcamentaria_2024 = models.FloatField(null=True, blank=True)
+    
+    base_rematriculaveis_2025 = models.IntegerField(null=True, blank=True)
+    meta_rematricula_2025 = models.IntegerField(null=True, blank=True)
+    real_rematriculas_2025 = models.IntegerField(null=True, blank=True)
+    atingimento_rematriculas_2025 = models.FloatField(null=True, blank=True)
+    meta_matricula_2025 = models.IntegerField(null=True, blank=True)
+    real_matricula_2025 = models.IntegerField(null=True, blank=True)
+    atingimento_matriculas_2025 = models.FloatField(null=True, blank=True)
+    total_meta_alunos_2025 = models.IntegerField(null=True, blank=True)
+    total_real_alunos_2025 = models.IntegerField(null=True, blank=True)
+    atingimento_real_alunos_2025 = models.FloatField(null=True, blank=True)
+    correlacao_alunos_slms_2025 = models.FloatField(null=True, blank=True)
+    mc_2025 = models.FloatField(null=True, blank=True)
+    slms_2025_m = models.FloatField(null=True, blank=True)
+    pedidos_represados_logistica_2025 = models.IntegerField(null=True, blank=True)
+    pedidos_faturados = models.IntegerField(null=True, blank=True)
+    pedidos_entregues = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Dados Comerciais {self.escola}"
+
