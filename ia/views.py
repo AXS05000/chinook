@@ -869,6 +869,36 @@ class PlanificadorCreateView(LoginRequiredMixin, View):
 
 
 
+
+
+
+def calcular_porcentagem_sim(planificador):
+    sim_nao_fields = [
+        planificador.crm_b2c,
+        planificador.circular_oferta_2025_publicado,
+        planificador.toddle,
+        planificador.arvore,
+        planificador.setup_plano_comercial_segundo_semestre,
+        planificador.acao_1_elegivel_trade_marketing,
+        planificador.acao_2_experience_day_10_08_24,
+        planificador.acao_2_experience_day_24_08_24,
+        planificador.acao_2_experience_day_21_09_24,
+        planificador.acao_2_experience_day_26_10_24,
+        planificador.acao_2_experience_day_09_11_24,
+        planificador.acao_3_friend_get_friend,
+        planificador.acao_4_webinars_com_autoridades_pre,
+        planificador.acao_4_webinars_com_autoridades_pos,
+        planificador.piloto_welcome_baby_bear,
+        planificador.acao_6_alinhado_resgate_leads,
+        planificador.acao_6_todos_leads_resgatados_contatados
+    ]
+
+    total_fields = len(sim_nao_fields)
+    sim_count = sum(1 for field in sim_nao_fields if field == 'SIM')
+    porcentagem_sim = (sim_count / total_fields) * 100
+    return f"{porcentagem_sim:.2f}"
+
+
 class PlanificadorUpdateView(LoginRequiredMixin, View):
     login_url = '/login/'
 
@@ -880,31 +910,7 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
         form.fields['slm_2022'].widget.attrs['readonly'] = True
         form.fields['slm_2023'].widget.attrs['readonly'] = True
 
-        # Calculando a porcentagem de "SIM"
-        sim_nao_fields = [
-            planificador.crm_b2c,
-            planificador.circular_oferta_2025_publicado,
-            planificador.toddle,
-            planificador.arvore,
-            planificador.setup_plano_comercial_segundo_semestre,
-            planificador.acao_1_elegivel_trade_marketing,
-            planificador.acao_2_experience_day_10_08_24,
-            planificador.acao_2_experience_day_24_08_24,
-            planificador.acao_2_experience_day_21_09_24,
-            planificador.acao_2_experience_day_26_10_24,
-            planificador.acao_2_experience_day_09_11_24,
-            planificador.acao_3_friend_get_friend,
-            planificador.acao_4_webinars_com_autoridades_pre,
-            planificador.acao_4_webinars_com_autoridades_pos,
-            planificador.piloto_welcome_baby_bear,
-            planificador.acao_6_alinhado_resgate_leads,
-            planificador.acao_6_todos_leads_resgatados_contatados
-        ]
-
-        total_fields = len(sim_nao_fields)
-        sim_count = sim_nao_fields.count('SIM')
-        porcentagem_planificador = (sim_count / total_fields) * 100
-        porcentagem_planificador = f"{porcentagem_planificador:.2f}"  # Formatar com duas casas decimais
+        porcentagem_planificador = calcular_porcentagem_sim(planificador)
 
         escola = planificador.escola
         context = {
@@ -930,37 +936,14 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
         if form.is_valid():
             try:
                 form.save()
+                messages.success(request, "Dados atualizados com sucesso!")
                 return redirect("buscar_escolas")
             except Exception as e:
                 messages.error(request, "Erro ao atualizar os dados.")
         else:
             messages.error(request, "Erro ao atualizar os dados: %s" % form.errors)
 
-        # Recalcula a porcentagem de "SIM" em caso de erro no formulário
-        sim_nao_fields = [
-            planificador.crm_b2c,
-            planificador.circular_oferta_2025_publicado,
-            planificador.toddle,
-            planificador.arvore,
-            planificador.setup_plano_comercial_segundo_semestre,
-            planificador.acao_1_elegivel_trade_marketing,
-            planificador.acao_2_experience_day_10_08_24,
-            planificador.acao_2_experience_day_24_08_24,
-            planificador.acao_2_experience_day_21_09_24,
-            planificador.acao_2_experience_day_26_10_24,
-            planificador.acao_2_experience_day_09_11_24,
-            planificador.acao_3_friend_get_friend,
-            planificador.acao_4_webinars_com_autoridades_pre,
-            planificador.acao_4_webinars_com_autoridades_pos,
-            planificador.piloto_welcome_baby_bear,
-            planificador.acao_6_alinhado_resgate_leads,
-            planificador.acao_6_todos_leads_resgatados_contatados
-        ]
-
-        total_fields = len(sim_nao_fields)
-        sim_count = sim_nao_fields.count('SIM')
-        porcentagem_planificador = (sim_count / total_fields) * 100
-        porcentagem_planificador = f"{porcentagem_planificador:.2f}"  # Formatar com duas casas decimais
+        porcentagem_planificador = calcular_porcentagem_sim(planificador)
 
         escola = planificador.escola
         context = {
@@ -1008,30 +991,8 @@ class EscolaSearchView(ListView):
         for escola in context['object_list']:
             planificador = Planificador_2024.objects.filter(escola=escola).first()
             if planificador:
-                total_campos = 16  # Número total de campos SIM/NÃO
-                sim_count = sum([
-                    1 for field in [
-                        planificador.crm_b2c,
-                        planificador.circular_oferta_2025_publicado,
-                        planificador.toddle,
-                        planificador.arvore,
-                        planificador.setup_plano_comercial_segundo_semestre,
-                        planificador.acao_1_elegivel_trade_marketing,
-                        planificador.acao_2_experience_day_10_08_24,
-                        planificador.acao_2_experience_day_24_08_24,
-                        planificador.acao_2_experience_day_21_09_24,
-                        planificador.acao_2_experience_day_26_10_24,
-                        planificador.acao_2_experience_day_09_11_24,
-                        planificador.acao_3_friend_get_friend,
-                        planificador.acao_4_webinars_com_autoridades_pre,
-                        planificador.acao_4_webinars_com_autoridades_pos,
-                        planificador.piloto_welcome_baby_bear,
-                        planificador.acao_6_alinhado_resgate_leads,
-                        planificador.acao_6_todos_leads_resgatados_contatados
-                    ] if field == 'SIM'
-                ])
                 escola.planificador = planificador
-                escola.porcentagem_planificador = round((sim_count / total_campos) * 100, 2)
+                escola.porcentagem_planificador = calcular_porcentagem_sim(planificador)
             else:
                 escola.planificador = None
                 escola.porcentagem_planificador = 0
