@@ -1,5 +1,6 @@
 from django import forms
 from .models import Planificador_2024
+from datetime import datetime
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -7,6 +8,11 @@ class DateInput(forms.DateInput):
     def format_value(self, value):
         if value is None:
             return ''
+        if isinstance(value, str):
+            try:
+                value = datetime.fromisoformat(value)
+            except ValueError:
+                return ''
         return value.strftime('%Y-%m-%d')
 
 class PlanificadorForm(forms.ModelForm):
