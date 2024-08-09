@@ -898,7 +898,6 @@ def calcular_porcentagem_sim(planificador):
     porcentagem_sim = (sim_count / total_fields) * 100
     return f"{porcentagem_sim:.2f}"
 
-
 class PlanificadorUpdateView(LoginRequiredMixin, View):
     login_url = '/login/'
 
@@ -915,7 +914,7 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
         escola = planificador.escola
         context = {
             "form": form,
-            "planificador": planificador,  # Passando o planificador para o template
+            "planificador": planificador,
             "crm_fui_meta": escola.meta,
             "crm_fui_slms_vendidos": escola.slms_vendidos,
             "crm_fui_slms_vendidos_25": escola.slms_vendidos_25,
@@ -928,7 +927,6 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
             "crm_fui_consultor_gestao_escolar": escola.consultor_gestao_escolar,
             "crm_fui_consultor_saf": escola.consultor_saf,
             "crm_fui_consultor_academico": escola.consultor_academico,
-            "crm_fui_slms_vendidos_25": escola.segmento_da_escola,
             "porcentagem_planificador": porcentagem_planificador
         }
         return render(request, "chatapp/planificador/planificador_form_edit.html", context)
@@ -945,7 +943,11 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
 
         if form.is_valid():
             try:
-                form.save()
+                # Atualizando o campo 'usuario_modificacao' antes de salvar
+                planificador = form.save(commit=False)
+                planificador.usuario_modificacao = request.user
+                planificador.save()
+
                 messages.success(request, "Dados atualizados com sucesso!")
                 return redirect("buscar_escolas")
             except Exception as e:
@@ -958,7 +960,7 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
         escola = planificador.escola
         context = {
             "form": form,
-            "planificador": planificador,  # Passando o planificador para o template
+            "planificador": planificador,
             "crm_fui_meta": escola.meta,
             "crm_fui_slms_vendidos": escola.slms_vendidos,
             "crm_fui_slms_vendidos_25": escola.slms_vendidos_25,

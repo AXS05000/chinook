@@ -1,5 +1,5 @@
 from django.db import models
-
+from usuarios.models import CustomUsuario
 
 class Informacao(models.Model):
     nome = models.CharField(max_length=100)
@@ -272,11 +272,15 @@ class Planificador_2024(models.Model):
         ('SIM', 'Sim'),
         ('NAO', 'Não'),
     ]
+    usuario_modificacao = models.ForeignKey(
+        CustomUsuario, on_delete=models.SET_NULL, null=True, blank=True
+    )
     escola = models.ForeignKey(
             CRM_FUI,
             on_delete=models.CASCADE,
             related_name="nome_escola_planificador",
             verbose_name="Nome da Escola Planificador",
+            null=True, blank=True
         )
     ultima_data_atualizacao_bloc_drivers_comerciais_estrategicos = models.DateField(null=True, blank=True)
     crm_b2c = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
