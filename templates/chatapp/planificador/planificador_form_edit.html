@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_filters %}
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -27,60 +28,22 @@
 
 
 
-
+<style>
+    @media only screen and (max-width: 1300px) {
+        .dd {
+          display: none;
+        }
+      }
+</style>
 
 
   </head>
   
   <body>
     <!-- Header Section Start -->
-    <header id="slider-area">  
-      <nav class="navbar navbar-expand-md fixed-top scrolling-navbar bg-white">
-        <div class="container">  
-          <a class="navbar-brand" href="{% url 'index' %}"><img  src="{% static 'assets_2/img/maple_bear.svg' %}" alt="" style="max-height: 40px;">  Maple Bear</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="lni-menu"></i>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto w-100 justify-content-end">
-              <li class="nav-item">
-                <a class="nav-link page-scroll" href="#slider-area">Home</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link page-scroll nav-link-ded dropdown-toggle" id="dropdownContratos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Glex</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 200px;">
-                  <a class="nav-link" href="{% url 'home_glex' %}">Home Glex</a>
-                  <a class="nav-link" href="{% url 'table_forms_glex' %}">Formulários</a>
+    <header id="slider-area"> 
 
-                </div>
-              </li>
-                        
-              <li class="nav-item dropdown">
-                <a class="nav-link page-scroll nav-link-ded dropdown-toggle" id="dropdownContratos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contratos</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 200px;">
-                  <a class="nav-link" href="#">Buscar Candidatos</a>
-                  <a class="nav-link" href="#">Formulário PCF</a>
-                  <a class="nav-link" href="#">Importar Modelo de Contrato</a>
-                </div>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link page-scroll nav-link-ded dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Escolas</a>
-                <div class="dropdown-menu" style="min-width: 200px;">
-                  <a class="nav-link" href="#">Buscar Escolas</a>
-                  <a class="nav-link" href="#">Formulário FDMP</a>
-                </div>
-              </li>
-              {% if user.is_anonymous %}
-              {% else %}
-              <li class="nav-item">
-                <a class="nav-link page-scroll" href="#">Sair</a>
-              </li>
-              {% endif %}  
-
-            </ul>              
-          </div>
-        </div>
-      </nav> 
+        {% include 'navbar/navbar.html' %}
 
     </header>
   <!-- Fim da Nav -->
@@ -98,8 +61,8 @@
   <section id="admissao" class="section">
     <div class="container">
         <div class="section-header text-center" >          
-            <h2 class="section-title" style="padding-top: 2rem;">Planificador:</h2>
-            <span style="padding-top: 2rem;">MAPLE BEAR</span>
+            <h2 class="section-title dd" style="padding-top: 2rem; ">Planificador:</h2>
+            <span style="padding-top: 2rem;" class="dd">MAPLE BEAR</span>
         </div>
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -110,14 +73,14 @@
                     <div class="form-header">
                         {% if messages %}
                             {% for message in messages %}
-                                {% if message.tags == 'success' %}
+                                {% comment %} {% if message.tags == 'success' %}
                                 <div class="alert alert-sucess alert-dismissible text-white" role="alert">
                                     <span class="text-sm">{{ message }}</span>
                                     <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                </div>
-                                {% elif message.tags == 'error' %}
+                                </div> {% endcomment %}
+                                {% if message.tags == 'error' %}
                                     <div class="alert alert-danger alert-dismissible text-white" role="alert">
                                         <span class="text-sm">{{ message }}</span>
                                         <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
@@ -131,14 +94,74 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                {% else %}
-                                    <li>{{ message }}</li>
+                                {% comment %} {% else %}
+                                    <li>{{ message }}</li> {% endcomment %}
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
                         <div class="input-group container">
                             <div class="input-box ">
                                 <div class="select">
+                                    <br><br>
+                                    <h7 class="navbar-brand-ajuste">BLOCO DADOS DA ESCOLA:</h7>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">ID da Escola:</div>
+                                        <div class="comp-nota-1">
+                                            <input type="text" value="{{ crm_fui_id_escola }}" readonly class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Nome da Escola:</div>
+                                        <div class="comp-nota-1">
+                                            <input type="text" value="{{ crm_fui_nome_da_escola }}" readonly class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Cluster:</div>
+                                        <div class="comp-nota-1">
+                                            <input type="text" value="{{ crm_fui_cluster }}" readonly class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Atual Série:</div>
+                                        <div class="comp-nota-1">
+                                            <input type="text" value="{{ crm_fui_atual_serie }}" readonly class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Segmento da Escola:</div>
+                                        <div class="comp-nota-1">
+                                            <input type="text" value="{{ crm_fui_segmento_da_escola }}" readonly class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Consultor Comercial:</div>
+                                        <div class="comp-nota-1">
+                                            <input type="text" value="{{ crm_fui_consultor_comercial }}" readonly class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Consultor Gestão Escolar:</div>
+                                        <div class="comp-nota-1">
+                                            <input type="text" value="{{ crm_fui_consultor_gestao_escolar }}" readonly class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Consultor SAF:</div>
+                                        <div class="comp-nota-1">
+                                            <input type="text" value="{{ crm_fui_consultor_saf }}" readonly class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Consultor Acadêmico:</div>
+                                        <div class="comp-nota-1">
+                                            <input type="text" value="{{ crm_fui_consultor_academico }}" readonly class="form-control" />
+                                        </div>
+                                    </div>
+
+
+
+                                    <br><br>
                                     <h7 class="navbar-brand-ajuste">BLOCO DRIVERS COMERCIAIS ESTRATÉGICOS:</h7>
                                     <br><br>
                                     <div id="camposAdicionais" class="select produto-quantidade">

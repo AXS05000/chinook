@@ -919,6 +919,16 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
             "crm_fui_meta": escola.meta,
             "crm_fui_slms_vendidos": escola.slms_vendidos,
             "crm_fui_slms_vendidos_25": escola.slms_vendidos_25,
+            "crm_fui_id_escola": escola.id_escola,
+            "crm_fui_nome_da_escola": escola.nome_da_escola,
+            "crm_fui_cluster": escola.cluster,
+            "crm_fui_atual_serie": escola.atual_serie,
+            "crm_fui_segmento_da_escola": escola.segmento_da_escola,
+            "crm_fui_consultor_comercial": escola.consultor_comercial,
+            "crm_fui_consultor_gestao_escolar": escola.consultor_gestao_escolar,
+            "crm_fui_consultor_saf": escola.consultor_saf,
+            "crm_fui_consultor_academico": escola.consultor_academico,
+            "crm_fui_slms_vendidos_25": escola.segmento_da_escola,
             "porcentagem_planificador": porcentagem_planificador
         }
         return render(request, "chatapp/planificador/planificador_form_edit.html", context)
@@ -952,6 +962,15 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
             "crm_fui_meta": escola.meta,
             "crm_fui_slms_vendidos": escola.slms_vendidos,
             "crm_fui_slms_vendidos_25": escola.slms_vendidos_25,
+            "crm_fui_id_escola": escola.id_escola,
+            "crm_fui_nome_da_escola": escola.nome_da_escola,
+            "crm_fui_cluster": escola.cluster,
+            "crm_fui_atual_serie": escola.atual_serie,
+            "crm_fui_segmento_da_escola": escola.segmento_da_escola,
+            "crm_fui_consultor_comercial": escola.consultor_comercial,
+            "crm_fui_consultor_gestao_escolar": escola.consultor_gestao_escolar,
+            "crm_fui_consultor_saf": escola.consultor_saf,
+            "crm_fui_consultor_academico": escola.consultor_academico,
             "porcentagem_planificador": porcentagem_planificador
         }
         return render(request, "chatapp/planificador/planificador_form_edit.html", context)
