@@ -404,6 +404,7 @@ def generate_excel_report(vendas):
 
     return response
 
+
 @login_required(login_url='/login/')
 def filtered_chat_view(request):
     if request.method == "POST":
@@ -426,16 +427,20 @@ def filtered_chat_view(request):
             print("Erro: ID da escola não fornecido")
             return JsonResponse({"error": "School ID not provided"}, status=400)
 
+        # Tenta obter a escola, independentemente do tipo de mensagem
+        try:
+            school = CRM_FUI.objects.get(id_escola=school_id)
+            print(f"Escola encontrada: {school.nome_da_escola}")
+        except CRM_FUI.DoesNotExist:
+            print("Erro: Escola não encontrada")
+            return JsonResponse({"error": "School not found"}, status=404)
+
         if message == 'auto':  # Verifica se a mensagem é a solicitação automática
-            try:
-                school = CRM_FUI.objects.get(id_escola=school_id)
-                response = (
-                    f"Olá, eu sou o Chinook. Vou passar o resumo da escola {school.nome_da_escola}, "
-                    f"CNPJ: {school.CNPJ}, e o status da escola é {school.status_da_escola}."
-                )
-                return JsonResponse({"response": response})
-            except CRM_FUI.DoesNotExist:
-                return JsonResponse({"error": "School not found"}, status=404)
+            response = (
+                f"Olá, eu sou o Chinook. Vou passar o resumo da escola {school.nome_da_escola}, "
+                f"CNPJ: {school.CNPJ}, e o status da escola é {school.status_da_escola}."
+            )
+            return JsonResponse({"response": response})
 
         # Apenas chama a função de classificação se a mensagem não for automática
         question_type = classify_question_chat_central(message, api_key)
@@ -649,6 +654,7 @@ def filtered_chat_view(request):
             "nome_da_escola"
         )  # Ordenar alfabeticamente
         return render(request, "chatapp/filtered_chat.html", {"schools": schools})
+
 
 
 def download_excel_report_slm_2024(request):
