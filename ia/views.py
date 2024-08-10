@@ -675,73 +675,6 @@ def download_excel_report_slm_2025(request):
     df.to_excel(response, index=False)
     return response
 
-############################################# CHAT CENTRAL###########################################################
-
-
-def simple_chat_view(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        message = data.get("message")
-
-        if not message:
-            return JsonResponse({"error": "Message not provided"}, status=400)
-
-        context = ""
-        schools = CRM_FUI.objects.all()
-        for school in schools:
-            context += (
-                f"Nome da Escola: {school.nome_da_escola}\n"
-                f"CNPJ: {school.CNPJ}\n"
-                f"Status: {school.status_da_escola} - Esse é o status da escola se ela está operando normalmente ou se está em fase de implantação.\n"
-                f"SLMs Vendidos: {school.slms_vendidos} - SLM ou SLMs no plural são os materiais vendidos.\n"
-                f"Meta: {school.meta} - Esse campo é a meta de Vendas de SLM vendidos.\n"
-                f"Cluster: {school.cluster}\n"
-                f"Endereço da escola: {school.endereco}\n"
-                f"CEP da escola: {school.cep_escola}\n"
-                f"Bairro da escola: {school.bairro_escola}\n"
-                f"Cidade da escola: {school.cidade_da_escola}\n"
-                f"Estado da escola: {school.estado_da_escola}\n"
-                f"Região da escola: {school.regiao_da_escola}\n"
-                f"Telefone  da escola: {school.telefone_de_contato_da_escola}\n"
-                f"Email da escola: {school.email_da_escola}\n"
-                f"Segmento da escola: {school.segmento_da_escola}\n"
-                f"Atual Série da escola: {school.atual_serie}\n"
-                f"Avanço Segmento  da escola: {school.avanco_segmento}\n"
-                f"NPS Pais 2024 - 1° Onda: {school.nps_pais_2024_1_onda} - "
-                f"Este campo indica a pontuação referente ao NPS(Net Promoter Score) dos pais dos alunos que estudam na escola, que foi realizado no 1° semestre no ano(1° Onda).\n"
-                f"Cliente Oculto 2024: {school.cliente_oculto_2024} - "
-                f"Este campo indica a pontuação referente ao Cliente Oculto, que uma avaliação realizada por uma empresa terceirizada onde consiste em um falso cliente ir até a escola para avaliar ela.\n"
-                f"Quality Assurance 2024: {school.quality_assurance_2024} - "
-                f"Este campo indica a pontuação referente Quality Assurance uma avaliação realizada para ver a qualidade da escola.\n"
-                f"Status de Adimplência/Inadimplência: {school.status_de_adimplencia} - "
-                f"Este campo indica se a escola está Adimplente ou Inadimplente referente aos seus pagamentos que devem ser feitos à franqueada Maple Bear.\n"
-                f"Ticket Médio: {school.ticket_medio} - Este é o valor médio de mensalidade cobrada pela escola.\n"
-            )
-
-            if school.status_de_adimplencia == "Inadimplente":
-                context += f"Inadimplência: {school.inadimplencia} - Este é o valor que a escola está devendo para a Maple Bear.\n"
-
-            context += (
-                f"Consultor Comercial: {school.consultor_comercial}\n"
-                f"Consultor Gestão Escolar: {school.consultor_gestao_escolar}\n\n"
-            )
-
-        response = config_simple_chat(message, context)
-
-        return JsonResponse({"response": response})
-    else:
-        schools = CRM_FUI.objects.all().order_by(
-            "nome_da_escola"
-        )  # Ordenar alfabeticamente
-        return render(request, "chatapp/simple_chat.html", {"schools": schools})
-    
-
-
-
-
-
-
-
 
 
 
@@ -866,9 +799,6 @@ class PlanificadorCreateView(LoginRequiredMixin, View):
             messages.success(request, "Dados criados com sucesso!")
             return redirect("planificador_list")
         return render(request, "chatapp/planificador/planificador_form.html", {"form": form})
-
-
-
 
 
 

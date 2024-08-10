@@ -7,7 +7,6 @@ from .views import (chat_view, generate_excel_report, ExcelImportView, EscolaSea
     import_vendas_slm_2025,
     download_excel_report_slm_2024,
     download_excel_report_slm_2025,
-    simple_chat_view,
     )
 
 urlpatterns = [
@@ -34,7 +33,6 @@ urlpatterns = [
         download_excel_report_slm_2025,
         name="download_excel_report_25",
     ),
-    path("simple_chat/", simple_chat_view, name="simple_chat"),
     path('import_planificador/', ImportPlanificadorView.as_view(), name='import_planificador'),
     path('planificador/create/', PlanificadorCreateView.as_view(), name='planificador_create'),
     path('planificador/<int:pk>/editar/', PlanificadorUpdateView.as_view(), name='editar_planificador'),
