@@ -437,8 +437,22 @@ def filtered_chat_view(request):
 
         if message == 'auto':  # Verifica se a mensagem é a solicitação automática
             response = (
-                f"Olá, eu sou o Chinook. Vou passar o resumo da escola {school.nome_da_escola}, "
-                f"CNPJ: {school.CNPJ}, e o status da escola é {school.status_da_escola}."
+                f"Olá, eu sou o Chinook o seu assistente da Maple Bear. Vou passar o resumo da escola {school.nome_da_escola}:<br><br>"
+                
+                f"<span style='font-weight: bold;'>Informações Básicas:</span><br>"
+                f"<span style='font-weight: bold;'>CNPJ:</span> {school.CNPJ} - <span style='font-weight: bold;'>Cluster:</span> {school.cluster} - <span style='font-weight: bold;'>Status:</span> {school.status_da_escola}.<br>"
+                f"<span style='font-weight: bold;'>Endereço:</span> {school.endereco} {school.complemento_escola}, {school.bairro_escola}, {school.cidade_da_escola}, {school.estado_da_escola}, CEP {school.cep_escola}, na região {school.regiao_da_escola} do Brasil."
+                f" - <span style='font-weight: bold;'>Telefone:</span> {school.telefone_de_contato_da_escola} - <span style='font-weight: bold;'>Email:</span> {school.email_da_escola}.<br><span style='font-weight: bold;'>Segmento:</span> {school.segmento_da_escola} - <span style='font-weight: bold;'>Atual Série:</span> {school.atual_serie} - <span style='font-weight: bold;'>Avanço de Segmento:</span> {school.avanco_segmento}.<br>"
+                
+                
+                f"<br><span style='font-weight: bold;'>Vendas e Metas de SLM:</span><br><span style='font-weight: bold;'>SLMs Vendidos 2024:</span> {school.slms_vendidos} - <span style='font-weight: bold;'>Meta de SLMs 2024:</span> {school.meta} - <span style='font-weight: bold;'>SLMs Vendidos 2025:</span> {school.slms_vendidos_25} - <span style='font-weight: bold;'>Meta de SLMs 2025:</span> Ainda não foi definido - <span style='font-weight: bold;'>Dias Úteis para Entrega do SLM:</span> {school.dias_uteis_entrega_slm}.<br>"
+                
+                f"<br><span style='font-weight: bold;'>Avaliações:</span><br><span style='font-weight: bold;'>NPS Pais 2024 - 1ª Onda:</span> {school.nps_pais_2024_1_onda} - <span style='font-weight: bold;'>Cliente Oculto 2024:</span> {school.cliente_oculto_2024} - <span style='font-weight: bold;'>Quality Assurance 2024: </span> {school.quality_assurance_2024}.<br>"
+
+                f"<br><span style='font-weight: bold;'>Financeiro:</span><br><span style='font-weight: bold;'>Ticket Médio:</span> R$ {school.ticket_medio} - <span style='font-weight: bold;'>Valor Royalties:</span> R$ {school.valor_royalties} - <span style='font-weight: bold;'>Valor de FDMP:</span> R$ {school.valor_fdmp} - <span style='font-weight: bold;'>Status de Adimplência/Inadimplência:</span> {school.status_de_adimplencia} - <span style='font-weight: bold;'>Inadimplência:</span> R$ {school.inadimplencia}.<br>"
+
+                f"<br><span style='font-weight: bold;'>Consultores:</span><br><span style='font-weight: bold;'>Consultor Comercial:</span> {school.consultor_comercial} - <span style='font-weight: bold;'>Consultor de Gestão Escolar:</span> {school.consultor_gestao_escolar} - <span style='font-weight: bold;'>Consultor Acadêmico:</span> {school.consultor_academico} - <span style='font-weight: bold;'>Consultor SAF:</span> {school.consultor_saf}.<br>"
+
             )
             return JsonResponse({"response": response})
 
