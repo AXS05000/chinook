@@ -1123,6 +1123,42 @@ sendButton3.addEventListener('click', async () => {
             // ...
         }
       });
+
+
+      document.getElementById('school-select').addEventListener('change', async function() {
+        const schoolId = this.value;
+        if (schoolId) {
+            // Enviar uma solicitação ao backend para obter a mensagem automática
+            const response = await fetch("{% url 'filtered_chat' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ school_id: schoolId, message: 'auto' })
+            });
+    
+            const data = await response.json();
+    
+            // Adicionar a mensagem automática ao chat
+            const chatBox3 = document.getElementById('chat-box-3');
+            chatBox3.innerHTML += `
+                <li class="conversation-item">
+                  <div class="conversation-item-side">
+                    <img class="conversation-item-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
+                  </div>
+                  <div class="conversation-item-content">
+                    <div class="conversation-item-box">
+                      <div class="conversation-item-text">
+                        <p>${data.response}</p>
+                        <div class="conversation-item-time">${new Date().toLocaleTimeString()}</div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+            `;
+        }
+    });
     </script>
     <script src="{% static 'chinook/js/script.js' %}"></script>
     <script>
