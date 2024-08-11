@@ -327,8 +327,9 @@ def config_chat_central(prompt, api_key, context=""):
 
 ############################################# Resumo NPS###########################################################
 
-
 def config_resumo_nps(prompt, api_key, context=""):
+    print("Iniciando a configuração do resumo NPS...")
+
     if not context:
         context = "No relevant information found in the database."
     if not prompt:
@@ -336,8 +337,9 @@ def config_resumo_nps(prompt, api_key, context=""):
 
     openai.api_key = api_key
 
+    print("Enviando a requisição para a API da OpenAI...")
     response = openai.ChatCompletion.create(
-        model="gpt-4o",
+        model="gpt-4-turbo",
         messages=[
             {
                 "role": "system",
@@ -348,9 +350,10 @@ def config_resumo_nps(prompt, api_key, context=""):
         ],
         max_tokens=2050,
     )
-    print(f"Total tokens usados: {response['usage']['total_tokens']}")
-    formatted_response = response["choices"][0]["message"]["content"].strip()
+    print(f"Resposta recebida. Total de tokens usados: {response['usage']['total_tokens']}")
 
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+    print(f"Resposta formatada: {formatted_response[:50]}...")  # Exibe apenas os primeiros 100 caracteres da resposta
 
     return formatted_response
 ############################################# CHAT CENTRAL###########################################################

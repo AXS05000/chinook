@@ -851,9 +851,12 @@ class ControleEscolasSearchView(ListView):
 ################################### Gerar Resumo NPS#####################################################
 
 def gerar_resumo_nps(request, school_id):
+    print("Iniciando a geração do resumo NPS...")
+
     # Busca a escola pelo ID
     escola = get_object_or_404(CRM_FUI, id_escola=school_id)
-    
+    print(f"Escola encontrada: {escola.nome_da_escola}")
+
     # Filtra as respostas NPS para a escola, excluindo comentários vazios, null ou nan
     respostas = Respostas_NPS.objects.filter(
         escola=escola
@@ -864,28 +867,33 @@ def gerar_resumo_nps(request, school_id):
     ).exclude(
         comentario__iexact="nan"
     )
-    
+    print(f"Número de respostas encontradas: {respostas.count()}")
+
     # Cria um contexto categorizado com as questões e comentários para passar para o prompt
     comentarios_categorizados = "\n".join(
         [f"Categoria: {resposta.questao}\nComentário: {resposta.comentario}\n" for resposta in respostas]
     )
-    
+
     if comentarios_categorizados:
         prompt = (
-            "Faça um resumo dos comentários"
+            "Faça um resumo dos comentários:\n"
             f"{comentarios_categorizados}"
         )
-        
+        print(f"Prompt gerado: {prompt[:100]}...")  # Exibe apenas os primeiros 100 caracteres do prompt
+
         api_key = request.user.api_key  # Assume que o usuário logado tem uma chave API
         resumo = config_resumo_nps(prompt, api_key)
-        
+        print(f"Resumo gerado: {resumo[:100]}...")  # Exibe apenas os primeiros 100 caracteres do resumo
+
         # Salva o resumo na model Resumo_Respostas_NPS
         resumo_nps, created = Resumo_Respostas_NPS.objects.get_or_create(escola=escola)
         resumo_nps.resumo = resumo
         resumo_nps.save()
-        
+        print("Resumo salvo com sucesso!")
+
         return redirect('controle_escolas')  # Redireciona de volta para a lista de escolas
 
+    print("Não há comentários válidos para resumir.")
     return JsonResponse({"error": "Não há comentários válidos para resumir."}, status=400)
 
 
