@@ -494,6 +494,10 @@ def filtered_chat_view(request):
             print("Erro: Escola não encontrada")
             return JsonResponse({"error": "School not found"}, status=404)
 
+        # Busca o resumo do NPS, se existir
+        resumo_nps = Resumo_Respostas_NPS.objects.filter(escola=school).first()
+        resumo_nps_text = resumo_nps.resumo if resumo_nps else None
+
         if message == 'auto':
             complemento = ""
             if school.complemento_escola and school.complemento_escola.lower() not in ["", "null", "nan", "0", "-"]:
@@ -538,14 +542,34 @@ def filtered_chat_view(request):
                 f"<span style='font-weight: bold;'>Meta de SLMs 2025:</span> Ainda não foi definido - "
                 f"<span style='font-weight: bold;'>Dias Úteis para Entrega do SLM:</span> {school.dias_uteis_entrega_slm}.<br>"
                 
-                f"<br><span style='font-weight: bold;'>Avaliações:</span><br><span style='font-weight: bold;'>NPS Pais 2024 - 1ª Onda:</span> {school.nps_pais_2024_1_onda} - <span style='font-weight: bold;'>Cliente Oculto 2024:</span> {school.cliente_oculto_2024} - <span style='font-weight: bold;'>Quality Assurance 2024: </span> {school.quality_assurance_2024}.<br>"
+                f"<br><span style='font-weight: bold;'>Avaliações:</span><br>"
+                f"<span style='font-weight: bold;'>NPS Pais 2024 - 1ª Onda:</span> {school.nps_pais_2024_1_onda} - "
+                f"<span style='font-weight: bold;'>Cliente Oculto 2024:</span> {school.cliente_oculto_2024} - "
+                f"<span style='font-weight: bold;'>Quality Assurance 2024: </span> {school.quality_assurance_2024}.<br>"
 
-                f"<br><span style='font-weight: bold;'>Financeiro:</span><br><span style='font-weight: bold;'>Ticket Médio:</span> R$ {school.ticket_medio} - <span style='font-weight: bold;'>Valor Royalties:</span> R$ {school.valor_royalties} - <span style='font-weight: bold;'>Valor de FDMP:</span> R$ {school.valor_fdmp} - <span style='font-weight: bold;'>Status de Adimplência/Inadimplência:</span> {school.status_de_adimplencia}{inadimplencia_info}.<br>"
+                f"<br><span style='font-weight: bold;'>Financeiro:</span><br>"
+                f"<span style='font-weight: bold;'>Ticket Médio:</span> R$ {school.ticket_medio} - "
+                f"<span style='font-weight: bold;'>Valor Royalties:</span> R$ {school.valor_royalties} - "
+                f"<span style='font-weight: bold;'>Valor de FDMP:</span> R$ {school.valor_fdmp} - "
+                f"<span style='font-weight: bold;'>Status de Adimplência/Inadimplência:</span> {school.status_de_adimplencia}{inadimplencia_info}.<br>"
 
-                f"<br><span style='font-weight: bold;'>Consultores:</span><br><span style='font-weight: bold;'>Consultor Comercial:</span> {school.consultor_comercial} - <span style='font-weight: bold;'>Consultor de Gestão Escolar:</span> {school.consultor_gestao_escolar} - <span style='font-weight: bold;'>Consultor Acadêmico:</span> {school.consultor_academico} - <span style='font-weight: bold;'>Consultor SAF:</span> {school.consultor_saf}.<br>"
-                
-                f"<br>{frase_final}"
+                f"<br><span style='font-weight: bold;'>Consultores:</span><br>"
+                f"<span style='font-weight: bold;'>Consultor Comercial:</span> {school.consultor_comercial} - "
+                f"<span style='font-weight: bold;'>Consultor de Gestão Escolar:</span> {school.consultor_gestao_escolar} - "
+                f"<span style='font-weight: bold;'>Consultor Acadêmico:</span> {school.consultor_academico} - "
+                f"<span style='font-weight: bold;'>Consultor SAF:</span> {school.consultor_saf}.<br>"
             )
+
+            # Adiciona o resumo do NPS se estiver disponível
+            if resumo_nps_text:
+                response += (
+                    f"<br><span style='font-weight: bold;'>Resumo de Respostas NPS:</span><br>"
+                    f"{resumo_nps_text}<br>"
+                )
+
+            # Adiciona a frase final
+            response += f"<br>{frase_final}"
+
             return JsonResponse({"response": response})
 
 
