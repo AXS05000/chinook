@@ -1,5 +1,6 @@
 import json
 import random
+import markdown
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -497,6 +498,10 @@ def filtered_chat_view(request):
         # Busca o resumo do NPS, se existir
         resumo_nps = Resumo_Respostas_NPS.objects.filter(escola=school).first()
         resumo_nps_text = resumo_nps.resumo if resumo_nps else None
+
+        # Converte o texto markdown para HTML se existir
+        if resumo_nps_text:
+            resumo_nps_text = markdown.markdown(resumo_nps_text, extensions=['nl2br', 'extra'])
 
         if message == 'auto':
             complemento = ""
