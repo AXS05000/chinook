@@ -1,5 +1,5 @@
 import json
-import logging
+import random
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -405,6 +405,63 @@ def generate_excel_report(vendas):
     return response
 
 
+def escolher_frase_inicial(school):
+    frases_iniciais = [
+        "Olá, seja bem-vindo ao meu cantinho! Sou o Chinook, o ursinho guia da Maple Bear e vou te mostrar tudo sobre a escola {school.nome_da_escola}.",
+        "Bem-vindo! Sou o Chinook, o urso que adora ajudar! Vamos dar uma espiadinha na escola {school.nome_da_escola} da Maple Bear?",
+        "E aí! Eu sou o Chinook, o ursinho mais curioso da Maple Bear. Vamos explorar a escola {school.nome_da_escola} juntos?",
+        "Oi, eu sou o Chinook, o ursinho que adora compartilhar. Vem comigo conhecer a escola {school.nome_da_escola} da Maple Bear!",
+        "Bem-vindo ao meu mundo! Eu sou o Chinook, seu urso guia na Maple Bear e vou te apresentar a escola {school.nome_da_escola} com muito carinho.",
+        "Oi, oi! Sou o Chinook, seu amigo de confiança na Maple Bear. Preparado para descobrir tudo sobre a escola {school.nome_da_escola}?",
+        "Olá! Eu sou o Chinook, o urso que adora novas aventuras na Maple Bear e hoje vou te levar para conhecer a escola {school.nome_da_escola}.",
+        "Oiii, eu sou o Chinook, seu companheiro de pelúcia da Maple Bear, estou animado para te mostrar a escola {school.nome_da_escola}!",
+        "Bem-vindo! Eu sou o Chinook, o ursinho mais fofo da Maple Bear, estou aqui para te contar tudo sobre a escola {school.nome_da_escola}.",
+        "Olá! Eu sou o Chinook, seu urso amigo na Maple Bear, estou aqui para te guiar pelo universo da escola {school.nome_da_escola}.",
+        "Oi! Eu sou o Chinook, seu urso guia na Maple Bear e mal posso esperar para te mostrar tudo sobre a escola {school.nome_da_escola}!",
+        "Bem-vindo! Eu sou o Chinook, o urso que adora aventuras e estou aqui para te guiar pela escola {school.nome_da_escola} da Maple Bear.",
+        "Oi, oi! Eu sou o Chinook, o ursinho que está sempre por perto na Maple Bear. Vamos juntos conhecer a escola {school.nome_da_escola}?",
+        "Oi! Eu sou o Chinook, o ursinho que adora conhecer novos lugares. Vem comigo explorar a escola {school.nome_da_escola}!",
+        "Oi, oi! Sou o Chinook, seu amiguinho de aventuras na Maple Bear. Preparado para explorar a escola {school.nome_da_escola}?",
+        "Oi! Eu sou o Chinook, seu urso de confiança na Maple Bear. Juntos, vamos conhecer a escola {school.nome_da_escola}!",
+        "Oi! Eu sou o Chinook, seu companheiro de todas as horas na Maple Bear. Vamos conhecer juntos a escola {school.nome_da_escola}?",
+        "Bem-vindo! Sou o Chinook, o ursinho que adora fazer novos amigos. Hoje, vou te guiar pela escola {school.nome_da_escola} da Maple Bear.",
+        "Olá! Eu sou o Chinook, o ursinho sempre pronto para te ajudar. Vamos descobrir juntos tudo sobre a escola {school.nome_da_escola} da Maple Bear!",
+        "Oi, oi! Eu sou o Chinook, o urso que adora fazer parte das suas aventuras. Vem comigo conhecer a escola {school.nome_da_escola}!",
+        "Bem-vindo! Eu sou o Chinook, o ursinho que sempre tem uma novidade para compartilhar. Hoje, vou te mostrar a escola {school.nome_da_escola}.",
+        "Olá! Eu sou o Chinook, seu ursinho guia na Maple Bear. Pronto para explorar a escola {school.nome_da_escola} comigo?",
+        "Oi! Eu sou o Chinook, o ursinho que ama ajudar os amigos. Vem comigo descobrir a escola {school.nome_da_escola} da Maple Bear!",
+        "Oi, oi! Eu sou o Chinook, o ursinho que adora novas descobertas. Vamos juntos conhecer a escola {school.nome_da_escola}?",
+        "Olá! Eu sou o Chinook, o ursinho que adora guiar novas aventuras. Vamos conhecer a escola {school.nome_da_escola} da Maple Bear?",
+        "Oi! Eu sou o Chinook, o ursinho sempre animado para novas aventuras. Vamos explorar a escola {school.nome_da_escola} juntos?",
+        "Oi, oi! Eu sou o Chinook, seu amiguinho de todas as horas. Preparado para descobrir tudo sobre a escola {school.nome_da_escola} da Maple Bear?",
+        "Bem-vindo! Eu sou o Chinook, o ursinho que adora estar por perto. Vem comigo conhecer a escola {school.nome_da_escola}!",
+        "Oi, oi! Eu sou o Chinook, o ursinho que ama conhecer novos amigos. Vamos juntos explorar a escola {school.nome_da_escola}?",
+        "Bem-vindo! Eu sou o Chinook, o urso que adora guiar aventuras. Hoje, vou te mostrar tudo sobre a escola {school.nome_da_escola}!",
+        "Olá! Eu sou o Chinook, o ursinho que está sempre pronto para te ajudar. Vamos conhecer a escola {school.nome_da_escola}?",
+        "Oi! Eu sou o Chinook, o urso que adora conhecer novos lugares. Hoje, vou te mostrar tudo sobre a escola {school.nome_da_escola}!",
+        "Bem-vindo! Eu sou o Chinook, o ursinho que adora estar ao seu lado. Vamos juntos explorar a escola {school.nome_da_escola}!",
+
+    ]
+
+    return random.choice(frases_iniciais).format(school=school)
+
+
+def escolher_frase_final(school):
+    frases_finais = [
+        "Espero ter ajudado! Se precisar de mais alguma coisa, é só me chamar!",
+        "Estou sempre por aqui para te ajudar. Qualquer dúvida, conte comigo!",
+        "Se precisar de mais informações, estou só a um enter de distância!",
+        "Se precisar de mais alguma informação, estarei sempre aqui para te ajudar!",
+        "Foi ótimo estar com você! Se precisar de mim, é só chamar.",
+        "Se precisar de mais alguma coisa, estou aqui para te ajudar!",
+        "Espero que tenha sido útil! Estou por aqui se precisar de mais informações.",
+        "Conte comigo sempre que precisar! Estou aqui para ajudar.",
+        "Se precisar de mais alguma coisa, estou sempre por aqui!",
+        "Estou sempre à disposição! Se precisar, é só me chamar!",
+    ]
+
+    return random.choice(frases_finais).format(school=school)
+
 @login_required(login_url='/login/')
 def filtered_chat_view(request):
     if request.method == "POST":
@@ -435,7 +492,7 @@ def filtered_chat_view(request):
             print("Erro: Escola não encontrada")
             return JsonResponse({"error": "School not found"}, status=404)
 
-        if message == 'auto':  # Verifica se a mensagem é a solicitação automática
+        if message == 'auto':
             complemento = ""
             if school.complemento_escola and school.complemento_escola.lower() not in ["", "null", "nan", "0", "-"]:
                 complemento = f" {school.complemento_escola}"
@@ -448,11 +505,14 @@ def filtered_chat_view(request):
                     f"<span style='font-weight: bold;'>Avanço de Segmento:</span> {school.avanco_segmento}.<br>"
                 )
 
+            frase_inicial = escolher_frase_inicial(school)
+            frase_final = escolher_frase_final(school)
+
             response = (
-                f"Olá, eu sou o Chinook o seu assistente da Maple Bear. Vou passar o resumo da escola {school.nome_da_escola}:<br><br>"
+                f"{frase_inicial}<br><br>"
                 
                 f"<span style='font-weight: bold;'>Informações Básicas:</span><br>"
-                f"<span style='font-weight: bold;'>Id da Escola:</span> {school.id_escola} - CNPJ:</span> {school.CNPJ} - <span style='font-weight: bold;'>Cluster:</span> {school.cluster} - <span style='font-weight: bold;'>Status:</span> {school.status_da_escola}.<br>"
+                f"<span style='font-weight: bold;'>Id da Escola:</span> {school.id_escola} - <span style='font-weight: bold;'>CNPJ:</span> {school.CNPJ} - <span style='font-weight: bold;'>Cluster:</span> {school.cluster} - <span style='font-weight: bold;'>Status:</span> {school.status_da_escola}.<br>"
                 f"<span style='font-weight: bold;'>Endereço:</span> {school.endereco}{complemento}, {school.bairro_escola}, {school.cidade_da_escola}, {school.estado_da_escola}, CEP {school.cep_escola}, na região {school.regiao_da_escola} do Brasil."
                 f" - <span style='font-weight: bold;'>Telefone:</span> {school.telefone_de_contato_da_escola} - <span style='font-weight: bold;'>Email:</span> {school.email_da_escola}.<br>"
                 f"{segmento_info}"
@@ -464,6 +524,8 @@ def filtered_chat_view(request):
                 f"<br><span style='font-weight: bold;'>Financeiro:</span><br><span style='font-weight: bold;'>Ticket Médio:</span> R$ {school.ticket_medio} - <span style='font-weight: bold;'>Valor Royalties:</span> R$ {school.valor_royalties} - <span style='font-weight: bold;'>Valor de FDMP:</span> R$ {school.valor_fdmp} - <span style='font-weight: bold;'>Status de Adimplência/Inadimplência:</span> {school.status_de_adimplencia} - <span style='font-weight: bold;'>Inadimplência:</span> R$ {school.inadimplencia}.<br>"
 
                 f"<br><span style='font-weight: bold;'>Consultores:</span><br><span style='font-weight: bold;'>Consultor Comercial:</span> {school.consultor_comercial} - <span style='font-weight: bold;'>Consultor de Gestão Escolar:</span> {school.consultor_gestao_escolar} - <span style='font-weight: bold;'>Consultor Acadêmico:</span> {school.consultor_academico} - <span style='font-weight: bold;'>Consultor SAF:</span> {school.consultor_saf}.<br>"
+                
+                f"<br>{frase_final}"
             )
             return JsonResponse({"response": response})
 
