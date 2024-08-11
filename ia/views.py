@@ -894,7 +894,7 @@ def gerar_resumo_nps(request, school_id):
         return redirect('controle_escolas')  # Redireciona de volta para a lista de escolas
 
     print("Não há comentários válidos para resumir.")
-    return JsonResponse({"error": "Não há comentários válidos para resumir."}, status=400)
+    return redirect('controle_escolas')
 
 
 ################################### PLANIFICADOR #####################################################
