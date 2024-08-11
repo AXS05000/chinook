@@ -791,6 +791,58 @@ def download_excel_report_slm_2025(request):
     return response
 
 
+################################### Controle Escolas #####################################################
+
+
+class ControleEscolasSearchView(ListView):
+    model = CRM_FUI
+    template_name = "chatapp/controle_escolas.html"
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["q"] = self.request.GET.get("q", "")
+        context["order_by"] = self.request.GET.get("order_by", "nome_da_escola")
+        page_obj = context["page_obj"]
+
+        # Obtém o número da página atual
+        current_page = page_obj.number
+
+        # Se há mais de 5 páginas
+        if page_obj.paginator.num_pages > 5:
+            if current_page - 2 < 1:
+                start_page = 1
+                end_page = 5
+            elif current_page + 2 > page_obj.paginator.num_pages:
+                start_page = page_obj.paginator.num_pages - 4
+                end_page = page_obj.paginator.num_pages
+            else:
+                start_page = current_page - 2
+                end_page = current_page + 2
+        else:
+            start_page = 1
+            end_page = page_obj.paginator.num_pages
+
+        context["page_range"] = range(start_page, end_page + 1)
+
+        # Adiciona porcentagem_planificador ao contexto
+        for escola in context['object_list']:
+            planificador = Planificador_2024.objects.filter(escola=escola).first()
+            if planificador:
+                escola.planificador = planificador
+                escola.porcentagem_planificador = calcular_porcentagem_sim(planificador)
+            else:
+                escola.planificador = None
+                escola.porcentagem_planificador = 0
+
+        return context
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        order_by = self.request.GET.get("order_by", "nome_da_escola")
+        if query:
+            return CRM_FUI.objects.filter(Q(nome_da_escola__icontains=query)).order_by(order_by)
+        return CRM_FUI.objects.all().order_by(order_by)
 
 
 ################################### PLANIFICADOR #####################################################

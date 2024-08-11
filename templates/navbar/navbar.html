@@ -14,6 +14,15 @@
           </li>
           {% if user.is_authenticated %}
                 
+
+          {% if user|has_group:"Adm" %}
+          <li class="nav-item dropdown">
+              <a class="nav-link page-scroll nav-link-ded dropdown-toggle" id="dropdownContratos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gerenciar</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 200px;">
+                  <a class="nav-link" href="{% url 'controle_escolas' %}">Controle Escolas</a>
+              </div>
+          </li>
+          {% endif %}
           {% if user|has_group:"Glex" %}
           <li class="nav-item dropdown">
               <a class="nav-link page-scroll nav-link-ded dropdown-toggle" id="dropdownContratos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Glex</a>
@@ -32,6 +41,8 @@
               </div>
           </li>
           {% endif %}
+
+
           
           <li class="nav-item">
               <a class="nav-link page-scroll" href="#">Sair</a>

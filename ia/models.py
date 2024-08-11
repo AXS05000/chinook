@@ -209,6 +209,18 @@ class Respostas_NPS(models.Model):
 
     def __str__(self):
         return f"{self.nome} - {self.data_da_resposta}"
+    
+class Resumo_Respostas_NPS(models.Model):
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="nome_escola_resumo_nps",
+        verbose_name="Nome da Escola do NPS",
+    )
+    resumo = models.TextField(blank=True, null=True, verbose_name="Resumo")
+
+    def __str__(self):
+        return f"{self.escola}"
 
 
 class Vendas_SLM_2024(models.Model):
