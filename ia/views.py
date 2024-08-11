@@ -436,9 +436,12 @@ def filtered_chat_view(request):
             return JsonResponse({"error": "School not found"}, status=404)
 
         if message == 'auto':  # Verifica se a mensagem é a solicitação automática
+            complemento = ""
+            if school.complemento_escola and school.complemento_escola.lower() not in ["", "null", "nan", "0", "-"]:
+                complemento = f" {school.complemento_escola}"
             segmento_info = ""
-            if school.segmento_da_escola and school.segmento_da_escola.lower() not in ["", "null", "nan", "em implantação"] \
-                    and school.atual_serie and school.atual_serie.lower() not in ["", "null", "nan", "em implantação"]:
+            if school.segmento_da_escola and school.segmento_da_escola.lower() not in ["", "null", "nan", "Em Implantação"] \
+                    and school.atual_serie and school.atual_serie.lower() not in ["", "null", "nan", "Em Implantação"]:
                 segmento_info = (
                     f"<span style='font-weight: bold;'>Segmento:</span> {school.segmento_da_escola} - "
                     f"<span style='font-weight: bold;'>Atual Série:</span> {school.atual_serie} - "
@@ -449,8 +452,8 @@ def filtered_chat_view(request):
                 f"Olá, eu sou o Chinook o seu assistente da Maple Bear. Vou passar o resumo da escola {school.nome_da_escola}:<br><br>"
                 
                 f"<span style='font-weight: bold;'>Informações Básicas:</span><br>"
-                f"<span style='font-weight: bold;'>CNPJ:</span> {school.CNPJ} - <span style='font-weight: bold;'>Cluster:</span> {school.cluster} - <span style='font-weight: bold;'>Status:</span> {school.status_da_escola}.<br>"
-                f"<span style='font-weight: bold;'>Endereço:</span> {school.endereco} {school.complemento_escola}, {school.bairro_escola}, {school.cidade_da_escola}, {school.estado_da_escola}, CEP {school.cep_escola}, na região {school.regiao_da_escola} do Brasil."
+                f"<span style='font-weight: bold;'>Id da Escola:</span> {school.id_escola} - CNPJ:</span> {school.CNPJ} - <span style='font-weight: bold;'>Cluster:</span> {school.cluster} - <span style='font-weight: bold;'>Status:</span> {school.status_da_escola}.<br>"
+                f"<span style='font-weight: bold;'>Endereço:</span> {school.endereco}{complemento}, {school.bairro_escola}, {school.cidade_da_escola}, {school.estado_da_escola}, CEP {school.cep_escola}, na região {school.regiao_da_escola} do Brasil."
                 f" - <span style='font-weight: bold;'>Telefone:</span> {school.telefone_de_contato_da_escola} - <span style='font-weight: bold;'>Email:</span> {school.email_da_escola}.<br>"
                 f"{segmento_info}"
                 
