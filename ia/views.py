@@ -497,13 +497,17 @@ def filtered_chat_view(request):
             if school.complemento_escola and school.complemento_escola.lower() not in ["", "null", "nan", "0", "-"]:
                 complemento = f" {school.complemento_escola}"
             segmento_info = ""
-            if school.segmento_da_escola and school.segmento_da_escola.lower() not in ["", "null", "nan", "Em Implantação"] \
-                    and school.atual_serie and school.atual_serie.lower() not in ["", "null", "nan", "Em Implantação"]:
+            if school.segmento_da_escola and school.segmento_da_escola.lower() not in ["", "null", "nan", "em implantação"] \
+                    and school.atual_serie and school.atual_serie.lower() not in ["", "null", "nan", "em implantação"]:
                 segmento_info = (
                     f"<span style='font-weight: bold;'>Segmento:</span> {school.segmento_da_escola} - "
                     f"<span style='font-weight: bold;'>Atual Série:</span> {school.atual_serie} - "
                     f"<span style='font-weight: bold;'>Avanço de Segmento:</span> {school.avanco_segmento}.<br>"
                 )
+
+            inadimplencia_info = ""
+            if school.status_de_adimplencia.lower() != "adimplente":
+                inadimplencia_info = f" - <span style='font-weight: bold;'>Inadimplência:</span> R$ {school.inadimplencia}"
 
             frase_inicial = escolher_frase_inicial(school)
             frase_final = escolher_frase_final(school)
@@ -521,7 +525,7 @@ def filtered_chat_view(request):
                 
                 f"<br><span style='font-weight: bold;'>Avaliações:</span><br><span style='font-weight: bold;'>NPS Pais 2024 - 1ª Onda:</span> {school.nps_pais_2024_1_onda} - <span style='font-weight: bold;'>Cliente Oculto 2024:</span> {school.cliente_oculto_2024} - <span style='font-weight: bold;'>Quality Assurance 2024: </span> {school.quality_assurance_2024}.<br>"
 
-                f"<br><span style='font-weight: bold;'>Financeiro:</span><br><span style='font-weight: bold;'>Ticket Médio:</span> R$ {school.ticket_medio} - <span style='font-weight: bold;'>Valor Royalties:</span> R$ {school.valor_royalties} - <span style='font-weight: bold;'>Valor de FDMP:</span> R$ {school.valor_fdmp} - <span style='font-weight: bold;'>Status de Adimplência/Inadimplência:</span> {school.status_de_adimplencia} - <span style='font-weight: bold;'>Inadimplência:</span> R$ {school.inadimplencia}.<br>"
+                f"<br><span style='font-weight: bold;'>Financeiro:</span><br><span style='font-weight: bold;'>Ticket Médio:</span> R$ {school.ticket_medio} - <span style='font-weight: bold;'>Valor Royalties:</span> R$ {school.valor_royalties} - <span style='font-weight: bold;'>Valor de FDMP:</span> R$ {school.valor_fdmp} - <span style='font-weight: bold;'>Status de Adimplência/Inadimplência:</span> {school.status_de_adimplencia}{inadimplencia_info}.<br>"
 
                 f"<br><span style='font-weight: bold;'>Consultores:</span><br><span style='font-weight: bold;'>Consultor Comercial:</span> {school.consultor_comercial} - <span style='font-weight: bold;'>Consultor de Gestão Escolar:</span> {school.consultor_gestao_escolar} - <span style='font-weight: bold;'>Consultor Acadêmico:</span> {school.consultor_academico} - <span style='font-weight: bold;'>Consultor SAF:</span> {school.consultor_saf}.<br>"
                 
