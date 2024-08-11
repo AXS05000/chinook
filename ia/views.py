@@ -509,6 +509,12 @@ def filtered_chat_view(request):
             if school.status_de_adimplencia.lower() != "adimplente":
                 inadimplencia_info = f" - <span style='font-weight: bold;'>Inadimplência:</span> R$ {school.inadimplencia}"
 
+            # URLs de download
+            url_slm_2024 = f"/download_excel_report/?school_id={school_id}"
+            url_slm_2025 = f"/download_excel_report_25/?school_id={school_id}"
+
+            download_icon = '<i class="ri-file-excel-line"  style="font-size: 18px"></i>'
+
             frase_inicial = escolher_frase_inicial(school)
             frase_final = escolher_frase_final(school)
 
@@ -521,7 +527,14 @@ def filtered_chat_view(request):
                 f" - <span style='font-weight: bold;'>Telefone:</span> {school.telefone_de_contato_da_escola} - <span style='font-weight: bold;'>Email:</span> {school.email_da_escola}.<br>"
                 f"{segmento_info}"
                 
-                f"<br><span style='font-weight: bold;'>Vendas e Metas de SLM:</span><br><span style='font-weight: bold;'>SLMs Vendidos 2024:</span> {school.slms_vendidos} - <span style='font-weight: bold;'>Meta de SLMs 2024:</span> {school.meta} - <span style='font-weight: bold;'>SLMs Vendidos 2025:</span> {school.slms_vendidos_25} - <span style='font-weight: bold;'>Meta de SLMs 2025:</span> Ainda não foi definido - <span style='font-weight: bold;'>Dias Úteis para Entrega do SLM:</span> {school.dias_uteis_entrega_slm}.<br>"
+                f"<br><span style='font-weight: bold;'>Vendas e Metas de SLM:</span><br>"
+                f"<span style='font-weight: bold;'>SLMs Vendidos 2024:</span> {school.slms_vendidos} - "
+                f"<a href='{url_slm_2024}'>{download_icon}</a> - "
+                f"<span style='font-weight: bold;'>Meta de SLMs 2024:</span> {school.meta} - "
+                f"<span style='font-weight: bold;'>SLMs Vendidos 2025:</span> {school.slms_vendidos_25} - "
+                f"<a href='{url_slm_2025}'>{download_icon}</a> - "
+                f"<span style='font-weight: bold;'>Meta de SLMs 2025:</span> Ainda não foi definido - "
+                f"<span style='font-weight: bold;'>Dias Úteis para Entrega do SLM:</span> {school.dias_uteis_entrega_slm}.<br>"
                 
                 f"<br><span style='font-weight: bold;'>Avaliações:</span><br><span style='font-weight: bold;'>NPS Pais 2024 - 1ª Onda:</span> {school.nps_pais_2024_1_onda} - <span style='font-weight: bold;'>Cliente Oculto 2024:</span> {school.cliente_oculto_2024} - <span style='font-weight: bold;'>Quality Assurance 2024: </span> {school.quality_assurance_2024}.<br>"
 
