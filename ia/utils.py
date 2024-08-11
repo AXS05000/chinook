@@ -321,6 +321,38 @@ def config_chat_central(prompt, api_key, context=""):
     )
 
     return formatted_response
+
+
+
+
+############################################# Resumo NPS###########################################################
+
+
+def config_resumo_nps(prompt, api_key, context=""):
+    if not context:
+        context = "No relevant information found in the database."
+    if not prompt:
+        prompt = "No question provided."
+
+    openai.api_key = api_key
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4o",
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é o assistente Chinook da Empresa Maple Bear auxiliando em informações sobre as avaliações feitas pelos pais a escola.",
+            },
+            {"role": "user", "content": f"Contexto:\n{context}"},
+            {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
+        ],
+        max_tokens=2050,
+    )
+    print(f"Total tokens usados: {response['usage']['total_tokens']}")
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+
+
+    return formatted_response
 ############################################# CHAT CENTRAL###########################################################
 
 

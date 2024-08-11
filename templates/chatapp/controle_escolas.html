@@ -73,6 +73,8 @@
                     <th scope="col">Id da Escola</th>
                     <th scope="col">Nome da Escola</th>
                     <th scope="col">Cluster</th>
+                    <th scope="col">Resumo NPS</th>
+                    <th scope="col">Gerar Resumo</th>
                 </tr>
             </thead>
             <tbody>
@@ -87,6 +89,16 @@
 
                         <td>
                             <p>{{ escola.cluster }}</p>
+                        </td>
+                        <td>
+                          {% if escola.nome_escola_resumo_nps.first %}
+                              <p>{{ escola.nome_escola_resumo_nps.first.resumo }}</p>
+                          {% else %}
+                              <p>Sem resumo disponível</p>
+                          {% endif %}
+                        </td>
+                        <td>
+                          <a href="{% url 'gerar_resumo_nps' escola.id_escola %}">Gerar Resumo NPS</a>
                         </td>
 
                     </tr>

@@ -13,6 +13,7 @@ from .models import (
     Informacao,
     Beneficio,
     FolhaPonto,
+    Resumo_Respostas_NPS,
     Salario,
     Ferias,
     CRM_FUI,
@@ -33,6 +34,7 @@ from .utils import (
     config_chat_rh,
     classify_question,
     config_simple_chat,
+    config_resumo_nps,
     config_chat_central,
     classify_question_chat_central,
 )
@@ -843,6 +845,48 @@ class ControleEscolasSearchView(ListView):
         if query:
             return CRM_FUI.objects.filter(Q(nome_da_escola__icontains=query)).order_by(order_by)
         return CRM_FUI.objects.all().order_by(order_by)
+    
+
+
+################################### Gerar Resumo NPS#####################################################
+
+def gerar_resumo_nps(request, school_id):
+    # Busca a escola pelo ID
+    escola = get_object_or_404(CRM_FUI, id_escola=school_id)
+    
+    # Filtra as respostas NPS para a escola, excluindo comentários vazios, null ou nan
+    respostas = Respostas_NPS.objects.filter(
+        escola=escola
+    ).exclude(
+        comentario__isnull=True
+    ).exclude(
+        comentario__exact=""
+    ).exclude(
+        comentario__iexact="nan"
+    )
+    
+    # Cria um contexto categorizado com as questões e comentários para passar para o prompt
+    comentarios_categorizados = "\n".join(
+        [f"Categoria: {resposta.questao}\nComentário: {resposta.comentario}\n" for resposta in respostas]
+    )
+    
+    if comentarios_categorizados:
+        prompt = (
+            "Faça um resumo dos comentários"
+            f"{comentarios_categorizados}"
+        )
+        
+        api_key = request.user.api_key  # Assume que o usuário logado tem uma chave API
+        resumo = config_resumo_nps(prompt, api_key)
+        
+        # Salva o resumo na model Resumo_Respostas_NPS
+        resumo_nps, created = Resumo_Respostas_NPS.objects.get_or_create(escola=escola)
+        resumo_nps.resumo = resumo
+        resumo_nps.save()
+        
+        return redirect('controle_escolas')  # Redireciona de volta para a lista de escolas
+
+    return JsonResponse({"error": "Não há comentários válidos para resumir."}, status=400)
 
 
 ################################### PLANIFICADOR #####################################################
