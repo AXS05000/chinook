@@ -503,6 +503,9 @@ def filtered_chat_view(request):
         if resumo_nps_text:
             resumo_nps_text = markdown.markdown(resumo_nps_text, extensions=['nl2br', 'extra'])
 
+            # Substitui <strong> por <span style='font-weight: bold;'>
+            resumo_nps_text = resumo_nps_text.replace("<strong>", "<span style='font-weight: bold;'>").replace("</strong>", "</span>")
+
         if message == 'auto':
             complemento = ""
             if school.complemento_escola and school.complemento_escola.lower() not in ["", "null", "nan", "0", "-"]:
