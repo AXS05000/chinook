@@ -215,17 +215,57 @@
                       </tr>
                       <tr>
                         <td>Comercial</td>
-                        <td>
-                          <button class="btn btn-danger btn-round"  style="cursor: default;">
-                            <span class="button-content">
-                              <i class="material-icons">close</i>
-                              Pendente
-                            </span>
-                            <div class="ripple-container"></div>
-                          </button>
-                        </td>
-                        <td style="padding-left: 2rem" >0/10</td>
-                        <td class="text-center"><a href="{% url 'comercial_form' %}"><i class="material-icons">assignment</i></a></td>
+                        {% if comercial_form %}
+                            {% if comercial_form_is_complete %}
+                                <td>
+                                    <button class="btn btn-success btn-round" style="cursor: default;">
+                                        <span class="button-content">
+                                            <i class="material-icons">check</i>
+                                            Concluído
+                                        </span>
+                                        <div class="ripple-container"></div>
+                                    </button>
+                                </td>
+                                <td style="padding-left: 2rem">{{ comercial_form_score }}/10</td>
+                                <td class="text-center">
+                                    <a href="{% url 'comercial_form_edit' %}">
+                                        <i class="material-icons" style="color: #28a745;">assignment</i>
+                                    </a>
+                                </td>
+                            {% else %}
+                                <td>
+                                    <button class="btn btn-danger btn-round" style="cursor: default;">
+                                        <span class="button-content">
+                                            <i class="material-icons">close</i>
+                                            Pendente
+                                        </span>
+                                        <div class="ripple-container"></div>
+                                    </button>
+                                </td>
+                                <td style="padding-left: 2rem">{{ comercial_form_score }}/10</td>
+                                <td class="text-center">
+                                    <a href="{% url 'comercial_form_edit' %}">
+                                        <i class="material-icons">assignment</i>
+                                    </a>
+                                </td>
+                            {% endif %}
+                        {% else %}
+                            <td>
+                                <button class="btn btn-danger btn-round" style="cursor: default;">
+                                    <span class="button-content">
+                                        <i class="material-icons">close</i>
+                                        Pendente
+                                    </span>
+                                    <div class="ripple-container"></div>
+                                </button>
+                            </td>
+                            <td style="padding-left: 2rem">0/10</td>
+                            <td class="text-center">
+                                <a href="{% url 'comercial_form' %}">
+                                    <i class="material-icons">assignment</i>
+                                </a>
+                            </td>
+                        {% endif %}
                       </tr>
                       <tr>
                         <td>Gente</td>

@@ -12,16 +12,21 @@ class HomeGlex(TemplateView):
 class Glex(TemplateView):
     template_name = "glex/glex.html"
 
+
+
+
 class TabelaFormsGlex(LoginRequiredMixin, TemplateView):
     template_name = "glex/tabela_forms_glex.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        # Lógica para Administrativo
         try:
             administrativo_form = Administrativo.objects.get(usuario_modificacao=self.request.user)
             
             # Verificar se o formulário está completo
-            is_complete = all([
+            is_complete_adm = all([
                 administrativo_form.lideranca_equipe,
                 administrativo_form.reunioes_comerciais,
                 administrativo_form.uniformes_crachas,
@@ -34,12 +39,10 @@ class TabelaFormsGlex(LoginRequiredMixin, TemplateView):
                 administrativo_form.orcamento_compartilhado,
             ])
             
-            # Adicionando `is_complete` ao contexto
+            # Adicionando `is_complete` e `score` ao contexto
             context['administrativo_form'] = administrativo_form
-            context['administrativo_form_is_complete'] = is_complete
-            
-            # Aqui você pode calcular a pontuação (score)
-            score = sum(1 for field in [
+            context['administrativo_form_is_complete'] = is_complete_adm
+            context['administrativo_form_score'] = sum(1 for field in [
                 administrativo_form.lideranca_equipe,
                 administrativo_form.reunioes_comerciais,
                 administrativo_form.uniformes_crachas,
@@ -51,16 +54,66 @@ class TabelaFormsGlex(LoginRequiredMixin, TemplateView):
                 administrativo_form.planejamento_orcamento,
                 administrativo_form.orcamento_compartilhado,
             ] if field)
-            
-            # Adicionando `score` ao contexto
-            context['administrativo_form_score'] = score
-
         except Administrativo.DoesNotExist:
             context['administrativo_form'] = None
             context['administrativo_form_is_complete'] = False
             context['administrativo_form_score'] = 0
+
+        # Lógica para Comercial
+        try:
+            comercial_form = Comercial.objects.get(usuario_modificacao=self.request.user)
             
+            # Verificar se o formulário está completo
+            is_complete_com = all([
+                comercial_form.cortesia_visitantes,
+                comercial_form.participacao_mentoria,
+                comercial_form.equipe_comercial_contratada,
+                comercial_form.trilha_treinamento,
+                comercial_form.participacao_encontros_lideres,
+                comercial_form.funil_vendas_crm,
+                comercial_form.pontuacao_cliente_oculto,
+                comercial_form.participacao_campanhas,
+                comercial_form.pesquisa_concorrentes,
+                comercial_form.conversao_leads,
+                comercial_form.politica_comissionamento,
+                comercial_form.orcamento_mkt,
+                comercial_form.profissional_mkt,
+                comercial_form.entrega_kit_rematricula,
+                comercial_form.entrega_kit_visita,
+                comercial_form.leads_atraso_crm,
+            ])
+            
+            # Adicionando `is_complete` e `score` ao contexto
+            context['comercial_form'] = comercial_form
+            context['comercial_form_is_complete'] = is_complete_com
+            context['comercial_form_score'] = sum(1 for field in [
+                comercial_form.cortesia_visitantes,
+                comercial_form.participacao_mentoria,
+                comercial_form.equipe_comercial_contratada,
+                comercial_form.trilha_treinamento,
+                comercial_form.participacao_encontros_lideres,
+                comercial_form.funil_vendas_crm,
+                comercial_form.pontuacao_cliente_oculto,
+                comercial_form.participacao_campanhas,
+                comercial_form.pesquisa_concorrentes,
+                comercial_form.conversao_leads,
+                comercial_form.politica_comissionamento,
+                comercial_form.orcamento_mkt,
+                comercial_form.profissional_mkt,
+                comercial_form.entrega_kit_rematricula,
+                comercial_form.entrega_kit_visita,
+                comercial_form.leads_atraso_crm,
+            ] if field)
+        except Comercial.DoesNotExist:
+            context['comercial_form'] = None
+            context['comercial_form_is_complete'] = False
+            context['comercial_form_score'] = 0
+        
         return context
+
+
+
+
 
 class AdministrativoCreateView(LoginRequiredMixin, CreateView):
     model = Administrativo
@@ -92,8 +145,37 @@ class AdministrativoUpdateView(LoginRequiredMixin, UpdateView):
 
         return super().form_valid(form)
 
-class ComercialCreateView(CreateView):
+
+
+
+
+
+class ComercialCreateView(LoginRequiredMixin, CreateView):
     model = Comercial
     form_class = ComercialForm
-    template_name = "glex/formulario2.html"
-    success_url = reverse_lazy("comercial_form")
+    template_name = "glex/comercial-form.html"
+    success_url = reverse_lazy("table_forms_glex")
+
+    def form_valid(self, form):
+        form.instance.usuario_modificacao = self.request.user
+        return super().form_valid(form)
+
+class ComercialUpdateView(LoginRequiredMixin, UpdateView):
+    model = Comercial
+    form_class = ComercialForm
+    template_name = "glex/comercial-form-edit.html"
+    success_url = reverse_lazy("table_forms_glex")
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Administrativo, usuario_modificacao=self.request.user)
+
+    def form_valid(self, form):
+        form.instance.usuario_modificacao = self.request.user
+
+        # Verifica se os campos de arquivo estão preenchidos antes de acessar suas propriedades
+        for field in self.form_class.Meta.fields:
+            file_field = form.cleaned_data.get(field)
+            if file_field and hasattr(file_field, 'name'):
+                pass  # Aqui você pode adicionar alguma lógica se precisar
+
+        return super().form_valid(form)
