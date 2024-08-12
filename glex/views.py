@@ -12,8 +12,6 @@ class HomeGlex(TemplateView):
 class Glex(TemplateView):
     template_name = "glex/glex.html"
 
-
-
 class TabelaFormsGlex(LoginRequiredMixin, TemplateView):
     template_name = "glex/tabela_forms_glex.html"
 
@@ -21,9 +19,9 @@ class TabelaFormsGlex(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         try:
             administrativo_form = Administrativo.objects.get(usuario_modificacao=self.request.user)
-            context['administrativo_form'] = administrativo_form
-            # Defina um método ou campo no modelo para verificar se o formulário está completo
-            administrativo_form.is_complete = all([
+            
+            # Verificar se o formulário está completo
+            is_complete = all([
                 administrativo_form.lideranca_equipe,
                 administrativo_form.reunioes_comerciais,
                 administrativo_form.uniformes_crachas,
@@ -34,10 +32,14 @@ class TabelaFormsGlex(LoginRequiredMixin, TemplateView):
                 administrativo_form.controle_balanco,
                 administrativo_form.planejamento_orcamento,
                 administrativo_form.orcamento_compartilhado,
-
             ])
+            
+            # Adicionando `is_complete` ao contexto
+            context['administrativo_form'] = administrativo_form
+            context['administrativo_form_is_complete'] = is_complete
+            
             # Aqui você pode calcular a pontuação (score)
-            administrativo_form.score = sum(1 for field in [
+            score = sum(1 for field in [
                 administrativo_form.lideranca_equipe,
                 administrativo_form.reunioes_comerciais,
                 administrativo_form.uniformes_crachas,
@@ -49,8 +51,15 @@ class TabelaFormsGlex(LoginRequiredMixin, TemplateView):
                 administrativo_form.planejamento_orcamento,
                 administrativo_form.orcamento_compartilhado,
             ] if field)
+            
+            # Adicionando `score` ao contexto
+            context['administrativo_form_score'] = score
+
         except Administrativo.DoesNotExist:
             context['administrativo_form'] = None
+            context['administrativo_form_is_complete'] = False
+            context['administrativo_form_score'] = 0
+            
         return context
 
 
