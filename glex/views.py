@@ -14,7 +14,6 @@ class Glex(TemplateView):
 
 
 
-
 class TabelaFormsGlex(LoginRequiredMixin, TemplateView):
     template_name = "glex/tabela_forms_glex.html"
 
@@ -24,8 +23,6 @@ class TabelaFormsGlex(LoginRequiredMixin, TemplateView):
         # Lógica para Administrativo
         try:
             administrativo_form = Administrativo.objects.get(usuario_modificacao=self.request.user)
-            
-            # Verificar se o formulário está completo
             is_complete_adm = all([
                 administrativo_form.lideranca_equipe,
                 administrativo_form.reunioes_comerciais,
@@ -38,8 +35,6 @@ class TabelaFormsGlex(LoginRequiredMixin, TemplateView):
                 administrativo_form.planejamento_orcamento,
                 administrativo_form.orcamento_compartilhado,
             ])
-            
-            # Adicionando `is_complete` e `score` ao contexto
             context['administrativo_form'] = administrativo_form
             context['administrativo_form_is_complete'] = is_complete_adm
             context['administrativo_form_score'] = sum(1 for field in [
@@ -62,8 +57,6 @@ class TabelaFormsGlex(LoginRequiredMixin, TemplateView):
         # Lógica para Comercial
         try:
             comercial_form = Comercial.objects.get(usuario_modificacao=self.request.user)
-            
-            # Verificar se o formulário está completo
             is_complete_com = all([
                 comercial_form.cortesia_visitantes,
                 comercial_form.participacao_mentoria,
@@ -82,8 +75,6 @@ class TabelaFormsGlex(LoginRequiredMixin, TemplateView):
                 comercial_form.entrega_kit_visita,
                 comercial_form.leads_atraso_crm,
             ])
-            
-            # Adicionando `is_complete` e `score` ao contexto
             context['comercial_form'] = comercial_form
             context['comercial_form_is_complete'] = is_complete_com
             context['comercial_form_score'] = sum(1 for field in [
@@ -108,9 +99,11 @@ class TabelaFormsGlex(LoginRequiredMixin, TemplateView):
             context['comercial_form'] = None
             context['comercial_form_is_complete'] = False
             context['comercial_form_score'] = 0
-        
-        return context
 
+        # Calculando a pontuação geral
+        context['pontuacao_geral'] = context['administrativo_form_score'] + context['comercial_form_score']
+
+        return context
 
 
 
