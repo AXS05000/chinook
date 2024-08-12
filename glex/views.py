@@ -62,7 +62,6 @@ class TabelaFormsGlex(LoginRequiredMixin, TemplateView):
             
         return context
 
-
 class AdministrativoCreateView(LoginRequiredMixin, CreateView):
     model = Administrativo
     form_class = AdministrativoForm
@@ -84,8 +83,14 @@ class AdministrativoUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.usuario_modificacao = self.request.user
-        return super().form_valid(form)
 
+        # Verifica se os campos de arquivo estão preenchidos antes de acessar suas propriedades
+        for field in self.form_class.Meta.fields:
+            file_field = form.cleaned_data.get(field)
+            if file_field and hasattr(file_field, 'name'):
+                pass  # Aqui você pode adicionar alguma lógica se precisar
+
+        return super().form_valid(form)
 
 class ComercialCreateView(CreateView):
     model = Comercial

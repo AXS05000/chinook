@@ -3,12 +3,12 @@ from .models import Administrativo, Comercial
 from django.core.exceptions import ValidationError
 
 
-
 class PDFFileField(forms.FileField):
     def validate(self, value):
-        super().validate(value)
-        if not value.name.endswith('.pdf'):
+        # Valida apenas se o campo tiver um arquivo (value não for None)
+        if value and not value.name.endswith('.pdf'):
             raise ValidationError('Somente arquivos PDF são permitidos.')
+        super().validate(value)
 
 
 class AdministrativoForm(forms.ModelForm):

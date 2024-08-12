@@ -32,6 +32,10 @@ class Administrativo(models.Model):
     orcamento_compartilhado = models.FileField(
         upload_to="administrativo/", blank=True, null=True
     )
+    def __str__(self):
+
+        return f"{self.usuario_modificacao.first_name} {self.usuario_modificacao.last_name}"
+
 
 
 class Comercial(models.Model):
