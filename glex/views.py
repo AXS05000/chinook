@@ -167,7 +167,7 @@ class ComercialUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("table_forms_glex")
 
     def get_object(self, queryset=None):
-        return get_object_or_404(Administrativo, usuario_modificacao=self.request.user)
+        return get_object_or_404(Comercial, usuario_modificacao=self.request.user)
 
     def form_valid(self, form):
         form.instance.usuario_modificacao = self.request.user

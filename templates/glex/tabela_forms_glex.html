@@ -141,11 +141,16 @@
 
           <div class="col-md-12">
             <div class="card card-plain">
+              <div class="section-header text-center" >          
+                <h2 class="section-title" style="padding-top: 2rem;">Pontuação Geral - 2/100</h2>
+                <span style="padding-top: 2rem;">GLEX</span>
+            </div>
               <div class="card-header card-header-success card-header-icon">
                 <div class="card-icon">
                   <i class="material-icons">assignment</i>
                 </div>
-                <h2 class="card-title mt-0">GLEX</h2>
+                <h2 class="card-title mt-0">CATEGORIAS</h2>
+                
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -226,7 +231,7 @@
                                         <div class="ripple-container"></div>
                                     </button>
                                 </td>
-                                <td style="padding-left: 2rem">{{ comercial_form_score }}/10</td>
+                                <td style="padding-left: 2rem">{{ comercial_form_score }}/16</td>
                                 <td class="text-center">
                                     <a href="{% url 'comercial_form_edit' %}">
                                         <i class="material-icons" style="color: #28a745;">assignment</i>
@@ -242,7 +247,7 @@
                                         <div class="ripple-container"></div>
                                     </button>
                                 </td>
-                                <td style="padding-left: 2rem">{{ comercial_form_score }}/10</td>
+                                <td style="padding-left: 2rem">{{ comercial_form_score }}/16</td>
                                 <td class="text-center">
                                     <a href="{% url 'comercial_form_edit' %}">
                                         <i class="material-icons">assignment</i>
@@ -259,7 +264,7 @@
                                     <div class="ripple-container"></div>
                                 </button>
                             </td>
-                            <td style="padding-left: 2rem">0/10</td>
+                            <td style="padding-left: 2rem">0/16</td>
                             <td class="text-center">
                                 <a href="{% url 'comercial_form' %}">
                                     <i class="material-icons">assignment</i>
@@ -279,7 +284,7 @@
                           </button>
                       </td>
                         <td style="padding-left: 2rem" >0/10</td>
-                        <td class="text-center"><a href="{% url 'comercial_form' %}"><i class="material-icons">assignment</i></a></td>
+                        <td class="text-center"><a href="{% url 'table_forms_glex' %}"><i class="material-icons">assignment</i></a></td>
                       </tr>
                       <tr>
                         <td>Gestão de Parceria</td>
