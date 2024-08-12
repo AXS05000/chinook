@@ -4,6 +4,7 @@ from .views import (
     Glex,
     TabelaFormsGlex,
     AdministrativoCreateView,
+    AdministrativoUpdateView,
     ComercialCreateView,
 )
 
@@ -15,6 +16,11 @@ urlpatterns = [
         "glex_administrativo/",
         AdministrativoCreateView.as_view(),
         name="administrativo_form",
+    ),
+    path(
+        "glex_administrativo/editar/",
+        AdministrativoUpdateView.as_view(),
+        name="administrativo_form_edit",
     ),
     path("glex_comercial/", ComercialCreateView.as_view(), name="comercial_form"),
 ]

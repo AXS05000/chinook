@@ -3,6 +3,9 @@ from usuarios.models import CustomUsuario
 
 class Administrativo(models.Model):
 
+    usuario_modificacao = models.ForeignKey(
+        CustomUsuario, on_delete=models.SET_NULL, null=True, blank=True
+    )
     lideranca_equipe = models.FileField(
         upload_to="administrativo/", blank=True, null=True
     )
