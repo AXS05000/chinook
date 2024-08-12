@@ -1,7 +1,8 @@
 from django.db import models
-
+from usuarios.models import CustomUsuario
 
 class Administrativo(models.Model):
+
     lideranca_equipe = models.FileField(
         upload_to="administrativo/", blank=True, null=True
     )
@@ -31,6 +32,9 @@ class Administrativo(models.Model):
 
 
 class Comercial(models.Model):
+    usuario_modificacao = models.ForeignKey(
+        CustomUsuario, on_delete=models.SET_NULL, null=True, blank=True
+    )
     cortesia_visitantes = models.FileField(
         upload_to="comercial/", blank=True, null=True
     )

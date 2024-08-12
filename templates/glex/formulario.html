@@ -149,7 +149,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="form">
-                    <form action="#" method="POST" class="form-horizontal text-center" autocomplete="off" enctype="multipart/form-data">
+                    <form action="{% url 'administrativo_form' %}" method="POST" class="form-horizontal text-center" autocomplete="off" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="form-header">
                             {% if messages %}
@@ -188,7 +188,7 @@
                                                 <div class="tipo-de-faturamento-1">Possui uma liderança e uma equipe comercial na unidade?<br></div>
                                                 <br>
                                                 <div class="tipo-de-faturamento-1">
-                                                    <input type="file" id="file-upload-1" name="file-upload-1" style="display: none;">
+                                                    <input type="file" id="file-upload-1" name="lideranca_equipe" style="display: none;">
                                                     <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-1').click();" id="btn-upload-1">
                                                         <span class="button-content">
                                                             <i class="material-icons">file_upload</i>
@@ -208,7 +208,7 @@
                                                 <div class="tipo-de-faturamento-1">Cumpriu calendário de reuniões comerciais com a equipe?</div>
                                                 <br>
                                                 <div class="tipo-de-faturamento-1">
-                                                    <input type="file" id="file-upload-2" name="file-upload-2" style="display: none;">
+                                                    <input type="file" id="file-upload-2" name="reunioes_comerciais" style="display: none;">
                                                     <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-2').click();" id="btn-upload-2">
                                                         <span class="button-content">
                                                             <i class="material-icons">file_upload</i>
@@ -228,7 +228,7 @@
                                                 <div class="tipo-de-faturamento-1">Os uniformes e crachás de identifcação são padronizados e todos os funcionários utilizam diáriamente?</div>
                                                 <br>
                                                 <div class="tipo-de-faturamento-1">
-                                                    <input type="file" id="file-upload-3" name="file-upload-3" style="display: none;">
+                                                    <input type="file" id="file-upload-3" name="uniformes_crachas" style="display: none;">
                                                     <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-3').click();" id="btn-upload-3">
                                                         <span class="button-content">
                                                             <i class="material-icons">file_upload</i>
@@ -248,7 +248,7 @@
                                                 <div class="tipo-de-faturamento-1">Está em dia com o pagamento dos boletos de FDMP e ROY?</div>
                                                 <br>
                                                 <div class="tipo-de-faturamento-1">
-                                                    <input type="file" id="file-upload-4" name="file-upload-4" style="display: none;">
+                                                    <input type="file" id="file-upload-4" name="pagamento_boletos" style="display: none;">
                                                     <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-4').click();" id="btn-upload-4">
                                                         <span class="button-content">
                                                             <i class="material-icons">file_upload</i>
@@ -268,7 +268,7 @@
                                                 <div class="tipo-de-faturamento-1">A unidade possuí conta bancária como pessoa Jurídica?</div>
                                                 <br>
                                                 <div class="tipo-de-faturamento-1">
-                                                    <input type="file" id="file-upload-5" name="file-upload-5" style="display: none;">
+                                                    <input type="file" id="file-upload-5" name="conta_bancaria_pj" style="display: none;">
                                                     <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-5').click();" id="btn-upload-5">
                                                         <span class="button-content">
                                                             <i class="material-icons">file_upload</i>
@@ -288,7 +288,7 @@
                                                 <div class="tipo-de-faturamento-1">Controla e monitra o fluxo de caixa da unidade?</div>
                                                 <br>
                                                 <div class="tipo-de-faturamento-1">
-                                                    <input type="file" id="file-upload-6" name="file-upload-6" style="display: none;">
+                                                    <input type="file" id="file-upload-6" name="fluxo_caixa" style="display: none;">
                                                     <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-6').click();" id="btn-upload-6">
                                                         <span class="button-content">
                                                             <i class="material-icons">file_upload</i>
@@ -308,7 +308,7 @@
                                                 <div class="tipo-de-faturamento-1">A unidade ficou inadimplente até 2 meses (consecutivos ou não) nos últimos 12 meses?</div>
                                                 <br>
                                                 <div class="tipo-de-faturamento-1">
-                                                    <input type="file" id="file-upload-7" name="file-upload-7" style="display: none;">
+                                                    <input type="file" id="file-upload-7" name="inadimplencia" style="display: none;">
                                                     <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-7').click();" id="btn-upload-7">
                                                         <span class="button-content">
                                                             <i class="material-icons">file_upload</i>
@@ -328,7 +328,7 @@
                                                 <div class="tipo-de-faturamento-1">Possui controle de Balanço Patrimonial e Demonstração de Resultado?</div>
                                                 <br>
                                                 <div class="tipo-de-faturamento-1">
-                                                    <input type="file" id="file-upload-8" name="file-upload-8" style="display: none;">
+                                                    <input type="file" id="file-upload-8" name="controle_balanco" style="display: none;">
                                                     <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-8').click();" id="btn-upload-8">
                                                         <span class="button-content">
                                                             <i class="material-icons">file_upload</i>
@@ -348,12 +348,12 @@
                                                 <div class="tipo-de-faturamento-1">Faz planejamento de orçamento antes do ínicio do próximo ano letivo?</div>
                                                 <br>
                                                 <div class="tipo-de-faturamento-1">
-                                                    <input type="file" id="file-upload-9" name="file-upload-9" style="display: none;">
+                                                    <input type="file" id="file-upload-9" name="planejamento_orcamento" style="display: none;">
                                                     <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-9').click();" id="btn-upload-9">
-                                                        <span class="button-content">
-                                                            <i class="material-icons">file_upload</i>
-                                                            Escolher Arquivo
-                                                        </span>
+                                                      <span class="button-content">
+                                                        <i class="material-icons">file_upload</i>
+                                                        Escolher Arquivo
+                                                      </span>
                                                     </button>
                                                     <button class="file-name btn btn-success btn-round" id="file-name-9" style="display: none;">
                                                       <span class="button-content">
@@ -368,7 +368,7 @@
                                                 <div class="tipo-de-faturamento-1">O planejamento de orçamento é compartilhado com as demais áreas operacionais?</div>
                                                 <br>
                                                 <div class="tipo-de-faturamento-1">
-                                                    <input type="file" id="file-upload-10" name="file-upload-10" style="display: none;">
+                                                    <input type="file" id="file-upload-10" name="orcamento_compartilhado" style="display: none;">
                                                     <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-10').click();" id="btn-upload-10">
                                                         <span class="button-content">
                                                             <i class="material-icons">file_upload</i>

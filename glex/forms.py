@@ -1,11 +1,14 @@
 from django import forms
 from .models import Administrativo, Comercial
+from django.core.exceptions import ValidationError
+
 
 
 class PDFFileField(forms.FileField):
-    def __init__(self, *args, **kwargs):
-        kwargs["widget"] = forms.ClearableFileInput(attrs={"accept": "application/pdf"})
-        super().__init__(*args, **kwargs)
+    def validate(self, value):
+        super().validate(value)
+        if not value.name.endswith('.pdf'):
+            raise ValidationError('Somente arquivos PDF são permitidos.')
 
 
 class AdministrativoForm(forms.ModelForm):
