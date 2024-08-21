@@ -23,6 +23,8 @@ from .models import (
     Vendas_SLM_2025,
     Base_de_Conhecimento,
     Planificador_2024,
+    Avaliacao_Cliente_Oculto_24,
+    Resumo_Respostas_ClienteOculto24,
 )
 from django.db import transaction
 from django.shortcuts import render, redirect
@@ -393,6 +395,52 @@ def import_vendas_slm_2025(request):
         return redirect("import_vendas_slm_2025")
     return render(request, "chatapp/import/import_vendas_slm_2025.html")
 
+################################################# IMPORTAR CLIENTE OCULTO 2024######################################################
+
+
+@login_required(login_url='/login/')
+def import_cliente_oculto_2024(request):
+    if request.method == "POST":
+        file = request.FILES.get("file")
+        if not file or not file.name.endswith(".xlsx"):
+            messages.error(request, "Por favor, envie um arquivo Excel.")
+            return redirect("import_cliente_oculto_2024")
+
+        try:
+            df = pd.read_excel(file)
+        except Exception as e:
+            messages.error(request, f"Erro ao ler o arquivo Excel: {e}")
+            return redirect("import_cliente_oculto_2024")
+
+        with transaction.atomic():
+            Avaliacao_Cliente_Oculto_24.objects.all().delete()  # Limpar a tabela antes de importar novos dados
+
+            for _, row in df.iterrows():
+                try:
+                    escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
+                    Avaliacao_Cliente_Oculto_24.objects.create(
+                        escola=escola,
+                        categoria=row["categoria"],
+                        pergunta=row["pergunta"],
+                        resposta=row["resposta"],
+                    )
+                except CRM_FUI.DoesNotExist:
+                    messages.error(
+                        request, f"Escola com id_escola {row['id_escola']} não encontrada."
+                    )
+                    continue
+                except Exception as e:
+                    messages.error(
+                        request,
+                        f"Erro ao importar a linha com id_escola {row['id_escola']}: {e}",
+                    )
+                    continue
+
+        messages.success(request, "Dados importados com sucesso!")
+        return redirect("import_cliente_oculto_2024")
+    return render(request, "chatapp/import/import_cliente_oculto_2024.html")
+
+
 ############################################# CHAT SAF###########################################################
 
 
@@ -604,6 +652,26 @@ def filtered_chat_view(request):
                     f"Comentário: {response.comentario}\n\n"
                 )
             print("Contexto NPS gerado")
+
+
+        if question_type == "cliente_oculto":
+            print("Lidando com categoria Cliente Oculto")
+            co24_responses = (
+                Avaliacao_Cliente_Oculto_24.objects.filter(escola__id_escola=school_id)
+            )
+            context = ""
+            context += (
+                f"Cliente Oculto é uma avaliação realizada por cliente secreto enviado pela franqueada Maple Bear onde o objetivo é avaliar a escola do ponte de vista de um cliente:\n"
+            )
+            for response in co24_responses:
+                context += (
+                    f"Categoria: {response.categoria}\n"
+                    f"Questão perguntada no Cliente Oculto 2024: {response.pergunta}\n"
+                    f"Resposta: {response.resposta}\n\n"
+                )
+            print("Contexto Cliente Oculto")
+
+
 
         elif question_type == "analise completa da escola":
             print("Lidando com análise completa da escola")
@@ -908,7 +976,7 @@ def gerar_resumo_nps(request, school_id):
 
     if comentarios_categorizados:
         prompt = (
-            "Faça um resumo bem resumido dos comentários negativos:\n"
+            "Faça um resumo bem resumido dos comentários negativos, monte um paragrafo unico resumindo:\n"
             f"{comentarios_categorizados}"
         )
         print(f"Prompt gerado: {prompt[:100]}...")  # Exibe apenas os primeiros 100 caracteres do prompt

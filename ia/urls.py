@@ -3,6 +3,7 @@ from .views import (chat_view, generate_excel_report, ControleEscolasSearchView,
     import_crm_fui,
     import_resposta,
     filtered_chat_view,
+    import_cliente_oculto_2024,
     import_vendas_slm_2024,
     import_vendas_slm_2025,
     download_excel_report_slm_2024,
@@ -24,6 +25,10 @@ urlpatterns = [
     path(
         "import_vendas_slm_2025/", import_vendas_slm_2025, name="import_vendas_slm_2025"
     ),
+    path(
+        "import_cliente_oculto_2024/", import_cliente_oculto_2024, name="import_cliente_oculto_2024"
+    ),
+
     path(
         "download_excel_report/",
         download_excel_report_slm_2024,

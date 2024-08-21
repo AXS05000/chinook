@@ -222,6 +222,32 @@ class Resumo_Respostas_NPS(models.Model):
     def __str__(self):
         return f"{self.escola}"
 
+class Avaliacao_Cliente_Oculto_24(models.Model):
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="nome_escola_co24",
+        verbose_name="Nome da Escola Cliente Oculto 24",
+    )
+    categoria = models.TextField(verbose_name="Categoria CO24")
+    pergunta = models.TextField(verbose_name="Pergunta CO24")
+    resposta = models.TextField(blank=True, null=True, verbose_name="Comentário Cliente Oculto 24")
+
+    def __str__(self):
+        return f"{self.escola} - Avaliação Cliente Oculto 2024"
+    
+class Resumo_Respostas_ClienteOculto24(models.Model):
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="nome_escola_resumo_co24",
+        verbose_name="Nome da Escola do resumo do Cliente Oculto 2024",
+    )
+    resumo = models.TextField(blank=True, null=True, verbose_name="Resumo Cliente Oculto")
+
+    def __str__(self):
+        return f"{self.escola}"
+
 
 class Vendas_SLM_2024(models.Model):
     escola = models.ForeignKey(

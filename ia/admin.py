@@ -13,6 +13,7 @@ from .models import (
     Vendas_SLM_2025,
     Base_de_Conhecimento,
     Planificador_2024,
+    Avaliacao_Cliente_Oculto_24,
     Resumo_Respostas_NPS,
 )
 # Register your models here.
@@ -29,4 +30,6 @@ admin.site.register(Vendas_SLM_2024)
 admin.site.register(Vendas_SLM_2025)
 admin.site.register(Base_de_Conhecimento)
 admin.site.register(Planificador_2024)
+admin.site.register(Avaliacao_Cliente_Oculto_24)
+
 admin.site.register(Resumo_Respostas_NPS)
