@@ -9,6 +9,7 @@ from .views import (chat_view, generate_excel_report, ControleEscolasSearchView,
     download_excel_report_slm_2024,
     download_excel_report_slm_2025,
     gerar_resumo_nps,
+    gerar_resumos_todas_escolas,
     )
 
 urlpatterns = [
@@ -45,5 +46,7 @@ urlpatterns = [
     path('search_escolas/', EscolaSearchView.as_view(), name='buscar_escolas'),
     path('controle_escolas/', ControleEscolasSearchView.as_view(), name='controle_escolas'),
     path('gerar_resumo_nps/<int:school_id>/', gerar_resumo_nps, name='gerar_resumo_nps'),
+    path('gerar-resumos-todas-escolas/', gerar_resumos_todas_escolas, name='gerar_resumos_todas_escolas'),
+
 
 ]

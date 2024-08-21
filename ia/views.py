@@ -1,6 +1,7 @@
 import json
 import random
 import markdown
+import time
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -996,6 +997,47 @@ def gerar_resumo_nps(request, school_id):
     print("Não há comentários válidos para resumir.")
     return redirect('controle_escolas')
 
+
+def gerar_resumos_todas_escolas(request):
+    escolas = CRM_FUI.objects.all()
+    resultados = []
+    
+    for escola in escolas:
+        # Filtra as respostas NPS para a escola, excluindo comentários vazios, null ou nan
+        respostas = Respostas_NPS.objects.filter(
+            escola=escola
+        ).exclude(
+            comentario__isnull=True
+        ).exclude(
+            comentario__exact=""
+        ).exclude(
+            comentario__iexact="nan"
+        )
+
+        comentarios_categorizados = "\n".join(
+            [f"Categoria: {resposta.questao}\nComentário: {resposta.comentario}\n" for resposta in respostas]
+        )
+
+        if comentarios_categorizados:
+            prompt = (
+                "Faça um resumo bem resumido dos comentários negativos, monte um paragrafo unico resumindo:\n"
+                f"{comentarios_categorizados}"
+            )
+            api_key = request.user.api_key  # Assume que o usuário logado tem uma chave API
+            resumo = config_resumo_nps(prompt, api_key)
+
+            # Salva o resumo na model Resumo_Respostas_NPS
+            resumo_nps, created = Resumo_Respostas_NPS.objects.get_or_create(escola=escola)
+            resumo_nps.resumo = resumo
+            resumo_nps.save()
+
+            resultados.append(f"Resumo gerado para {escola.nome_da_escola} com sucesso!")
+        else:
+            resultados.append(f"Não há comentários válidos para {escola.nome_da_escola}.")
+
+        time.sleep(30)  # Pausa de 30 segundos entre as escolas
+
+    return JsonResponse({"resultados": resultados})
 
 ################################### PLANIFICADOR #####################################################
 
