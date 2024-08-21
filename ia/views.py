@@ -908,7 +908,7 @@ def gerar_resumo_nps(request, school_id):
 
     if comentarios_categorizados:
         prompt = (
-            "Faça um resumo dos comentários:\n"
+            "Faça um resumo bem resumido dos comentários negativos:\n"
             f"{comentarios_categorizados}"
         )
         print(f"Prompt gerado: {prompt[:100]}...")  # Exibe apenas os primeiros 100 caracteres do prompt
@@ -1060,7 +1060,6 @@ def calcular_porcentagem_sim(planificador):
         planificador.toddle,
         planificador.arvore,
         planificador.setup_plano_comercial_segundo_semestre,
-        planificador.acao_1_elegivel_trade_marketing,
         planificador.acao_2_experience_day_10_08_24,
         planificador.acao_2_experience_day_24_08_24,
         planificador.acao_2_experience_day_21_09_24,

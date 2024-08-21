@@ -25,8 +25,6 @@
     <link rel="stylesheet" href="{% static 'assets_2/css/menu_sideslide.css' %}">
     <link rel="stylesheet" href="{% static 'assets_2/css/main.css' %}">
     <link rel="stylesheet" href="{% static 'assets_2/css/responsive.css' %}"> 
-    <link rel="stylesheet" href="{% static 'css/formulario_nps.css' %}">
-    <link rel="stylesheet" href="{% static 'css/nps.css' %}">     
     <link rel="icon" type="image/png" href="{% static 'assets_2/img/maple_bear.svg' %}">
 
 
@@ -80,52 +78,7 @@
   <body>
     <!-- Header Section Start -->
     <header id="slider-area">  
-      <nav class="navbar navbar-expand-md fixed-top scrolling-navbar bg-white">
-        <div class="container">  
-          <a class="navbar-brand" href="{% url 'index' %}"><img  src="{% static 'assets_2/img/maple_bear.svg' %}" alt="" style="max-height: 40px;">  Maple Bear</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="lni-menu"></i>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto w-100 justify-content-end">
-              <li class="nav-item">
-                <a class="nav-link page-scroll" href="#slider-area">Home</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link page-scroll nav-link-ded dropdown-toggle" id="dropdownContratos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Glex</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 200px;">
-                  <a class="nav-link" href="{% url 'home_glex' %}">Home Glex</a>
-                  <a class="nav-link" href="{% url 'table_forms_glex' %}">Formulários</a>
-
-                </div>
-              </li>
-                        
-              <li class="nav-item dropdown">
-                <a class="nav-link page-scroll nav-link-ded dropdown-toggle" id="dropdownContratos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contratos</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 200px;">
-                  <a class="nav-link" href="#">Buscar Candidatos</a>
-                  <a class="nav-link" href="#">Formulário PCF</a>
-                  <a class="nav-link" href="#">Importar Modelo de Contrato</a>
-                </div>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link page-scroll nav-link-ded dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Escolas</a>
-                <div class="dropdown-menu" style="min-width: 200px;">
-                  <a class="nav-link" href="#">Buscar Escolas</a>
-                  <a class="nav-link" href="#">Formulário FDMP</a>
-                </div>
-              </li>
-              {% if user.is_anonymous %}
-              {% else %}
-              <li class="nav-item">
-                <a class="nav-link page-scroll" href="#">Sair</a>
-              </li>
-              {% endif %}  
-
-            </ul>              
-          </div>
-        </div>
-      </nav> 
+      {% include 'navbar/navbar.html' %}
 
     </header>
   <!-- Fim da Nav -->
