@@ -556,6 +556,20 @@ def filtered_chat_view(request):
             # Substitui <strong> por <span style='font-weight: bold;'>
             resumo_nps_text = resumo_nps_text.replace("<strong>", "<span style='font-weight: bold;'>").replace("</strong>", "</span>")
 
+        # Busca o resumo do NPS, se existir
+        resumo_co24 = Resumo_Respostas_ClienteOculto24.objects.filter(escola=school).first()
+        resumo_resumo_co24_text = resumo_co24.resumo if resumo_co24 else None
+
+        # Converte o texto markdown para HTML se existir
+        if resumo_resumo_co24_text:
+            resumo_resumo_co24_text = markdown.markdown(resumo_resumo_co24_text, extensions=['nl2br', 'extra'])
+
+            # Substitui <strong> por <span style='font-weight: bold;'>
+            resumo_resumo_co24_text = resumo_resumo_co24_text.replace("<strong>", "<span style='font-weight: bold;'>").replace("</strong>", "</span>")
+
+
+
+
         if message == 'auto':
             complemento = ""
             if school.complemento_escola and school.complemento_escola.lower() not in ["", "null", "nan", "0", "-"]:
@@ -621,8 +635,14 @@ def filtered_chat_view(request):
             # Adiciona o resumo do NPS se estiver disponível
             if resumo_nps_text:
                 response += (
-                    f"<br><span style='font-weight: bold;'>Resumo de Respostas NPS:</span><br>"
+                    f"<br><span style='font-weight: bold;'>Resumo de Respostas Negativas do NPS:</span><br>"
                     f"{resumo_nps_text}<br>"
+                )
+            # Adiciona o resumo do NPS se estiver disponível
+            if resumo_resumo_co24_text:
+                response += (
+                    f"<br><span style='font-weight: bold;'>Resumo dos Comentários Negativos Cliente Oculto:</span><br>"
+                    f"{resumo_resumo_co24_text}<br>"
                 )
 
             # Adiciona a frase final
