@@ -635,13 +635,13 @@ def filtered_chat_view(request):
             # Adiciona o resumo do NPS se estiver disponível
             if resumo_nps_text:
                 response += (
-                    f"<br><span style='font-weight: bold;'>Resumo de Respostas Negativas do NPS:</span><br>"
+                    f"<br><span style='font-weight: bold;'>Resumo das Respostas Negativas do NPS:</span><br>"
                     f"{resumo_nps_text}<br>"
                 )
             # Adiciona o resumo do NPS se estiver disponível
             if resumo_resumo_co24_text:
                 response += (
-                    f"<br><span style='font-weight: bold;'>Resumo dos Comentários Negativos Cliente Oculto:</span><br>"
+                    f"<br><span style='font-weight: bold;'>Resumo dos Comentários Negativos do Cliente Oculto:</span><br>"
                     f"{resumo_resumo_co24_text}<br>"
                 )
 
