@@ -38,6 +38,7 @@ from .utils import (
     config_chat_rh,
     classify_question,
     config_simple_chat,
+    config_resumo_cliente_oculto,
     config_resumo_nps,
     config_chat_central,
     classify_question_chat_central,
@@ -1042,6 +1043,103 @@ def gerar_resumos_todas_escolas(request):
         time.sleep(5)
 
     return JsonResponse({"resultados": resultados})
+
+
+################################### Gerar Resumo Cliente Oculto 2024#####################################################
+
+
+def gerar_resumo_cliente_oculto(request, school_id):
+    print("Iniciando a geração do resumo do Cliente Oculto 2024...")
+
+    # Busca a escola pelo ID
+    escola = get_object_or_404(CRM_FUI, id_escola=school_id)
+    print(f"Escola encontrada: {escola.nome_da_escola}")
+
+    # Filtra as respostas do Cliente Oculto para a escola, excluindo respostas vazias, null ou nan
+    respostas = Avaliacao_Cliente_Oculto_24.objects.filter(
+        escola=escola
+    ).exclude(
+        resposta__isnull=True
+    ).exclude(
+        resposta__exact=""
+    ).exclude(
+        resposta__iexact="nan"
+    )
+    print(f"Número de respostas encontradas: {respostas.count()}")
+
+    # Cria um contexto categorizado com as questões e respostas para passar para o prompt
+    respostas_categorizadas = "\n".join(
+        [f"Categoria: {resposta.categoria}\nPergunta: {resposta.pergunta}\nResposta: {resposta.resposta}\n" for resposta in respostas]
+    )
+
+    if respostas_categorizadas:
+        prompt = (
+            "Faça um resumo bem resumido das respostas, monte um paragrafo único resumindo:\n"
+            f"{respostas_categorizadas}"
+        )
+        print(f"Prompt gerado: {prompt[:100]}...")  # Exibe apenas os primeiros 100 caracteres do prompt
+
+        api_key = request.user.api_key  # Assume que o usuário logado tem uma chave API
+        resumo = config_resumo_cliente_oculto(prompt, api_key)
+        print(f"Resumo gerado: {resumo[:100]}...")  # Exibe apenas os primeiros 100 caracteres do resumo
+
+        # Salva o resumo na model Resumo_Respostas_ClienteOculto24
+        resumo_co24, created = Resumo_Respostas_ClienteOculto24.objects.get_or_create(escola=escola)
+        resumo_co24.resumo = resumo
+        resumo_co24.save()
+        print("Resumo salvo com sucesso!")
+
+        return redirect('controle_escolas')  # Redireciona de volta para a lista de escolas
+
+    print("Não há respostas válidas para resumir.")
+    return redirect('controle_escolas')
+
+
+def gerar_resumos_cliente_oculto_todas_escolas(request):
+    escolas = CRM_FUI.objects.all()
+    resultados = []
+    
+    for escola in escolas:
+        # Verifica se já existe um resumo para a escola e se está em branco
+        resumo_co24, created = Resumo_Respostas_ClienteOculto24.objects.get_or_create(escola=escola)
+        if resumo_co24.resumo is None or resumo_co24.resumo.strip() == "":
+            # Filtra as respostas do Cliente Oculto para a escola, excluindo respostas vazias, null ou nan
+            respostas = Avaliacao_Cliente_Oculto_24.objects.filter(
+                escola=escola
+            ).exclude(
+                resposta__isnull=True
+            ).exclude(
+                resposta__exact=""
+            ).exclude(
+                resposta__iexact="nan"
+            )
+
+            respostas_categorizadas = "\n".join(
+                [f"Categoria: {resposta.categoria}\nPergunta: {resposta.pergunta}\nResposta: {resposta.resposta}\n" for resposta in respostas]
+            )
+
+            if respostas_categorizadas:
+                prompt = (
+                    "Faça um resumo bem resumido das respostas, monte um paragrafo único resumindo:\n"
+                    f"{respostas_categorizadas}"
+                )
+                api_key = request.user.api_key  # Assume que o usuário logado tem uma chave API
+                resumo = config_resumo_cliente_oculto(prompt, api_key)
+
+                # Salva o resumo na model Resumo_Respostas_ClienteOculto24
+                resumo_co24.resumo = resumo
+                resumo_co24.save()
+
+                resultados.append(f"Resumo gerado para {escola.nome_da_escola} com sucesso!")
+            else:
+                resultados.append(f"Não há respostas válidas para {escola.nome_da_escola}.")
+        else:
+            resultados.append(f"O resumo para {escola.nome_da_escola} já existe e não está em branco.")
+
+        time.sleep(5)  # Pausa de 5 segundos entre as escolas
+
+    return JsonResponse({"resultados": resultados})
+
 
 ################################### PLANIFICADOR #####################################################
 

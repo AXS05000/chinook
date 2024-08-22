@@ -88,6 +88,27 @@
 </div>
 
 
+<!-- Modal CO24-->
+<div class="modal fade"  id="resumoCO24Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog"  role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" style="font-size: 20px" id="exampleModalLabel">Resumo Cliente Oculto 2024</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+        <textarea id="modalResumoCO24" class="form-control" rows="18"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <!-- Tabela -->
 <table class="table">
 
@@ -97,8 +118,10 @@
       <th scope="col">Id da Escola</th>
       <th scope="col">Nome da Escola</th>
       <th scope="col">Cluster</th>
-      <th scope="col" class="text-center">Gerar Resumo</th>
+      <th scope="col" class="text-center">Gerar Resumo NPS</th>
       <th scope="col" class="text-center">Resumo NPS</th>
+      <th scope="col" class="text-center">Gerar Resumo CO24</th>
+      <th scope="col" class="text-center">Resumo CO24</th>
 
     </tr>
   </thead>
@@ -120,7 +143,20 @@
           <i class="material-icons" aria-hidden="true">list</i>
         </a>
       </td>
+
+      <td class="text-center">
+        <a href="{% url 'gerar_resumo_cliente_oculto' escola.id_escola %}">
+          <i class="material-icons" aria-hidden="true">rotate_right</i>
+        </a>
+      </td>
+      <td class="text-center white">
+        <a type="button" class="open-modal" style="cursor: pointer;" data-toggle="modal" data-target="#resumoCO24Modal" data-resumo="{% if escola.nome_escola_resumo_co24.first %}{{ escola.nome_escola_resumo_co24.first.resumo }}{% else %}Sem resumo disponível{% endif %}">
+          <i class="material-icons" aria-hidden="true">list</i>
+        </a>
+      </td>
+
     </tr>
+
     {% endfor %}
   </tbody>
 
@@ -168,6 +204,9 @@
           <a href="{% url 'gerar_resumos_todas_escolas' %}" style="padding-right: 3.8rem;" title="Gerar Resumo NPS">
             <i class="material-icons" aria-hidden="true">rotate_right</i>
           </a>
+          <a href="{% url 'gerar_resumos_cliente_oculto_todas_escolas' %}" style="padding-right: 3.8rem;" title="Gerar Resumo CO24">
+            <i class="material-icons" aria-hidden="true">rotate_left</i>
+          </a>
         </div>
         </div>
       </div>
@@ -206,6 +245,26 @@
         <div class="double-bounce2"></div>
       </div>
     </div>    
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Manusear o modal de Resumo NPS
+        $('#resumoNPSModal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget); // Botão que acionou o modal
+          var resumo = button.data('resumo'); // Extrai informação dos atributos data-*
+          var modal = $(this);
+          modal.find('#modalResumoNPS').val(resumo); // Preenche o textarea com o resumo
+        });
+    
+        // Manusear o modal de Resumo Cliente Oculto 2024
+        $('#resumoCO24Modal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget); // Botão que acionou o modal
+          var resumo = button.data('resumo'); // Extrai informação dos atributos data-*
+          var modal = $(this);
+          modal.find('#modalResumoCO24').val(resumo); // Preenche o textarea com o resumo
+        });
+      });
+    </script>
 
     <script>
       document.getElementById("gerar-resumos-btn").addEventListener("click", function() {

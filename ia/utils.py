@@ -356,6 +356,41 @@ def config_resumo_nps(prompt, api_key, context=""):
     print(f"Resposta formatada: {formatted_response[:50]}...")  # Exibe apenas os primeiros 100 caracteres da resposta
 
     return formatted_response
+
+
+############################################# Resumo Cliente Oculto###########################################################
+
+
+
+def config_resumo_cliente_oculto(prompt, api_key, context=""):
+    print("Iniciando a configuração do resumo do Cliente Oculto 2024...")
+
+    if not context:
+        context = "No relevant information found in the database."
+    if not prompt:
+        prompt = "No question provided."
+
+    openai.api_key = api_key
+
+    print("Enviando a requisição para a API da OpenAI...")
+    response = openai.ChatCompletion.create(
+        model="gpt-4-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é o assistente Chinook da Empresa Maple Bear auxiliando em informações sobre as avaliações do Cliente Oculto. Cliente Oculto é uma avaliação realizada por cliente secreto enviado pela franqueada Maple Bear onde o objetivo é avaliar a escola do ponte de vista de um cliente",
+            },
+            {"role": "user", "content": f"Contexto:\n{context}"},
+            {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
+        ],
+        max_tokens=2050,
+    )
+    print(f"Resposta recebida. Total de tokens usados: {response['usage']['total_tokens']}")
+
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+    print(f"Resposta formatada: {formatted_response[:50]}...")  # Exibe apenas os primeiros 50 caracteres da resposta
+
+    return formatted_response
 ############################################# CHAT CENTRAL###########################################################
 
 
