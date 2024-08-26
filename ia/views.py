@@ -731,7 +731,7 @@ def filtered_chat_view(request):
             print("Contexto NPS gerado")
 
 
-        if question_type == "cliente_oculto":
+        elif question_type == "cliente_oculto":
             print("Lidando com categoria Cliente Oculto")
             co24_responses = (
                 Avaliacao_Cliente_Oculto_24.objects.filter(escola__id_escola=school_id)
@@ -748,7 +748,24 @@ def filtered_chat_view(request):
                 )
             print("Contexto Cliente Oculto")
 
-
+        elif question_type == "splinklr":
+            print("Lidando com categoria Splinklr")
+            tickets = (
+                Ticket_Splinklr.objects.filter(escola__id_escola=school_id)
+            )
+            context = ""
+            context += (
+                f"Informações sobre os tickets da Splinklr da escola {school.nome_da_escola}:\n"
+            )
+            for ticket in tickets:
+                context += (
+                    f"ID do Ticket: {ticket.id_ticket}\n"
+                    f"Cliente: {ticket.cliente}\n"
+                    f"Área: {ticket.area}\n"
+                    f"Assunto: {ticket.assunto}\n"
+                    f"Data do Ticket: {ticket.data_ticket}\n\n"
+                )
+            print("Contexto Splinklr")
 
         elif question_type == "analise completa da escola":
             print("Lidando com análise completa da escola")
