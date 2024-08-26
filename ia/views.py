@@ -11,6 +11,7 @@ from django.db.models import Sum
 from .forms import PlanificadorForm
 from datetime import datetime
 from datetime import timedelta
+from django.db.models import Count
 from django.db.models import Q
 from .models import (
     Informacao,
@@ -750,22 +751,40 @@ def filtered_chat_view(request):
 
         elif question_type == "splinklr":
             print("Lidando com categoria Splinklr")
-            tickets = (
-                Ticket_Splinklr.objects.filter(escola__id_escola=school_id)
+            tickets = Ticket_Splinklr.objects.filter(escola__id_escola=school_id)
+            
+            # Contagem de tickets
+            total_tickets = tickets.count()
+
+            top_clients = (
+                tickets.values('cliente')
+                .annotate(total=Count('id_ticket'))
+                .order_by('-total')[:3]
             )
+
             context = ""
             context += (
                 f"Informações sobre os tickets da Splinklr da escola {school.nome_da_escola}:\n"
+                f"Total de tickets abertos: {total_tickets}\n\n"
             )
+
+            if top_clients:
+                context += "Top 3 clientes que mais abriram tickets:\n"
+                for client in top_clients:
+                    context += f"{client['cliente']} - {client['total']} tickets\n"
+            else:
+                context += "Nenhum cliente com múltiplos tickets.\n"
+
+            context += "\nDetalhes dos tickets:\n"
             for ticket in tickets:
                 context += (
                     f"ID do Ticket: {ticket.id_ticket}\n"
                     f"Cliente: {ticket.cliente}\n"
-                    f"Área: {ticket.area}\n"
-                    f"Assunto: {ticket.assunto}\n"
+                    f"Assunto: {ticket.area} - {ticket.assunto}\n"
                     f"Data do Ticket: {ticket.data_ticket}\n\n"
                 )
-            print("Contexto Splinklr")
+            
+            print("Contexto Splinklr gerado")
 
         elif question_type == "analise completa da escola":
             print("Lidando com análise completa da escola")
