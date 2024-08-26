@@ -10,10 +10,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Sum
 from .forms import PlanificadorForm
 from datetime import datetime
+from datetime import timedelta
 from django.db.models import Q
 from .models import (
     Informacao,
     Beneficio,
+    Ticket_Splinklr,
     FolhaPonto,
     Resumo_Respostas_NPS,
     Salario,
@@ -443,6 +445,59 @@ def import_cliente_oculto_2024(request):
     return render(request, "chatapp/import/import_cliente_oculto_2024.html")
 
 
+
+
+################################################# IMPORTAR TICKET SPRINKLR######################################################
+@login_required(login_url='/login/')
+def import_ticket_splinklr(request):
+    if request.method == "POST":
+        file = request.FILES.get("file")
+        if not file or not file.name.endswith(".xlsx"):
+            messages.error(request, "Por favor, envie um arquivo Excel.")
+            return redirect("import_ticket_splinklr")
+
+        try:
+            df = pd.read_excel(file)
+        except Exception as e:
+            messages.error(request, f"Erro ao ler o arquivo Excel: {e}")
+            return redirect("import_ticket_splinklr")
+
+        with transaction.atomic():
+            Ticket_Splinklr.objects.all().delete()  # Limpar a tabela antes de importar novos dados
+
+            for _, row in df.iterrows():
+                try:
+                    escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
+                    
+                    # Ajuste para usar os nomes corretos das colunas
+                    tempo_medio_de_resposta_total = row["tempo_medio_de_resposta"]
+                    tempo_medio_de_primeira_resposta_do_agente_total = row["tempo_medio_de_primeira_resposta_do_agente"]
+
+                    Ticket_Splinklr.objects.create(
+                        escola=escola,
+                        id_ticket=row["id_ticket"],
+                        cliente=row["cliente"],
+                        area=row["area"],
+                        assunto=row["assunto"],
+                        tempo_medio_de_resposta_total=tempo_medio_de_resposta_total,
+                        tempo_medio_de_primeira_resposta_do_agente_total=tempo_medio_de_primeira_resposta_do_agente_total,
+                        data_ticket=row["data_ticket"],
+                    )
+                except CRM_FUI.DoesNotExist:
+                    messages.error(
+                        request, f"Escola com id_escola {row['id_escola']} não encontrada."
+                    )
+                    continue
+                except Exception as e:
+                    messages.error(
+                        request,
+                        f"Erro ao importar a linha com id_escola {row['id_escola']}: {e}",
+                    )
+                    continue
+
+        messages.success(request, "Dados importados com sucesso!")
+        return redirect("import_ticket_splinklr")
+    return render(request, "chatapp/import/import_ticket_splinklr.html")
 ############################################# CHAT SAF###########################################################
 
 
@@ -704,6 +759,10 @@ def filtered_chat_view(request):
                 .exclude(comentario__exact="")
                 .exclude(comentario__exact="nan")
             )
+            co24_responses = (
+                Avaliacao_Cliente_Oculto_24.objects.filter(escola__id_escola=school_id)
+            )
+
             context = (
                 f"Informações Básicas da Escola:\n"
                 f"Nome da Escola: {school.nome_da_escola}\n"
@@ -737,11 +796,24 @@ def filtered_chat_view(request):
             if school.status_de_adimplencia == "Inadimplente":
                 context += f"Inadimplência: {school.inadimplencia} - Este é o valor que a escola está devendo para a Maple Bear.\n"
 
+            
+            context += (
+                f"Comentários do NPS respondidos pelos pais dos alunos da escola:\n"
+            )
+            
             for response in nps_responses:
                 context += (
-                    f"Respostas do NPS dessa escola:\n"
                     f"Questão perguntada no NPS: {response.questao}\n"
                     f"Comentário: {response.comentario}\n\n"
+                )
+            context += (
+                f"Resultado do Cliente Oculto(Avaliação realizada por cliente secreto enviado pela franqueada Maple Bear onde o objetivo é avaliar a escola do ponte de vista de um cliente) da escola:\n"
+            )
+            for responsec024 in co24_responses:
+                context += (
+                    f"Categoria: {responsec024.categoria}\n"
+                    f"Questão perguntada no Cliente Oculto 2024: {responsec024.pergunta}\n"
+                    f"Resposta: {responsec024.resposta}\n\n"
                 )
             
             context += (

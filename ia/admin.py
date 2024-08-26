@@ -15,10 +15,11 @@ from .models import (
     Planificador_2024,
     Avaliacao_Cliente_Oculto_24,
     Resumo_Respostas_NPS,
+    Ticket_Splinklr,
 )
 # Register your models here.
 admin.site.register(Informacao)
-
+admin.site.register(Ticket_Splinklr)
 admin.site.register(APIKey)
 admin.site.register(Beneficio)
 admin.site.register(FolhaPonto)

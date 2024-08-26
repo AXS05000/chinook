@@ -294,6 +294,23 @@ class Base_de_Conhecimento(models.Model):
 
 
 
+class Ticket_Splinklr(models.Model):
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="nome_escola_splinklr",
+        verbose_name="Nome da Escola Sprinklr",
+    )
+    id_ticket = models.IntegerField()
+    cliente = models.CharField(max_length=255)
+    area = models.CharField(max_length=255)
+    assunto = models.CharField(max_length=255)
+    tempo_medio_de_resposta_total = models.DecimalField(max_digits=50, decimal_places=25)  # Armazenar como decimal
+    tempo_medio_de_primeira_resposta_do_agente_total = models.DecimalField(max_digits=50, decimal_places=25)  # Armazenar como decimal
+    data_ticket = models.DateField()
+
+    def __str__(self):
+        return f"{self.escola} - {self.id_ticket}"
 
 
 
@@ -338,11 +355,8 @@ class Planificador_2024(models.Model):
     matriculas_ago_24 = models.IntegerField(null=True, blank=True)
     taxa_conversao_atual_visitas_matriculas = models.FloatField(null=True, blank=True)
     taxa_conversao_leads_matriculas = models.FloatField(null=True, blank=True)
-    
     ultima_data_atualizacao_bloc_drivers_comerciais_meio = models.DateField(null=True, blank=True)
     meta_alunos_5k_2024 = models.IntegerField(null=True, blank=True)
-    
-    
     setup_plano_comercial_segundo_semestre = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
     acao_1_elegivel_trade_marketing = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='NAO')
     acao_1_trade_valor = models.FloatField(null=True, blank=True)
@@ -364,9 +378,7 @@ class Planificador_2024(models.Model):
     data_atualizacao_resultados = models.DateField(null=True, blank=True)
     slm_2022 = models.FloatField(null=True, blank=True)
     slm_2023 = models.FloatField(null=True, blank=True)
-    
     meta_orcamentaria_2024 = models.FloatField(null=True, blank=True)
-    
     base_rematriculaveis_2025 = models.IntegerField(null=True, blank=True)
     meta_rematricula_2025 = models.IntegerField(null=True, blank=True)
     real_rematriculas_2025 = models.IntegerField(null=True, blank=True)

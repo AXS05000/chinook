@@ -12,6 +12,7 @@ from .views import (chat_view, generate_excel_report, ControleEscolasSearchView,
     gerar_resumos_todas_escolas,
     gerar_resumo_cliente_oculto,
     gerar_resumos_cliente_oculto_todas_escolas,
+    import_ticket_splinklr,
     )
 
 urlpatterns = [
@@ -41,6 +42,11 @@ urlpatterns = [
         "download_excel_report_25/",
         download_excel_report_slm_2025,
         name="download_excel_report_25",
+    ),
+        path(
+        "import_ticket_splinklr/",
+        import_ticket_splinklr,
+        name="import_ticket_splinklr",
     ),
     path('import_planificador/', ImportPlanificadorView.as_view(), name='import_planificador'),
     path('planificador/create/', PlanificadorCreateView.as_view(), name='planificador_create'),
