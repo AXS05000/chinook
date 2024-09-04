@@ -16,7 +16,7 @@ from django.db.models import Q
 from .models import (
     Informacao,
     Beneficio,
-    Ticket_Splinklr,
+    Ticket_Sprinklr,
     FolhaPonto,
     Resumo_Respostas_NPS,
     Salario,
@@ -452,21 +452,21 @@ def import_cliente_oculto_2024(request):
 
 ################################################# IMPORTAR TICKET SPRINKLR######################################################
 @login_required(login_url='/login/')
-def import_ticket_splinklr(request):
+def import_ticket_sprinklr(request):
     if request.method == "POST":
         file = request.FILES.get("file")
         if not file or not file.name.endswith(".xlsx"):
             messages.error(request, "Por favor, envie um arquivo Excel.")
-            return redirect("import_ticket_splinklr")
+            return redirect("import_ticket_sprinklr")
 
         try:
             df = pd.read_excel(file)
         except Exception as e:
             messages.error(request, f"Erro ao ler o arquivo Excel: {e}")
-            return redirect("import_ticket_splinklr")
+            return redirect("import_ticket_sprinklr")
 
         with transaction.atomic():
-            Ticket_Splinklr.objects.all().delete()  # Limpar a tabela antes de importar novos dados
+            Ticket_Sprinklr.objects.all().delete()  # Limpar a tabela antes de importar novos dados
 
             for _, row in df.iterrows():
                 try:
@@ -476,7 +476,7 @@ def import_ticket_splinklr(request):
                     tempo_medio_de_resposta_total = row["tempo_medio_de_resposta"]
                     tempo_medio_de_primeira_resposta_do_agente_total = row["tempo_medio_de_primeira_resposta_do_agente"]
 
-                    Ticket_Splinklr.objects.create(
+                    Ticket_Sprinklr.objects.create(
                         escola=escola,
                         id_ticket=row["id_ticket"],
                         cliente=row["cliente"],
@@ -499,8 +499,8 @@ def import_ticket_splinklr(request):
                     continue
 
         messages.success(request, "Dados importados com sucesso!")
-        return redirect("import_ticket_splinklr")
-    return render(request, "chatapp/import/import_ticket_splinklr.html")
+        return redirect("import_ticket_sprinklr")
+    return render(request, "chatapp/import/import_ticket_sprinklr.html")
 ############################################# CHAT SAF###########################################################
 
 
