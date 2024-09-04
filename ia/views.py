@@ -335,6 +335,7 @@ def import_vendas_slm_2024(request):
                         nome_do_aluno=row["nome_do_aluno"],
                         data_do_pedido=row["data_do_pedido"],
                         quantidade=row["quantidade"],
+                        id_linha=row["id_linha"],
                     )
                 except CRM_FUI.DoesNotExist:
                     messages.error(
@@ -383,6 +384,7 @@ def import_vendas_slm_2025(request):
                         nome_do_aluno=row["nome_do_aluno"],
                         data_do_pedido=row["data_do_pedido"],
                         quantidade=row["quantidade"],
+                        id_linha=row["id_linha"],
                     )
                 except CRM_FUI.DoesNotExist:
                     messages.error(
@@ -732,7 +734,7 @@ def filtered_chat_view(request):
             print("Contexto NPS gerado")
 
 
-        elif question_type == "cliente_oculto":
+        if question_type == "cliente_oculto":
             print("Lidando com categoria Cliente Oculto")
             co24_responses = (
                 Avaliacao_Cliente_Oculto_24.objects.filter(escola__id_escola=school_id)
@@ -749,42 +751,7 @@ def filtered_chat_view(request):
                 )
             print("Contexto Cliente Oculto")
 
-        elif question_type == "splinklr":
-            print("Lidando com categoria Splinklr")
-            tickets = Ticket_Splinklr.objects.filter(escola__id_escola=school_id)
-            
-            # Contagem de tickets
-            total_tickets = tickets.count()
 
-            top_clients = (
-                tickets.values('cliente')
-                .annotate(total=Count('id_ticket'))
-                .order_by('-total')[:3]
-            )
-
-            context = ""
-            context += (
-                f"Informações sobre os tickets da Splinklr da escola {school.nome_da_escola}:\n"
-                f"Total de tickets abertos: {total_tickets}\n\n"
-            )
-
-            if top_clients:
-                context += "Top 3 clientes que mais abriram tickets:\n"
-                for client in top_clients:
-                    context += f"{client['cliente']} - {client['total']} tickets\n"
-            else:
-                context += "Nenhum cliente com múltiplos tickets.\n"
-
-            context += "\nDetalhes dos tickets:\n"
-            for ticket in tickets:
-                context += (
-                    f"ID do Ticket: {ticket.id_ticket}\n"
-                    f"Cliente: {ticket.cliente}\n"
-                    f"Assunto: {ticket.area} - {ticket.assunto}\n"
-                    f"Data do Ticket: {ticket.data_ticket}\n\n"
-                )
-            
-            print("Contexto Splinklr gerado")
 
         elif question_type == "analise completa da escola":
             print("Lidando com análise completa da escola")
@@ -795,10 +762,6 @@ def filtered_chat_view(request):
                 .exclude(comentario__exact="")
                 .exclude(comentario__exact="nan")
             )
-            co24_responses = (
-                Avaliacao_Cliente_Oculto_24.objects.filter(escola__id_escola=school_id)
-            )
-
             context = (
                 f"Informações Básicas da Escola:\n"
                 f"Nome da Escola: {school.nome_da_escola}\n"
@@ -832,24 +795,11 @@ def filtered_chat_view(request):
             if school.status_de_adimplencia == "Inadimplente":
                 context += f"Inadimplência: {school.inadimplencia} - Este é o valor que a escola está devendo para a Maple Bear.\n"
 
-            
-            context += (
-                f"Comentários do NPS respondidos pelos pais dos alunos da escola:\n"
-            )
-            
             for response in nps_responses:
                 context += (
+                    f"Respostas do NPS dessa escola:\n"
                     f"Questão perguntada no NPS: {response.questao}\n"
                     f"Comentário: {response.comentario}\n\n"
-                )
-            context += (
-                f"Resultado do Cliente Oculto(Avaliação realizada por cliente secreto enviado pela franqueada Maple Bear onde o objetivo é avaliar a escola do ponte de vista de um cliente) da escola:\n"
-            )
-            for responsec024 in co24_responses:
-                context += (
-                    f"Categoria: {responsec024.categoria}\n"
-                    f"Questão perguntada no Cliente Oculto 2024: {responsec024.pergunta}\n"
-                    f"Resposta: {responsec024.resposta}\n\n"
                 )
             
             context += (
@@ -1546,3 +1496,157 @@ class EscolaSearchView(ListView):
         if query:
             return CRM_FUI.objects.filter(Q(nome_da_escola__icontains=query)).order_by(order_by)
         return CRM_FUI.objects.all().order_by(order_by)
+    
+
+
+################################################# ATUALIZAÇÃO JSON ######################################################
+
+
+@csrf_exempt
+def import_vendas_slm_2025_json(request):
+    if request.method == 'POST':
+        try:
+            dados = json.loads(request.body)
+        except json.JSONDecodeError as e:
+            return JsonResponse({'status': 'erro', 'mensagem': f"Erro ao parsear o JSON: {e}"}, status=400)
+
+        with transaction.atomic():
+            for result in dados.get('results', []):
+                for table in result.get('tables', []):
+                    for row in table.get('rows', []):
+                        try:
+                            escola = CRM_FUI.objects.get(id_escola=row.get('fui_slm_2025[id_escola]'))
+
+                            # Converte o campo data_do_pedido para um objeto datetime
+                            data_do_pedido = datetime.strptime(row.get('fui_slm_2025[data_do_pedido]', ''), "%Y-%m-%dT%H:%M:%S")
+
+                            # Cria o novo registro com o novo campo id_linha
+                            Vendas_SLM_2025.objects.create(
+                                escola=escola,
+                                numero_do_pedido=row.get('fui_slm_2025[numero_do_pedido]', ''),
+                                nome_pais=row.get('fui_slm_2025[nome_pais]', ''),
+                                nome_do_aluno=row.get('fui_slm_2025[nome_do_aluno]', ''),
+                                data_do_pedido=data_do_pedido,
+                                quantidade=row.get('[Sumquantidade]', 0),
+                                id_linha=row.get('fui_slm_2025[id_linha]', 0)  # Novo campo adicionado
+                            )
+                        except CRM_FUI.DoesNotExist:
+                            return JsonResponse(
+                                {'status': 'erro', 'mensagem': f"Escola com id_escola {row.get('fui_slm_2025[id_escola]')} não encontrada."},
+                                status=400
+                            )
+                        except Exception as e:
+                            return JsonResponse(
+                                {'status': 'erro', 'mensagem': f"Erro ao importar o pedido {row.get('fui_slm_2025[numero_do_pedido]')}: {e}"},
+                                status=500
+                            )
+
+        return JsonResponse({'status': 'sucesso', 'mensagem': 'Dados importados com sucesso!'}, status=200)
+
+    return JsonResponse({'status': 'falha', 'mensagem': 'Método não permitido'}, status=405)
+
+
+
+@csrf_exempt
+def import_vendas_slm_2024_json(request):
+    if request.method == 'POST':
+        try:
+            dados = json.loads(request.body)
+        except json.JSONDecodeError as e:
+            return JsonResponse({'status': 'erro', 'mensagem': f"Erro ao parsear o JSON: {e}"}, status=400)
+
+        with transaction.atomic():
+            for result in dados.get('results', []):
+                for table in result.get('tables', []):
+                    for row in table.get('rows', []):
+                        try:
+                            escola = CRM_FUI.objects.get(id_escola=row.get('slm_2024[id_escola]'))
+                            data_do_pedido = datetime.strptime(row.get('slm_2024[data_do_pedido]', ''), "%Y-%m-%dT%H:%M:%S")
+
+                            # Atualiza ou cria a venda com base no numero_do_pedido e escola
+                            Vendas_SLM_2024.objects.update_or_create(
+                                numero_do_pedido=row.get('slm_2024[numero_do_pedido]', ''),
+                                escola=escola,
+                                defaults={
+                                    "nome_pais": row.get('slm_2024[nome_pais]', ''),
+                                    "nome_do_aluno": row.get('slm_2024[nome_do_aluno]', ''),
+                                    "data_do_pedido": data_do_pedido,
+                                    "quantidade": row.get('[Sumquantidade]', 0),
+                                    "id_linha": row.get('slm_2024[id_linha]', None)
+                                }
+                            )
+                        except CRM_FUI.DoesNotExist:
+                            return JsonResponse(
+                                {'status': 'erro', 'mensagem': f"Escola com id_escola {row.get('slm_2024[id_escola]')} não encontrada."},
+                                status=400
+                            )
+                        except Exception as e:
+                            return JsonResponse(
+                                {'status': 'erro', 'mensagem': f"Erro ao importar o pedido {row.get('slm_2024[numero_do_pedido]')}: {e}"},
+                                status=500
+                            )
+
+        return JsonResponse({'status': 'sucesso', 'mensagem': 'Dados importados e atualizados com sucesso!'}, status=200)
+
+    return JsonResponse({'status': 'falha', 'mensagem': 'Método não permitido'}, status=405)
+
+
+@csrf_exempt
+def import_crm_fui_json(request):
+    if request.method == 'POST':
+        try:
+            dados = json.loads(request.body)
+        except json.JSONDecodeError as e:
+            return JsonResponse({'status': 'erro', 'mensagem': f"Erro ao parsear o JSON: {e}"}, status=400)
+
+        with transaction.atomic():
+            for result in dados.get('results', []):
+                for table in result.get('tables', []):
+                    for row in table.get('rows', []):
+                        try:
+                            CRM_FUI.objects.update_or_create(
+                                id_escola=row.get('CRM_B2B[id_escola]'),
+                                defaults={
+                                    "nome_da_escola": row.get('CRM_B2B[nome_da_escola]', ''),
+                                    "CNPJ": row.get('CRM_B2B[CNPJ]', ''),
+                                    "status_da_escola": row.get('CRM_B2B[status_da_escola]', ''),
+                                    "slms_vendidos": row.get('CRM_B2B[slms_vendidos]', 0),
+                                    "slms_vendidos_25": row.get('CRM_B2B[slms_vendidos_25]', 0),
+                                    "meta": row.get('CRM_B2B[meta]', 0),
+                                    "cluster": row.get('CRM_B2B[cluster]', ''),
+                                    "cep_escola": row.get('CRM_B2B[cep_escola]', ''),
+                                    "endereco": row.get('CRM_B2B[endereco]', ''),
+                                    "complemento_escola": row.get('CRM_B2B[complemento_escola]', ''),
+                                    "bairro_escola": row.get('CRM_B2B[bairro_escola]', ''),
+                                    "cidade_da_escola": row.get('CRM_B2B[cidade_da_escola]', ''),
+                                    "estado_da_escola": row.get('CRM_B2B[estado_da_escola]', ''),
+                                    "regiao_da_escola": row.get('CRM_B2B[regiao_da_escola]', ''),
+                                    "status_de_adimplencia": row.get('CRM_B2B[status_de_adimplencia]', ''),
+                                    "inadimplencia": row.get('CRM_B2B[inadimplencia]', 0),
+                                    "ticket_medio": row.get('CRM_B2B[ticket_medio]', 0),
+                                    "valor_royalties": row.get('CRM_B2B[valor_royalties]', 0),
+                                    "valor_fdmp": row.get('CRM_B2B[valor_fdmp]', 0),
+                                    "segmento_da_escola": row.get('CRM_B2B[segmento_da_escola]', ''),
+                                    "atual_serie": row.get('CRM_B2B[atual_serie]', ''),
+                                    "avanco_segmento": row.get('CRM_B2B[avanco_segmento]', ''),
+                                    "telefone_de_contato_da_escola": row.get('CRM_B2B[telefone_de_contato_da_escola]', ''),
+                                    "email_da_escola": row.get('CRM_B2B[email_da_escola]', ''),
+                                    "nps_pais_2024_1_onda": row.get('CRM_B2B[nps_pais_2024_1_onda]', 0),
+                                    "quality_assurance_2024": row.get('CRM_B2B[quality_assurance_2024]', 0),
+                                    "cliente_oculto_2024": row.get('CRM_B2B[cliente_oculto_2024]', 0),
+                                    "consultor_saf": row.get('CRM_B2B[consultor_saf]', ''),
+                                    "consultor_academico": row.get('CRM_B2B[consultor_academico]', ''),
+                                    "consultor_comercial": row.get('CRM_B2B[consultor_comercial]', ''),
+                                    "consultor_gestao_escolar": row.get('CRM_B2B[consultor_gestao_escolar]', ''),
+                                    "dias_uteis_entrega_slm": row.get('CRM_B2B[dias_uteis_entrega_slm]', ''),
+                                }
+                            )
+                        except Exception as e:
+                            return JsonResponse(
+                                {'status': 'erro', 'mensagem': f"Erro ao importar o registro com id_escola {row.get('CRM_B2B[id_escola]')}: {e}"},
+                                status=500
+                            )
+
+        return JsonResponse({'status': 'sucesso', 'mensagem': 'Dados importados com sucesso!'}, status=200)
+
+    return JsonResponse({'status': 'falha', 'mensagem': 'Método não permitido'}, status=405)

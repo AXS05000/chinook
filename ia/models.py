@@ -261,6 +261,8 @@ class Vendas_SLM_2024(models.Model):
     nome_pais = models.CharField(verbose_name="Nomes dos Pais", max_length=200)
     nome_do_aluno = models.CharField(verbose_name="Nome do Aluno", max_length=200)
     numero_do_pedido = models.CharField(verbose_name="Numero do Pedido", max_length=200)
+    id_linha = models.IntegerField(verbose_name="Id da Linha 2024", blank=True, null=True)
+
 
     def __str__(self):
         return f"{self.numero_do_pedido} - {self.nome_pais} - {self.nome_do_aluno} - SLM 2024"
@@ -277,9 +279,11 @@ class Vendas_SLM_2025(models.Model):
     nome_pais = models.CharField(verbose_name="Nomes dos Pais 2025", max_length=200)
     nome_do_aluno = models.CharField(verbose_name="Nome do Aluno 2025", max_length=200)
     numero_do_pedido = models.CharField(verbose_name="Numero do Pedido 2025", max_length=200)
+    id_linha = models.IntegerField(verbose_name="Id da Linha 2025", blank=True, null=True)
 
     def __str__(self):
         return f"{self.numero_do_pedido} - {self.nome_pais} - {self.nome_do_aluno} - SLM 2025"
+
 
 
 class Base_de_Conhecimento(models.Model):
@@ -294,27 +298,27 @@ class Base_de_Conhecimento(models.Model):
 
 
 
-class Ticket_Splinklr(models.Model):
+
+
+
+class Ticket_Sprinklr(models.Model):
     escola = models.ForeignKey(
         CRM_FUI,
         on_delete=models.CASCADE,
-        related_name="nome_escola_splinklr",
-        verbose_name="Nome da Escola Sprinklr",
+        related_name="nome_escola_sprinklr",
+        verbose_name="Nome da Escola da Sprinklr",
     )
     id_ticket = models.IntegerField()
     cliente = models.CharField(max_length=255)
-    area = models.CharField(max_length=255)
-    assunto = models.CharField(max_length=255)
-    tempo_medio_de_resposta_total = models.DecimalField(max_digits=50, decimal_places=25)  # Armazenar como decimal
-    tempo_medio_de_primeira_resposta_do_agente_total = models.DecimalField(max_digits=50, decimal_places=25)  # Armazenar como decimal
+    area = models.CharField(max_length=255,blank=True, null=True)
+    assunto = models.CharField(max_length=255,blank=True, null=True)
+    tempo_medio_de_resposta_total = models.CharField(max_length=255,blank=True, null=True)
     data_ticket = models.DateField()
+    qtd_mensagens_cliente = models.IntegerField(blank=True, null=True)
+    qtd_mensagens_maple = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.escola} - {self.id_ticket}"
-
-
-
-
 
 
 
