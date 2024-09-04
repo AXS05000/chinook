@@ -728,7 +728,7 @@ def filtered_chat_view(request):
             print("Contexto NPS gerado")
 
 
-        if question_type == "cliente_oculto":
+        elif question_type == "cliente_oculto":
             print("Lidando com categoria Cliente Oculto")
             co24_responses = (
                 Avaliacao_Cliente_Oculto_24.objects.filter(escola__id_escola=school_id)
@@ -742,6 +742,27 @@ def filtered_chat_view(request):
                     f"Categoria: {response.categoria}\n"
                     f"Questão perguntada no Cliente Oculto 2024: {response.pergunta}\n"
                     f"Resposta: {response.resposta}\n\n"
+                )
+            print("Contexto Cliente Oculto")
+
+
+        elif question_type == "sprinklr":
+            print("Lidando com categoria Sprinklr")
+            sprinklr_responses = (
+                Ticket_Sprinklr.objects.filter(escola__id_escola=school_id)
+            )
+            context = ""
+            context += (
+                f"Sprinklr é o sistema de atendimentos por tickets da Maple Bear, segue tickets dessa escola:\n"
+            )
+            for response in sprinklr_responses:
+                context += (
+                    f"["
+                    f"Id do Ticket: {response.id_ticket}\n"
+                    f"Cliente: {response.id_ticket}\n"
+                    f"Assunto: {response.id_ticket}\n"
+                    f"Data: {response.id_ticket}\n"
+                    f"]\n"
                 )
             print("Contexto Cliente Oculto")
 
