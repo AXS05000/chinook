@@ -748,24 +748,74 @@ def filtered_chat_view(request):
 
         elif question_type == "sprinklr":
             print("Lidando com categoria Sprinklr")
-            sprinklr_responses = (
-                Ticket_Sprinklr.objects.filter(escola__id_escola=school_id)
+            sprinklr_responses = Ticket_Sprinklr.objects.filter(escola__id_escola=school_id)
+
+            # Contagem total de tickets distintos
+            total_tickets = sprinklr_responses.values('id_ticket').distinct().count()
+
+            # Ranking de assuntos
+            assuntos_ranking = (
+                sprinklr_responses
+                .values('assunto')
+                .annotate(total=Count('assunto'))
+                .order_by('-total')
             )
-            context = ""
-            context += (
-                f"Sprinklr é o sistema de atendimentos por tickets da Maple Bear, segue tickets dessa escola:\n"
+
+            # Ranking de clientes
+            clientes_ranking = (
+                sprinklr_responses
+                .values('cliente')
+                .annotate(total=Count('cliente'))
+                .order_by('-total')
             )
+
+            # Contagem de tickets por data_ticket
+            data_ranking = (
+                sprinklr_responses
+                .values('data_ticket')
+                .annotate(total=Count('data_ticket'))
+                .order_by('data_ticket')
+            )
+
+            context = (
+                f"Sprinklr é o sistema de atendimentos por tickets da Maple Bear:\n\n"
+                f"Resumo das informações gerais da Sprinklr dessa escola:\n"
+                f"Total de Tickets Distintos: {total_tickets}\n\n"
+            )
+
+            context += "\nRanking de Assuntos:\n"
+
+            # Adiciona o ranking de assuntos ao contexto
+            for assunto in assuntos_ranking:
+                context += f"{assunto['assunto']} - Total de Tickets: {assunto['total']}\n"
+
+            context += "\nTotal de Tickets por Data:\n"
+
+            # Adiciona a contagem de tickets por data_ticket ao contexto
+            for data in data_ranking:
+                context += f"{data['data_ticket']} - Total de Tickets: {data['total']}\n"
+
+            context += "\nRanking de Clientes:\n"
+
+            # Adiciona o ranking de clientes ao contexto
+            for cliente in clientes_ranking:
+                context += f"{cliente['cliente']} - Total de Tickets: {cliente['total']}\n"
+
+            context += "\nDetalhe dos Tickets:\n"
+
             for response in sprinklr_responses:
                 context += (
                     f"["
                     f"Id do Ticket: {response.id_ticket}\n"
-                    f"Cliente: {response.id_ticket}\n"
-                    f"Assunto: {response.id_ticket}\n"
-                    f"Data: {response.id_ticket}\n"
+                    f"Cliente: {response.cliente}\n"
+                    f"Assunto: {response.assunto}\n"
+                    f"Data: {response.data_ticket}\n"
                     f"]\n"
                 )
-            print("Contexto Cliente Oculto")
 
+            context += "\nImportante detalhe responda apenas com as informações solicitadas pelo o usuario, estou te passando todo esse contexto para facilitar o fornecimento das informações. Outra coisa caso ele peça um resumo, tente resumir tudo em uma paragrafo apenas explicando em texto, ou seja, veja o contexto e interprete a informação e forneça uma analise do que foi pedido não copie e contexto apenas cole na resposta.\n"
+
+            print("Contexto Sprinklr gerado")
 
 
         elif question_type == "analise completa da escola":
