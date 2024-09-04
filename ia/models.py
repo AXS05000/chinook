@@ -310,12 +310,8 @@ class Ticket_Sprinklr(models.Model):
     )
     id_ticket = models.IntegerField()
     cliente = models.CharField(max_length=255)
-    area = models.CharField(max_length=255,blank=True, null=True)
     assunto = models.CharField(max_length=255,blank=True, null=True)
-    tempo_medio_de_resposta_total = models.CharField(max_length=255,blank=True, null=True)
     data_ticket = models.DateField()
-    qtd_mensagens_cliente = models.IntegerField(blank=True, null=True)
-    qtd_mensagens_maple = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.escola} - {self.id_ticket}"

@@ -472,18 +472,12 @@ def import_ticket_sprinklr(request):
                 try:
                     escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
                     
-                    # Ajuste para usar os nomes corretos das colunas
-                    tempo_medio_de_resposta_total = row["tempo_medio_de_resposta"]
-                    tempo_medio_de_primeira_resposta_do_agente_total = row["tempo_medio_de_primeira_resposta_do_agente"]
 
                     Ticket_Sprinklr.objects.create(
                         escola=escola,
                         id_ticket=row["id_ticket"],
                         cliente=row["cliente"],
-                        area=row["area"],
                         assunto=row["assunto"],
-                        tempo_medio_de_resposta_total=tempo_medio_de_resposta_total,
-                        tempo_medio_de_primeira_resposta_do_agente_total=tempo_medio_de_primeira_resposta_do_agente_total,
                         data_ticket=row["data_ticket"],
                     )
                 except CRM_FUI.DoesNotExist:

@@ -13,6 +13,7 @@ from .views import (chat_view, generate_excel_report, ControleEscolasSearchView,
     import_vendas_slm_2025_json,
     import_crm_fui_json,
     import_vendas_slm_2024_json,
+    import_ticket_sprinklr,
     gerar_resumo_cliente_oculto,
     gerar_resumos_cliente_oculto_todas_escolas,
     )
@@ -24,6 +25,10 @@ urlpatterns = [
     path("import_crm_fui/", import_crm_fui, name="import_crm_fui"),
     path("import_respostas_nps/", import_resposta, name="import_respostas_nps"),
     path("chinook-mb/", filtered_chat_view, name="filtered_chat"),
+    path(
+        "import_ticket_sprinklr/", import_ticket_sprinklr, name="import_ticket_sprinklr"
+    ),
+
     path(
         "import_vendas_slm_2024/", import_vendas_slm_2024, name="import_vendas_slm_2024"
     ),
