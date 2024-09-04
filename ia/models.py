@@ -261,7 +261,7 @@ class Vendas_SLM_2024(models.Model):
     nome_pais = models.CharField(verbose_name="Nomes dos Pais", max_length=200)
     nome_do_aluno = models.CharField(verbose_name="Nome do Aluno", max_length=200)
     numero_do_pedido = models.CharField(verbose_name="Numero do Pedido", max_length=200)
-    id_linha = models.IntegerField(verbose_name="Id da Linha 2024", blank=True, null=True)
+    id_linha = models.BigIntegerField(verbose_name="Id da Linha 2024", blank=True, null=True)
 
 
     def __str__(self):
@@ -279,7 +279,7 @@ class Vendas_SLM_2025(models.Model):
     nome_pais = models.CharField(verbose_name="Nomes dos Pais 2025", max_length=200)
     nome_do_aluno = models.CharField(verbose_name="Nome do Aluno 2025", max_length=200)
     numero_do_pedido = models.CharField(verbose_name="Numero do Pedido 2025", max_length=200)
-    id_linha = models.IntegerField(verbose_name="Id da Linha 2025", blank=True, null=True)
+    id_linha = models.BigIntegerField(verbose_name="Id da Linha 2025", blank=True, null=True)
 
     def __str__(self):
         return f"{self.numero_do_pedido} - {self.nome_pais} - {self.nome_do_aluno} - SLM 2025"
