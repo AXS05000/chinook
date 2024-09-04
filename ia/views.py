@@ -745,7 +745,6 @@ def filtered_chat_view(request):
                 )
             print("Contexto Cliente Oculto")
 
-
         elif question_type == "sprinklr":
             print("Lidando com categoria Sprinklr")
             sprinklr_responses = Ticket_Sprinklr.objects.filter(escola__id_escola=school_id)
@@ -753,7 +752,7 @@ def filtered_chat_view(request):
             # Contagem total de tickets distintos
             total_tickets = sprinklr_responses.values('id_ticket').distinct().count()
 
-            # Ranking de assuntos
+            # Ranking de assuntos (mantido sem ajuste, pois é baseado em contagem total)
             assuntos_ranking = (
                 sprinklr_responses
                 .values('assunto')
@@ -761,19 +760,19 @@ def filtered_chat_view(request):
                 .order_by('-total')
             )
 
-            # Ranking de clientes
+            # Ranking de clientes com contagem distinta de tickets
             clientes_ranking = (
                 sprinklr_responses
                 .values('cliente')
-                .annotate(total=Count('cliente'))
+                .annotate(total=Count('id_ticket', distinct=True))
                 .order_by('-total')
             )
 
-            # Contagem de tickets por data_ticket
+            # Contagem de tickets por data_ticket com contagem distinta
             data_ranking = (
                 sprinklr_responses
                 .values('data_ticket')
-                .annotate(total=Count('data_ticket'))
+                .annotate(total=Count('id_ticket', distinct=True))
                 .order_by('data_ticket')
             )
 
@@ -816,7 +815,6 @@ def filtered_chat_view(request):
             context += "\nImportante detalhe responda apenas com as informações solicitadas pelo o usuario, estou te passando todo esse contexto para facilitar o fornecimento das informações. Outra coisa caso ele peça um resumo, tente resumir tudo em uma paragrafo apenas explicando em texto, ou seja, veja o contexto e interprete a informação e forneça uma analise do que foi pedido não copie e contexto apenas cole na resposta.\n"
 
             print("Contexto Sprinklr gerado")
-
 
         elif question_type == "analise completa da escola":
             print("Lidando com análise completa da escola")
