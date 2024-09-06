@@ -79,6 +79,7 @@ class CRM_FUI(models.Model):
         null=True, blank=True, verbose_name="SLM Vendidos 2025"
     )
     meta = models.IntegerField(null=True, blank=True, verbose_name="Meta 2024")
+    meta_adiantamento_24_25 = models.IntegerField(null=True, blank=True, verbose_name="Meta Adiantamento 2024/2025")
     cluster = models.CharField(
         max_length=100, null=True, blank=True, verbose_name="Cluster"
     )
@@ -298,7 +299,20 @@ class Base_de_Conhecimento(models.Model):
 
 
 
+class PedidosAlterados(models.Model):
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="pedidos_alterados",
+        verbose_name="Escola"
+    )
+    nome_do_aluno = models.CharField(max_length=255, null=True, blank=True, verbose_name="Nome do Aluno")
+    numero_do_pedido = models.CharField(max_length=50, null=True, blank=True, verbose_name="Número do Pedido")
+    motivo = models.CharField(max_length=255, null=True, blank=True, verbose_name="Motivo")
+    alterado_por = models.CharField(max_length=100, verbose_name="Alterado Por", null=True, blank=True)
 
+    def __str__(self):
+        return f"{self.nome_do_aluno} - {self.numero_do_pedido}"
 
 
 class Ticket_Sprinklr(models.Model):
@@ -315,6 +329,8 @@ class Ticket_Sprinklr(models.Model):
 
     def __str__(self):
         return f"{self.escola} - {self.id_ticket}"
+    
+
 
 
 

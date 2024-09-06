@@ -10,16 +10,19 @@ from .models import (
     CRM_FUI,
     Respostas_NPS,
     Vendas_SLM_2024,
+    Ticket_Sprinklr,
     Vendas_SLM_2025,
     Base_de_Conhecimento,
     Planificador_2024,
     Avaliacao_Cliente_Oculto_24,
     Resumo_Respostas_NPS,
-    Ticket_Sprinklr,
+    PedidosAlterados,
 )
 # Register your models here.
 admin.site.register(Informacao)
+admin.site.register(PedidosAlterados)
 admin.site.register(Ticket_Sprinklr)
+
 admin.site.register(APIKey)
 admin.site.register(Beneficio)
 admin.site.register(FolhaPonto)

@@ -27,6 +27,7 @@ from .models import (
     Vendas_SLM_2025,
     Base_de_Conhecimento,
     Planificador_2024,
+    PedidosAlterados,
     Avaliacao_Cliente_Oculto_24,
     Resumo_Respostas_ClienteOculto24,
 )
@@ -238,6 +239,7 @@ def import_crm_fui(request):
                     "slms_vendidos": row["slms_vendidos"],
                     "slms_vendidos_25": row["slms_vendidos_25"],
                     "meta": row["meta"],
+                    "meta_adiantamento_24_25": row["meta_adiantamento_24_25"],
                     "cluster": row["cluster"],
                     "cep_escola": row["cep_escola"],
                     "endereco": row["endereco"],
@@ -497,6 +499,25 @@ def import_ticket_sprinklr(request):
     return render(request, "chatapp/import/import_ticket_sprinklr.html")
 ############################################# CHAT SAF###########################################################
 
+@login_required(login_url='/login/')
+def export_pedidos_alterados_excel(request, school_id):
+    # Filtra os pedidos alterados pela escola selecionada
+    pedidos = PedidosAlterados.objects.filter(escola__id_escola=school_id)
+
+    # Converte os dados dos pedidos para um DataFrame do pandas
+    df = pd.DataFrame(list(pedidos.values('nome_do_aluno', 'numero_do_pedido', 'motivo', 'alterado_por')))
+
+    # Define o nome do arquivo para download
+    response = HttpResponse(
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    response["Content-Disposition"] = f'attachment; filename="pedidos_alterados_{school_id}.xlsx"'
+
+    # Exporta o DataFrame para Excel
+    df.to_excel(response, index=False)
+
+    return response
+
 
 def generate_excel_report(vendas):
     df = pd.DataFrame(list(vendas.values()))
@@ -642,6 +663,7 @@ def filtered_chat_view(request):
             # URLs de download
             url_slm_2024 = f"/download_excel_report/?school_id={school_id}"
             url_slm_2025 = f"/download_excel_report_25/?school_id={school_id}"
+            url_pedidos_alterados = f"/export_pedidos_alterados/{school_id}/"
 
             download_icon = '<i class="ri-file-excel-line"  style="font-size: 18px"></i>'
 
@@ -663,6 +685,8 @@ def filtered_chat_view(request):
                 f"<span style='font-weight: bold;'>Meta de SLMs 2024:</span> {school.meta} - "
                 f"<span style='font-weight: bold;'>SLMs Vendidos 2025:</span> {school.slms_vendidos_25} - "
                 f"<a href='{url_slm_2025}'>{download_icon}</a> - "
+                f"<span style='font-weight: bold;'>Relatório de Pedidos Cancelados:</span> - "
+                f"<a href='{url_pedidos_alterados}'>{download_icon}</a> - "
                 f"<span style='font-weight: bold;'>Meta de SLMs 2025:</span> Ainda não foi definido - "
                 f"<span style='font-weight: bold;'>Dias Úteis para Entrega do SLM:</span> {school.dias_uteis_entrega_slm}.<br>"
                 
@@ -1707,6 +1731,51 @@ def import_crm_fui_json(request):
                         except Exception as e:
                             return JsonResponse(
                                 {'status': 'erro', 'mensagem': f"Erro ao importar o registro com id_escola {row.get('CRM_B2B[id_escola]')}: {e}"},
+                                status=500
+                            )
+
+        return JsonResponse({'status': 'sucesso', 'mensagem': 'Dados importados com sucesso!'}, status=200)
+
+    return JsonResponse({'status': 'falha', 'mensagem': 'Método não permitido'}, status=405)
+
+
+
+
+@csrf_exempt
+def import_pedidos_alterados_json(request):
+    if request.method == 'POST':
+        try:
+            dados = json.loads(request.body)
+        except json.JSONDecodeError as e:
+            return JsonResponse({'status': 'erro', 'mensagem': f"Erro ao parsear o JSON: {e}"}, status=400)
+
+        # Exclui todos os registros existentes
+        PedidosAlterados.objects.all().delete()
+
+        with transaction.atomic():
+            for result in dados.get('results', []):
+                for table in result.get('tables', []):
+                    for row in table.get('rows', []):
+                        try:
+                            # Obtém a escola com base no id_escola
+                            escola = CRM_FUI.objects.get(id_escola=row.get('CANCELADOS PARCIALMENTE[id_escola]'))
+
+                            # Cria um novo registro vinculado à escola
+                            PedidosAlterados.objects.create(
+                                escola=escola,
+                                nome_do_aluno=row.get('CANCELADOS PARCIALMENTE[nome_do_aluno]', ''),
+                                numero_do_pedido=row.get('CANCELADOS PARCIALMENTE[numero_do_pedido]', ''),
+                                motivo=row.get('CANCELADOS PARCIALMENTE[motivo]', ''),
+                                alterado_por=row.get('CANCELADOS PARCIALMENTE[alterado_por]', '')
+                            )
+                        except CRM_FUI.DoesNotExist:
+                            return JsonResponse(
+                                {'status': 'erro', 'mensagem': f"Escola com id_escola {row.get('CANCELADOS PARCIALMENTE[id_escola]')} não encontrada."},
+                                status=400
+                            )
+                        except Exception as e:
+                            return JsonResponse(
+                                {'status': 'erro', 'mensagem': f"Erro ao importar o pedido {row.get('CANCELADOS PARCIALMENTE[numero_do_pedido]')}: {e}"},
                                 status=500
                             )
 

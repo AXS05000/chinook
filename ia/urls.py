@@ -13,9 +13,11 @@ from .views import (chat_view, generate_excel_report, ControleEscolasSearchView,
     import_vendas_slm_2025_json,
     import_crm_fui_json,
     import_vendas_slm_2024_json,
+    import_pedidos_alterados_json,    
     import_ticket_sprinklr,
     gerar_resumo_cliente_oculto,
     gerar_resumos_cliente_oculto_todas_escolas,
+    export_pedidos_alterados_excel,
     )
 
 urlpatterns = [
@@ -61,4 +63,6 @@ urlpatterns = [
     path('api/import-vendas-slm-2025/', import_vendas_slm_2025_json, name='import_vendas_slm_2025_json'),
     path('api/import-crm-fui/', import_crm_fui_json, name='import_crm_fui_json'),
     path('api/import-vendas-slm-2024/', import_vendas_slm_2024_json, name='import_vendas_slm_2024_json'),
+    path('api/import-pedidos-alterados/', import_pedidos_alterados_json, name='import_pedidos_alterados_json'),
+    path('export_pedidos_alterados/<int:school_id>/', export_pedidos_alterados_excel, name='export_pedidos_alterados'),
 ]
