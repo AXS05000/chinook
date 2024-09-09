@@ -689,6 +689,17 @@ def filtered_chat_view(request):
             # Substitui <strong> por <span style='font-weight: bold;'>
             resumo_resumo_co24_text = resumo_resumo_co24_text.replace("<strong>", "<span style='font-weight: bold;'>").replace("</strong>", "</span>")
 
+        # Busca o resumo da Visita da Escola, se existir
+        resumo_visita = Resumo_Visita_Escola.objects.filter(escola=school).first()
+        resumo_visita_escola = resumo_visita.resumo if resumo_visita else None
+
+        # Converte o texto markdown para HTML se existir
+        if resumo_visita_escola: 
+            resumo_visita_escola = markdown.markdown(resumo_visita_escola, extensions=['nl2br', 'extra'])
+
+            # Substitui <strong> por <span style='font-weight: bold;'>
+            resumo_visita_escola = resumo_visita_escola.replace("<strong>", "<span style='font-weight: bold;'>").replace("</strong>", "</span>")
+
 
 
 
@@ -768,6 +779,12 @@ def filtered_chat_view(request):
                 response += (
                     f"<br><span style='font-weight: bold;'>Resumo dos Comentários Negativos do Cliente Oculto:</span><br>"
                     f"{resumo_resumo_co24_text}<br>"
+                )
+            # Adiciona o resumo do NPS se estiver disponível
+            if resumo_visita_escola:
+                response += (
+                    f"<br><span style='font-weight: bold;'>Resumo da Visita na Escola:</span><br>"
+                    f"{resumo_visita_escola}<br>"
                 )
 
             # Adiciona a frase final
