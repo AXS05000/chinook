@@ -18,8 +18,11 @@ from .models import (
     Resumo_Respostas_NPS,
     PedidosAlterados,
     Visita_Escola,
+    Resumo_Visita_Escola,
 )
+
 # Register your models here.
+admin.site.register(Resumo_Visita_Escola)
 admin.site.register(Informacao)
 admin.site.register(PedidosAlterados)
 admin.site.register(Ticket_Sprinklr)

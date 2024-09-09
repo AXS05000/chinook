@@ -21,6 +21,7 @@ from .models import (
     Resumo_Respostas_NPS,
     Salario,
     Ferias,
+    Resumo_Visita_Escola,
     Visita_Escola,
     CRM_FUI,
     Respostas_NPS,
@@ -42,6 +43,7 @@ from .utils import (
     calcular_nps,
     obter_distribuicao_nps,
     config_chat_rh,
+    config_resumo_visita_escola,
     classify_question,
     config_simple_chat,
     config_resumo_cliente_oculto,
@@ -1352,6 +1354,77 @@ def gerar_resumos_cliente_oculto_todas_escolas(request):
 
     return JsonResponse({"resultados": resultados})
 
+
+
+
+###################################GERAR RESUMO VISITA ESCOLAS#####################################################
+
+
+def gerar_resumo_visita_escola(request, visita_id):
+    print("Iniciando a geração do resumo da Visita Escola...")
+
+    # Busca a visita pelo ID
+    visita = get_object_or_404(Visita_Escola, id=visita_id)
+    print(f"Visita encontrada: {visita}")
+
+    # Busca a escola associada à visita
+    escola = visita.escola
+    print(f"Escola associada: {escola.nome_da_escola}")
+
+    # Cria o prompt para gerar o resumo da visita
+    prompt = (
+        "Faça um resumo bem resumido do comentário da visita, monte um parágrafo único resumindo:\n"
+        f"Comentário: {visita.comentario_visita}"
+    )
+    print(f"Prompt gerado: {prompt[:100]}...")  # Exibe apenas os primeiros 100 caracteres do prompt
+
+    api_key = request.user.api_key  # Assume que o usuário logado tem uma chave API
+    resumo = config_resumo_visita_escola(prompt, api_key)
+    print(f"Resumo gerado: {resumo[:100]}...")  # Exibe apenas os primeiros 100 caracteres do resumo
+
+    # Salva o resumo na model Resumo_Visita_Escola
+    resumo_visita, created = Resumo_Visita_Escola.objects.get_or_create(
+        escola=escola,
+        visita=visita
+    )
+    resumo_visita.resumo = resumo
+    resumo_visita.save()
+    print("Resumo salvo com sucesso!")
+
+    return redirect('controle_visitas') 
+
+
+def gerar_resumos_visita_escola_todas(request):
+    visitas = Visita_Escola.objects.all()
+    resultados = []
+
+    for visita in visitas:
+        escola = visita.escola
+        resumo_visita, created = Resumo_Visita_Escola.objects.get_or_create(
+            escola=escola,
+            visita=visita
+        )
+
+        # Verifica se já existe um resumo e se está em branco
+        if resumo_visita.resumo is None or resumo_visita.resumo.strip() == "":
+            prompt = (
+                "Faça um resumo bem resumido do comentário da visita, monte um parágrafo único resumindo:\n"
+                f"Comentário: {visita.comentario_visita}"
+            )
+            api_key = request.user.api_key  # Assume que o usuário logado tem uma chave API
+            resumo = config_resumo_visita_escola(prompt, api_key)
+
+            # Salva o resumo na model Resumo_Visita_Escola
+            resumo_visita.resumo = resumo
+            resumo_visita.save()
+
+            resultados.append(f"Resumo gerado para visita da escola {escola.nome_da_escola} com sucesso!")
+        else:
+            resultados.append(f"O resumo para visita da escola {escola.nome_da_escola} já existe e não está em branco.")
+
+        time.sleep(5)  # Pausa de 5 segundos entre as visitas
+
+    return JsonResponse({"resultados": resultados})
 
 ################################### PLANIFICADOR #####################################################
 

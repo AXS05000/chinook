@@ -18,7 +18,7 @@ openai.api_key = openai_api_key
 
 
 ## model="gpt-4o" - Modelo mais rapido e inteligente - 30 000 TPM
-## model="gpt-4-turbo" - 2 Modelo mais rapido e inteligente - 30 000 TPM
+## model="gpt-4o-2024-08-06" - 2 Modelo mais rapido e inteligente - 30 000 TPM
 ## model="gpt-4" - 2 Modelo mais rapido e inteligente - 10 000 TPM
 ## model="gpt-3.5-turbo" - Modelo menos inteligente - 60 000 TPM
 
@@ -31,7 +31,7 @@ def get_chat_response(prompt, context=""):
 
     # Enviar uma mensagem clara e estruturada para a API
     response = openai.ChatCompletion.create(
-        model="gpt-4-turbo",
+        model="gpt-4o-2024-08-06",
         messages=[
             {
                 "role": "system",
@@ -259,7 +259,7 @@ def classify_question_chat_central(prompt, api_key):
     openai.api_key = api_key
 
     response = openai.ChatCompletion.create(
-        model="gpt-4-turbo",
+        model="gpt-4o-2024-08-06",
         messages=[
             {
                 "role": "system",
@@ -339,7 +339,7 @@ def config_resumo_nps(prompt, api_key, context=""):
 
     print("Enviando a requisição para a API da OpenAI...")
     response = openai.ChatCompletion.create(
-        model="gpt-4-turbo",
+        model="gpt-4o-2024-08-06",
         messages=[
             {
                 "role": "system",
@@ -374,7 +374,7 @@ def config_resumo_cliente_oculto(prompt, api_key, context=""):
 
     print("Enviando a requisição para a API da OpenAI...")
     response = openai.ChatCompletion.create(
-        model="gpt-4-turbo",
+        model="gpt-4o-2024-08-06",
         messages=[
             {
                 "role": "system",
@@ -392,6 +392,41 @@ def config_resumo_cliente_oculto(prompt, api_key, context=""):
 
     return formatted_response
 
+
+############################################# CONFIG RESUMO VISITA ###########################################################
+
+
+def config_resumo_visita_escola(prompt, api_key, context=""):
+    print("Iniciando a configuração do resumo da Visita Escola...")
+
+    if not context:
+        context = "No relevant information found in the database."
+    if not prompt:
+        prompt = "No question provided."
+
+    openai.api_key = api_key
+
+    print("Enviando a requisição para a API da OpenAI...")
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-2024-08-06",
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é o assistente Chinook da Empresa Maple Bear auxiliando em informações sobre as visitas às escolas. Resuma o comentário da visita de forma clara e objetiva.",
+            },
+            {"role": "user", "content": f"Contexto:\n{context}"},
+            {"role": "user", "content": f"Comentário da visita:\n{prompt}"},
+        ],
+        max_tokens=2050,
+    )
+    print(f"Resposta recebida. Total de tokens usados: {response['usage']['total_tokens']}")
+
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+    print(f"Resposta formatada: {formatted_response[:50]}...")  # Exibe apenas os primeiros 50 caracteres da resposta
+
+    return formatted_response
+
+
 ############################################# CHAT CENTRAL###########################################################
 
 
@@ -402,7 +437,7 @@ def config_simple_chat(prompt, context=""):
         prompt = "No question provided."
 
     response = openai.ChatCompletion.create(
-        model="gpt-4-turbo",
+        model="gpt-4o-2024-08-06",
         messages=[
             {
                 "role": "system",

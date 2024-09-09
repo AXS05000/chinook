@@ -19,6 +19,8 @@ from .views import (chat_view, generate_excel_report, ControleEscolasSearchView,
     gerar_resumo_cliente_oculto,
     gerar_resumos_cliente_oculto_todas_escolas,
     export_pedidos_alterados_excel,
+    gerar_resumo_visita_escola,
+    gerar_resumos_visita_escola_todas,
     )
 
 urlpatterns = [
@@ -67,5 +69,7 @@ urlpatterns = [
     path('api/import-pedidos-alterados/', import_pedidos_alterados_json, name='import_pedidos_alterados_json'),
     path('export_pedidos_alterados/<int:school_id>/', export_pedidos_alterados_excel, name='export_pedidos_alterados'),
     path('import_visitas_escola/', import_visitas_escola, name='import_visitas_escola'),
+    path('gerar-resumo-visita-escola/<int:visita_id>/', gerar_resumo_visita_escola, name='gerar_resumo_visita_escola'),
+    path('gerar-resumos-visita-escola-todas/', gerar_resumos_visita_escola_todas, name='gerar_resumos_visita_escola_todas'),
 
 ]
