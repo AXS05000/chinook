@@ -39,5 +39,4 @@ admin.site.register(Vendas_SLM_2025)
 admin.site.register(Base_de_Conhecimento)
 admin.site.register(Planificador_2024)
 admin.site.register(Avaliacao_Cliente_Oculto_24)
-
 admin.site.register(Resumo_Respostas_NPS)
