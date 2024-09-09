@@ -391,6 +391,7 @@ def config_resumo_cliente_oculto(prompt, api_key, context=""):
     print(f"Resposta formatada: {formatted_response[:50]}...")  # Exibe apenas os primeiros 50 caracteres da resposta
 
     return formatted_response
+
 ############################################# CHAT CENTRAL###########################################################
 
 

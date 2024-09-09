@@ -21,6 +21,7 @@ from .models import (
     Resumo_Respostas_NPS,
     Salario,
     Ferias,
+    Visita_Escola,
     CRM_FUI,
     Respostas_NPS,
     Vendas_SLM_2024,
@@ -35,6 +36,7 @@ from django.db import transaction
 from django.shortcuts import render, redirect
 from django.contrib import messages
 import pandas as pd
+from bs4 import BeautifulSoup
 from .utils import (
     get_chat_response,
     calcular_nps,
@@ -449,6 +451,51 @@ def import_cliente_oculto_2024(request):
         return redirect("import_cliente_oculto_2024")
     return render(request, "chatapp/import/import_cliente_oculto_2024.html")
 
+################################################# IMPORTAR VISITA ESCOLAS######################################################
+
+
+
+@login_required(login_url='/login/')
+def import_visitas_escola(request):
+    if request.method == "POST":
+        file = request.FILES.get("file")
+        if not file or not file.name.endswith(".xlsx"):
+            messages.error(request, "Por favor, envie um arquivo Excel.")
+            return redirect("import_visitas_escola")
+
+        try:
+            df = pd.read_excel(file)
+        except Exception as e:
+            messages.error(request, f"Erro ao ler o arquivo Excel: {e}")
+            return redirect("import_visitas_escola")
+
+        with transaction.atomic():
+            for _, row in df.iterrows():
+                try:
+                    escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
+                    
+                    # Remove o HTML do campo comentario_visita
+                    comentario_limpo = BeautifulSoup(row["comentario_visita"], "html.parser").get_text()
+
+                    Visita_Escola.objects.create(
+                        escola=escola,
+                        comentario_visita=comentario_limpo
+                    )
+                except CRM_FUI.DoesNotExist:
+                    messages.error(
+                        request, f"Escola com id_escola {row['id_escola']} não encontrada."
+                    )
+                    continue
+                except Exception as e:
+                    messages.error(
+                        request,
+                        f"Erro ao importar a linha com id_escola {row['id_escola']}: {e}",
+                    )
+                    continue
+
+        messages.success(request, "Dados importados com sucesso!")
+        return redirect("import_visitas_escola")
+    return render(request, "chatapp/import/import_visitas_escola.html")
 
 
 

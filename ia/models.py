@@ -195,6 +195,37 @@ class CRM_FUI(models.Model):
         return f"{self.id_escola} - {self.nome_da_escola}"
 
 
+
+class Visita_Escola(models.Model):
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="nome_escola_comentario_visista",
+        verbose_name="Nome da Escola Comentario Visita",
+    )
+    comentario_visita = models.TextField()
+
+    def __str__(self):
+        return f"{self.escola} - {self.comentario_visita}"
+
+class Resumo_Visita_Escola(models.Model):
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="resumos_visita_escola",
+        verbose_name="Nome da Escola Visita"
+    )
+    visita = models.ForeignKey(
+        Visita_Escola,
+        on_delete=models.CASCADE,
+        related_name="resumos_visita",
+        verbose_name="Visita Escola"
+    )
+    resumo = models.TextField(blank=True, null=True, verbose_name="Resumo da Visita")
+
+    def __str__(self):
+        return f"Resumo da visita: {self.escola} - ID Visita: {self.visita.id}"
+
 class Respostas_NPS(models.Model):
     escola = models.ForeignKey(
         CRM_FUI,

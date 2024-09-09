@@ -17,12 +17,13 @@ from .models import (
     Avaliacao_Cliente_Oculto_24,
     Resumo_Respostas_NPS,
     PedidosAlterados,
+    Visita_Escola,
 )
 # Register your models here.
 admin.site.register(Informacao)
 admin.site.register(PedidosAlterados)
 admin.site.register(Ticket_Sprinklr)
-
+admin.site.register(Visita_Escola)
 admin.site.register(APIKey)
 admin.site.register(Beneficio)
 admin.site.register(FolhaPonto)

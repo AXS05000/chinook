@@ -9,6 +9,7 @@ from .views import (chat_view, generate_excel_report, ControleEscolasSearchView,
     download_excel_report_slm_2024,
     download_excel_report_slm_2025,
     gerar_resumo_nps,
+    import_visitas_escola,
     gerar_resumos_todas_escolas,
     import_vendas_slm_2025_json,
     import_crm_fui_json,
@@ -65,4 +66,6 @@ urlpatterns = [
     path('api/import-vendas-slm-2024/', import_vendas_slm_2024_json, name='import_vendas_slm_2024_json'),
     path('api/import-pedidos-alterados/', import_pedidos_alterados_json, name='import_pedidos_alterados_json'),
     path('export_pedidos_alterados/<int:school_id>/', export_pedidos_alterados_excel, name='export_pedidos_alterados'),
+    path('import_visitas_escola/', import_visitas_escola, name='import_visitas_escola'),
+
 ]
