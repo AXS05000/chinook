@@ -692,6 +692,7 @@ def filtered_chat_view(request):
         # Busca o resumo da Visita da Escola, se existir
         resumo_visita = Resumo_Visita_Escola.objects.filter(escola=school).first()
         resumo_visita_escola = resumo_visita.resumo if resumo_visita else None
+        planificador_responses_auto = Planificador_2024.objects.filter(escola__id_escola=school_id).first()  # Pegando o primeiro objeto
 
         # Converte o texto markdown para HTML se existir
         if resumo_visita_escola: 
@@ -766,6 +767,13 @@ def filtered_chat_view(request):
                 f"<span style='font-weight: bold;'>Consultor de Gestão Escolar:</span> {school.consultor_gestao_escolar} - "
                 f"<span style='font-weight: bold;'>Consultor Acadêmico:</span> {school.consultor_academico} - "
                 f"<span style='font-weight: bold;'>Consultor SAF:</span> {school.consultor_saf}.<br>"
+
+                f"<br><span style='font-weight: bold;'>Planificador:</span><br>"
+                f"<span style='font-weight: bold;'>Tem CRM B2C Implementado ?</span> {planificador_responses_auto.crm_b2c} - "
+                f"<span style='font-weight: bold;'>Tem Árvore Implementado ?</span> {planificador_responses_auto.arvore} - "
+                f"<span style='font-weight: bold;'>Tem Toddle Implementado ?</span> {planificador_responses_auto.toddle} - "
+                f"<span style='font-weight: bold;'>Circular de Oferta 2025 foi Publicada ?</span> {planificador_responses_auto.circular_oferta_2025_publicado}.<br>"
+
             )
 
             # Adiciona o resumo do NPS se estiver disponível
@@ -834,6 +842,82 @@ def filtered_chat_view(request):
                     f"Resposta: {response.resposta}\n\n"
                 )
             print("Contexto Cliente Oculto")
+
+        elif question_type == "planificador":
+            print("Lidando com categoria Planificador")
+            planificador_responses = Planificador_2024.objects.filter(escola__id_escola=school_id).first()  # Pegando o primeiro objeto
+
+            if planificador_responses:
+                context = (
+                    f"Informações de controle da escola:\n"
+                    f"Nome da Escola: {school.nome_da_escola}\n"
+                    f"Bloco Drivers Comerciais Estratégicos:\n"
+                    f"Data da última atualização do bloc drivers comerciais estratégicos: {planificador_responses.ultima_data_atualizacao_bloc_drivers_comerciais_estrategicos}\n"
+                    f"Tem o sistema CRM B2C nessa escola?: {planificador_responses.crm_b2c}\n"
+                    f"Data de Abertura da Matrícula 2025: {planificador_responses.data_abertura_matricula_2025}\n"
+                    f"Teve a Circular de Oferta 2025 Publicada nessa escola?: {planificador_responses.circular_oferta_2025_publicado}\n"
+                    f"Data de Abertura da Circular 2025 caso tenha: {planificador_responses.data_de_abertura_da_circular_2025}\n"
+                    f"Tem o sistema Toddle nessa escola?: {planificador_responses.toddle}\n"
+                    f"Tem o sistema Árvore nessa escola?: {planificador_responses.arvore}\n"
+                    f"Data de Implementação da Árvore caso tenha: {planificador_responses.data_implementacao_arvore}\n"
+
+                    f"Bloco Funil Comercial:\n"
+                    f"Última Data de Atualização do Bloco Funil Comercial: {planificador_responses.ultima_data_atualizacao_bloc_funil_comercial}\n"
+                    f"Leads Central Ago 24: {planificador_responses.leads_central_ago_24}\n"
+                    f"Leads Escolas Ago 24: {planificador_responses.leads_escolas_ago_24}\n"
+                    f"Visitas Ago 24: {planificador_responses.visitas_ago_24}\n"
+                    f"Taxa de Conversão Atual Leads Visitas: {planificador_responses.taxa_conversao_atual_leads_visitas}\n"
+                    f"Matrículas Ago 24: {planificador_responses.matriculas_ago_24}\n"
+                    f"Taxa de Conversão Atual Visitas Matrículas: {planificador_responses.taxa_conversao_atual_visitas_matriculas}\n"
+                    f"Taxa de Conversão Leads Matrículas: {planificador_responses.taxa_conversao_leads_matriculas}\n"
+
+                    f"Bloco Drivers Comerciais Meio:\n"
+                    f"Última Data de Atualização do Bloc Drivers Comerciais Meio: {planificador_responses.ultima_data_atualizacao_bloc_drivers_comerciais_meio}\n"
+                    f"Meta Alunos 5K 2024: {planificador_responses.meta_alunos_5k_2024}\n"
+                    f"Setup Plano Comercial Segundo Semestre: {planificador_responses.setup_plano_comercial_segundo_semestre}\n"
+                    f"Essa escola já fez a Ação 1 Elegível Trade Marketing?: {planificador_responses.acao_1_elegivel_trade_marketing}\n"
+                    f"Essa escola já fez a Ação 1 Trade Valor?: {planificador_responses.acao_1_trade_valor}\n"
+                    f"Essa escola já fez a Ação 1 Trade Marketing Ações Alinhadas?: {planificador_responses.acao_1_trade_marketing_acoes_alinhadas}\n"
+                    f"Essa escola já fez a Ação 2 Experience Day 10/08/24?: {planificador_responses.acao_2_experience_day_10_08_24}\n"
+                    f"Essa escola já fez a Ação 2 Experience Day 24/08/24?: {planificador_responses.acao_2_experience_day_24_08_24}\n"
+                    f"Essa escola já fez a Ação 2 Experience Day 21/09/24?: {planificador_responses.acao_2_experience_day_21_09_24}\n"
+                    f"Essa escola já fez a Ação 2 Experience Day 26/10/24?: {planificador_responses.acao_2_experience_day_26_10_24}\n"
+                    f"Essa escola já fez a Ação 2 Experience Day 09/11/24?: {planificador_responses.acao_2_experience_day_09_11_24}\n"
+                    f"Essa escola já fez a Ação 3 Friend Get Friend?: {planificador_responses.acao_3_friend_get_friend}\n"
+                    f"Essa escola já fez a Ação 4 Webinars com Autoridades Pré?: {planificador_responses.acao_4_webinars_com_autoridades_pre}\n"
+                    f"Essa escola já fez a Ação 4 Webinars com Autoridades Pós?: {planificador_responses.acao_4_webinars_com_autoridades_pos}\n"
+                    f"Essa escola já fez a Piloto Welcome Baby Bear?: {planificador_responses.piloto_welcome_baby_bear}\n"
+                    f"Ação 5 SDR Taxa de Conversão Validação Lead: {planificador_responses.acao_5_sdr_taxa_conversao_validacao_lead}\n"
+                    f"Ação 5 SDR Taxa de Conversão Visitas: {planificador_responses.acao_5_sdr_taxa_conversao_visitas}\n"
+                    f"Ação 6 Alinhado Resgate Leads: {planificador_responses.acao_6_alinhado_resgate_leads}\n"
+                    f"Ação 6 Quantidade de Leads Resgatados: {planificador_responses.acao_6_quantidade_leads_resgatados}\n"
+                    f"Ação 6 Todos Leads Resgatados Contatados: {planificador_responses.acao_6_todos_leads_resgatados_contatados}\n"
+                    f"Data de Atualização dos Resultados: {planificador_responses.data_atualizacao_resultados}\n"
+                    f"SLM 2022: {planificador_responses.slm_2022}\n"
+                    f"SLM 2023: {planificador_responses.slm_2023}\n"
+                    f"Meta Orçamentária 2024: {planificador_responses.meta_orcamentaria_2024}\n"
+                    f"Base Rematriculáveis 2025: {planificador_responses.base_rematriculaveis_2025}\n"
+                    f"Meta Rematrícula 2025: {planificador_responses.meta_rematricula_2025}\n"
+                    f"Real Rematrículas 2025: {planificador_responses.real_rematriculas_2025}\n"
+                    f"Atingimento Rematrículas 2025: {planificador_responses.atingimento_rematriculas_2025}\n"
+                    f"Meta Matrícula 2025: {planificador_responses.meta_matricula_2025}\n"
+                    f"Real Matrícula 2025: {planificador_responses.real_matricula_2025}\n"
+                    f"Atingimento Matrículas 2025: {planificador_responses.atingimento_matriculas_2025}\n"
+                    f"Total Meta Alunos 2025: {planificador_responses.total_meta_alunos_2025}\n"
+                    f"Total Real Alunos 2025: {planificador_responses.total_real_alunos_2025}\n"
+                    f"Atingimento Real Alunos 2025: {planificador_responses.atingimento_real_alunos_2025}\n"
+                    f"Correlação Alunos SLMS 2025: {planificador_responses.correlacao_alunos_slms_2025}\n"
+                    f"MC 2025: {planificador_responses.mc_2025}\n"
+                    f"SLMS 2025 M: {planificador_responses.slms_2025_m}\n"
+                    f"Pedidos Represados Logística 2025: {planificador_responses.pedidos_represados_logistica_2025}\n"
+                    f"Pedidos Faturados: {planificador_responses.pedidos_faturados}\n"
+                    f"Pedidos Entregues: {planificador_responses.pedidos_entregues}\n"
+                )
+            else:
+                context = "Não há informações disponíveis sobre o Planificador para esta escola.\n"
+
+            print("Contexto Planificador gerado")
+
 
         elif question_type == "sprinklr":
             print("Lidando com categoria Sprinklr")
