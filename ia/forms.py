@@ -1,5 +1,5 @@
 from django import forms
-from .models import Planificador_2024
+from .models import Planificador_2024, CRM_FUI
 from datetime import datetime
 
 class DateInput(forms.DateInput):
@@ -28,3 +28,25 @@ class PlanificadorForm(forms.ModelForm):
             'ultima_data_atualizacao_bloc_drivers_comerciais_meio': DateInput(),
             'data_atualizacao_resultados': DateInput(),
         }
+
+
+
+
+class AtualizarIDEscolaForm(forms.Form):
+    id_escola_atual = forms.ModelChoiceField(
+        queryset=CRM_FUI.objects.all(),
+        label="ID Escola Atual",
+        required=True,
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    novo_id_escola = forms.IntegerField(
+        label="Novo ID Escola",
+        required=True,
+        widget=forms.NumberInput(attrs={'class': 'form-control'})
+    )
+
+    def clean_novo_id_escola(self):
+        novo_id = self.cleaned_data.get('novo_id_escola')
+        if CRM_FUI.objects.filter(id_escola=novo_id).exists():
+            raise forms.ValidationError("O novo ID Escola já existe. Escolha um ID único.")
+        return novo_id

@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Sum
-from .forms import PlanificadorForm
+from .forms import PlanificadorForm, AtualizarIDEscolaForm
 from datetime import datetime
 from datetime import timedelta
 from django.db.models import Count
@@ -1919,3 +1919,41 @@ def import_pedidos_alterados_json(request):
         return JsonResponse({'status': 'sucesso', 'mensagem': 'Dados importados com sucesso!'}, status=200)
 
     return JsonResponse({'status': 'falha', 'mensagem': 'Método não permitido'}, status=405)
+
+
+
+
+def atualizar_id_escola_view(request):
+    if request.method == 'POST':
+        form = AtualizarIDEscolaForm(request.POST)
+        if form.is_valid():
+            id_escola_atual = form.cleaned_data['id_escola_atual'].id_escola
+            novo_id_escola = form.cleaned_data['novo_id_escola']
+            try:
+                with transaction.atomic():
+                    # Atualiza o ID na tabela CRM_FUI
+                    crm_fui = CRM_FUI.objects.get(id_escola=id_escola_atual)
+                    crm_fui.id_escola = novo_id_escola
+                    crm_fui.save()
+
+                    # Atualiza referências em outras tabelas
+                    Visita_Escola.objects.filter(escola_id=id_escola_atual).update(escola_id=novo_id_escola)
+                    Resumo_Visita_Escola.objects.filter(escola_id=id_escola_atual).update(escola_id=novo_id_escola)
+                    Respostas_NPS.objects.filter(escola_id=id_escola_atual).update(escola_id=novo_id_escola)
+                    Resumo_Respostas_NPS.objects.filter(escola_id=id_escola_atual).update(escola_id=novo_id_escola)
+                    Avaliacao_Cliente_Oculto_24.objects.filter(escola_id=id_escola_atual).update(escola_id=novo_id_escola)
+                    Resumo_Respostas_ClienteOculto24.objects.filter(escola_id=id_escola_atual).update(escola_id=novo_id_escola)
+                    Vendas_SLM_2024.objects.filter(escola_id=id_escola_atual).update(escola_id=novo_id_escola)
+                    Vendas_SLM_2025.objects.filter(escola_id=id_escola_atual).update(escola_id=novo_id_escola)
+                    PedidosAlterados.objects.filter(escola_id=id_escola_atual).update(escola_id=novo_id_escola)
+                    Ticket_Sprinklr.objects.filter(escola_id=id_escola_atual).update(escola_id=novo_id_escola)
+                    Planificador_2024.objects.filter(escola_id=id_escola_atual).update(escola_id=novo_id_escola)
+
+                    messages.success(request, f"ID da escola atualizado de {id_escola_atual} para {novo_id_escola} com sucesso!")
+                    return redirect('atualizar_id_escola')  # Redireciona para a mesma página após o sucesso
+            except Exception as e:
+                messages.error(request, f"Erro ao atualizar o ID: {str(e)}")
+    else:
+        form = AtualizarIDEscolaForm()
+
+    return render(request, 'atualizar_id_escola.html', {'form': form})

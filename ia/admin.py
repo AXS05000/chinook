@@ -38,5 +38,12 @@ admin.site.register(Vendas_SLM_2024)
 admin.site.register(Vendas_SLM_2025)
 admin.site.register(Base_de_Conhecimento)
 admin.site.register(Planificador_2024)
-admin.site.register(Avaliacao_Cliente_Oculto_24)
 admin.site.register(Resumo_Respostas_NPS)
+
+
+@admin.register(Avaliacao_Cliente_Oculto_24)
+class AvaliacaoClienteOculto24Admin(admin.ModelAdmin):
+    # Define quais campos podem ser pesquisados dentro da tabela
+    search_fields = ['escola__nome_da_escola', 'categoria', 'pergunta', 'resposta']
+    # Define quais colunas serão exibidas na listagem do admin
+    list_display = ['escola', 'categoria', 'pergunta', 'resposta']
