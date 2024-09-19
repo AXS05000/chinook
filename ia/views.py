@@ -1666,7 +1666,6 @@ class PlanificadorCreateView(LoginRequiredMixin, View):
         return render(request, "chatapp/planificador/planificador_form.html", {"form": form})
 
 
-
 def calcular_porcentagem_sim(planificador):
     sim_nao_fields = [
         planificador.crm_b2c,
@@ -1679,7 +1678,6 @@ def calcular_porcentagem_sim(planificador):
         planificador.acao_2_experience_day_21_09_24,
         planificador.acao_2_experience_day_26_10_24,
         planificador.acao_2_experience_day_09_11_24,
-        planificador.acao_3_friend_get_friend,
         planificador.acao_4_webinars_com_autoridades_pre,
         planificador.acao_4_webinars_com_autoridades_pos,
         planificador.piloto_welcome_baby_bear,
