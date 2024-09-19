@@ -286,19 +286,21 @@ def config_chat_central(prompt, api_key, context=""):
         messages=[
             {
                 "role": "system",
-                "content": "Você é o assistente Chinook da Empresa Maple Bear auxiliando na informações das escolas e na resposta de perguntas dos funcionários. Observação importante: sempre que for realizar listagem, um resumo, uma tabela ou fazer uma lista colocar esses 3 símbolos ### antes de cada tópico e formate todos os links utilizando Markdown da seguinte forma: [texto do link](URL).",
+                "content": "Você é o assistente Chinook da Empresa Maple Bear auxiliando nas informações das escolas e na resposta de perguntas dos funcionários. Observação importante: sempre que for realizar listagem, um resumo, uma tabela ou fazer uma lista, coloque esses 3 símbolos ### antes de cada tópico e formate todos os links utilizando Markdown da seguinte forma: [texto do link](URL).",
             },
             {"role": "user", "content": f"Contexto:\n{context}"},
             {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
         ],
         max_tokens=2050,
     )
-    print(f"Total tokens usados: {response['usage']['total_tokens']}")
-    formatted_response = response["choices"][0]["message"]["content"].strip()
 
+    # Extrair os tokens usados da resposta da API
+    tokens_used = response['usage']['total_tokens']
+
+    # Formatar a resposta
+    formatted_response = response["choices"][0]["message"]["content"].strip()
     formatted_response = re.sub(r"###", "<br>", formatted_response)
     formatted_response = re.sub(r"####", "<br>", formatted_response)
-
     formatted_response = re.sub(
         r"\*\*(.*?)\*\*",
         r"<span style='font-weight: bold;'>\1</span>",
@@ -320,7 +322,11 @@ def config_chat_central(prompt, api_key, context=""):
         formatted_response,
     )
 
-    return formatted_response
+    # Retorne tanto o texto formatado quanto o total de tokens usados como um dicionário
+    return {
+        'formatted_response': formatted_response,
+        'tokens': tokens_used
+    }
 
 
 

@@ -3,8 +3,10 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
 from .forms import CustomUsuarioChangeForm, CustomUsuarioCreateForm
-from .models import CustomUsuario
+from .models import CustomUsuario, UserRequestLog
 
+
+admin.site.register(UserRequestLog)
 
 class CustomUsuarioCreateForm(UserCreationForm):
     class Meta:

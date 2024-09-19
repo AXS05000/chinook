@@ -12,7 +12,8 @@ from .forms import PlanificadorForm, AtualizarIDEscolaForm
 from datetime import datetime
 from datetime import timedelta
 from django.db.models import Count
-from django.db.models import Q
+from django.db.models import Q 
+from usuarios.models import UserRequestLog
 from .models import (
     Informacao,
     Beneficio,
@@ -705,6 +706,13 @@ def filtered_chat_view(request):
 
 
         if message == 'auto':
+            # Registra a requisição com tokens = 0, pois não utiliza a API da OpenAI
+            log, created = UserRequestLog.objects.get_or_create(user=user)
+            log.request_count += 1
+            log.tokens_used += 0  # Não houve uso de tokens
+            log.save()
+
+
             complemento = ""
             if school.complemento_escola and school.complemento_escola.lower() not in ["", "null", "nan", "0", "-"]:
                 complemento = f" {school.complemento_escola}"
@@ -1170,9 +1178,17 @@ def filtered_chat_view(request):
                 f"Consultor SAF(Serviço de Atendimento ao Franqueado): {school.consultor_saf}\n"
             )
 
-        response = config_chat_central(message, api_key, context)
+        response_data = config_chat_central(message, api_key, context)
 
-        return JsonResponse({"response": response})
+        tokens_used = response_data['tokens']  # Ajuste conforme o retorno da função utils
+
+        # Atualiza o log de requisições com os tokens usados
+        log, created = UserRequestLog.objects.get_or_create(user=user)
+        log.request_count += 1
+        log.tokens_used += tokens_used
+        log.save()
+
+        return JsonResponse({"response": response_data['formatted_response']})
     else:
         schools = CRM_FUI.objects.all().order_by(
             "nome_da_escola"

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from django.conf import settings
 
 class UsuarioManager(BaseUserManager):
     use_in_migrations = True
@@ -43,3 +44,14 @@ class CustomUsuario(AbstractUser):
         return f'{self.first_name} {self.last_name}'
 
     objects = UsuarioManager()
+
+
+
+class UserRequestLog(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='request_logs')
+    request_count = models.IntegerField(default=0)
+    tokens_used = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user.first_name} {self.user.last_name} - {self.request_count} requests - {self.tokens_used} tokens'
