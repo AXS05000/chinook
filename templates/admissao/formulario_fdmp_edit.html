@@ -261,7 +261,7 @@
         <div class="row">
           
 
-          <form action="#" method="POST" class="form-horizontal container" autocomplete="off"
+          <form id="form-fdmp" action="#" method="POST" class="form-horizontal container" autocomplete="off"
             enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-header">
@@ -551,6 +551,17 @@
       window.STATIC_URL = "{% static '' %}";
     </script>
     <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var form = document.getElementById('form-fdmp'); // Substitua 'meuFormulario' pelo ID do seu formulário
+        form.addEventListener('keypress', function (e) {
+          if (e.keyCode == 13 && e.target.type !== 'submit') { // 13 é o código da tecla Enter
+            e.preventDefault();
+            // Você pode adicionar qualquer ação aqui, ou simplesmente deixar vazio para apenas bloquear
+          }
+        });
+      });
+    </script>
+    <script>
       document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('btnAceito').addEventListener('click', function() {
           var formContainer = document.getElementById('formContainer');
@@ -662,7 +673,7 @@
           // Define um timeout para fechar o alerta após 7 segundos (7000ms)
           setTimeout(function() {
             $(alert).alert('close');
-          }, 12000);
+          }, 120000);
         });
       }
       

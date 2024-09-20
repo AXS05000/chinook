@@ -88,7 +88,7 @@
         <div class="row">
 
 
-          <form action="#" method="POST" class="form-horizontal container" autocomplete="off"
+          <form id="form-fdmp" action="#" method="POST" class="form-horizontal container" autocomplete="off"
           enctype="multipart/form-data">
           {% csrf_token %}
           <div class="form-header">
@@ -374,6 +374,17 @@
     <script src="{% static 'assets_2/js/main.js' %}"></script>
     <script>
       window.STATIC_URL = "{% static '' %}";
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var form = document.getElementById('form-fdmp'); // Substitua 'meuFormulario' pelo ID do seu formulário
+        form.addEventListener('keypress', function (e) {
+          if (e.keyCode == 13 && e.target.type !== 'submit') { // 13 é o código da tecla Enter
+            e.preventDefault();
+            // Você pode adicionar qualquer ação aqui, ou simplesmente deixar vazio para apenas bloquear
+          }
+        });
+      });
     </script>
     <script>
       function formatar(mascara, documento) {

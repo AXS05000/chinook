@@ -34,47 +34,7 @@
   <body>
     <!-- Header Section Start -->
     <header id="slider-area">  
-      <nav class="navbar navbar-expand-md fixed-top scrolling-navbar bg-white">
-        <div class="container">  
-          <a class="navbar-brand" href="{% url 'index' %}"><img  src="{% static 'assets_2/img/maple_bear.svg' %}" alt="" style="max-height: 40px;">  Maple Bear</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="lni-menu"></i>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto w-100 justify-content-end">
-              
-              <li class="nav-item">
-                <a class="nav-link page-scroll" href="{% url 'index' %}">Home</a>
-              </li>
-              
-              <li class="nav-item dropdown">
-                <a class="nav-link page-scroll nav-link-ded dropdown-toggle" id="dropdownContratos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contratos</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 200px;">
-                  <a class="nav-link" href="#">Buscar Candidatos</a>
-                  <a class="nav-link" href="#">Formulário PCF</a>
-                  <a class="nav-link" href="#">Importar Modelo de Contrato</a>
-                </div>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link page-scroll nav-link-ded dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Escolas</a>
-                <div class="dropdown-menu" style="min-width: 200px;">
-                  <a class="nav-link" href="#">Buscar Escolas</a>
-                  <a class="nav-link" href="#">Formulário FDMP</a>
-                </div>
-              </li>
-
-
-              {% if user.is_anonymous %}
-              {% else %}
-              <li class="nav-item">
-                <a class="nav-link page-scroll" href="{% url 'logout' %}">Sair</a>
-              </li>
-              {% endif %}  
-
-            </ul>              
-          </div>
-        </div>
-      </nav>  
+      {% include 'navbar/navbar.html' %}  
 
 
     </header>
@@ -235,9 +195,6 @@
     <script src="{% static 'assets_2/js/form-validator.min.js' %}"></script>
     <script src="{% static 'assets_2/js/contact-form-script.js' %}"></script>   
     <script src="{% static 'assets_2/js/main.js' %}"></script>
-    <script>
-      window.STATIC_URL = "{% static '' %}";
-    </script>
     <script>
       document.getElementById('search-input').addEventListener('focus', function() {
           this.style.border = 'none';

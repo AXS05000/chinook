@@ -1,0 +1,314 @@
+{% load filters %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords" content="Bootstrap, Landing page, Template, Registration, Landing">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Grayrids">
+    <title>Maple | Bett Brasil</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'assets_2/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/line-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/owl.theme.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/nivo-lightbox.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/color-switcher.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/menu_sideslide.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/responsive.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/formulario_nps.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nps.css' %}">    
+
+    <link rel="icon" type="image/png" href="{% static 'assets_2/img/maple_bear.svg' %}">
+  </head>
+  
+  <body>
+    <!-- Header Section Start -->
+    <header id="slider-area">  
+      <nav class="navbar navbar-expand-md fixed-top scrolling-navbar bg-white">
+        <div class="container">
+          {% if user.is_anonymous %}
+          <a class="navbar-brand" href="{% url 'index' %}"><img  src="{% static 'assets_2/img/maple_bear.svg' %}" alt="" style="max-height: 40px;">  Maple Bear</a>
+          {% else %}  
+          <a class="navbar-brand" href="{% url 'index' %}"><img  src="{% static 'assets_2/img/maple_bear.svg' %}" alt="" style="max-height: 40px;">  Maple Bear</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="lni-menu"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto w-100 justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link page-scroll" href="{% url 'index' %}">Home</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link page-scroll nav-link-ded dropdown-toggle" id="dropdownContratos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contratos</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 200px;">
+                  <a class="nav-link" href="{% url 'busca_candidato' %}">Buscar Candidatos</a>
+                  <a class="nav-link" href="{% url 'form_candidato' %}">Formulário PCF</a>
+                  <a class="nav-link" href="{% url 'upload_template' %}">Importar Modelo de Contrato</a>
+                </div>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link page-scroll nav-link-ded dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Escolas</a>
+                <div class="dropdown-menu" style="min-width: 200px;">
+                  <a class="nav-link" href="{% url 'busca_escolas' %}">Buscar Escolas</a>
+                  <a class="nav-link" href="{% url 'form_fdmp' %}">Formulário FDMP</a>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link page-scroll" href="{% url 'logout' %}">Sair</a>
+              </li>
+              {% endif %}  
+
+            </ul>              
+          </div>
+        </div>
+      </nav>
+
+
+    </header>
+    <!-- Header Section End --> 
+
+    <div class="form-container form-center container d-flex justify-content-center align-items-center">
+      
+    <!-- Features Section Start -->
+    <section id="admissao" class="section">
+      <div class="container">
+        <div class="section-header">          
+          <h2 class="section-title">BETT BRASIL:</h2>
+          <span>MAPLE BEAR</span>
+        </div>
+        <div class="row form">
+
+
+          <form action="#" method="POST" class="form-horizontal container" autocomplete="off"
+          enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-header">
+              {% if messages %}
+                  {% for message in messages %}
+                  {% if message.tags == 'success' %}
+                      <div class="position-fixed bottom-1 end-1 z-index-2">
+                          <div class="toast fade show p-2 bg-white" role="alert" aria-live="assertive" id="successToast" aria-atomic="true">
+                              <div class="toast-header border-0">
+                                  <i class="material-icons text-success me-2">check</i>
+                                  <span class="me-auto font-weight-bold">Notificação do sistema</span>
+                                  <small class="text-body">1 seg atrás</small>
+                                  <i class="fas fa-times text-md ms-3 cursor-pointer" data-bs-dismiss="toast" aria-label="Close"></i>
+                              </div>
+                                  <hr class="horizontal dark m-0">
+                              <div class="toast-body">
+                                      {{ message }}<br>
+                              </div>
+                          </div>
+                      </div>
+                  {% elif message.tags == 'error' %}
+                      <div class="alert alert-danger alert-dismissible text-white" role="alert">
+                          <span class="text-sm">{{ message }}</span>
+                          <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                  {% elif message.tags == 'warning' %}
+                      
+                      <div class="alert alert-info2 alert-dismissible text-white" role="alert">
+                          <span class="text-sm">{{ message }}</span>
+                          <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                  {% else %}
+                    <li>{{ message }}</li>
+                  {% endif %}
+                  {% endfor %}
+              {% endif %}
+              <div class="input-group">
+
+                  <div class="input-box-nps">
+                    
+                      <div class="select">
+                          <div>
+                            <div class="tipo-de-faturamento">
+                              <div class="tipo-de-faturamento-1">Antes de começar, queremos saber com o que você trabalha?<br>(selecione o que melhor se aplica)</div>
+                              <div class="tipo-de-faturamento-1">{{ form.profissao }}</div>
+                            </div>
+                            <div class="tipo-de-faturamento input-box" data-field="outros_profissao">
+                              <div class="tipo-de-faturamento-1">Digite sua profissão: </div>
+                              <div class="tipo-de-faturamento-1">{{ form.outros_profissao }}</div>
+                            </div>
+                            <div class="tipo-de-faturamento">
+                              <div class="tipo-de-faturamento-1">Como você avalia a organização das atividades no stand Maple Bear? </div>
+                              <div class="tipo-de-faturamento-1">{{ form.organizacao_atividades }}</div>
+                            </div>
+                            <div class="tipo-de-faturamento">
+                              <div class="tipo-de-faturamento-1">Como você avalia o ambiente/instalações do stand Maple Bear?</div>
+                              <div class="tipo-de-faturamento-1">{{ form.ambiente_instalacoes }}</div>
+                            </div>
+                            <div class="tipo-de-faturamento" data-field="comunicacao_pre_evento">
+                              <div class="tipo-de-faturamento-1">Como você avalia a comunicação do Marketing da Central antes e durante o evento (troca de informações, dúvidas etc.)?</div>
+                              <div class="tipo-de-faturamento-1">{{ form.comunicacao_pre_evento }}</div>
+                            </div>
+                            <div class="tipo-de-faturamento">
+                              <div class="tipo-de-faturamento-1">Como você avalia o conteúdo consumido na Bett 2024?</div>
+                              <div class="tipo-de-faturamento-1">{{ form.conteudo_consumido }}</div>
+                            </div>
+                            <div class="tipo-de-faturamento">
+                              <div class="tipo-de-faturamento-1">Como você avalia sua experiência geral do evento?</div>
+                              <div class="tipo-de-faturamento-1">{{ form.experiencia_geral }}</div>
+                            </div>
+                            <div class="tipo-de-faturamento">
+                              <div class="tipo-de-faturamento-1">Você tem algum comentário ou sugestão que gostaria de compartilhar conosco ?</div>
+                              <div class="tipo-de-faturamento-1">{{ form.comentarios }}</div>
+                            </div>
+                          </div>
+
+
+                      </div>
+                  </div>
+              </div>
+              <div class="login-button">
+                  <button type="submit" class="btn btn-primary">Cadastrar</button>
+              </div>
+
+          </div>
+      </form>
+
+        </div>
+      </div>
+    </section>
+    </div>
+    <!-- Features Section End -->   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    </footer>
+    <!-- Footer Section End --> 
+
+    <!-- Go To Top Link -->
+    <a href="#" class="back-to-top">
+      <i class="lni-arrow-up"></i>
+    </a>
+
+    <div id="loader">
+      <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+      </div>
+    </div>    
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="{% static 'assets_2/js/jquery-min.js' %}"></script>
+    <script src="{% static 'assets_2/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets_2/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets_2/js/classie.js' %}"></script>
+    <script src="{% static 'assets_2/js/color-switcher.js' %}"></script>
+    <script src="{% static 'assets_2/js/jquery.mixitup.js' %}"></script>
+    <script src="{% static 'assets_2/js/nivo-lightbox.js' %}"></script>
+    <script src="{% static 'assets_2/js/owl.carousel.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.stellar.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.nav.js' %}"></script>    
+    <script src="{% static 'assets_2/js/scrolling-nav.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.easing.min.js' %}"></script>     
+    <script src="{% static 'assets_2/js/wow.js' %}"></script> 
+    <script src="{% static 'assets_2/js/jquery.vide.js' %}"></script>
+    <script src="{% static 'assets_2/js/jquery.counterup.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.magnific-popup.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/waypoints.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/form-validator.min.js' %}"></script>
+    <script src="{% static 'assets_2/js/contact-form-script.js' %}"></script>   
+    <script src="{% static 'assets_2/js/main.js' %}"></script>
+    <script>
+      window.STATIC_URL = "{% static '' %}";
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const profissaoSelect = document.querySelector("select[name='profissao']"); // Substitua 'profissao' pelo nome correto do campo, se necessário
+          const allFields = document.querySelectorAll('.tipo-de-faturamento:not(:first-child)');
+          const preEventoField = document.querySelector("div[data-field='comunicacao_pre_evento']");
+          const outrosProfissaoField = document.querySelector("div[data-field='outros_profissao']"); // Seleciona o campo para "Outro (especifique)"
+      
+          profissaoSelect.addEventListener('change', function() {
+              // Primeiro, esconde todos os campos para resetar o estado
+              allFields.forEach(field => field.style.display = 'none');
+      
+              if (["Dono de escola Maple Bear/Sphere", "Educador Maple Bear/Sphere (Professor/coordenador/orientador)", "Colaborador de escola Maple Bear/Sphere"].includes(this.value)) {
+                  // Mostra todos os campos, exceto o de outros_profissao
+                  allFields.forEach(field => {
+                      if (field !== outrosProfissaoField) {
+                          field.style.display = '';
+                      }
+                  });
+              } else if (this.value === "Outro (especifique)") {
+                  // Mostra todos os campos, exceto o de comunicação pré-evento
+                  allFields.forEach(field => {
+                      if (field !== preEventoField) {
+                          field.style.display = '';
+                      }
+                  });
+              } else if (["Dono de escola/curso", "Educador (Professor/coordenador/orientador)", "Colaborador de empresa de tecnologia", "Colaborador de empresa de educação", "Investidor", "Empreendedor/empresário", "Pesquisador acadêmico"].includes(this.value)) {
+                  // Mostra todos os campos, exceto outros_profissao e comunicacao_pre_evento
+                  allFields.forEach(field => {
+                      if (field !== outrosProfissaoField && field !== preEventoField) {
+                          field.style.display = '';
+                      }
+                  });
+              }
+          });
+      
+          // Dispara o evento change ao carregar a página para aplicar o estado inicial dos campos
+          profissaoSelect.dispatchEvent(new Event('change'));
+      });
+      </script>
+    <script>
+      // Função para fechar alertas automaticamente após 7 segundos
+      function closeAlertsAutomatically() {
+        const alerts = document.querySelectorAll('.alert-dismissible');
+        alerts.forEach(function(alert) {
+          // Define um timeout para fechar o alerta após 7 segundos (7000ms)
+          setTimeout(function() {
+            $(alert).alert('close');
+          }, 7000);
+        });
+      }
+      
+      // Fecha o alerta quando o botão de fechar é clicado
+      function enableCloseButton() {
+        const closeButtons = document.querySelectorAll('.alert-dismissible .btn-close');
+        closeButtons.forEach(function(button) {
+          button.addEventListener('click', function() {
+            $(this.parentElement).alert('close');
+          });
+        });
+      }
+      
+      // Chamada das funções quando a janela carrega
+      window.onload = function() {
+        closeAlertsAutomatically();
+        enableCloseButton();
+      };
+      </script>
+    
+  </body>
+</html>
