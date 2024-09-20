@@ -1,5 +1,6 @@
 from django.db import models
 from usuarios.models import CustomUsuario
+from django.utils import timezone
 
 class Informacao(models.Model):
     nome = models.CharField(max_length=100)
@@ -425,7 +426,6 @@ class Planificador_2024(models.Model):
     data_atualizacao_resultados = models.DateField(null=True, blank=True)
     slm_2022 = models.FloatField(null=True, blank=True)
     slm_2023 = models.FloatField(null=True, blank=True)
-    meta_orcamentaria_2024 = models.FloatField(null=True, blank=True)
     base_rematriculaveis_2025 = models.IntegerField(null=True, blank=True)
     meta_rematricula_2025 = models.IntegerField(null=True, blank=True)
     real_rematriculas_2025 = models.IntegerField(null=True, blank=True)
@@ -446,3 +446,23 @@ class Planificador_2024(models.Model):
     def __str__(self):
         return f"Dados Comerciais {self.escola}"
 
+
+
+class HistoricoAlteracoes(models.Model):
+    planificador = models.ForeignKey(Planificador_2024, on_delete=models.CASCADE, related_name="historico")
+    usuario = models.ForeignKey(CustomUsuario, on_delete=models.CASCADE)
+    data_alteracao = models.DateTimeField(default=timezone.now)
+    alteracoes = models.TextField()
+
+    def __str__(self):
+        return f"Alterações de {self.usuario} em {self.data_alteracao.strftime('%d/%m/%Y %H:%M:%S')}"
+
+
+
+class ResumoAlteracoes_Planificador(models.Model):
+    usuario = models.ForeignKey(CustomUsuario, on_delete=models.CASCADE)
+    data = models.DateField()
+    resumo = models.TextField()
+
+    def __str__(self):
+        return f"Resumo de {self.usuario} em {self.data}"

@@ -17,13 +17,17 @@ from .models import (
     Avaliacao_Cliente_Oculto_24,
     Resumo_Respostas_NPS,
     PedidosAlterados,
+    HistoricoAlteracoes,
     Visita_Escola,
     Resumo_Visita_Escola,
+    ResumoAlteracoes_Planificador,
 )
 
 # Register your models here.
 admin.site.register(Resumo_Visita_Escola)
+admin.site.register(ResumoAlteracoes_Planificador)
 admin.site.register(Informacao)
+admin.site.register(HistoricoAlteracoes)
 admin.site.register(PedidosAlterados)
 admin.site.register(Ticket_Sprinklr)
 admin.site.register(Visita_Escola)

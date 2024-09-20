@@ -11,18 +11,23 @@ from django.db.models import Sum
 from .forms import PlanificadorForm, AtualizarIDEscolaForm
 from datetime import datetime
 from datetime import timedelta
+from django.forms.models import model_to_dict
+from django.utils import timezone
 from django.db.models import Count
 from django.db.models import Q 
 from usuarios.models import UserRequestLog
+from usuarios.models import CustomUsuario
 from .models import (
     Informacao,
     Beneficio,
     Ticket_Sprinklr,
     FolhaPonto,
+    HistoricoAlteracoes,
     Resumo_Respostas_NPS,
     Salario,
     Ferias,
     Resumo_Visita_Escola,
+    ResumoAlteracoes_Planificador,
     Visita_Escola,
     CRM_FUI,
     Respostas_NPS,
@@ -48,6 +53,7 @@ from .utils import (
     classify_question,
     config_simple_chat,
     config_resumo_cliente_oculto,
+    config_resumo_alteracoes,
     config_resumo_nps,
     config_chat_central,
     classify_question_chat_central,
@@ -1690,6 +1696,32 @@ def calcular_porcentagem_sim(planificador):
     porcentagem_sim = (sim_count / total_fields) * 100
     return f"{porcentagem_sim:.2f}"
 
+def registrar_alteracoes(planificador_antigo, planificador_novo, form, usuario):
+    alteracoes = []
+    
+    # Verifica as mudanças diretamente no formulário
+    for campo in form.changed_data:
+        valor_antigo = form.initial.get(campo)
+        valor_novo = form.cleaned_data.get(campo)
+        alteracoes.append(f"{campo}: '{valor_antigo}' -> '{valor_novo}'")
+
+    # Print para verificar se encontrou alguma alteração
+    print(f"Alterações encontradas: {alteracoes}")
+
+    # Se houver alterações, salva no histórico
+    if alteracoes:
+        HistoricoAlteracoes.objects.create(
+            planificador=planificador_novo,
+            usuario=usuario,
+            data_alteracao=timezone.now(),
+            alteracoes="\n".join(alteracoes)
+        )
+        print(f"Alterações salvas no histórico para o usuário {usuario}")
+    else:
+        print("Nenhuma alteração foi encontrada.")
+
+
+
 class PlanificadorUpdateView(LoginRequiredMixin, View):
     login_url = '/login/'
 
@@ -1735,17 +1767,27 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
 
         if form.is_valid():
             try:
-                # Atualizando o campo 'usuario_modificacao' antes de salvar
-                planificador = form.save(commit=False)
-                planificador.usuario_modificacao = request.user
-                planificador.save()
+                # Guarda o estado antigo antes de salvar
+                planificador_antigo = Planificador_2024.objects.get(pk=planificador.pk)
+                
+                planificador_atualizado = form.save(commit=False)
+                planificador_atualizado.usuario_modificacao = request.user
+                planificador_atualizado.save()
+
+                # Print para verificar se o planificador foi salvo corretamente
+                print(f"Planificador {planificador_atualizado.id} salvo com sucesso.")
+
+                # Função para registrar as alterações no histórico
+                registrar_alteracoes(planificador_antigo, planificador_atualizado, form, request.user)
 
                 messages.success(request, "Dados atualizados com sucesso!")
                 return redirect("buscar_escolas")
             except Exception as e:
                 messages.error(request, "Erro ao atualizar os dados.")
+                print(f"Erro ao salvar o planificador: {e}")
         else:
             messages.error(request, "Erro ao atualizar os dados: %s" % form.errors)
+            print(f"Erros de validação: {form.errors}")
 
         porcentagem_planificador = calcular_porcentagem_sim(planificador)
 
@@ -1768,6 +1810,55 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
             "porcentagem_planificador": porcentagem_planificador
         }
         return render(request, "chatapp/planificador/planificador_form_edit.html", context)
+    
+
+def gerar_resumo_alteracoes(request):
+    data_inicio = timezone.datetime(2024, 9, 19)  # Data de início da verificação
+    usuarios = CustomUsuario.objects.all()
+    
+    for usuario in usuarios:
+        # Filtra todas as datas com alterações para o usuário a partir da data de início
+        alteracoes_por_dia = HistoricoAlteracoes.objects.filter(
+            usuario=usuario, 
+            data_alteracao__gte=data_inicio
+        ).values('data_alteracao').distinct()
+        
+        for alteracao in alteracoes_por_dia:
+            data = alteracao['data_alteracao'].date()
+            
+            # Verifica se já existe um resumo para o usuário e a data
+            if not ResumoAlteracoes_Planificador.objects.filter(usuario=usuario, data=data).exists():
+                # Busca todas as alterações do usuário naquele dia
+                alteracoes_dia = HistoricoAlteracoes.objects.filter(
+                    usuario=usuario, 
+                    data_alteracao__date=data
+                )
+                
+                if alteracoes_dia.exists():
+                    # Cria um contexto para a IA resumir as alterações
+                    alteracoes_texto = "\n".join(
+                        [f"Alteração em {alteracao.data_alteracao.strftime('%H:%M:%S')}:\n{alteracao.alteracoes}" 
+                        for alteracao in alteracoes_dia]
+                    )
+
+                    # Gera o resumo usando a API da OpenAI
+                    api_key = request.user.api_key
+                    resumo = config_resumo_alteracoes(alteracoes_texto, api_key)
+                    
+                else:
+                    resumo = "Nenhum ajuste realizado."
+
+                # Salva o resumo na model ResumoAlteracoes
+                ResumoAlteracoes_Planificador.objects.create(
+                    usuario=usuario,
+                    data=data,
+                    resumo=resumo
+                )
+
+    return redirect('controle_escolas')
+
+
+
 ######################## BUSCA ESCOLAS PLANIFICADOR #################################################
 class EscolaSearchView(ListView):
     model = CRM_FUI

@@ -483,3 +483,30 @@ def config_simple_chat(prompt, context=""):
     )
 
     return formatted_response
+
+
+
+############################################# RESUMO ALTERAÇÕES PLANIFICADOR ###########################################################
+
+
+def config_resumo_alteracoes(prompt, api_key):
+    openai.api_key = api_key
+
+    print("Enviando a requisição para a API da OpenAI...")
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-2024-08-06",
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é um assistente que irá resumir as alterações feitas por um usuário no sistema.",
+            },
+            {"role": "user", "content": f"Resuma as seguintes alterações:\n{prompt}"},
+        ],
+        max_tokens=1000,
+    )
+
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+    print(f"Resposta formatada: {formatted_response[:50]}...")  # Exibe os primeiros 50 caracteres
+
+    return formatted_response
