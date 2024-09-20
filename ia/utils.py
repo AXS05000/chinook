@@ -499,7 +499,7 @@ def config_resumo_alteracoes(prompt, api_key):
         messages=[
             {
                 "role": "system",
-                "content": "Você é um assistente que irá resumir as alterações feitas por um usuário no sistema.",
+                "content": "Você é um assistente que irá resumir todas as alterações feitas, não precisa colocar o que estava antes e sim apenas os campos atuais.",
             },
             {"role": "user", "content": f"Resuma as seguintes alterações:\n{prompt}"},
         ],

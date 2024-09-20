@@ -1811,7 +1811,6 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
         }
         return render(request, "chatapp/planificador/planificador_form_edit.html", context)
     
-
 def gerar_resumo_alteracoes(request):
     data_inicio = timezone.datetime(2024, 9, 19)  # Data de início da verificação
     usuarios = CustomUsuario.objects.all()
@@ -1833,12 +1832,13 @@ def gerar_resumo_alteracoes(request):
                     usuario=usuario, 
                     data_alteracao__date=data
                 )
-                
+
                 if alteracoes_dia.exists():
-                    # Cria um contexto para a IA resumir as alterações
+                    # Cria um contexto para a IA resumir as alterações, incluindo a escola
                     alteracoes_texto = "\n".join(
-                        [f"Alteração em {alteracao.data_alteracao.strftime('%H:%M:%S')}:\n{alteracao.alteracoes}" 
-                        for alteracao in alteracoes_dia]
+                        [f"Escola: {alteracao.planificador.escola.nome_da_escola}\n"
+                         f"Alteração em {alteracao.data_alteracao.strftime('%H:%M:%S')}:\n{alteracao.alteracoes}" 
+                         for alteracao in alteracoes_dia]
                     )
 
                     # Gera o resumo usando a API da OpenAI
@@ -1848,7 +1848,7 @@ def gerar_resumo_alteracoes(request):
                 else:
                     resumo = "Nenhum ajuste realizado."
 
-                # Salva o resumo na model ResumoAlteracoes
+                # Salva o resumo na model ResumoAlteracoes_Planificador
                 ResumoAlteracoes_Planificador.objects.create(
                     usuario=usuario,
                     data=data,
