@@ -499,7 +499,7 @@ def config_resumo_alteracoes(prompt, api_key):
         messages=[
             {
                 "role": "system",
-                "content": "Você é um assistente que irá resumir todas as alterações feitas, não precisa colocar o que estava antes e sim apenas os campos atuais.",
+                "content": "Você é um assistente que irá resumir todas as alterações feitas, não precisa colocar o que estava antes e sim apenas os campos atuais. Caso tenha essa linha '- Usuário Modificação: None' ou as linhas de data de atualização dos blocos pode desconsiderar ela. Mas coloque um texto como se fosse estive fazendo um report das atividades para o seu gestor. Nos casos das colunas CRM B2C, Circular de Oferta 2025, Toddle e Árvore se estiver SIM quer dizer que foi implementado, então para esses casos coloque 'implementação realizada na escola' apenas no caso da Circular que tem que ser Publicação da Circular realizada. OBS: Toddle e Árvore são no feminino.",
             },
             {"role": "user", "content": f"Resuma as seguintes alterações:\n{prompt}"},
         ],

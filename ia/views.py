@@ -1810,7 +1810,9 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
             "porcentagem_planificador": porcentagem_planificador
         }
         return render(request, "chatapp/planificador/planificador_form_edit.html", context)
-    
+
+
+
 def gerar_resumo_alteracoes(request):
     data_inicio = timezone.datetime(2024, 9, 19)  # Data de início da verificação
     usuarios = CustomUsuario.objects.all()
@@ -1834,10 +1836,11 @@ def gerar_resumo_alteracoes(request):
                 )
 
                 if alteracoes_dia.exists():
-                    # Cria um contexto para a IA resumir as alterações, incluindo a escola
+                    # Cria um contexto para a IA resumir as alterações, incluindo a escola e o nome amigável dos campos
                     alteracoes_texto = "\n".join(
                         [f"Escola: {alteracao.planificador.escola.nome_da_escola}\n"
-                         f"Alteração em {alteracao.data_alteracao.strftime('%H:%M:%S')}:\n{alteracao.alteracoes}" 
+                         f"Alteração em {alteracao.data_alteracao.strftime('%H:%M:%S')}:\n"
+                         f"{get_verbose_field_names(alteracao.planificador, alteracao.alteracoes)}"
                          for alteracao in alteracoes_dia]
                     )
 
@@ -1857,7 +1860,17 @@ def gerar_resumo_alteracoes(request):
 
     return redirect('controle_escolas')
 
+def get_verbose_field_names(planificador, alteracoes_texto):
+    """
+    Substitui os nomes das colunas pelos verbose_name dos campos da model.
+    """
+    campos_verbose = {field.name: field.verbose_name for field in planificador._meta.fields}
 
+    # Substitui os nomes das colunas pelos verbose_name no texto das alterações
+    for campo, verbose in campos_verbose.items():
+        alteracoes_texto = alteracoes_texto.replace(campo, verbose)
+
+    return alteracoes_texto
 
 ######################## BUSCA ESCOLAS PLANIFICADOR #################################################
 class EscolaSearchView(ListView):
