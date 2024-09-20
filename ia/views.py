@@ -1812,21 +1812,15 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
         return render(request, "chatapp/planificador/planificador_form_edit.html", context)
 
 
-
 def gerar_resumo_alteracoes(request):
     data_inicio = timezone.datetime(2024, 9, 19)  # Data de início da verificação
+    data_atual = timezone.now().date()  # Data atual para verificar até quando gerar os resumos
     usuarios = CustomUsuario.objects.all()
-    
+
     for usuario in usuarios:
-        # Filtra todas as datas com alterações para o usuário a partir da data de início
-        alteracoes_por_dia = HistoricoAlteracoes.objects.filter(
-            usuario=usuario, 
-            data_alteracao__gte=data_inicio
-        ).values('data_alteracao').distinct()
-        
-        for alteracao in alteracoes_por_dia:
-            data = alteracao['data_alteracao'].date()
-            
+        # Itera por cada dia desde a data de início até a data atual
+        data = data_inicio.date()
+        while data <= data_atual:
             # Verifica se já existe um resumo para o usuário e a data
             if not ResumoAlteracoes_Planificador.objects.filter(usuario=usuario, data=data).exists():
                 # Busca todas as alterações do usuário naquele dia
@@ -1849,7 +1843,8 @@ def gerar_resumo_alteracoes(request):
                     resumo = config_resumo_alteracoes(alteracoes_texto, api_key)
                     
                 else:
-                    resumo = "Nenhum ajuste realizado."
+                    # Se não houver alterações no dia, cria um resumo padrão
+                    resumo = "Nenhum ajuste realizado no planificador por este usuário neste dia."
 
                 # Salva o resumo na model ResumoAlteracoes_Planificador
                 ResumoAlteracoes_Planificador.objects.create(
@@ -1857,6 +1852,9 @@ def gerar_resumo_alteracoes(request):
                     data=data,
                     resumo=resumo
                 )
+
+            # Avança para o próximo dia
+            data += timedelta(days=1)
 
     return redirect('controle_escolas')
 
