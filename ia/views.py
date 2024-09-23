@@ -1812,6 +1812,7 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
         return render(request, "chatapp/planificador/planificador_form_edit.html", context)
 
 
+
 def gerar_resumo_alteracoes(request):
     data_inicio = timezone.datetime(2024, 9, 19)  # Data de início da verificação
     data_atual = timezone.now().date()  # Data atual para verificar até quando gerar os resumos
@@ -1970,6 +1971,38 @@ def import_vendas_slm_2025_json(request):
     return JsonResponse({'status': 'falha', 'mensagem': 'Método não permitido'}, status=405)
 
 
+@csrf_exempt
+def delete_vendas_slm_2025_json(request):
+    if request.method == 'POST':
+        try:
+            dados = json.loads(request.body)
+        except json.JSONDecodeError as e:
+            return JsonResponse({'status': 'erro', 'mensagem': f"Erro ao parsear o JSON: {e}"}, status=400)
+
+        with transaction.atomic():
+            for result in dados.get('results', []):
+                for table in result.get('tables', []):
+                    for row in table.get('rows', []):
+                        try:
+                            # Pega o ID da venda
+                            id_venda = row.get('public ia_vendas_slm_2025 - retirar[id]', None)
+                            if id_venda is not None:
+                                # Tenta buscar e deletar o registro correspondente
+                                Vendas_SLM_2025.objects.filter(id=id_venda).delete()
+                            else:
+                                return JsonResponse(
+                                    {'status': 'erro', 'mensagem': 'ID da venda não encontrado no JSON.'},
+                                    status=400
+                                )
+                        except Exception as e:
+                            return JsonResponse(
+                                {'status': 'erro', 'mensagem': f"Erro ao tentar excluir a venda com ID {id_venda}: {e}"},
+                                status=500
+                            )
+
+        return JsonResponse({'status': 'sucesso', 'mensagem': 'Vendas excluídas com sucesso!'}, status=200)
+
+    return JsonResponse({'status': 'falha', 'mensagem': 'Método não permitido'}, status=405)
 
 @csrf_exempt
 def import_vendas_slm_2024_json(request):
@@ -2013,6 +2046,40 @@ def import_vendas_slm_2024_json(request):
         return JsonResponse({'status': 'sucesso', 'mensagem': 'Dados importados e atualizados com sucesso!'}, status=200)
 
     return JsonResponse({'status': 'falha', 'mensagem': 'Método não permitido'}, status=405)
+
+@csrf_exempt
+def delete_vendas_slm_2024_json(request):
+    if request.method == 'POST':
+        try:
+            dados = json.loads(request.body)
+        except json.JSONDecodeError as e:
+            return JsonResponse({'status': 'erro', 'mensagem': f"Erro ao parsear o JSON: {e}"}, status=400)
+
+        with transaction.atomic():
+            for result in dados.get('results', []):
+                for table in result.get('tables', []):
+                    for row in table.get('rows', []):
+                        try:
+                            # Pega o ID da venda
+                            id_venda = row.get('public ia_vendas_slm_2024 - retirar[id]', None)
+                            if id_venda is not None:
+                                # Tenta buscar e deletar o registro correspondente
+                                Vendas_SLM_2024.objects.filter(id=id_venda).delete()
+                            else:
+                                return JsonResponse(
+                                    {'status': 'erro', 'mensagem': 'ID da venda não encontrado no JSON.'},
+                                    status=400
+                                )
+                        except Exception as e:
+                            return JsonResponse(
+                                {'status': 'erro', 'mensagem': f"Erro ao tentar excluir a venda com ID {id_venda}: {e}"},
+                                status=500
+                            )
+
+        return JsonResponse({'status': 'sucesso', 'mensagem': 'Vendas excluídas com sucesso!'}, status=200)
+
+    return JsonResponse({'status': 'falha', 'mensagem': 'Método não permitido'}, status=405)
+
 
 
 @csrf_exempt
