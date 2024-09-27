@@ -642,20 +642,7 @@ class ResumoAlteracoes_Planificador(models.Model):
     
 
 
-
-
-class Resumo_Respostas_ClienteOculto24_Geral(models.Model):
-    escola = models.ForeignKey(
-        CRM_FUI,
-        on_delete=models.CASCADE,
-        related_name="nome_escola_resumo_co24_geral",
-        verbose_name="Nome da Escola do resumo do Cliente Oculto Geral 2024",
-    )
-    resumo = models.TextField(blank=True, null=True, verbose_name="Resumo Cliente Oculto Geral")
-
-    def __str__(self):
-        return f"{self.escola}"
-    
+  
 
 class Resumo_Respostas_NPS_1_Onda_Geral(models.Model):
     escola = models.ForeignKey(

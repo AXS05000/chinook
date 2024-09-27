@@ -364,6 +364,38 @@ def config_resumo_nps(prompt, api_key, context=""):
     return formatted_response
 
 
+### Resumo Geral Positivo e Negativo ###
+def config_resumo_nps_geral(prompt, api_key, context=""):
+    print("Iniciando a configuração do resumo NPS...")
+
+    if not context:
+        context = "No relevant information found in the database."
+    if not prompt:
+        prompt = "No question provided."
+
+    openai.api_key = api_key
+
+    print("Enviando a requisição para a API da OpenAI...")
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-2024-08-06",
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é o assistente Chinook da Empresa Maple Bear auxiliando em informações sobre as avaliações feitas pelos pais a escola.",
+            },
+            {"role": "user", "content": f"Contexto:\n{context}"},
+            {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
+        ],
+        max_tokens=2050,
+    )
+    print(f"Resposta recebida. Total de tokens usados: {response['usage']['total_tokens']}")
+
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+    print(f"Resposta formatada: {formatted_response[:50]}...")  # Exibe apenas os primeiros 100 caracteres da resposta
+
+    return formatted_response
+
+
 ############################################# Resumo Cliente Oculto###########################################################
 
 

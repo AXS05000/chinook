@@ -25,6 +25,7 @@ from .models import (
     HistoricoAlteracoes,
     Resumo_Respostas_NPS,
     Salario,
+    Resumo_Respostas_NPS_1_Onda_Geral,
     Ferias,
     Resumo_Visita_Escola,
     ResumoAlteracoes_Planificador,
@@ -1362,6 +1363,54 @@ def gerar_resumos_todas_escolas(request):
             if comentarios_categorizados:
                 prompt = (
                     "Faça um resumo bem resumido dos comentários negativos, monte um paragrafo unico resumindo:\n"
+                    f"{comentarios_categorizados}"
+                )
+                api_key = request.user.api_key  # Assume que o usuário logado tem uma chave API
+                resumo = config_resumo_nps(prompt, api_key)
+
+                # Salva o resumo na model Resumo_Respostas_NPS
+                resumo_nps.resumo = resumo
+                resumo_nps.save()
+
+                resultados.append(f"Resumo gerado para {escola.nome_da_escola} com sucesso!")
+            else:
+                resultados.append(f"Não há comentários válidos para {escola.nome_da_escola}.")
+        else:
+            resultados.append(f"O resumo para {escola.nome_da_escola} já existe e não está em branco.")
+
+        time.sleep(5)
+
+    return JsonResponse({"resultados": resultados})
+
+
+
+### Resumo comentarios positivos e negativos ###
+def gerar_resumos_todas_escolas_geral(request):
+    escolas = CRM_FUI.objects.all()
+    resultados = []
+    
+    for escola in escolas:
+        # Verifica se já existe um resumo para a escola e se está em branco
+        resumo_nps, created = Resumo_Respostas_NPS_1_Onda_Geral.objects.get_or_create(escola=escola)
+        if resumo_nps.resumo is None or resumo_nps.resumo.strip() == "":
+            # Filtra as respostas NPS para a escola, excluindo comentários vazios, null ou nan
+            respostas = Respostas_NPS.objects.filter(
+                escola=escola
+            ).exclude(
+                comentario__isnull=True
+            ).exclude(
+                comentario__exact=""
+            ).exclude(
+                comentario__iexact="nan"
+            )
+
+            comentarios_categorizados = "\n".join(
+                [f"Categoria: {resposta.questao}\nComentário: {resposta.comentario}\n" for resposta in respostas]
+            )
+
+            if comentarios_categorizados:
+                prompt = (
+                    "Faça um resumo bem resumido dos comentários, monte um paragrafo unico resumindo:\n"
                     f"{comentarios_categorizados}"
                 )
                 api_key = request.user.api_key  # Assume que o usuário logado tem uma chave API
