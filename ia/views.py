@@ -1812,11 +1812,72 @@ class PlanificadorUpdateView(LoginRequiredMixin, View):
         return render(request, "chatapp/planificador/planificador_form_edit.html", context)
 
 
+@csrf_exempt
+def gerar_resumo_alteracoes_json(request):
+    if request.method == 'POST':
+        try:
+            # Tenta carregar o corpo do request, mas se estiver vazio, ignora.
+            if request.body:
+                dados = json.loads(request.body)
+        except json.JSONDecodeError as e:
+            return JsonResponse({'status': 'erro', 'mensagem': f"Erro ao parsear o JSON: {e}"}, status=400)
+
+        data_inicio = timezone.datetime(2024, 9, 19)  # Data de início da verificação
+        data_atual = timezone.now().date()  # Data atual para verificar até quando gerar os resumos
+
+        # Filtra os usuários que estão no grupo "planificador" e exclui os usuários com id 3, 9 e 10
+        usuarios = CustomUsuario.objects.filter(groups__name='Planificador').exclude(id__in=[3, 9, 10])
+
+        for usuario in usuarios:
+            # Itera por cada dia desde a data de início até a data atual
+            data = data_inicio.date()
+            while data <= data_atual:
+                # Verifica se já existe um resumo para o usuário e a data
+                if not ResumoAlteracoes_Planificador.objects.filter(usuario=usuario, data=data).exists():
+                    # Busca todas as alterações do usuário naquele dia
+                    alteracoes_dia = HistoricoAlteracoes.objects.filter(
+                        usuario=usuario, 
+                        data_alteracao__date=data
+                    )
+
+                    if alteracoes_dia.exists():
+                        # Cria um contexto para a IA resumir as alterações, incluindo a escola e o nome amigável dos campos
+                        alteracoes_texto = "\n".join(
+                            [f"Escola: {alteracao.planificador.escola.nome_da_escola}\n"
+                             f"Alteração em {alteracao.data_alteracao.strftime('%H:%M:%S')}:\n"
+                             f"{get_verbose_field_names(alteracao.planificador, alteracao.alteracoes)}"
+                             for alteracao in alteracoes_dia]
+                        )
+
+                        # Gera o resumo usando a API da OpenAI
+                        api_key = request.user.api_key
+                        resumo = config_resumo_alteracoes(alteracoes_texto, api_key)
+                        
+                    else:
+                        # Se não houver alterações no dia, cria um resumo padrão
+                        resumo = "Nenhum ajuste realizado no planificador por este usuário neste dia."
+
+                    # Salva o resumo na model ResumoAlteracoes_Planificador
+                    ResumoAlteracoes_Planificador.objects.create(
+                        usuario=usuario,
+                        data=data,
+                        resumo=resumo
+                    )
+
+                # Avança para o próximo dia
+                data += timedelta(days=1)
+
+        return JsonResponse({'status': 'sucesso', 'mensagem': 'Resumos gerados com sucesso!'}, status=200)
+
+    return JsonResponse({'status': 'falha', 'mensagem': 'Método não permitido'}, status=405)
+
 
 def gerar_resumo_alteracoes(request):
     data_inicio = timezone.datetime(2024, 9, 19)  # Data de início da verificação
     data_atual = timezone.now().date()  # Data atual para verificar até quando gerar os resumos
-    usuarios = CustomUsuario.objects.all()
+
+    # Filtra os usuários que estão no grupo "planificador" e exclui os usuários com id 3, 9 e 10
+    usuarios = CustomUsuario.objects.filter(groups__name='Planificador').exclude(id__in=[3, 9, 10, 21])
 
     for usuario in usuarios:
         # Itera por cada dia desde a data de início até a data atual

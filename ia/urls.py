@@ -13,6 +13,7 @@ from .views import (chat_view, generate_excel_report, ControleEscolasSearchView,
     gerar_resumos_todas_escolas,
     import_vendas_slm_2025_json,
     delete_vendas_slm_2025_json,
+    gerar_resumo_alteracoes_json,
     import_crm_fui_json,
     import_vendas_slm_2024_json,
     delete_vendas_slm_2024_json,
@@ -79,5 +80,6 @@ urlpatterns = [
     path('gerar-resumo-visita-escola/<int:visita_id>/', gerar_resumo_visita_escola, name='gerar_resumo_visita_escola'),
     path('gerar-resumos-visita-escola-todas/', gerar_resumos_visita_escola_todas, name='gerar_resumos_visita_escola_todas'),
     path('gerar-resumo-alteracoes/', gerar_resumo_alteracoes, name='gerar_resumo_alteracoes'),
+    path('gerar-resumo-alteracoes-json/', gerar_resumo_alteracoes_json, name='gerar_resumo_alteracoes_json'),
 
 ]

@@ -30,8 +30,6 @@ class PlanificadorForm(forms.ModelForm):
         }
 
 
-
-
 class AtualizarIDEscolaForm(forms.Form):
     id_escola_atual = forms.ModelChoiceField(
         queryset=CRM_FUI.objects.all(),
