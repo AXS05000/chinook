@@ -21,9 +21,12 @@ from .models import (
     Visita_Escola,
     Resumo_Visita_Escola,
     ResumoAlteracoes_Planificador,
+    Resumo_Respostas_NPS_1_Onda_Geral,
+
 )
 
 # Register your models here.
+admin.site.register(Resumo_Respostas_NPS_1_Onda_Geral)
 admin.site.register(Resumo_Visita_Escola)
 admin.site.register(ResumoAlteracoes_Planificador)
 admin.site.register(Informacao)
