@@ -19,6 +19,8 @@ from usuarios.models import UserRequestLog
 from usuarios.models import CustomUsuario
 from .models import (
     Informacao,
+    Resumo_SAC,
+    Ouvidoria_SAC,
     Beneficio,
     Ticket_Sprinklr,
     FolhaPonto,
@@ -48,8 +50,10 @@ from bs4 import BeautifulSoup
 from .utils import (
     get_chat_response,
     calcular_nps,
+    processar_resumos_sac,
     obter_distribuicao_nps,
     config_chat_rh,
+    config_resumo_sac,
     config_resumo_visita_escola,
     classify_question,
     config_simple_chat,
@@ -840,6 +844,62 @@ def filtered_chat_view(request):
                 )
             print("Contexto NPS gerado")
 
+        elif question_type == "ouvidoria":
+            print("Lidando com categoria Ouvidoria")
+
+            # Parte 1: Passar resumos das outras escolas primeiro
+            outras_escolas_resumos = Resumo_SAC.objects.exclude(escola__id_escola=school_id)
+            
+            context = "Resumo dos comentários e reclamações de outras escolas:\n"
+            for resumo in outras_escolas_resumos:
+                context += (
+                    f"Escola: {resumo.escola.nome_da_escola}\n"
+                    f"Resumo: {resumo.resumo}\n\n"
+                )
+
+            # Enviar o contexto de resumos para a API
+            print("Contexto inicial (somente resumos) enviado para a API")
+
+            # A API agora vai retornar uma lista das escolas relevantes, baseadas nos resumos.
+            escolas_relevantes_ids = processar_resumos_sac(context, api_key)
+            
+            # Parte 2: Se a API identificar escolas relacionadas ao assunto, busque os detalhes completos de Ouvidoria_SAC
+            if escolas_relevantes_ids:
+                escolas_relevantes = Ouvidoria_SAC.objects.filter(
+                    escola__id_escola__in=escolas_relevantes_ids
+                ).exclude(comentario__isnull=True).exclude(comentario__exact="").exclude(comentario__exact="nan")
+                
+                context += "\nDetalhes completos das escolas relacionadas:\n"
+                for response in escolas_relevantes:
+                    context += (
+                        f"Escola: {response.escola.nome_da_escola}\n"
+                        f"Origem: {response.origem}\n"
+                        f"Responsável: {response.nome_responsavel}\n"
+                        f"Tema: {response.tema}\n"
+                        f"Comentário: {response.comentario}\n"
+                        f"Data: {response.data_reclamacao}\n\n"
+                    )
+
+            # Parte 3: Agora adicionamos as informações detalhadas da escola atual
+            ouvidoria_responses = (
+                Ouvidoria_SAC.objects.filter(escola__id_escola=school_id)
+                .exclude(comentario__isnull=True)
+                .exclude(comentario__exact="")
+                .exclude(comentario__exact="nan")
+            )
+
+            context += "\nInformações detalhadas da escola atual:\n"
+            for response in ouvidoria_responses:
+                context += (
+                    f"Escola: {school.nome_da_escola}\n"
+                    f"Origem: {response.origem}\n"
+                    f"Responsável: {response.nome_responsavel}\n"
+                    f"Tema: {response.tema}\n"
+                    f"Comentário: {response.comentario}\n"
+                    f"Data: {response.data_reclamacao}\n\n"
+                )
+
+            print("Contexto final gerado com detalhes das escolas relacionadas e da escola atual")
 
         elif question_type == "cliente_oculto":
             print("Lidando com categoria Cliente Oculto")
@@ -1429,6 +1489,107 @@ def gerar_resumos_todas_escolas_geral(request):
         time.sleep(5)
 
     return JsonResponse({"resultados": resultados})
+
+
+
+
+
+################################### SAC/Ouvidoria #####################################################
+
+@login_required(login_url='/login/')
+def import_ouvidoria_sac(request):
+    if request.method == "POST":
+        file = request.FILES.get("file")
+        if not file or not file.name.endswith(".xlsx"):
+            messages.error(request, "Por favor, envie um arquivo Excel.")
+            return redirect("import_ouvidoria")
+
+        try:
+            df = pd.read_excel(file)
+        except Exception as e:
+            messages.error(request, f"Erro ao ler o arquivo Excel: {e}")
+            return redirect("import_ouvidoria")
+
+        with transaction.atomic():
+            Ouvidoria_SAC.objects.all().delete()  # Limpar a tabela antes de importar novos dados
+
+            for _, row in df.iterrows():
+                try:
+                    escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
+                    
+
+                    Ouvidoria_SAC.objects.create(
+                        escola=escola,
+                        origem=row["origem"],
+                        tema=row["tema"],
+                        nome_responsavel=row["nome_responsavel"],
+                        comentario=row["comentario"],
+                        data_reclamacao=row["data_reclamacao"],
+                    )
+                except CRM_FUI.DoesNotExist:
+                    messages.error(
+                        request, f"Escola com id_escola {row['id_escola']} não encontrada."
+                    )
+                    continue
+                except Exception as e:
+                    messages.error(
+                        request,
+                        f"Erro ao importar a linha com id_escola {row['id_escola']}: {e}",
+                    )
+                    continue
+
+        messages.success(request, "Dados importados com sucesso!")
+        return redirect("import_ouvidoria")
+    return render(request, "chatapp/import/import_ouvidoria.html")
+
+
+
+
+def gerar_resumos_todas_escolas_sac(request):
+    escolas = CRM_FUI.objects.all()
+    resultados = []
+    
+    for escola in escolas:
+        # Verifica se já existe um resumo para a escola e se está em branco
+        resumo_sac, created = Resumo_SAC.objects.get_or_create(escola=escola)
+        if resumo_sac.resumo is None or resumo_sac.resumo.strip() == "":
+            # Filtra as respostas NPS para a escola, excluindo comentários vazios, null ou nan
+            respostas = Ouvidoria_SAC.objects.filter(
+                escola=escola
+            ).exclude(
+                comentario__isnull=True
+            ).exclude(
+                comentario__exact=""
+            ).exclude(
+                comentario__iexact="nan"
+            )
+
+            comentarios_categorizados = "\n".join(
+                [f"Comentário: {resposta.comentario}\n" for resposta in respostas]
+            )
+
+            if comentarios_categorizados:
+                prompt = (
+                    "Faça um resumo bem resumido dos comentários, monte um paragrafo unico resumindo todos comentários desses atendimentos realizados pelo o SAC:\n"
+                    f"{comentarios_categorizados}"
+                )
+                api_key = request.user.api_key  # Assume que o usuário logado tem uma chave API
+                resumo = config_resumo_sac(prompt, api_key)
+
+                # Salva o resumo na model Resumo_Respostas_NPS
+                resumo_sac.resumo = resumo
+                resumo_sac.save()
+
+                resultados.append(f"Resumo gerado para {escola.nome_da_escola} com sucesso!")
+            else:
+                resultados.append(f"Não há comentários válidos para {escola.nome_da_escola}.")
+        else:
+            resultados.append(f"O resumo para {escola.nome_da_escola} já existe e não está em branco.")
+
+        time.sleep(5)
+
+    return JsonResponse({"resultados": resultados})
+
 
 
 ################################### Gerar Resumo Cliente Oculto 2024#####################################################

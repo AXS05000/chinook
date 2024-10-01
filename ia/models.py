@@ -655,3 +655,34 @@ class Resumo_Respostas_NPS_1_Onda_Geral(models.Model):
 
     def __str__(self):
         return f"{self.escola}"
+    
+
+class Resumo_SAC(models.Model):
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="nome_escola_resumo_sac",
+        verbose_name="Nome da Escola do SAC",
+    )
+    resumo = models.TextField(blank=True, null=True, verbose_name="Resumo Geral SAC")
+
+    def __str__(self):
+        return f"{self.escola}"
+    
+
+
+class Ouvidoria_SAC(models.Model):
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="nome_escola_ouvidoria",
+        verbose_name="Nome da Escola da Ouvidoria",
+    )
+    origem = models.CharField(max_length=255,blank=True, null=True)
+    nome_responsavel = models.CharField(max_length=255,blank=True, null=True)
+    tema = models.CharField(max_length=255, blank=True, null=True)
+    comentario = models.TextField(blank=True, null=True)
+    data_reclamacao = models.DateField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.escola} - {self.tema}"

@@ -263,7 +263,7 @@ def classify_question_chat_central(prompt, api_key):
         messages=[
             {
                 "role": "system",
-                "content": "Você é um assistente útil que classifica perguntas sobre escolas em categorias: ('informações gerais' - Se o usuário pedir informações como resumo da escola, informações basicas como nome, cnpj, cluster, endereço, avaliações. Exemplos de perguntas para essa categoria: Faça um resumo dessa escola. Mas se ele falar 'faça um resumo do cliente oculto ou NPS dessa escola' ou falar 'faça um resumo bem resumido do cliente oculto ou NPS dessa escola' é outra categoria não é essa), ('planificador' -  Se o usuário pedir informações relacionados ao planificador escolha essa categoria.), ('sprinklr' -  Se o usuário pedir informações relacionados a ticket ou a Sprinklr escolha essa categoria, observação pode ter erros de digitação então se ele colocar Sprinklr, Sbrinklr ou outras variações escolha essa categoria.),('NPS' - Se o usuário pedir informações relacionado ao Net Promoter Score(NPS) responda com essa categoria), ('cliente_oculto' - Se o usuário pedir informações relacionado ao Cliente Oculto responda com essa categoria), ('vendas' ou 'relatório de vendas' - Se o usuário pedir informações sobre vendas da escola ou relatório de vendas da escola escolha essa categoria.), ('base de conhecimento' - Se o usuário pedir algo que pareça estar em uma base de conhecimento escolha essa categoria. Por exemplo se na pergunta tiver algo como conforme base de conhecimento, como na base de conhecimento, no conhecimento.), ('analise completa da escola' - Só escolha essa categoria se tiver esse conjunto de palavras ou algo muito similiar. Por exemplo: 'Faça uma analise completa dessa escola', 'Faça uma avaliação geral dessa escola' ou até algo com 'Olhe todas as informações dessa escola'). Responda apenas com a categoria apropriada.  Se você não conseguir categorizar a pergunta, responda com 'base de conhecimento'.",
+                "content": "Você é um assistente útil que classifica perguntas sobre escolas em categorias: ('informações gerais' - Se o usuário pedir informações como resumo da escola, informações basicas como nome, cnpj, cluster, endereço, avaliações. Exemplos de perguntas para essa categoria: Faça um resumo dessa escola. Mas se ele falar 'faça um resumo do cliente oculto ou NPS dessa escola' ou falar 'faça um resumo bem resumido do cliente oculto ou NPS dessa escola' é outra categoria não é essa), ('planificador' -  Se o usuário pedir informações relacionados ao planificador escolha essa categoria.), ('sprinklr' -  Se o usuário pedir informações relacionados a ticket ou a Sprinklr escolha essa categoria, observação pode ter erros de digitação então se ele colocar Sprinklr, Sbrinklr ou outras variações escolha essa categoria.),('ouvidoria' - Se o usuário pedir informações relacionado a ouvidoria ou sac escolha essa categoria),('NPS' - Se o usuário pedir informações relacionado ao Net Promoter Score(NPS) responda com essa categoria), ('cliente_oculto' - Se o usuário pedir informações relacionado ao Cliente Oculto responda com essa categoria), ('vendas' ou 'relatório de vendas' - Se o usuário pedir informações sobre vendas da escola ou relatório de vendas da escola escolha essa categoria.), ('base de conhecimento' - Se o usuário pedir algo que pareça estar em uma base de conhecimento escolha essa categoria. Por exemplo se na pergunta tiver algo como conforme base de conhecimento, como na base de conhecimento, no conhecimento.), ('analise completa da escola' - Só escolha essa categoria se tiver esse conjunto de palavras ou algo muito similiar. Por exemplo: 'Faça uma analise completa dessa escola', 'Faça uma avaliação geral dessa escola' ou até algo com 'Olhe todas as informações dessa escola'). Responda apenas com a categoria apropriada.  Se você não conseguir categorizar a pergunta, responda com 'base de conhecimento'.",
             },
             {"role": "user", "content": prompt},
         ],
@@ -395,6 +395,71 @@ def config_resumo_nps_geral(prompt, api_key, context=""):
 
     return formatted_response
 
+
+
+############################################# Resumo SAC Ouvidoria ###########################################################
+
+
+def config_resumo_sac(prompt, api_key, context=""):
+    print("Iniciando a configuração do resumo SAC...")
+
+    if not context:
+        context = "No relevant information found in the database."
+    if not prompt:
+        prompt = "No question provided."
+
+    openai.api_key = api_key
+
+    print("Enviando a requisição para a API da OpenAI...")
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-2024-08-06",
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é o assistente Chinook da Empresa Maple Bear auxiliando em informações sobre os atendimentos do SAC",
+            },
+            {"role": "user", "content": f"Contexto:\n{context}"},
+            {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
+        ],
+        max_tokens=2050,
+    )
+    print(f"Resposta recebida. Total de tokens usados: {response['usage']['total_tokens']}")
+
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+    print(f"Resposta formatada: {formatted_response[:50]}...")  # Exibe apenas os primeiros 100 caracteres da resposta
+
+    return formatted_response
+
+
+
+def processar_resumos_sac(context, api_key):
+    print("Iniciando o processamento dos resumos SAC...")
+
+    openai.api_key = api_key
+
+    print("Enviando os resumos para a API da OpenAI...")
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-2024-08-06",  # Certifique-se de que esse modelo seja o correto para o seu uso
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é um assistente que auxilia na identificação de escolas relevantes baseadas em resumos de SAC",
+            },
+            {"role": "user", "content": f"Contexto:\n{context}"},
+            {"role": "user", "content": "Por favor, liste os IDs das escolas que parecem ser relevantes com base nos resumos fornecidos."},
+        ],
+        max_tokens=1500
+    )
+
+    print(f"Resposta recebida da API. Total de tokens usados: {response['usage']['total_tokens']}")
+
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+    print(f"Resposta da API formatada: {formatted_response[:50]}...")  # Exibindo os primeiros 50 caracteres
+
+    # Supondo que a API retorna algo como "IDs relevantes: 1, 2, 3"
+    escolas_relevantes_ids = [int(id.strip()) for id in formatted_response.split(",") if id.strip().isdigit()]
+
+    return escolas_relevantes_ids
 
 ############################################# Resumo Cliente Oculto###########################################################
 

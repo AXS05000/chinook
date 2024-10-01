@@ -16,12 +16,14 @@ from .views import (chat_view, generate_excel_report, ControleEscolasSearchView,
     gerar_resumo_alteracoes_json,
     import_crm_fui_json,
     import_vendas_slm_2024_json,
+    import_ouvidoria_sac,
     delete_vendas_slm_2024_json,
     gerar_resumos_todas_escolas_geral,
     import_pedidos_alterados_json,    
     import_ticket_sprinklr,
     atualizar_id_escola_view,
     gerar_resumo_cliente_oculto,
+    gerar_resumos_todas_escolas_sac,
     gerar_resumos_cliente_oculto_todas_escolas,
     export_pedidos_alterados_excel,
     gerar_resumo_alteracoes,
@@ -38,6 +40,9 @@ urlpatterns = [
     path("chinook-mb/", filtered_chat_view, name="filtered_chat"),
     path(
         "import_ticket_sprinklr/", import_ticket_sprinklr, name="import_ticket_sprinklr"
+    ),
+    path(
+        "import_ouvidoria/", import_ouvidoria_sac, name="import_ouvidoria"
     ),
 
     path(
@@ -71,6 +76,8 @@ urlpatterns = [
 
     path('gerar-resumo-cliente-oculto/<int:school_id>/', gerar_resumo_cliente_oculto, name='gerar_resumo_cliente_oculto'),
     path('gerar-resumos-cliente-oculto-todas-escolas/', gerar_resumos_cliente_oculto_todas_escolas, name='gerar_resumos_cliente_oculto_todas_escolas'),
+    path('gerar-resumos-todas-escolas-sac/', gerar_resumos_todas_escolas_sac, name='gerar_resumos_todas_escolas_sac'),
+
     path('api/import-vendas-slm-2025/', import_vendas_slm_2025_json, name='import_vendas_slm_2025_json'),
     path('api/delete-vendas-slm-2025/', delete_vendas_slm_2025_json, name='delete_vendas_slm_2025_json'),
     path('api/import-crm-fui/', import_crm_fui_json, name='import_crm_fui_json'),
