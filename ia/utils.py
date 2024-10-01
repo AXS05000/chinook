@@ -461,6 +461,35 @@ def processar_resumos_sac(context, api_key):
 
     return escolas_relevantes_ids
 
+def validar_detalhes_ouvidoria(context, api_key):
+    print("Iniciando a validação detalhada das escolas relacionadas...")
+
+    openai.api_key = api_key
+
+    print("Enviando os detalhes das escolas relacionadas para a API da OpenAI...")
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-2024-08-06",
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é um assistente que verifica a relevância de informações detalhadas sobre reclamações de SAC de escolas.",
+            },
+            {"role": "user", "content": f"Contexto:\n{context}"},
+            {"role": "user", "content": "Identifique os IDs das escolas que realmente possuem informações relacionadas ao assunto em questão."},
+        ],
+        max_tokens=1500
+    )
+
+    print(f"Resposta recebida da API. Total de tokens usados: {response['usage']['total_tokens']}")
+
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+    print(f"Resposta da API formatada: {formatted_response[:50]}...")  # Exibindo os primeiros 50 caracteres
+
+    # Supondo que a API retorna algo como "IDs relevantes: 1, 2, 3"
+    escolas_validadas_ids = [int(id.strip()) for id in formatted_response.split(",") if id.strip().isdigit()]
+
+    return escolas_validadas_ids
+
 ############################################# Resumo Cliente Oculto###########################################################
 
 

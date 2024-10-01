@@ -57,6 +57,7 @@ from .utils import (
     config_resumo_visita_escola,
     classify_question,
     config_simple_chat,
+    validar_detalhes_ouvidoria,
     config_resumo_cliente_oculto,
     config_resumo_alteracoes,
     config_resumo_nps,
@@ -844,6 +845,9 @@ def filtered_chat_view(request):
                 )
             print("Contexto NPS gerado")
 
+
+
+
         elif question_type == "ouvidoria":
             print("Lidando com categoria Ouvidoria")
 
@@ -869,9 +873,9 @@ def filtered_chat_view(request):
                     escola__id_escola__in=escolas_relevantes_ids
                 ).exclude(comentario__isnull=True).exclude(comentario__exact="").exclude(comentario__exact="nan")
                 
-                context += "\nDetalhes completos das escolas relacionadas:\n"
+                detalhes_contexto = "Detalhes completos das escolas relacionadas:\n"
                 for response in escolas_relevantes:
-                    context += (
+                    detalhes_contexto += (
                         f"Escola: {response.escola.nome_da_escola}\n"
                         f"Origem: {response.origem}\n"
                         f"Responsável: {response.nome_responsavel}\n"
@@ -879,6 +883,26 @@ def filtered_chat_view(request):
                         f"Comentário: {response.comentario}\n"
                         f"Data: {response.data_reclamacao}\n\n"
                     )
+
+                # Enviar os detalhes das escolas relacionadas para a segunda validação pela API
+                escolas_validadas_ids = validar_detalhes_ouvidoria(detalhes_contexto, api_key)
+
+                # Agora incluir no contexto final apenas as escolas que passaram na segunda validação
+                if escolas_validadas_ids:
+                    context += "\nInformações detalhadas das escolas relacionadas (após validação):\n"
+                    escolas_validadas = Ouvidoria_SAC.objects.filter(
+                        escola__id_escola__in=escolas_validadas_ids
+                    ).exclude(comentario__isnull=True).exclude(comentario__exact="").exclude(comentario__exact="nan")
+                    
+                    for response in escolas_validadas:
+                        context += (
+                            f"Escola: {response.escola.nome_da_escola}\n"
+                            f"Origem: {response.origem}\n"
+                            f"Responsável: {response.nome_responsavel}\n"
+                            f"Tema: {response.tema}\n"
+                            f"Comentário: {response.comentario}\n"
+                            f"Data: {response.data_reclamacao}\n\n"
+                        )
 
             # Parte 3: Agora adicionamos as informações detalhadas da escola atual
             ouvidoria_responses = (
@@ -888,7 +912,7 @@ def filtered_chat_view(request):
                 .exclude(comentario__exact="nan")
             )
 
-            context += "\nInformações detalhadas da escola atual:\n"
+            context += "\nSituação da escola atual referente à pergunta do usuário:\n"
             for response in ouvidoria_responses:
                 context += (
                     f"Escola: {school.nome_da_escola}\n"
@@ -899,7 +923,10 @@ def filtered_chat_view(request):
                     f"Data: {response.data_reclamacao}\n\n"
                 )
 
+            context += "Agora sobre as outras escolas, temos as seguintes com esse assunto ou situação:\n"
             print("Contexto final gerado com detalhes das escolas relacionadas e da escola atual")
+
+
 
         elif question_type == "cliente_oculto":
             print("Lidando com categoria Cliente Oculto")
