@@ -873,13 +873,10 @@ def filtered_chat_view(request):
                     escola__id_escola__in=escolas_relevantes_ids
                 ).exclude(comentario__isnull=True).exclude(comentario__exact="").exclude(comentario__exact="nan")
                 
-                detalhes_contexto = "Detalhes completos das escolas relacionadas:\n"
+                detalhes_contexto = "Detalhes completos das escolas relacionadas sobre Ouvidoria SAC:\n"
                 for response in escolas_relevantes:
                     detalhes_contexto += (
                         f"Escola: {response.escola.nome_da_escola}\n"
-                        f"Origem: {response.origem}\n"
-                        f"Responsável: {response.nome_responsavel}\n"
-                        f"Tema: {response.tema}\n"
                         f"Comentário: {response.comentario}\n"
                         f"Data: {response.data_reclamacao}\n\n"
                     )
@@ -897,9 +894,6 @@ def filtered_chat_view(request):
                     for response in escolas_validadas:
                         context += (
                             f"Escola: {response.escola.nome_da_escola}\n"
-                            f"Origem: {response.origem}\n"
-                            f"Responsável: {response.nome_responsavel}\n"
-                            f"Tema: {response.tema}\n"
                             f"Comentário: {response.comentario}\n"
                             f"Data: {response.data_reclamacao}\n\n"
                         )
