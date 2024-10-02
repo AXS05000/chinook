@@ -873,7 +873,7 @@ def filtered_chat_view(request):
                     escola__id_escola__in=escolas_relevantes_ids
                 ).exclude(comentario__isnull=True).exclude(comentario__exact="").exclude(comentario__exact="nan")
                 
-                detalhes_contexto = "Detalhes completos das escolas relacionadas sobre Ouvidoria SAC:\n"
+                detalhes_contexto = "Detalhes completos das escolas relacionadas sobre Ouvidoria/SAC:\n"
                 for response in escolas_relevantes:
                     detalhes_contexto += (
                         f"Escola: {response.escola.nome_da_escola}\n"
@@ -886,7 +886,7 @@ def filtered_chat_view(request):
 
                 # Agora incluir no contexto final apenas as escolas que passaram na segunda validação
                 if escolas_validadas_ids:
-                    context += "\nInformações detalhadas das escolas relacionadas (após validação):\n"
+                    context += "\nInformações detalhadas das escolas relacionadas (após validação) da Ouvidoria/SAC:\n"
                     escolas_validadas = Ouvidoria_SAC.objects.filter(
                         escola__id_escola__in=escolas_validadas_ids
                     ).exclude(comentario__isnull=True).exclude(comentario__exact="").exclude(comentario__exact="nan")
@@ -906,18 +906,14 @@ def filtered_chat_view(request):
                 .exclude(comentario__exact="nan")
             )
 
-            context += "\nSituação da escola atual referente à pergunta do usuário:\n"
+            context += "\nSituação da escola atual referente à pergunta do usuário sobre Ouvidoria/SAC:\n"
             for response in ouvidoria_responses:
                 context += (
                     f"Escola: {school.nome_da_escola}\n"
-                    f"Origem: {response.origem}\n"
-                    f"Responsável: {response.nome_responsavel}\n"
-                    f"Tema: {response.tema}\n"
                     f"Comentário: {response.comentario}\n"
                     f"Data: {response.data_reclamacao}\n\n"
                 )
 
-            context += "Agora sobre as outras escolas, temos as seguintes com esse assunto ou situação:\n"
             print("Contexto final gerado com detalhes das escolas relacionadas e da escola atual")
 
 
