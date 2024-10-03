@@ -395,6 +395,7 @@ class Planificador_2024(models.Model):
     crm_b2c = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="CRM B2C"
     )
+    se_nao_crm_b2c = models.CharField(max_length=5000, verbose_name="Se não CRM B2C", null=True, blank=True)
     
     data_abertura_matricula_2025 = models.DateField(
         null=True, blank=True, verbose_name="Data Abertura Matrícula 2025"
@@ -403,6 +404,7 @@ class Planificador_2024(models.Model):
     circular_oferta_2025_publicado = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Circular de Oferta 2025 Publicado"
     )
+    se_nao_circular_oferta_2025_publicado = models.TextField(verbose_name="Se não Circular de Oferta 2025 Publicado", null=True, blank=True)
     
     data_de_abertura_da_circular_2025 = models.DateField(
         null=True, blank=True, verbose_name="Data de Abertura da Circular 2025"
@@ -411,7 +413,8 @@ class Planificador_2024(models.Model):
     toddle = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Todle"
     )
-    
+    se_nao_toddle = models.TextField(verbose_name="Se não Todle", null=True, blank=True)
+
     toddle_planejamento = models.CharField(
         max_length=255, null=True, blank=True, verbose_name="Todle Planejamento"
     )
@@ -423,7 +426,8 @@ class Planificador_2024(models.Model):
     arvore = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Árvore"
     )
-    
+    se_nao_arvore = models.TextField(verbose_name="Se não Árvore", null=True, blank=True)
+
     data_implementacao_arvore = models.DateField(
         null=True, blank=True, verbose_name="Data Implementação Árvore"
     )
@@ -471,11 +475,13 @@ class Planificador_2024(models.Model):
     setup_plano_comercial_segundo_semestre = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Setup Plano Comercial Segundo Semestre"
     )
-    
+    se_nao_setup_plano_comercial_segundo_semestre = models.TextField(verbose_name="Se não Setup Plano Comercial Segundo Semestre", null=True, blank=True)
+
     acao_1_elegivel_trade_marketing = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Ação 1 Elegível Trade Marketing"
     )
-    
+    se_nao_acao_1_elegivel_trade_marketing = models.TextField(verbose_name="Se não Ação 1 Elegível Trade Marketing", null=True, blank=True)
+
     acao_1_trade_valor = models.FloatField(
         null=True, blank=True, verbose_name="Ação 1 Trade Valor"
     )
@@ -487,39 +493,48 @@ class Planificador_2024(models.Model):
     acao_2_experience_day_10_08_24 = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Ação 2 Experience Day 10/08/2024"
     )
-    
+    se_nao_acao_2_experience_day_10_08_24 = models.TextField(verbose_name="Se não Ação 2 Experience Day 10/08/2024", null=True, blank=True)
+
     acao_2_experience_day_24_08_24 = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Ação 2 Experience Day 24/08/2024"
     )
-    
+    se_nao_acao_2_experience_day_24_08_24 = models.TextField(verbose_name="Se não Ação 2 Experience Day 24/08/2024", null=True, blank=True)
+
     acao_2_experience_day_21_09_24 = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Ação 2 Experience Day 21/09/2024"
     )
-    
+    se_nao_acao_2_experience_day_21_09_24 = models.TextField(verbose_name="Se não Ação 2 Experience Day 21/09/2024", null=True, blank=True)
+
     acao_2_experience_day_26_10_24 = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Ação 2 Experience Day 26/10/2024"
     )
-    
+    se_nao_acao_2_experience_day_26_10_24 = models.TextField(verbose_name="Se não Ação 2 Experience Day 26/10/2024", null=True, blank=True)
+
     acao_2_experience_day_09_11_24 = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Ação 2 Experience Day 09/11/2024"
     )
-    
+    se_nao_acao_2_experience_day_09_11_24 = models.TextField(verbose_name="Se não Ação 2 Experience Day 09/11/2024", null=True, blank=True)
+
     acao_3_friend_get_friend = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Ação 3 Friend Get Friend"
     )
-    
+    se_nao_acao_3_friend_get_friend = models.TextField(verbose_name="Se não Ação 3 Friend Get Friend", null=True, blank=True)
+
     acao_4_webinars_com_autoridades_pre = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Ação 4 Webinars com Autoridades (Pré)"
     )
-    
+    se_nao_acao_4_webinars_com_autoridades_pre = models.TextField(verbose_name="Se não Ação 4 Webinars com Autoridades (Pré)", null=True, blank=True)
+
     acao_4_webinars_com_autoridades_pos = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Ação 4 Webinars com Autoridades (Pós)"
     )
-    
+    se_nao_acao_4_webinars_com_autoridades_pos = models.TextField(verbose_name="Se não Ação 4 Webinars com Autoridades (Pós)", null=True, blank=True)
+
     piloto_welcome_baby_bear = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Piloto Welcome Baby Bear"
     )
-    
+    se_nao_piloto_welcome_baby_bear = models.TextField(verbose_name="Se não Piloto Welcome Baby Bear", null=True, blank=True)
+
     acao_5_sdr_taxa_conversao_validacao_lead = models.FloatField(
         null=True, blank=True, verbose_name="Ação 5 SDR Taxa de Conversão Validação de Lead"
     )
@@ -531,7 +546,8 @@ class Planificador_2024(models.Model):
     acao_6_alinhado_resgate_leads = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Ação 6 Alinhado Resgate de Leads"
     )
-    
+    se_nao_acao_6_alinhado_resgate_leads = models.TextField(verbose_name="Se não Ação 6 Alinhado Resgate de Leads", null=True, blank=True)
+
     acao_6_quantidade_leads_resgatados = models.IntegerField(
         null=True, blank=True, verbose_name="Ação 6 Quantidade de Leads Resgatados"
     )
@@ -539,7 +555,8 @@ class Planificador_2024(models.Model):
     acao_6_todos_leads_resgatados_contatados = models.CharField(
         max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Ação 6 Todos Leads Resgatados Contatados"
     )
-    
+    se_nao_acao_6_todos_leads_resgatados_contatados = models.TextField(verbose_name="Se não Ação 6 Todos Leads Resgatados Contatados", null=True, blank=True)
+
     data_atualizacao_resultados = models.DateField(
         null=True, blank=True, verbose_name="Data Atualização Resultados"
     )

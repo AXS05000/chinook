@@ -178,7 +178,11 @@
                                             <div class="comp-nota-1">{{ form.crm_b2c }}</div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não, Data de Abertura da Matrícula 2025:</div>
+                                            <div class="comp-nota-1">Se não CRM B2C:</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_crm_b2c }}</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Data de Abertura da Matrícula 2025:</div>
                                             <div class="comp-nota-1">{{ form.data_abertura_matricula_2025 }}</div>
                                         </div>
                                         <div class="form-contratos">
@@ -186,12 +190,20 @@
                                             <div class="comp-nota-1">{{ form.circular_oferta_2025_publicado }}</div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não, Data de Abertura da Circular 2025:</div>
+                                            <div class="comp-nota-1">Se não Circular de Oferta 2025 Publicado:</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_circular_oferta_2025_publicado }}</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Data de Abertura da Circular 2025:</div>
                                             <div class="comp-nota-1">{{ form.data_de_abertura_da_circular_2025 }}</div>
                                         </div>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Toddle:</div>
                                             <div class="comp-nota-1">{{ form.toddle }}</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não Toddle:</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_toddle }}</div>
                                         </div>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Toddle Planejamento:</div>
@@ -204,6 +216,10 @@
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Árvore:</div>
                                             <div class="comp-nota-1">{{ form.arvore }}</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não Árvore:</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_arvore }}</div>
                                         </div>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Se não, Data de Implementação da Árvore:</div>
@@ -268,12 +284,20 @@
                                             <div class="comp-nota-1">Trazer Automatico  </div>
                                         </div>
                                         <div class="form-contratos">
-                                            <div class="comp-nota-1">Setup Plano Comercial de 2° Semestre - 5K:</div>
+                                            <div class="comp-nota-1">Setup Plano Comercial Segundo Semestre:</div>
                                             <div class="comp-nota-1">{{ form.setup_plano_comercial_segundo_semestre }}</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não Setup Plano Comercial Segundo Semestre:</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_setup_plano_comercial_segundo_semestre }}</div>
                                         </div>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Ação 1: Elegível Trade Marketing:</div>
                                             <div class="comp-nota-1">{{ form.acao_1_elegivel_trade_marketing }}</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não Ação 1: Elegível Trade Marketing:</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_acao_1_elegivel_trade_marketing }}</div>
                                         </div>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Ação 1: Trade Valor:</div>
@@ -287,38 +311,73 @@
                                             <div class="comp-nota-1">Ação 2: Experience Day 10/08/24:</div>
                                             <div class="comp-nota-1">{{ form.acao_2_experience_day_10_08_24 }}</div>
                                         </div>
-                
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não Ação 2: Experience Day 10/08/24:</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_acao_2_experience_day_10_08_24 }}</div>
+                                        </div>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Ação 2: Experience Day 24/08/24:</div>
                                             <div class="comp-nota-1">{{ form.acao_2_experience_day_24_08_24 }}</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não Ação 2: Experience Day 24/08/24:</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_acao_2_experience_day_24_08_24 }}</div>
                                         </div>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Ação 2: Experience Day 21/09/24:</div>
                                             <div class="comp-nota-1">{{ form.acao_2_experience_day_21_09_24 }}</div>
                                         </div>
                                         <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não Ação 2: Experience Day 21/09/24:</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_acao_2_experience_day_21_09_24 }}</div>
+                                        </div>
+                                        <div class="form-contratos">
                                             <div class="comp-nota-1">Ação 2: Experience Day 26/10/24:</div>
                                             <div class="comp-nota-1">{{ form.acao_2_experience_day_26_10_24 }}</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não Ação 2: Experience Day 26/10/24:</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_acao_2_experience_day_26_10_24 }}</div>
                                         </div>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Ação 2: Experience Day 09/11/24:</div>
                                             <div class="comp-nota-1">{{ form.acao_2_experience_day_09_11_24 }}</div>
                                         </div>
                                         <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não Ação 2: Experience Day 09/11/24:</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_acao_2_experience_day_09_11_24 }}</div>
+                                        </div>
+                                        <div class="form-contratos">
                                             <div class="comp-nota-1">Ação 3: Friend Get Friend:</div>
                                             <div class="comp-nota-1">{{ form.acao_3_friend_get_friend }}</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não Ação 3: Friend Get Friend:</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_acao_3_friend_get_friend }}</div>
                                         </div>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Ação 4: Webinars com Autoridades (Pré):</div>
                                             <div class="comp-nota-1">{{ form.acao_4_webinars_com_autoridades_pre }}</div>
                                         </div>
                                         <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não Ação 4: Webinars com Autoridades (Pré):</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_acao_4_webinars_com_autoridades_pre }}</div>
+                                        </div>
+                                        <div class="form-contratos">
                                             <div class="comp-nota-1">Ação 4: Webinars com Autoridades (Pós):</div>
                                             <div class="comp-nota-1">{{ form.acao_4_webinars_com_autoridades_pos }}</div>
                                         </div>
                                         <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não Ação 4: Webinars com Autoridades (Pós):</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_acao_4_webinars_com_autoridades_pos }}</div>
+                                        </div>
+                                        <div class="form-contratos">
                                             <div class="comp-nota-1">Piloto: Welcome Baby Bear:</div>
                                             <div class="comp-nota-1">{{ form.piloto_welcome_baby_bear }}</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não Piloto: Welcome Baby Bear:</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_piloto_welcome_baby_bear }}</div>
                                         </div>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Ação 5: SDR - Taxa de Conversão Validação Lead:</div>
@@ -333,12 +392,20 @@
                                             <div class="comp-nota-1">{{ form.acao_6_alinhado_resgate_leads }}</div>
                                         </div>
                                         <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não Ação 6: Alinhado com Escola a Resgate de Leads:</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_acao_6_alinhado_resgate_leads }}</div>
+                                        </div>
+                                        <div class="form-contratos">
                                             <div class="comp-nota-1">Ação 6: Quantidade de Leads a Serem Resgatados:</div>
                                             <div class="comp-nota-1">{{ form.acao_6_quantidade_leads_resgatados }}</div>
                                         </div>
                                         <div class="form-contratos">
                                             <div class="comp-nota-1">Ação 6: Todos Leads Resgatados Contatados:</div>
                                             <div class="comp-nota-1">{{ form.acao_6_todos_leads_resgatados_contatados }}</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não Ação 6: Todos Leads Resgatados Contatados:</div>
+                                            <div class="comp-nota-1">{{ form.se_nao_acao_6_todos_leads_resgatados_contatados }}</div>
                                         </div>
                                         <br><br>
                                         <h7 class="navbar-brand-ajuste">BLOCO RESULTADOS:</h7>
