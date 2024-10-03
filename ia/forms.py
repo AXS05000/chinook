@@ -29,7 +29,6 @@ class PlanificadorForm(forms.ModelForm):
             'data_atualizacao_resultados': DateInput(),
         }
 
-
 class ReclamacaoForm(forms.ModelForm):
     class Meta:
         model = Reclamacao
@@ -37,6 +36,10 @@ class ReclamacaoForm(forms.ModelForm):
         widgets = {
             'data_reclamacao': DateInput(),
             'data_conclusao': DateInput(),
+            'descricao_reclamacao': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'investigacao': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'conclusao_final': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            # Adicione outras classes de estilo conforme necessário
         }
 
 

@@ -61,7 +61,7 @@
   <section id="admissao" class="section">
     <div class="container">
         <div class="section-header text-center" >          
-            <h2 class="section-title dd" style="padding-top: 2rem; ">Planificador:</h2>
+            <h2 class="section-title dd" style="padding-top: 2rem; ">Reclamação:</h2>
             <span style="padding-top: 2rem;" class="dd">MAPLE BEAR</span>
         </div>
         <div class="row justify-content-center">
@@ -99,407 +99,98 @@
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
+
                         <div class="input-group container">
                             <div class="input-box ">
                                 <div class="select">
+
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Escola:</div>
+                                        <div class="comp-nota-1">{{ form.escola }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Data da Reclamação:</div>
+                                        <div class="comp-nota-1">{{ form.data_reclamacao }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Origem da Reclamação:</div>
+                                        <div class="comp-nota-1">{{ form.origem_reclamacao }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Prioridade:</div>
+                                        <div class="comp-nota-1">{{ form.prioridade }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Título:</div>
+                                        <div class="comp-nota-1">{{ form.titulo }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Nome do Responsável:</div>
+                                        <div class="comp-nota-1">{{ form.nome_responsavel }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Email:</div>
+                                        <div class="comp-nota-1">{{ form.email }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Telefones:</div>
+                                        <div class="comp-nota-1">{{ form.telefones }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Aluno:</div>
+                                        <div class="comp-nota-1">{{ form.aluno }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Status:</div>
+                                        <div class="comp-nota-1">{{ form.status }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Descrição da Reclamação:</div>
+                                        <div class="comp-nota-1">{{ form.descricao_reclamacao }}</div>
+                                    </div>
                                     <br><br>
-                                    <h7 class="navbar-brand-ajuste">BLOCO DADOS DA ESCOLA:</h7>
+                                    <h7 class="navbar-brand-ajuste">Check List:</h7>
+                                    <table class="table table-bordered select_tabela">
+                                        <thead>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Resposta</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Tem Câmera?</td>
+                                                <td>{{ form.tem_camera }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tem ATA?</td>
+                                                <td>{{ form.tem_ata }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Foi feita a reunião com os pais?</td>
+                                                <td>{{ form.foi_feita_reuniao_pais }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tem Testemunha?</td>
+                                                <td>{{ form.tem_testemunha }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                     <div class="form-contratos">
-                                        <div class="comp-nota-1">ID da Escola:</div>
-                                        <div class="comp-nota-1">
-                                            <input type="text" value="{{ crm_fui_id_escola }}" readonly class="form-control" />
-                                        </div>
+                                        <div class="comp-nota-1">Investigação:</div>
+                                        <div class="comp-nota-1">{{ form.investigacao }}</div>
                                     </div>
                                     <div class="form-contratos">
-                                        <div class="comp-nota-1">Nome da Escola:</div>
-                                        <div class="comp-nota-1">
-                                            <input type="text" value="{{ crm_fui_nome_da_escola }}" readonly class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-contratos">
-                                        <div class="comp-nota-1">Cluster:</div>
-                                        <div class="comp-nota-1">
-                                            <input type="text" value="{{ crm_fui_cluster }}" readonly class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-contratos">
-                                        <div class="comp-nota-1">Atual Série:</div>
-                                        <div class="comp-nota-1">
-                                            <input type="text" value="{{ crm_fui_atual_serie }}" readonly class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-contratos">
-                                        <div class="comp-nota-1">Segmento da Escola:</div>
-                                        <div class="comp-nota-1">
-                                            <input type="text" value="{{ crm_fui_segmento_da_escola }}" readonly class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-contratos">
-                                        <div class="comp-nota-1">Consultor Comercial:</div>
-                                        <div class="comp-nota-1">
-                                            <input type="text" value="{{ crm_fui_consultor_comercial }}" readonly class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-contratos">
-                                        <div class="comp-nota-1">Consultor Gestão Escolar:</div>
-                                        <div class="comp-nota-1">
-                                            <input type="text" value="{{ crm_fui_consultor_gestao_escolar }}" readonly class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-contratos">
-                                        <div class="comp-nota-1">Consultor SAF:</div>
-                                        <div class="comp-nota-1">
-                                            <input type="text" value="{{ crm_fui_consultor_saf }}" readonly class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-contratos">
-                                        <div class="comp-nota-1">Consultor Acadêmico:</div>
-                                        <div class="comp-nota-1">
-                                            <input type="text" value="{{ crm_fui_consultor_academico }}" readonly class="form-control" />
-                                        </div>
+                                        <div class="comp-nota-1">Conclusão Final:</div>
+                                        <div class="comp-nota-1">{{ form.conclusao_final }}</div>
                                     </div>
 
-
-
-                                    <br><br>
-                                    <h7 class="navbar-brand-ajuste">BLOCO DRIVERS COMERCIAIS ESTRATÉGICOS:</h7>
-                                    <br><br>
-                                    <div id="camposAdicionais" class="select produto-quantidade">
-                                        <div class="form-contratos" style="display:none">
-                                            <div class="comp-nota-1">Escola:</div>
-                                            <div class="comp-nota-1">{{ form.escola }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Data de Atualização do Bloco:</div>
-                                            <div class="comp-nota-1">{{ form.ultima_data_atualizacao_bloc_drivers_comerciais_estrategicos }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">CRM B2C:</div>
-                                            <div class="comp-nota-1">{{ form.crm_b2c }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não CRM B2C:</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_crm_b2c }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Data de Abertura da Matrícula 2025:</div>
-                                            <div class="comp-nota-1">{{ form.data_abertura_matricula_2025 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Circular de Oferta 2025 Publicado:</div>
-                                            <div class="comp-nota-1">{{ form.circular_oferta_2025_publicado }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Circular de Oferta 2025 Publicado:</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_circular_oferta_2025_publicado }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Data de Abertura da Circular 2025:</div>
-                                            <div class="comp-nota-1">{{ form.data_de_abertura_da_circular_2025 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Toddle:</div>
-                                            <div class="comp-nota-1">{{ form.toddle }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Toddle:</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_toddle }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Toddle Planejamento:</div>
-                                            <div class="comp-nota-1">{{ form.toddle_planejamento }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Toddle Portfólio:</div>
-                                            <div class="comp-nota-1">{{ form.toddle_portfolio }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Árvore:</div>
-                                            <div class="comp-nota-1">{{ form.arvore }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Árvore:</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_arvore }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Data de Implementação da Árvore:</div>
-                                            <div class="comp-nota-1">{{ form.data_implementacao_arvore }}</div>
-                                        </div>
-                                        <br><br>
-                                        <h7 class="navbar-brand-ajuste">BLOCO FUNIL COMERCIAL:</h7>
-                                        <br><br>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Data de Atualização do Bloco:</div>
-                                            <div class="comp-nota-1">{{ form.ultima_data_atualizacao_bloc_funil_comercial }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Leads Central Ago/24 (SEM CRM):</div>
-                                            <div class="comp-nota-1">{{ form.leads_central_ago_24 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Leads Escolas Ago/24 (SEM CRM):</div>
-                                            <div class="comp-nota-1">{{ form.leads_escolas_ago_24 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Visitas Ago/24 (SEM CRM):</div>
-                                            <div class="comp-nota-1">{{ form.visitas_ago_24 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Taxa de Conversão Atual Leads x Visitas (SEM CRM):</div>
-                                            <div class="comp-nota-1">{{ form.taxa_conversao_atual_leads_visitas }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Matrículas Ago/24 (SEM CRM):</div>
-                                            <div class="comp-nota-1">{{ form.matriculas_ago_24 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Taxa de Conversão Atual Visitas x Matrículas (SEM CRM):</div>
-                                            <div class="comp-nota-1">{{ form.taxa_conversao_atual_visitas_matriculas }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Taxa de Conversão Leads x Matrículas (SEM CRM):</div>
-                                            <div class="comp-nota-1">{{ form.taxa_conversao_leads_matriculas }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Taxa De Conversão Atual Acumulada (COM CRM):</div>
-                                            <div class="comp-nota-1">Trazer Automatico</div>
-                                        </div>
-                                        <br><br>
-                                        <h7 class="navbar-brand-ajuste">BLOCO DRIVERS COMERCIAIS MEIO:</h7>
-                                        <br><br>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Data de Atualização do Bloco:</div>
-                                            <div class="comp-nota-1">{{ form.ultima_data_atualizacao_bloc_drivers_comerciais_meio }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Setup Plano Comercial Segundo Semestre:</div>
-                                            <div class="comp-nota-1">{{ form.setup_plano_comercial_segundo_semestre }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Setup Plano Comercial Segundo Semestre:</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_setup_plano_comercial_segundo_semestre }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 1: Elegível Trade Marketing:</div>
-                                            <div class="comp-nota-1">{{ form.acao_1_elegivel_trade_marketing }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Ação 1: Elegível Trade Marketing:</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_acao_1_elegivel_trade_marketing }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 1: Trade Valor:</div>
-                                            <div class="comp-nota-1">{{ form.acao_1_trade_valor }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 1: Trade Marketing Ações Alinhadas:</div>
-                                            <div class="comp-nota-1">{{ form.acao_1_trade_marketing_acoes_alinhadas }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 2: Experience Day 10/08/24:</div>
-                                            <div class="comp-nota-1">{{ form.acao_2_experience_day_10_08_24 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Ação 2: Experience Day 10/08/24:</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_acao_2_experience_day_10_08_24 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 2: Experience Day 24/08/24:</div>
-                                            <div class="comp-nota-1">{{ form.acao_2_experience_day_24_08_24 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Ação 2: Experience Day 24/08/24:</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_acao_2_experience_day_24_08_24 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 2: Experience Day 21/09/24:</div>
-                                            <div class="comp-nota-1">{{ form.acao_2_experience_day_21_09_24 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Ação 2: Experience Day 21/09/24:</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_acao_2_experience_day_21_09_24 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 2: Experience Day 26/10/24:</div>
-                                            <div class="comp-nota-1">{{ form.acao_2_experience_day_26_10_24 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Ação 2: Experience Day 26/10/24:</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_acao_2_experience_day_26_10_24 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 2: Experience Day 09/11/24:</div>
-                                            <div class="comp-nota-1">{{ form.acao_2_experience_day_09_11_24 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Ação 2: Experience Day 09/11/24:</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_acao_2_experience_day_09_11_24 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 3: Friend Get Friend:</div>
-                                            <div class="comp-nota-1">{{ form.acao_3_friend_get_friend }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Ação 3: Friend Get Friend:</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_acao_3_friend_get_friend }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 4: Webinars com Autoridades (Pré):</div>
-                                            <div class="comp-nota-1">{{ form.acao_4_webinars_com_autoridades_pre }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Ação 4: Webinars com Autoridades (Pré):</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_acao_4_webinars_com_autoridades_pre }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 4: Webinars com Autoridades (Pós):</div>
-                                            <div class="comp-nota-1">{{ form.acao_4_webinars_com_autoridades_pos }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Ação 4: Webinars com Autoridades (Pós):</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_acao_4_webinars_com_autoridades_pos }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Piloto: Welcome Baby Bear:</div>
-                                            <div class="comp-nota-1">{{ form.piloto_welcome_baby_bear }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Piloto: Welcome Baby Bear:</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_piloto_welcome_baby_bear }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 5: SDR - Taxa de Conversão Validação Lead:</div>
-                                            <div class="comp-nota-1">{{ form.acao_5_sdr_taxa_conversao_validacao_lead }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 5: SDR - Taxa de Conversão Visitas:</div>
-                                            <div class="comp-nota-1">{{ form.acao_5_sdr_taxa_conversao_visitas }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 6: Alinhado com Escola a Resgate de Leads:</div>
-                                            <div class="comp-nota-1">{{ form.acao_6_alinhado_resgate_leads }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Ação 6: Alinhado com Escola a Resgate de Leads:</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_acao_6_alinhado_resgate_leads }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 6: Quantidade de Leads a Serem Resgatados:</div>
-                                            <div class="comp-nota-1">{{ form.acao_6_quantidade_leads_resgatados }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Ação 6: Todos Leads Resgatados Contatados:</div>
-                                            <div class="comp-nota-1">{{ form.acao_6_todos_leads_resgatados_contatados }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Se não Ação 6: Todos Leads Resgatados Contatados:</div>
-                                            <div class="comp-nota-1">{{ form.se_nao_acao_6_todos_leads_resgatados_contatados }}</div>
-                                        </div>
-                                        <br><br>
-                                        <h7 class="navbar-brand-ajuste">BLOCO RESULTADOS:</h7>
-                                        <br><br>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Data de Atualização - Resultados:</div>
-                                            <div class="comp-nota-1">{{ form.data_atualizacao_resultados }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">SLM 2022:</div>
-                                            <div class="comp-nota-1">{{ form.slm_2022 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">SLM 2023:</div>
-                                            <div class="comp-nota-1">{{ form.slm_2023 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">SLM Vendidos 2024:</div>
-                                            <div class="comp-nota-1">
-                                                <input type="text" value="{{ crm_fui_slms_vendidos }}" readonly class="form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Meta Orçamentária 2024:</div>
-                                            <div class="comp-nota-1">
-                                                <input type="text" value="{{ crm_fui_meta }}" readonly class="form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">SLM Vendidos 2025:</div>
-                                            <div class="comp-nota-1">
-                                                <input type="text" value="{{ crm_fui_slms_vendidos_25 }}" readonly class="form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Base de Rematriculáveis 2025:</div>
-                                            <div class="comp-nota-1">{{ form.base_rematriculaveis_2025 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Meta Rematrícula 2025:</div>
-                                            <div class="comp-nota-1">{{ form.meta_rematricula_2025 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Real Rematrículas 2025:</div>
-                                            <div class="comp-nota-1">{{ form.real_rematriculas_2025 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Atingimento de Rematrículas 2025:</div>
-                                            <div class="comp-nota-1">{{ form.atingimento_rematriculas_2025 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Meta Matrícula 2025:</div>
-                                            <div class="comp-nota-1">{{ form.meta_matricula_2025 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Real Matrícula 2025:</div>
-                                            <div class="comp-nota-1">{{ form.real_matricula_2025 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Atingimento de Matrículas 2025:</div>
-                                            <div class="comp-nota-1">{{ form.atingimento_matriculas_2025 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Total Meta Alunos 2025:</div>
-                                            <div class="comp-nota-1">{{ form.total_meta_alunos_2025 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Total Real Alunos 2025:</div>
-                                            <div class="comp-nota-1">{{ form.total_real_alunos_2025 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Atingimento Real Alunos 2025:</div>
-                                            <div class="comp-nota-1">{{ form.atingimento_real_alunos_2025 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Correlação Alunos/SLMs 2025:</div>
-                                            <div class="comp-nota-1">{{ form.correlacao_alunos_slms_2025 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">MC 2025:</div>
-                                            <div class="comp-nota-1">{{ form.mc_2025 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">SLMs 2025 (M):</div>
-                                            <div class="comp-nota-1">{{ form.slms_2025_m }}</div>
-                                        </div>
-                                        <br><br>
-                                        <h7 class="navbar-brand-ajuste">BLOCO LOGÍSTICA:</h7>
-                                        <br><br>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Pedidos Represados - Logística 2025:</div>
-                                            <div class="comp-nota-1">{{ form.pedidos_represados_logistica_2025 }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Pedidos Faturados:</div>
-                                            <div class="comp-nota-1">{{ form.pedidos_faturados }}</div>
-                                        </div>
-                                        <div class="form-contratos">
-                                            <div class="comp-nota-1">Pedidos Entregues:</div>
-                                            <div class="comp-nota-1">{{ form.pedidos_entregues }}</div>
-                                        </div>
-
-                                    </div>
                                 </div>
                             </div>
                         </div>
+                        
+
+
                         <div class="login-button">
                             <button type="submit" class="btn btn-primary">Salvar</button>
                         </div>

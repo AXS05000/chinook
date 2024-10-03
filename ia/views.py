@@ -2480,7 +2480,6 @@ def import_pedidos_alterados_json(request):
 
 
 ##################################################################################################
-
 class ReclamacaoCreateView(LoginRequiredMixin, View):
     login_url = '/login/'
 
@@ -2491,14 +2490,34 @@ class ReclamacaoCreateView(LoginRequiredMixin, View):
     def post(self, request):
         form = ReclamacaoForm(request.POST)
         if form.is_valid():
-            form.save()
+            reclamacao = form.save(commit=False)
+            if reclamacao.status == 'finalizado':
+                reclamacao.data_conclusao = datetime.now().date()  # Preenche com a data atual
+            reclamacao.save()
             messages.success(request, "Reclamacao criada com sucesso!")
-            return redirect("reclamacao_create")
+            return redirect("reclamacao_list")
         return render(request, "chatapp/reclamacao/reclamacao_form.html", {"form": form})
 
+# View de edição
+class ReclamacaoUpdateView(LoginRequiredMixin, View):
+    login_url = '/login/'
 
+    def get(self, request, pk):
+        reclamacao = get_object_or_404(Reclamacao, pk=pk)
+        form = ReclamacaoForm(instance=reclamacao)
+        return render(request, "chatapp/reclamacao/reclamacao_form.html", {"form": form})
 
-
+    def post(self, request, pk):
+        reclamacao = get_object_or_404(Reclamacao, pk=pk)
+        form = ReclamacaoForm(request.POST, instance=reclamacao)
+        if form.is_valid():
+            reclamacao = form.save(commit=False)
+            if reclamacao.status == 'finalizado':
+                reclamacao.data_conclusao = datetime.now().date()  # Preenche com a data atual
+            reclamacao.save()
+            messages.success(request, "Reclamacao atualizada com sucesso!")
+            return redirect("reclamacao_list")
+        return render(request, "chatapp/reclamacao/reclamacao_form.html", {"form": form})
 
 #################################################################################################
 
