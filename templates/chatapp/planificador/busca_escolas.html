@@ -70,7 +70,6 @@
                     <th scope="col">Id da Escola</th>
                     <th scope="col">Nome da Escola</th>
                     <th scope="col">Cluster</th>
-                    <th scope="col">Porcentagem da Escola %</th>
                     <th scope="col">Editar</th>
                 </tr>
             </thead>
@@ -86,9 +85,6 @@
 
                         <td>
                             <p>{{ escola.cluster }}</p>
-                        </td>
-                        <td>
-                          <p>{{ escola.porcentagem_planificador }}%</p>
                         </td>
                         <td>
                           <a href="{% url 'editar_planificador' escola.planificador.pk %}">
