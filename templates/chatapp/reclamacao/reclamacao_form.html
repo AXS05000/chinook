@@ -117,6 +117,17 @@
                                         <div class="comp-nota-1">{{ form.origem_reclamacao }}</div>
                                     </div>
                                     <div class="form-contratos">
+                                        <div class="comp-nota-1">Consta algo na reclamação relacionado a Agressão física, agressão psicológica, bullying, assédio sexual, discriminação, preconceito, acidente, incêndio, morte?</div>
+                                        <div class="comp-nota-1">
+                                            <select id="reclamacao-grave" class="form-control">
+                                                <option value="">Selecione</option>
+                                                <option value="sim">Sim</option>
+                                                <option value="nao">Não</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-contratos" id="prioridade-wrapper" style="display: none;">
                                         <div class="comp-nota-1">Prioridade:</div>
                                         <div class="comp-nota-1">{{ form.prioridade }}</div>
                                     </div>
@@ -222,6 +233,37 @@
     </div>    
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const reclamacaoGraveSelect = document.getElementById('reclamacao-grave');
+            const prioridadeWrapper = document.getElementById('prioridade-wrapper');
+            const prioridadeSelect = document.querySelector('select[name="prioridade"]');
+        
+            // Esconde a opção "Alta" no select de prioridade
+            const hideAltaOption = () => {
+                const altaOption = Array.from(prioridadeSelect.options).find(option => option.value === 'alta');
+                if (altaOption) {
+                    altaOption.style.display = 'none';
+                }
+            };
+        
+            // Função para exibir ou esconder o campo prioridade baseado na escolha
+            reclamacaoGraveSelect.addEventListener('change', function() {
+                if (this.value === 'sim') {
+                    // Preenche automaticamente com 'Alta' e esconde o campo prioridade
+                    prioridadeSelect.value = 'alta'; // Define automaticamente a prioridade "Alta"
+                    prioridadeWrapper.style.display = 'none';
+                } else if (this.value === 'nao') {
+                    // Mostra o campo prioridade com as opções "Verde" e "Amarelo"
+                    hideAltaOption();
+                    prioridadeWrapper.style.display = 'block';
+                }
+            });
+        
+            // Inicializa escondendo o campo prioridade
+            hideAltaOption();
+        });
+    </script>
     <script src="{% static 'assets_2/js/jquery-min.js' %}"></script>
     <script src="{% static 'assets_2/js/popper.min.js' %}"></script>
     <script src="{% static 'assets_2/js/bootstrap.min.js' %}"></script>

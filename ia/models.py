@@ -724,9 +724,9 @@ class Reclamacao(models.Model):
     ]
 
     PRIORIDADE_CHOICES = [
-        ('baixa', 'Baixa'),
-        ('media', 'Média'),
-        ('alta', 'Alta'),
+        ('baixa', 'Verde'),
+        ('media', 'Amarelo'),
+        ('alta', 'Vermelho'),
     ]
 
     ORIGEM_CHOICES = [
@@ -763,65 +763,6 @@ class Reclamacao(models.Model):
     investigacao = models.TextField(verbose_name="Investigacao", blank=True, null=True)
     conclusao_final = models.TextField(verbose_name="Conclusao Final", blank=True, null=True)
     data_conclusao = models.DateField(verbose_name="Data da Conclusao", blank=True, null=True)
-
-    def __str__(self):
-        return self.titulo
-
-
-    SIM_NAO_CHOICES = [
-        ('sim', 'Sim'),
-        ('nao', 'Não'),
-    ]
-
-    STATUS_CHOICES = [
-        ('aguardando_usuario', 'Aguardando retorno usuário'),
-        ('finalizado', 'Finalizado'),
-        ('aguardando_escola', 'Aguardando retorno escola'),
-        ('sem_retorno_escola', 'Sem retorno da escola'),
-        ('escola_nao_retornou', 'Escola não retornou'),
-        ('pendente', 'Pendente'),
-        ('aguardando_responsavel', 'Aguardando retorno do responsável'),
-    ]
-
-    PRIORIDADE_CHOICES = [
-        ('baixa', 'Baixa'),
-        ('media', 'Média'),
-        ('alta', 'Alta'),
-    ]
-
-    ORIGEM_CHOICES = [
-        ('reclame_aqui', 'Reclame Aqui'),
-        ('fale_maple', 'Fale Maple'),
-        ('social_media', 'Social Media'),
-        ('ouvidoria_seb', 'Ouvidoria SEB'),
-        ('redes_sociais', 'Redes Sociais'),
-        ('outros', 'Outros'),
-    ]
-
-    escola = models.ForeignKey(
-        CRM_FUI,
-        on_delete=models.CASCADE,
-        related_name="nome_escola_reclamacao", 
-        verbose_name="Nome da Escola Reclamação",
-    )
-    data_reclamacao = models.DateField(verbose_name="Data Reclamacao", blank=True, null=True)
-    origem_reclamacao = models.CharField(max_length=50, choices=ORIGEM_CHOICES, verbose_name="Origem da Reclamacao", blank=True, null=True)
-    prioridade = models.CharField(max_length=50, choices=PRIORIDADE_CHOICES, verbose_name="Prioridade", blank=True, null=True)
-    titulo = models.CharField(max_length=255, verbose_name="Titulo", blank=True, null=True)
-    nome_responsavel = models.CharField(max_length=255, verbose_name="Nome Responsavel")
-    email = models.EmailField(max_length=255, verbose_name="Email", blank=True, null=True)
-    telefones = models.IntegerField(verbose_name="Telefones", blank=True, null=True)
-    aluno = models.CharField(max_length=255, verbose_name="Aluno", blank=True, null=True)
-    status = models.CharField(max_length=50, choices=STATUS_CHOICES, verbose_name="Status", blank=True, null=True)
-    descricao_reclamacao = models.TextField(verbose_name="Descricao da Reclamacao", blank=True, null=True)
-    tem_camera = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem Câmera", blank=True, null=True)
-    tem_ata = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem ATA", blank=True, null=True)
-    foi_feita_reuniao_pais = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Foi Feita a Reunião com os Pais", blank=True, null=True)
-    tem_testemunha = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem Testemunha", blank=True, null=True)
-    investigacao = models.TextField(verbose_name="Investigacao", blank=True, null=True)
-    conclusao_final = models.TextField(verbose_name="Conclusao Final", blank=True, null=True)
-    data_conclusao = models.DateField(verbose_name="Data da Conclusao", blank=True, null=True)
-
 
     def __str__(self):
         return self.nome_responsavel

@@ -29,6 +29,8 @@ class PlanificadorForm(forms.ModelForm):
             'data_atualizacao_resultados': DateInput(),
         }
 
+
+
 class ReclamacaoForm(forms.ModelForm):
     class Meta:
         model = Reclamacao
@@ -46,22 +48,16 @@ class ReclamacaoForm(forms.ModelForm):
         # Define todos os campos como não obrigatórios
         for field in self.fields:
             self.fields[field].required = False
-
-        # Torna o campo 'escola' obrigatório
         self.fields['escola'].required = True
         self.fields['nome_responsavel'].required = True
-
+        
     def clean(self):
         cleaned_data = super().clean()
-        status = cleaned_data.get('status')
-        data_conclusao = cleaned_data.get('data_conclusao')
+        prioridade = cleaned_data.get('prioridade')
 
-        # Preenche a data de conclusão automaticamente se o status for "finalizado"
-        if status == 'finalizado':
-            if not data_conclusao:
-                cleaned_data['data_conclusao'] = datetime.now().date()  # Preenche com a data atual
-        else:
-            cleaned_data['data_conclusao'] = None  # Deixa a data de conclusão em branco
+        # Se "Sim" for selecionado na pergunta grave, força a prioridade como "Alta"
+        if self.data.get('reclamacao-grave') == 'sim':
+            cleaned_data['prioridade'] = 'alta'  # Preenche automaticamente com "Alta"
 
         return cleaned_data
 
