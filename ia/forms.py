@@ -49,6 +49,7 @@ class ReclamacaoForm(forms.ModelForm):
 
         # Torna o campo 'escola' obrigatório
         self.fields['escola'].required = True
+        self.fields['nome_responsavel'].required = True
 
     def clean(self):
         cleaned_data = super().clean()

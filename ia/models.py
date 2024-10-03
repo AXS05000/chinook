@@ -808,7 +808,7 @@ class Reclamacao(models.Model):
     origem_reclamacao = models.CharField(max_length=50, choices=ORIGEM_CHOICES, verbose_name="Origem da Reclamacao", blank=True, null=True)
     prioridade = models.CharField(max_length=50, choices=PRIORIDADE_CHOICES, verbose_name="Prioridade", blank=True, null=True)
     titulo = models.CharField(max_length=255, verbose_name="Titulo", blank=True, null=True)
-    nome_responsavel = models.CharField(max_length=255, verbose_name="Nome Responsavel", blank=True, null=True)
+    nome_responsavel = models.CharField(max_length=255, verbose_name="Nome Responsavel")
     email = models.EmailField(max_length=255, verbose_name="Email", blank=True, null=True)
     telefones = models.IntegerField(verbose_name="Telefones", blank=True, null=True)
     aluno = models.CharField(max_length=255, verbose_name="Aluno", blank=True, null=True)
@@ -824,4 +824,4 @@ class Reclamacao(models.Model):
 
 
     def __str__(self):
-        return self.titulo
+        return self.nome_responsavel
