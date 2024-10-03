@@ -2495,7 +2495,11 @@ class ReclamacaoCreateView(LoginRequiredMixin, View):
                 reclamacao.data_conclusao = datetime.now().date()  # Preenche com a data atual
             reclamacao.save()
             messages.success(request, "Reclamacao criada com sucesso!")
-            return redirect("reclamacao_list")
+            return redirect("reclamacao_create")
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Erro no campo {form.fields[field].label}: {error}")
         return render(request, "chatapp/reclamacao/reclamacao_form.html", {"form": form})
 
 # View de edição
@@ -2516,9 +2520,12 @@ class ReclamacaoUpdateView(LoginRequiredMixin, View):
                 reclamacao.data_conclusao = datetime.now().date()  # Preenche com a data atual
             reclamacao.save()
             messages.success(request, "Reclamacao atualizada com sucesso!")
-            return redirect("reclamacao_list")
+            return redirect("reclamacao_create")
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Erro no campo {form.fields[field].label}: {error}")
         return render(request, "chatapp/reclamacao/reclamacao_form.html", {"form": form})
-
 #################################################################################################
 
 

@@ -39,8 +39,11 @@ class ReclamacaoForm(forms.ModelForm):
             'descricao_reclamacao': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
             'investigacao': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
             'conclusao_final': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
-            # Adicione outras classes de estilo conforme necessário
         }
+
+    def __init__(self, *args, **kwargs):
+        super(ReclamacaoForm, self).__init__(*args, **kwargs)
+        self.fields['data_conclusao'].required = False  # Campo não obrigatório
 
 
 class AtualizarIDEscolaForm(forms.Form):
