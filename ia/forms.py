@@ -45,6 +45,19 @@ class ReclamacaoForm(forms.ModelForm):
         super(ReclamacaoForm, self).__init__(*args, **kwargs)
         self.fields['data_conclusao'].required = False  # Campo não obrigatório
 
+    def clean(self):
+        cleaned_data = super().clean()
+        status = cleaned_data.get('status')
+        data_conclusao = cleaned_data.get('data_conclusao')
+
+        if status == 'finalizado':
+            if not data_conclusao:
+                cleaned_data['data_conclusao'] = datetime.now().date()  # Preenche com a data atual
+        else:
+            cleaned_data['data_conclusao'] = None  # Deixa a data de conclusão em branco
+
+        return cleaned_data
+
 
 class AtualizarIDEscolaForm(forms.Form):
     id_escola_atual = forms.ModelChoiceField(
