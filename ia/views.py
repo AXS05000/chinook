@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Sum
-from .forms import PlanificadorForm, AtualizarIDEscolaForm
+from .forms import PlanificadorForm, AtualizarIDEscolaForm, ReclamacaoForm
 from datetime import datetime
 from datetime import timedelta
 from django.forms.models import model_to_dict
@@ -23,6 +23,7 @@ from .models import (
     Ouvidoria_SAC,
     Beneficio,
     Ticket_Sprinklr,
+    Reclamacao,
     FolhaPonto,
     HistoricoAlteracoes,
     Resumo_Respostas_NPS,
@@ -2476,6 +2477,30 @@ def import_pedidos_alterados_json(request):
     return JsonResponse({'status': 'falha', 'mensagem': 'Método não permitido'}, status=405)
 
 
+
+
+##################################################################################################
+
+class ReclamacaoCreateView(LoginRequiredMixin, View):
+    login_url = '/login/'
+
+    def get(self, request):
+        form = ReclamacaoForm()
+        return render(request, "chatapp/reclamacao/reclamacao_form.html", {"form": form})
+
+    def post(self, request):
+        form = ReclamacaoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Reclamacao criada com sucesso!")
+            return redirect("reclamacao_create")
+        return render(request, "chatapp/reclamacao/reclamacao_form.html", {"form": form})
+
+
+
+
+
+#################################################################################################
 
 
 def atualizar_id_escola_view(request):

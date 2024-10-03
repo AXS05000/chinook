@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (chat_view, generate_excel_report, ControleEscolasSearchView, ExcelImportView, EscolaSearchView, ImportPlanificadorView, PlanificadorCreateView, PlanificadorUpdateView,hr_assistant_view,
+from .views import (chat_view, generate_excel_report, ReclamacaoCreateView, ControleEscolasSearchView, ExcelImportView, EscolaSearchView, ImportPlanificadorView, PlanificadorCreateView, PlanificadorUpdateView,hr_assistant_view,
     import_crm_fui,
     import_resposta,
     filtered_chat_view,
@@ -33,6 +33,8 @@ from .views import (chat_view, generate_excel_report, ControleEscolasSearchView,
 
 urlpatterns = [
     path("generate_report/", generate_excel_report, name="generate_report"),
+    path('reclamacao/create/', ReclamacaoCreateView.as_view(), name='reclamacao_create'),
+
     path("importar_nps/", ExcelImportView.as_view(), name="importar_nps"),
     path("hr/", hr_assistant_view, name="hr_assistant"),
     path("import_crm_fui/", import_crm_fui, name="import_crm_fui"),

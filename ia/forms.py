@@ -1,5 +1,5 @@
 from django import forms
-from .models import Planificador_2024, CRM_FUI
+from .models import Planificador_2024, CRM_FUI, Reclamacao
 from datetime import datetime
 
 class DateInput(forms.DateInput):
@@ -27,6 +27,16 @@ class PlanificadorForm(forms.ModelForm):
             'ultima_data_atualizacao_bloc_funil_comercial': DateInput(),
             'ultima_data_atualizacao_bloc_drivers_comerciais_meio': DateInput(),
             'data_atualizacao_resultados': DateInput(),
+        }
+
+
+class ReclamacaoForm(forms.ModelForm):
+    class Meta:
+        model = Reclamacao
+        fields = '__all__'
+        widgets = {
+            'data_reclamacao': DateInput(),
+            'data_conclusao': DateInput(),
         }
 
 

@@ -703,3 +703,58 @@ class Ouvidoria_SAC(models.Model):
 
     def __str__(self):
         return f"{self.escola} - {self.tema}"
+    
+
+class Reclamacao(models.Model):
+
+    STATUS_CHOICES = [
+        ('aguardando_usuario', 'Aguardando retorno usuário'),
+        ('finalizado', 'Finalizado'),
+        ('aguardando_escola', 'Aguardando retorno escola'),
+        ('sem_retorno_escola', 'Sem retorno da escola'),
+        ('escola_nao_retornou', 'Escola não retornou'),
+        ('pendente', 'Pendente'),
+        ('aguardando_responsavel', 'Aguardando retorno do responsável'),
+    ]
+
+    PRIORIDADE_CHOICES = [
+        ('baixa', 'Baixa'),
+        ('media', 'Média'),
+        ('alta', 'Alta'),
+    ]
+
+    ORIGEM_CHOICES = [
+        ('reclame_aqui', 'Reclame Aqui'),
+        ('fale_maple', 'Fale Maple'),
+        ('social_media', 'Social Media'),
+        ('ouvidoria_seb', 'Ouvidoria SEB'),
+        ('redes_sociais', 'Redes Sociais'),
+        ('outros', 'Outros'),
+    ]
+
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="nome_escola_reclamacao", 
+        verbose_name="Nome da Escola Reclamação",
+    )
+    data_reclamacao = models.DateField(verbose_name="Data Reclamacao")
+    origem_reclamacao = models.CharField(max_length=50, choices=ORIGEM_CHOICES, verbose_name="Origem da Reclamacao")
+    prioridade = models.CharField(max_length=50, choices=PRIORIDADE_CHOICES, verbose_name="Prioridade")
+    titulo = models.CharField(max_length=255, verbose_name="Titulo")
+    nome_responsavel = models.CharField(max_length=255, verbose_name="Nome Responsavel")
+    email = models.EmailField(max_length=255, verbose_name="Email")
+    telefones = models.IntegerField(verbose_name="Telefones")
+    aluno = models.CharField(max_length=255, verbose_name="Aluno")
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, verbose_name="Status")
+    descricao_reclamacao = models.TextField(verbose_name="Descricao da Reclamacao")
+    tem_camera = models.BooleanField(default=False, verbose_name="Tem Camera")
+    tem_ata = models.BooleanField(default=False, verbose_name="Tem ATA")
+    foi_feita_reuniao_pais = models.BooleanField(default=False, verbose_name="Foi Feita a Reuniao com os Pais")
+    tem_testemunha = models.BooleanField(default=False, verbose_name="Tem Testemunha")
+    investigacao = models.TextField(verbose_name="Investigacao")
+    conclusao_final = models.TextField(verbose_name="Conclusao Final")
+    data_conclusao = models.DateField(verbose_name="Data da Conclusao")
+
+    def __str__(self):
+        return self.titulo
