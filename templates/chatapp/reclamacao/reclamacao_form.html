@@ -150,22 +150,32 @@
                                     </div>
                                     <br><br>
                                     <h7 class="navbar-brand-ajuste">Check List:</h7>
-                                    <div class="form-contratos">
-                                        <div class="comp-nota-1">Tem Câmera?</div>
-                                        <div class="comp-nota-1">{{ form.tem_camera }}</div>
-                                    </div>
-                                    <div class="form-contratos">
-                                        <div class="comp-nota-1">Tem ATA?</div>
-                                        <div class="comp-nota-1">{{ form.tem_ata }}</div>
-                                    </div>
-                                    <div class="form-contratos">
-                                        <div class="comp-nota-1">Foi feita a reunião com os pais?</div>
-                                        <div class="comp-nota-1">{{ form.foi_feita_reuniao_pais }}</div>
-                                    </div>
-                                    <div class="form-contratos">
-                                        <div class="comp-nota-1">Tem Testemunha?</div>
-                                        <div class="comp-nota-1">{{ form.tem_testemunha }}</div>
-                                    </div>
+                                    <table class="table table-bordered select_tabela">
+                                        <thead>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Resposta</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Tem Câmera?</td>
+                                                <td>{{ form.tem_camera }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tem ATA?</td>
+                                                <td>{{ form.tem_ata }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Foi feita a reunião com os pais?</td>
+                                                <td>{{ form.foi_feita_reuniao_pais }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tem Testemunha?</td>
+                                                <td>{{ form.tem_testemunha }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                     <div class="form-contratos">
                                         <div class="comp-nota-1">Investigação:</div>
                                         <div class="comp-nota-1">{{ form.investigacao }}</div>

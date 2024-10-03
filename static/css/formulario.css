@@ -235,6 +235,22 @@
 
 }
 
+.select_tabela select{
+    
+  max-width: 5rem;
+
+  margin: 0.6rem 0;
+  padding: 0.65rem 1rem;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 1px 1px 6px #0000001c;
+
+
+
+
+}
+
+
 .form-contratos select{
     width: 400px 
 }

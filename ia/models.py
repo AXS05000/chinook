@@ -707,6 +707,11 @@ class Ouvidoria_SAC(models.Model):
 
 class Reclamacao(models.Model):
 
+    SIM_NAO_CHOICES = [
+        ('sim', 'Sim'),
+        ('nao', 'Não'),
+    ]
+
     STATUS_CHOICES = [
         ('aguardando_usuario', 'Aguardando retorno usuário'),
         ('finalizado', 'Finalizado'),
@@ -748,10 +753,10 @@ class Reclamacao(models.Model):
     aluno = models.CharField(max_length=255, verbose_name="Aluno")
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, verbose_name="Status")
     descricao_reclamacao = models.TextField(verbose_name="Descricao da Reclamacao")
-    tem_camera = models.BooleanField(default=False, verbose_name="Tem Camera")
-    tem_ata = models.BooleanField(default=False, verbose_name="Tem ATA")
-    foi_feita_reuniao_pais = models.BooleanField(default=False, verbose_name="Foi Feita a Reuniao com os Pais")
-    tem_testemunha = models.BooleanField(default=False, verbose_name="Tem Testemunha")
+    tem_camera = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem Câmera")
+    tem_ata = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem ATA")
+    foi_feita_reuniao_pais = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Foi Feita a Reunião com os Pais")
+    tem_testemunha = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem Testemunha")
     investigacao = models.TextField(verbose_name="Investigacao")
     conclusao_final = models.TextField(verbose_name="Conclusao Final")
     data_conclusao = models.DateField(verbose_name="Data da Conclusao")
