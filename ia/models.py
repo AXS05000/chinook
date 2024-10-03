@@ -703,14 +703,15 @@ class Ouvidoria_SAC(models.Model):
 
     def __str__(self):
         return f"{self.escola} - {self.tema}"
-    
-from django.db import models
+
+
 
 class Reclamacao(models.Model):
 
     SIM_NAO_CHOICES = [
         ('sim', 'Sim'),
         ('nao', 'Não'),
+        ('nao_tem', 'Não tem'),  # Adicionando a opção "Não tem"
     ]
 
     STATUS_CHOICES = [
@@ -756,12 +757,24 @@ class Reclamacao(models.Model):
     aluno = models.CharField(max_length=255, verbose_name="Aluno", blank=True, null=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, verbose_name="Status", blank=True, null=True)
     descricao_reclamacao = models.TextField(verbose_name="Descricao da Reclamacao", blank=True, null=True)
-    tem_camera = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem Câmera", blank=True, null=True)
-    tem_ata = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem ATA", blank=True, null=True)
-    foi_feita_reuniao_pais = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Foi Feita a Reunião com os Pais", blank=True, null=True)
-    tem_testemunha = models.CharField(max_length=3, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem Testemunha", blank=True, null=True)
+    
+    # Mudança do campo "Tem câmera" para "Tem fotos, vídeos, prints ou imagens?"
+    tem_camera = models.CharField(max_length=7, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem fotos, vídeos, prints ou imagens?", blank=True, null=True)
+
+    # Nova coluna "Tem evidências ou provas?"
+    tem_evidencias = models.CharField(max_length=7, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem evidências ou provas?", blank=True, null=True)
+
+    tem_ata = models.CharField(max_length=7, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem ATA", blank=True, null=True)
+    foi_feita_reuniao_pais = models.CharField(max_length=7, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Foi Feita a Reunião com os Pais", blank=True, null=True)
+    tem_testemunha = models.CharField(max_length=7, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem Testemunha", blank=True, null=True)
     investigacao = models.TextField(verbose_name="Investigacao", blank=True, null=True)
-    conclusao_final = models.TextField(verbose_name="Conclusao Final", blank=True, null=True)
+
+    # Mudança de "conclusao_final" para "parecer final da área"
+    parecer_final = models.TextField(verbose_name="Parecer final da área", blank=True, null=True)
+
+    # Nova coluna "resposta enviada ao reclamante"
+    resposta_enviada_reclamante = models.TextField(verbose_name="Resposta enviada ao reclamante", blank=True, null=True)
+
     data_conclusao = models.DateField(verbose_name="Data da Conclusao", blank=True, null=True)
 
     def __str__(self):

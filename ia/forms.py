@@ -30,7 +30,6 @@ class PlanificadorForm(forms.ModelForm):
         }
 
 
-
 class ReclamacaoForm(forms.ModelForm):
     class Meta:
         model = Reclamacao
@@ -40,7 +39,8 @@ class ReclamacaoForm(forms.ModelForm):
             'data_conclusao': DateInput(),
             'descricao_reclamacao': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
             'investigacao': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
-            'conclusao_final': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'parecer_final': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),  # Atualizado
+            'resposta_enviada_reclamante': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),  # Novo campo
         }
 
     def __init__(self, *args, **kwargs):
@@ -50,7 +50,7 @@ class ReclamacaoForm(forms.ModelForm):
             self.fields[field].required = False
         self.fields['escola'].required = True
         self.fields['nome_responsavel'].required = True
-        
+
     def clean(self):
         cleaned_data = super().clean()
         prioridade = cleaned_data.get('prioridade')
@@ -60,6 +60,7 @@ class ReclamacaoForm(forms.ModelForm):
             cleaned_data['prioridade'] = 'alta'  # Preenche automaticamente com "Alta"
 
         return cleaned_data
+
 
 
 class AtualizarIDEscolaForm(forms.Form):

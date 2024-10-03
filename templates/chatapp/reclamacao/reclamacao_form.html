@@ -172,7 +172,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>Tem Câmera?</td>
+                                                <td>Tem fotos, vídeos, prints ou imagens?</td>
                                                 <td>{{ form.tem_camera }}</td>
                                             </tr>
                                             <tr>
@@ -187,6 +187,10 @@
                                                 <td>Tem Testemunha?</td>
                                                 <td>{{ form.tem_testemunha }}</td>
                                             </tr>
+                                            <tr>
+                                                <td>Tem evidências ou provas?</td>
+                                                <td>{{ form.tem_evidencias  }}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                     <div class="form-contratos">
@@ -194,8 +198,12 @@
                                         <div class="comp-nota-1">{{ form.investigacao }}</div>
                                     </div>
                                     <div class="form-contratos">
-                                        <div class="comp-nota-1">Conclusão Final:</div>
-                                        <div class="comp-nota-1">{{ form.conclusao_final }}</div>
+                                        <div class="comp-nota-1">Parecer final da área:</div>
+                                        <div class="comp-nota-1">{{ form.parecer_final }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Resposta enviada ao reclamante:</div>
+                                        <div class="comp-nota-1">{{ form.resposta_enviada_reclamante }}</div>
                                     </div>
                                 </div>
                             </div>
