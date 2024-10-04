@@ -2495,7 +2495,7 @@ class ReclamacaoCreateView(LoginRequiredMixin, View):
                 reclamacao.data_conclusao = datetime.now().date()  # Preenche com a data atual
             reclamacao.save()
             messages.success(request, "Reclamacao criada com sucesso!")
-            return redirect("reclamacao_create")
+            return redirect("search_escolas_reclamacao")
         else:
             for field, errors in form.errors.items():
                 for error in errors:
@@ -2520,12 +2520,53 @@ class ReclamacaoUpdateView(LoginRequiredMixin, View):
                 reclamacao.data_conclusao = datetime.now().date()  # Preenche com a data atual
             reclamacao.save()
             messages.success(request, "Reclamacao atualizada com sucesso!")
-            return redirect("reclamacao_create")
+            return redirect("search_escolas_reclamacao")
         else:
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"Erro no campo {form.fields[field].label}: {error}")
         return render(request, "chatapp/reclamacao/reclamacao_form.html", {"form": form})
+
+
+
+
+class Escola_Reclamacao_SearchView(ListView):
+    model = Reclamacao
+    template_name = "chatapp/reclamacao/busca_escolas_reclamacao.html"  # Altere para o caminho correto do template
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["q"] = self.request.GET.get("q", "")
+        context["order_by"] = self.request.GET.get("order_by", "escola__nome_da_escola")
+        page_obj = context["page_obj"]
+
+        # Lógica de paginação personalizada
+        current_page = page_obj.number
+        if page_obj.paginator.num_pages > 5:
+            if current_page - 2 < 1:
+                start_page = 1
+                end_page = 5
+            elif current_page + 2 > page_obj.paginator.num_pages:
+                start_page = page_obj.paginator.num_pages - 4
+                end_page = page_obj.paginator.num_pages
+            else:
+                start_page = current_page - 2
+                end_page = current_page + 2
+        else:
+            start_page = 1
+            end_page = page_obj.paginator.num_pages
+
+        context["page_range"] = range(start_page, end_page + 1)
+        return context
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        order_by = self.request.GET.get("order_by", "escola__nome_da_escola")
+        if query:
+            return Reclamacao.objects.filter(Q(titulo__icontains=query)).order_by(order_by)
+        return Reclamacao.objects.all().order_by(order_by)
+
 #################################################################################################
 
 

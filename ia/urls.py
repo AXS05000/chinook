@@ -9,6 +9,7 @@ from .views import (chat_view, generate_excel_report, ReclamacaoUpdateView, Recl
     download_excel_report_slm_2024,
     download_excel_report_slm_2025,
     gerar_resumo_nps,
+    Escola_Reclamacao_SearchView,
     import_visitas_escola,
     gerar_resumos_todas_escolas,
     import_vendas_slm_2025_json,
@@ -35,6 +36,7 @@ urlpatterns = [
     path("generate_report/", generate_excel_report, name="generate_report"),
     path('reclamacao/create/', ReclamacaoCreateView.as_view(), name='reclamacao_create'),
     path('reclamacao/edit/<int:pk>/', ReclamacaoUpdateView.as_view(), name='reclamacao_edit'),
+    path('search_escolas_reclamacao/', Escola_Reclamacao_SearchView.as_view(), name='search_escolas_reclamacao'),
 
     path("importar_nps/", ExcelImportView.as_view(), name="importar_nps"),
     path("hr/", hr_assistant_view, name="hr_assistant"),
@@ -72,6 +74,7 @@ urlpatterns = [
     path('planificador/create/', PlanificadorCreateView.as_view(), name='planificador_create'),
     path('planificador/<int:pk>/editar/', PlanificadorUpdateView.as_view(), name='editar_planificador'),
     path('search_escolas/', EscolaSearchView.as_view(), name='buscar_escolas'),
+
     path('controle_escolas/', ControleEscolasSearchView.as_view(), name='controle_escolas'),
     path('gerar_resumo_nps/<int:school_id>/', gerar_resumo_nps, name='gerar_resumo_nps'),
     path('gerar-resumos-todas-escolas/', gerar_resumos_todas_escolas, name='gerar_resumos_todas_escolas'),
