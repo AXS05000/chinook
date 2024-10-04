@@ -48,6 +48,15 @@
           </li>
           {% endif %}
 
+          {% if user|has_group:"Ouvidoria" %}
+          <li class="nav-item dropdown">
+              <a class="nav-link page-scroll nav-link-ded dropdown-toggle" id="dropdownContratos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ouvidoria</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 200px;">
+                  <a class="nav-link" href="{% url 'search_escolas_reclamacao' %}">Reclamações</a>
+              </div>
+          </li>
+          {% endif %}
+
           {% if user|has_group:"Contratos" %}
           <li class="nav-item dropdown">
             <a class="nav-link page-scroll nav-link-ded dropdown-toggle" id="dropdownContratos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contratos</a>

@@ -2528,7 +2528,6 @@ class ReclamacaoUpdateView(LoginRequiredMixin, View):
         return render(request, "chatapp/reclamacao/reclamacao_form.html", {"form": form})
 
 
-
 class Escola_Reclamacao_SearchView(ListView):
     model = Reclamacao
     template_name = "chatapp/reclamacao/busca_escolas_reclamacao.html"
@@ -2562,15 +2561,23 @@ class Escola_Reclamacao_SearchView(ListView):
     def get_queryset(self):
         query = self.request.GET.get("q")
         order_by = self.request.GET.get("order_by", "escola__nome_da_escola")
-        if query:
-            return Reclamacao.objects.filter(
-                Q(escola__id_escola__icontains=query) |  # Busca pelo ID da Escola
-                Q(escola__nome_da_escola__icontains=query) |  # Busca pelo Nome da Escola
-                Q(escola__cluster__icontains=query) |  # Busca pelo Cluster
-                Q(titulo__icontains=query)  # Busca pelo Título
-            ).order_by(order_by)
-        return Reclamacao.objects.all().order_by(order_by)
+        queryset = Reclamacao.objects.all()
 
+        if query:
+            # Filtra pelos campos que você mencionou e pelo status
+            if query.lower() == "concluido":
+                queryset = queryset.filter(status="finalizado")
+            elif query.lower() == "pendente":
+                queryset = queryset.exclude(status="finalizado")
+            else:
+                queryset = queryset.filter(
+                    Q(escola__id_escola__icontains=query) |
+                    Q(escola__nome_da_escola__icontains=query) |
+                    Q(escola__cluster__icontains=query) |  # Busca pelo Cluster
+                    Q(titulo__icontains=query)
+                )
+
+        return queryset.order_by(order_by)
 #################################################################################################
 
 
