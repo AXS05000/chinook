@@ -2529,10 +2529,9 @@ class ReclamacaoUpdateView(LoginRequiredMixin, View):
 
 
 
-
 class Escola_Reclamacao_SearchView(ListView):
     model = Reclamacao
-    template_name = "chatapp/reclamacao/busca_escolas_reclamacao.html"  # Altere para o caminho correto do template
+    template_name = "chatapp/reclamacao/busca_escolas_reclamacao.html"
     paginate_by = 20
 
     def get_context_data(self, **kwargs):
@@ -2564,7 +2563,12 @@ class Escola_Reclamacao_SearchView(ListView):
         query = self.request.GET.get("q")
         order_by = self.request.GET.get("order_by", "escola__nome_da_escola")
         if query:
-            return Reclamacao.objects.filter(Q(titulo__icontains=query)).order_by(order_by)
+            return Reclamacao.objects.filter(
+                Q(escola__id_escola__icontains=query) |  # Busca pelo ID da Escola
+                Q(escola__nome_da_escola__icontains=query) |  # Busca pelo Nome da Escola
+                Q(escola__cluster__icontains=query) |  # Busca pelo Cluster
+                Q(titulo__icontains=query)  # Busca pelo Título
+            ).order_by(order_by)
         return Reclamacao.objects.all().order_by(order_by)
 
 #################################################################################################
