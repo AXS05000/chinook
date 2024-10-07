@@ -711,17 +711,17 @@ class Reclamacao(models.Model):
     SIM_NAO_CHOICES = [
         ('sim', 'Sim'),
         ('nao', 'Não'),
-        ('nao_tem', 'Não tem'),  # Adicionando a opção "Não tem"
+        ('nao_se_aplica', 'Não Se Aplica'),
     ]
 
     STATUS_CHOICES = [
-        ('aguardando_usuario', 'Aguardando retorno usuário'),
         ('finalizado', 'Finalizado'),
         ('aguardando_escola', 'Aguardando retorno escola'),
-        ('sem_retorno_escola', 'Sem retorno da escola'),
+        ('aguardando_escola_replica', 'Aguardando retorno escola replica'),
         ('escola_nao_retornou', 'Escola não retornou'),
-        ('pendente', 'Pendente'),
         ('aguardando_responsavel', 'Aguardando retorno do responsável'),
+        ('pendente', 'Pendente'),
+        ('nivel_diretoria', 'Nível Diretoria'),
     ]
 
     PRIORIDADE_CHOICES = [
@@ -733,8 +733,8 @@ class Reclamacao(models.Model):
     ORIGEM_CHOICES = [
         ('reclame_aqui', 'Reclame Aqui'),
         ('fale_maple', 'Fale Maple'),
-        ('social_media', 'Social Media'),
         ('ouvidoria_seb', 'Ouvidoria SEB'),
+        ('ouvidoria_global', 'Ouvidoria Global'),
         ('redes_sociais', 'Redes Sociais'),
         ('outros', 'Outros'),
     ]
@@ -753,20 +753,15 @@ class Reclamacao(models.Model):
     titulo = models.CharField(max_length=255, verbose_name="Titulo", blank=True, null=True)
     nome_responsavel = models.CharField(max_length=255, verbose_name="Nome Responsavel", blank=True, null=True)
     email = models.EmailField(max_length=255, verbose_name="Email", blank=True, null=True)
-    telefones = models.IntegerField(verbose_name="Telefones", blank=True, null=True)
+    telefones = models.DecimalField(decimal_places=0, max_digits=11, verbose_name="Telefones", blank=True, null=True)
     aluno = models.CharField(max_length=255, verbose_name="Aluno", blank=True, null=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, verbose_name="Status", blank=True, null=True)
     descricao_reclamacao = models.TextField(verbose_name="Descricao da Reclamacao", blank=True, null=True)
     
-    # Mudança do campo "Tem câmera" para "Tem fotos, vídeos, prints ou imagens?"
-    tem_camera = models.CharField(max_length=7, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem fotos, vídeos, prints ou imagens?", blank=True, null=True)
-
-    # Nova coluna "Tem evidências ou provas?"
-    tem_evidencias = models.CharField(max_length=7, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem evidências ou provas?", blank=True, null=True)
-
-    tem_ata = models.CharField(max_length=7, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem ATA", blank=True, null=True)
-    foi_feita_reuniao_pais = models.CharField(max_length=7, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Foi Feita a Reunião com os Pais", blank=True, null=True)
-    tem_testemunha = models.CharField(max_length=7, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem Testemunha", blank=True, null=True)
+    tem_camera = models.CharField(max_length=13, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem fotos, vídeos, prints ou imagens?", blank=True, null=True)
+    tem_ata = models.CharField(max_length=13, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem ATA ou outros documentos ?", blank=True, null=True)
+    foi_feita_reuniao_pais = models.CharField(max_length=13, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Foi Feita a Reunião com os Pais", blank=True, null=True)
+    tem_testemunha = models.CharField(max_length=13, choices=SIM_NAO_CHOICES, default='nao', verbose_name="Tem Testemunha", blank=True, null=True)
     investigacao = models.TextField(verbose_name="Investigacao", blank=True, null=True)
 
     # Mudança de "conclusao_final" para "parecer final da área"

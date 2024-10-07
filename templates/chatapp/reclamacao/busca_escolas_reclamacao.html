@@ -116,8 +116,10 @@
                         <th>Id</th>
                         <th>Escola</th>
                         <th>Cluster</th>
-                        <th>Título</th>  <!-- Coluna do título -->
-                        <th>Status</th>  <!-- Coluna do status -->
+                        <th>Farol</th>
+                        <th>Título</th>
+                        <th class="text-center">Data da Reclamação</th>
+                        <th>Status</th>
                         <th>Editar</th>
                     </tr>
                     </thead>
@@ -128,8 +130,9 @@
                               <td>{{ reclamacao.escola.id_escola }}</td>
                               <td>{{ reclamacao.escola.nome_da_escola }}</td>
                               <td>{{ reclamacao.escola.cluster }}</td>
+                              <td>{{ reclamacao.prioridade }}</td>
                               <td>{{ reclamacao.titulo }}</td>
-                          
+                              <td class="text-center">{{ reclamacao.data_reclamacao|date:"d/m/Y" }}</td>                          
               
                               <!-- Coluna Status -->
                               {% if reclamacao.status == 'finalizado' %}

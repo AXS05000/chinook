@@ -50,6 +50,15 @@ class ReclamacaoForm(forms.ModelForm):
             self.fields[field].required = False
         self.fields['escola'].required = True
         self.fields['nome_responsavel'].required = True
+        self.fields['data_reclamacao'].required = True
+        self.fields['origem_reclamacao'].required = True
+        self.fields['prioridade'].required = True
+        self.fields['titulo'].required = True
+        self.fields['email'].required = True
+        self.fields['status'].required = True
+        self.fields['descricao_reclamacao'].required = True
+        self.fields['investigacao'].required = True
+
 
     def clean(self):
         cleaned_data = super().clean()
