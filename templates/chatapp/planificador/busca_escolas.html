@@ -87,9 +87,12 @@
                             <p>{{ escola.cluster }}</p>
                         </td>
                         <td>
+                          {% if escola.planificador.pk %}
                           <a href="{% url 'editar_planificador' escola.planificador.pk %}">
-                                <i class="material-icons" aria-hidden="true">edit_square</i>
-                            </a>
+                            <i class="material-icons" aria-hidden="true">edit_square</i>
+                          </a> 
+                          {% endif %}
+
                         </td>
                     </tr>
                 {% endfor %}
