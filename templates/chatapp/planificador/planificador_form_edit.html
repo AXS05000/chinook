@@ -226,6 +226,7 @@
                                             <div class="comp-nota-1">{{ form.data_implementacao_arvore }}</div>
                                         </div>
                                         <br><br>
+{% comment %}                                         
                                         <h7 class="navbar-brand-ajuste">BLOCO FUNIL COMERCIAL:</h7>
                                         <br><br>
                                         <div class="form-contratos">
@@ -264,7 +265,7 @@
                                             <div class="comp-nota-1">Taxa De Conversão Atual Acumulada (COM CRM):</div>
                                             <div class="comp-nota-1">Trazer Automatico</div>
                                         </div>
-                                        <br><br>
+                                        <br><br> {% endcomment %}
                                         <h7 class="navbar-brand-ajuste">BLOCO DRIVERS COMERCIAIS MEIO:</h7>
                                         <br><br>
                                         <div class="form-contratos">
@@ -495,6 +496,89 @@
                                             <div class="comp-nota-1">Pedidos Entregues:</div>
                                             <div class="comp-nota-1">{{ form.pedidos_entregues }}</div>
                                         </div>
+
+                                        <br><br>
+                                        <h7 class="navbar-brand-ajuste">BLOCO REMATRÍCULA:</h7>
+                                        <br><br>
+
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">A escola fez análise de NPS?</div>
+                                            <div class="comp-nota-1">{{ form.fez_analise_nps }}</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não, motivo por não fazer a análise de NPS</div>
+                                            <div class="comp-nota-1">{{ form.motivo_nao_fez_analise_nps }}</div>
+                                        </div>
+                                        
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">A escola fez o plano de ações corretivas baseado no resultado NPS?</div>
+                                            <div class="comp-nota-1">{{ form.fez_plano_acoes_corretivas_nps }}</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não, motivo por não fazer o plano de ações corretivas</div>
+                                            <div class="comp-nota-1">{{ form.motivo_nao_fez_plano_acoes_nps }}</div>
+                                        </div>
+                                        
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">A escola fez reunião por série ou segmento de rematrícula para alinhamento da próxima série do ano letivo seguinte?</div>
+                                            <div class="comp-nota-1">{{ form.fez_reuniao_rematricula_alinhamento }}</div>
+                                        </div>
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Se não, motivo por não ter feito a reunião de rematrícula</div>
+                                            <div class="comp-nota-1">{{ form.motivo_nao_fez_reuniao_rematricula }}</div>
+                                        </div>
+                                        
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Data de início das reuniões por série para rematrícula</div>
+                                            <div class="comp-nota-1">{{ form.data_inicio_reunioes_rematricula }}</div>
+                                        </div>
+                                        
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">A escola criou a circular de rematrícula de acordo com o modelo da Central?</div>
+                                            <div class="comp-nota-1">{{ form.fez_circular_rematricula_modelo_central }}</div>
+                                        </div>
+                                        
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Número de alunos que sinalizaram 'Não rematrícula'</div>
+                                            <div class="comp-nota-1">{{ form.numero_alunos_nao_rematricula }}</div>
+                                        </div>
+                                        
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Motivos de 'não rematrícula'</div>
+                                            <div class="comp-nota-1">{{ form.motivos_nao_rematricula }}</div>
+                                        </div>
+                                        
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Ações para reverter a 'Não rematrícula'</div>
+                                            <div class="comp-nota-1">{{ form.acoes_reverter_nao_rematricula }}</div>
+                                        </div>
+                                        
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">A escola realizou contato individual com as famílias de alunos pendentes de rematrícula?</div>
+                                            <div class="comp-nota-1">{{ form.fez_contato_familias_pendentes_rematricula }}</div>
+                                        </div>
+                                        
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Caso não, quando será a data de realização do contato com as famílias de alunos pendentes de rematrícula</div>
+                                            <div class="comp-nota-1">{{ form.data_contato_familias_pendentes_rematricula }}</div>
+                                        </div>
+                                        
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Já iniciou a ativação de alunos rematriculados que não compraram o SLM 25?</div>
+                                            <div class="comp-nota-1">{{ form.iniciou_ativacao_alunos_rematriculados_sem_slm }}</div>
+                                        </div>
+                                        
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Caso não, quando será a data de ativação de alunos rematriculados que não compraram o SLM 25</div>
+                                            <div class="comp-nota-1">{{ form.data_ativacao_alunos_rematriculados_sem_slm }}</div>
+                                        </div>
+                                        
+                                        <div class="form-contratos">
+                                            <div class="comp-nota-1">Quais ativações foram realizadas/indicadas para os alunos rematriculados que não compraram o SLM 25?</div>
+                                            <div class="comp-nota-1">{{ form.acoes_ativacao_alunos_sem_slm }}</div>
+                                        </div>
+                                        
+
 
                                     </div>
                                 </div>

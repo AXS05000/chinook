@@ -27,6 +27,11 @@ class PlanificadorForm(forms.ModelForm):
             'ultima_data_atualizacao_bloc_funil_comercial': DateInput(),
             'ultima_data_atualizacao_bloc_drivers_comerciais_meio': DateInput(),
             'data_atualizacao_resultados': DateInput(),
+            'data_inicio_reunioes_rematricula': DateInput(),
+            'data_contato_familias_pendentes_rematricula': DateInput(),
+            'data_ativacao_alunos_rematriculados_sem_slm': DateInput(),
+
+
         }
 
 

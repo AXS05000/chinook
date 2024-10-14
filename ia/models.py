@@ -633,6 +633,75 @@ class Planificador_2024(models.Model):
         null=True, blank=True, verbose_name="Pedidos Entregues"
     )
 
+
+
+
+
+############################2° ATUALIZAÇÃO PLANIFICADOR #######################################
+
+    fez_analise_nps = models.CharField(
+        max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="A escola fez análise de NPS?"
+    )
+    motivo_nao_fez_analise_nps = models.CharField(
+        max_length=5000, null=True, blank=True, verbose_name="Se não, motivo por não fazer a análise de NPS"
+    )
+    
+    fez_plano_acoes_corretivas_nps = models.CharField(
+        max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="A escola fez o plano de ações corretivas baseado no resultado NPS?"
+    )
+    motivo_nao_fez_plano_acoes_nps = models.CharField(
+        max_length=5000, null=True, blank=True, verbose_name="Se não, motivo por não fazer o plano de ações corretivas"
+    )
+    
+    fez_reuniao_rematricula_alinhamento = models.CharField(
+        max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="A escola fez reunião por série ou segmento de rematrícula para alinhamento da próxima série do ano letivo seguinte?"
+    )
+    motivo_nao_fez_reuniao_rematricula = models.CharField(
+        max_length=5000, null=True, blank=True, verbose_name="Se não, motivo por não ter feito a reunião de rematrícula"
+    )
+    
+    data_inicio_reunioes_rematricula = models.DateField(
+        null=True, blank=True, verbose_name="Data de início das reuniões por série para rematrícula"
+    )
+    
+    fez_circular_rematricula_modelo_central = models.CharField(
+        max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="A escola criou a circular de rematrícula de acordo com o modelo da Central?"
+    )
+    
+    numero_alunos_nao_rematricula = models.IntegerField(
+        null=True, blank=True, verbose_name="Número de alunos que sinalizaram 'Não rematrícula'"
+    )
+    
+    motivos_nao_rematricula = models.CharField(
+        max_length=5000, null=True, blank=True, verbose_name="Motivos de 'não rematrícula'"
+    )
+    
+    acoes_reverter_nao_rematricula = models.CharField(
+        max_length=5000, null=True, blank=True, verbose_name="Ações para reverter a 'Não rematrícula'"
+    )
+    
+    fez_contato_familias_pendentes_rematricula = models.CharField(
+        max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="A escola realizou contato individual com as famílias de alunos pendentes de rematrícula?"
+    )
+    
+    data_contato_familias_pendentes_rematricula = models.DateField(
+        null=True, blank=True, verbose_name="Caso não, uando será a data de realização do contato com as famílias de alunos pendentes de rematrícula"
+    )
+    
+    iniciou_ativacao_alunos_rematriculados_sem_slm = models.CharField(
+        max_length=3, choices=SIM_NAO_CHOICES, default='NAO', verbose_name="Já iniciou a ativação de alunos rematriculados que não compraram o SLM 25?"
+    )
+    
+    data_ativacao_alunos_rematriculados_sem_slm = models.DateField(
+        null=True, blank=True, verbose_name="Caso não, quando será a data de ativação de alunos rematriculados que não compraram o SLM 25"
+    )
+    
+    acoes_ativacao_alunos_sem_slm = models.CharField(
+        max_length=5000, null=True, blank=True, verbose_name="Quais ativações foram realizadas/indicadas para os alunos rematriculados que não compraram o SLM 25?"
+    )
+
+
+
     def __str__(self):
         return f"Dados Comerciais {self.escola}"
 
