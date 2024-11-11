@@ -17,10 +17,13 @@ from django.db.models import Count
 from django.db.models import Q 
 from usuarios.models import UserRequestLog
 from usuarios.models import CustomUsuario
+from decimal import Decimal
 from .models import (
     Informacao,
     Resumo_SAC,
     Ouvidoria_SAC,
+    Processo, 
+    Protesto,
     Beneficio,
     Ticket_Sprinklr,
     Reclamacao,
@@ -1581,6 +1584,82 @@ def excom(request):
         )  # Ordenar alfabeticamente
         return render(request, "chatapp/excom.html", {"schools": schools})
 
+
+
+
+
+@login_required(login_url='/login/')
+def import_processo_protestos(request):
+    if request.method == "POST":
+        file = request.FILES.get("file")
+        planilha_tipo = request.POST.get("planilha_tipo")
+
+        if not file or not file.name.endswith(".xlsx"):
+            messages.error(request, "Por favor, envie um arquivo Excel.")
+            return redirect("import_data")
+
+        try:
+            df = pd.read_excel(file)
+        except Exception as e:
+            messages.error(request, f"Erro ao ler o arquivo Excel: {e}")
+            return redirect("import_data")
+
+        df = df.where(pd.notnull(df), None)
+
+        if planilha_tipo == "processos":
+            with transaction.atomic():
+                Processo.objects.all().delete()
+
+                for _, row in df.iterrows():
+                    try:
+                        escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
+                        data_publicacao = row["data_publicacao"] if pd.notna(row["data_publicacao"]) else None
+
+                        Processo.objects.create(
+                            escola=escola,
+                            numero_do_processo=row["numero_do_processo"],
+                            assunto_principal=row["assunto_principal"],
+                            data_publicacao=data_publicacao,
+                            valor=row["valor"] if row["valor"] is not None else None,
+                            tipo_do_processo=row["tipo_do_processo"],
+                            tipo_de_tribunal=row["tipo_de_tribunal"],
+                            status_do_processo=row["status_do_processo"],
+                            nome_polo_ativo=row["nome_polo_ativo"],
+                            documento_polo_ativo=row["documento_polo_ativo"],
+                            nome_polo_passivo=row["nome_polo_passivo"],
+                            documento_polo_passivo=row["documento_polo_passivo"]
+                        )
+                    except CRM_FUI.DoesNotExist:
+                        messages.error(request, f"Escola com id_escola {row['id_escola']} não encontrada.")
+                        continue
+
+        elif planilha_tipo == "protestos":
+            with transaction.atomic():
+                Protesto.objects.all().delete()
+
+                for _, row in df.iterrows():
+                    try:
+                        escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
+
+                        quantidade = int(row["quantidade"]) if pd.notna(row["quantidade"]) else None
+                        valor = Decimal(row["valor"]) if pd.notna(row["valor"]) else None
+
+                        Protesto.objects.create(
+                            escola=escola,
+                            documento=row["documento"],
+                            status=row["status"],
+                            resultado=row["resultado"],
+                            cartorio=row["cartorio"],
+                            quantidade=quantidade,
+                            valor=valor
+                        )
+                    except CRM_FUI.DoesNotExist:
+                        messages.error(request, f"Escola com id_escola {row['id_escola']} não encontrada.")
+                        continue
+            messages.success(request, "Dados importados com sucesso!")
+            return redirect("import_processo_protestos")
+
+    return render(request, "chatapp/import/import_processo_protestos.html")
 
 
 #################################################################################################################

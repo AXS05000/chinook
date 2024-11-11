@@ -1,6 +1,8 @@
 from django.db import models
 from usuarios.models import CustomUsuario
 from django.utils import timezone
+from decimal import Decimal
+
 
 class Informacao(models.Model):
     nome = models.CharField(max_length=100)
@@ -843,3 +845,38 @@ class Reclamacao(models.Model):
 
     def __str__(self):
         return self.nome_responsavel
+
+
+
+class Processo(models.Model):
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="processos",
+        verbose_name="Nome da Escola do Processo"
+    )
+    numero_do_processo = models.TextField(max_length=2550, blank=True, null=True)
+    assunto_principal = models.TextField(max_length=2550, blank=True, null=True)
+    data_publicacao = models.DateField(blank=True, null=True)
+    valor = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True, default=Decimal('0.00'))
+    tipo_do_processo = models.TextField(max_length=2550, blank=True, null=True)
+    tipo_de_tribunal = models.TextField(max_length=2550, blank=True, null=True)
+    status_do_processo = models.TextField(max_length=2550, blank=True, null=True)
+    nome_polo_ativo = models.TextField(max_length=2550, blank=True, null=True)
+    documento_polo_ativo = models.TextField(max_length=2550, blank=True, null=True)
+    nome_polo_passivo = models.TextField(max_length=2550, blank=True, null=True)
+    documento_polo_passivo = models.TextField(max_length=2550, blank=True, null=True)
+
+class Protesto(models.Model):
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="protestos",
+        verbose_name="Nome da Escola do Protesto"
+    )
+    documento = models.TextField(max_length=2550, blank=True, null=True)
+    status = models.TextField(max_length=2550, blank=True, null=True)
+    resultado = models.TextField(max_length=2550, blank=True, null=True)
+    cartorio = models.TextField(max_length=2550, blank=True, null=True)
+    quantidade = models.IntegerField(blank=True, null=True)
+    valor = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True, default=Decimal('0.00'))

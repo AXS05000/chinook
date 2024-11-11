@@ -30,11 +30,14 @@ from .views import (chat_view, generate_excel_report, ReclamacaoUpdateView, Recl
     gerar_resumo_alteracoes,
     gerar_resumo_visita_escola,
     gerar_resumos_visita_escola_todas,
+    import_processo_protestos,
     excom,
     )
 
 urlpatterns = [
     path("generate_report/", generate_excel_report, name="generate_report"),
+    path("import_processo_protestos/", import_processo_protestos, name="import_processo_protestos"),
+
     path('reclamacao/create/', ReclamacaoCreateView.as_view(), name='reclamacao_create'),
     path('reclamacao/edit/<int:pk>/', ReclamacaoUpdateView.as_view(), name='reclamacao_edit'),
     path('search_escolas_reclamacao/', Escola_Reclamacao_SearchView.as_view(), name='search_escolas_reclamacao'),

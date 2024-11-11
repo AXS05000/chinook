@@ -23,11 +23,14 @@ from .models import (
     ResumoAlteracoes_Planificador,
     Resumo_Respostas_NPS_1_Onda_Geral,
     Reclamacao,
-
+    Protesto,
+    Processo,
 )
 
 # Register your models here.
 admin.site.register(Reclamacao)
+admin.site.register(Protesto)
+admin.site.register(Processo)
 admin.site.register(Resumo_Respostas_NPS_1_Onda_Geral)
 admin.site.register(Resumo_Visita_Escola)
 admin.site.register(ResumoAlteracoes_Planificador)
