@@ -18,6 +18,7 @@ from django.db.models import Q
 from usuarios.models import UserRequestLog
 from usuarios.models import CustomUsuario
 from decimal import Decimal
+import locale
 from .models import (
     Informacao,
     Resumo_SAC,
@@ -1303,7 +1304,7 @@ def filtered_chat_view(request):
 #################################################################################################################
 #################################################################################################################
 
-
+locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
 
 @login_required(login_url='/login/')
@@ -1362,6 +1363,21 @@ def excom(request):
 
 
         if message == 'auto':
+
+            # Soma dos valores de processos com status específico
+            status_ativos = ["ATIVO", "INDEFINIDO", "EM GRAU DE RECURSO", "SUSPENSO", "REDISTRIBUIDO", "AUTUADO", "SEGREDO DE JUSTIÇA"]
+            soma_valores_processos = Processo.objects.filter(escola=school, status_do_processo__in=status_ativos).aggregate(total_valor=Sum('valor'))['total_valor'] or 0
+
+            # Soma dos valores e quantidade dos protestos com resultado 'Positivo'
+            soma_valores_protestos = Protesto.objects.filter(escola=school, resultado="Positivo").aggregate(total_valor=Sum('valor'), total_quantidade=Sum('quantidade'))
+            total_valor_protestos = soma_valores_protestos['total_valor'] or 0
+            total_quantidade_protestos = soma_valores_protestos['total_quantidade'] or 0
+
+            # Formatação dos valores no estilo brasileiro
+            soma_valores_processos_formatado = locale.format_string('%.2f', soma_valores_processos, grouping=True)
+            total_valor_protestos_formatado = locale.format_string('%.2f', total_valor_protestos, grouping=True)
+
+
             # Registra a requisição com tokens = 0, pois não utiliza a API da OpenAI
             log, created = UserRequestLog.objects.get_or_create(user=user)
             log.request_count += 1
@@ -1426,6 +1442,9 @@ def excom(request):
                 f"<span style='font-weight: bold;'>Valor de FDMP:</span> R$ {school.valor_fdmp} - "
                 f"<span style='font-weight: bold;'>Status de Adimplência/Inadimplência:</span> {school.status_de_adimplencia}{inadimplencia_info}.<br>"
 
+                f"<br><span style='font-weight: bold;'>Informações Jurídicas:</span><br>"
+                f"<span style='font-weight: bold;'>Valor Total de Processos Ativos:</span> R$ {soma_valores_processos_formatado}<br>"
+                f"<span style='font-weight: bold;'>Valor Total de Protestos:</span> Valor Total - R$ {total_valor_protestos_formatado} - Quantidade Total de Protestos - {total_quantidade_protestos}<br>"
             )
 
             # Adiciona o resumo do NPS se estiver disponível
