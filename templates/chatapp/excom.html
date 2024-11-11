@@ -53,21 +53,21 @@
         <div class="chat-content">
           <!-- start: Content side -->
           <div class="content-sidebar">
-            <div class="content-sidebar-title">Chinooks</div>
+            <div class="content-sidebar-title">Consultores</div>
             <form action="" class="content-sidebar-form">
               <input type="search" class="content-sidebar-input" placeholder="Search...">
               <button type="submit" class="content-sidebar-submit"><i class="ri-search-line"></i></button>
             </form>
             <div class="content-messages">
               <ul class="content-messages-list">
-                <li>
+                {% comment %} <li>
                   <a href="#" data-conversation="#conversation-1">
                     <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                     <span class="content-message-info">
                       <span class="content-message-name">Chinook GG</span>
                     </span>
                   </a>
-                </li>
+                </li> {% endcomment %}
                 {% comment %} <li>
                   <a href="#" data-conversation="#conversation-2">
                     <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
@@ -80,7 +80,7 @@
                   <a href="#" data-conversation="#conversation-3">
                     <img class="content-message-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                     <span class="content-message-info">
-                      <span class="content-message-name">Chinook SAF</span>
+                      <span class="content-message-name">Consultor Excom</span>
                     </span>
                   </a>
                 </li>
@@ -92,7 +92,7 @@
           <!-- start: Conversation -->
           <div class="conversation conversation-default conversation-item2 active">
             <i class="ri-chat-3-line" style="color: var(--red-400);"></i>
-            <p style="color: var(--red-400);">Selecione um Chinook para começar!</p>
+            <p style="color: var(--red-400);">Selecione um Consultor para começar!</p>
           </div>
           
           <div class="conversation" id="conversation-1">
@@ -146,7 +146,7 @@
               <div class="conversation-user">
                 <img class="conversation-user-image" src="{% static 'assets_2/img/maple_bear.png' %}" alt="">
                 <div>
-                  <div class="conversation-user-name">Chinook SAF</div>
+                  <div class="conversation-user-name">Excom</div>
                   <div class="conversation-user-status online">online</div>
                   <br>
                     <form id="school-selection-form" class="conversation-user select">
