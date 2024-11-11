@@ -329,6 +329,81 @@ def config_chat_central(prompt, api_key, context=""):
     }
 
 
+################################ CHAT EXCOM########################################
+
+def classify_question_excom(prompt, api_key):
+    openai.api_key = api_key
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-2024-08-06",
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é um assistente útil que classifica perguntas sobre escolas em categorias: ('informações gerais' - Se o usuário pedir informações como resumo da escola, informações basicas como nome, cnpj, cluster, endereço, avaliações. Exemplos de perguntas para essa categoria: Faça um resumo dessa escola. Mas se ele falar 'faça um resumo do cliente oculto ou NPS dessa escola' ou falar 'faça um resumo bem resumido do cliente oculto ou NPS dessa escola' é outra categoria não é essa), ('planificador' -  Se o usuário pedir informações relacionados ao planificador escolha essa categoria.), ('sprinklr' -  Se o usuário pedir informações relacionados a ticket ou a Sprinklr escolha essa categoria, observação pode ter erros de digitação então se ele colocar Sprinklr, Sbrinklr ou outras variações escolha essa categoria.),('ouvidoria' - Se o usuário pedir informações relacionado a ouvidoria ou sac escolha essa categoria),('NPS' - Se o usuário pedir informações relacionado ao Net Promoter Score(NPS) responda com essa categoria), ('cliente_oculto' - Se o usuário pedir informações relacionado ao Cliente Oculto responda com essa categoria), ('vendas' ou 'relatório de vendas' - Se o usuário pedir informações sobre vendas da escola ou relatório de vendas da escola escolha essa categoria.), ('base de conhecimento' - Se o usuário pedir algo que pareça estar em uma base de conhecimento escolha essa categoria. Por exemplo se na pergunta tiver algo como conforme base de conhecimento, como na base de conhecimento, no conhecimento.), ('analise completa da escola' - Só escolha essa categoria se tiver esse conjunto de palavras ou algo muito similiar. Por exemplo: 'Faça uma analise completa dessa escola', 'Faça uma avaliação geral dessa escola' ou até algo com 'Olhe todas as informações dessa escola'). Responda apenas com a categoria apropriada.  Se você não conseguir categorizar a pergunta, responda com 'base de conhecimento'.",
+            },
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=2500,
+    )
+    print(f"Total tokens usados para classificar a categoria: {response['usage']['total_tokens']}")
+    category = response["choices"][0]["message"]["content"].strip().lower()
+    return category
+
+def config_chat_excom(prompt, api_key, context=""):
+    if not context:
+        context = "No relevant information found in the database."
+    if not prompt:
+        prompt = "No question provided."
+
+    openai.api_key = api_key
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-2024-08-06",
+        messages=[
+            {
+                "role": "system",
+                "content": "Você é o assistente Excom da Empresa Maple Bear, um consultor de franchising especializado em programa de excelência. Observação importante: sempre que for realizar listagem, um resumo, uma tabela ou fazer uma lista, coloque esses 3 símbolos ### antes de cada tópico e formate todos os links utilizando Markdown da seguinte forma: [texto do link](URL).",
+            },
+            {"role": "user", "content": f"Contexto:\n{context}"},
+            {"role": "user", "content": f"Pergunta do usuário:\n{prompt}"},
+        ],
+        max_tokens=2050,
+    )
+
+    # Extrair os tokens usados da resposta da API
+    tokens_used = response['usage']['total_tokens']
+
+    # Formatar a resposta
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+    formatted_response = re.sub(r"###", "<br>", formatted_response)
+    formatted_response = re.sub(r"####", "<br>", formatted_response)
+    formatted_response = re.sub(
+        r"\*\*(.*?)\*\*",
+        r"<span style='font-weight: bold;'>\1</span>",
+        formatted_response,
+    )
+    formatted_response = re.sub(
+        r"\*(.*?)\*",
+        r"<span style='font-weight: bold;'>\1</span>",
+        formatted_response,
+    )
+    formatted_response = re.sub(
+        r"\[(.*?)\]\((.*?)\)",
+        r'<a href="\2" target="_blank">\1</a>',
+        formatted_response,
+    )
+    formatted_response = re.sub(
+        r'(?<!")\b(https?://[^\s]+)\b(?!")',
+        r'<a href="\1" target="_blank">\1</a>',
+        formatted_response,
+    )
+
+    # Retorne tanto o texto formatado quanto o total de tokens usados como um dicionário
+    return {
+        'formatted_response': formatted_response,
+        'tokens': tokens_used
+    }
+
 
 
 ############################################# Resumo NPS###########################################################

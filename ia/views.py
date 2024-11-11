@@ -53,7 +53,9 @@ from .utils import (
     calcular_nps,
     processar_resumos_sac,
     obter_distribuicao_nps,
+    classify_question_excom,
     config_chat_rh,
+    config_chat_excom,
     config_resumo_sac,
     config_resumo_visita_escola,
     classify_question,
@@ -650,6 +652,16 @@ def escolher_frase_final(school):
     ]
 
     return random.choice(frases_finais).format(school=school)
+
+
+
+
+############################################# CHAT SAF###########################################################
+#################################################################################################################
+#################################################################################################################
+
+
+
 
 @login_required(login_url='/login/')
 def filtered_chat_view(request):
@@ -1279,6 +1291,475 @@ def filtered_chat_view(request):
             "nome_da_escola"
         )  # Ordenar alfabeticamente
         return render(request, "chatapp/filtered_chat.html", {"schools": schools})
+
+
+
+
+
+############################################# CHAT SAF###########################################################
+#################################################################################################################
+#################################################################################################################
+
+
+
+
+@login_required(login_url='/login/')
+def excom(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        school_id = data.get("school_id")
+        message = data.get("message")
+
+        user = request.user
+
+        if not user.api_key:
+            return JsonResponse({"error": "Usuário não possui chave API válida"}, status=403)
+
+        api_key = user.api_key
+
+        print("Recebido POST request")
+        print(f"ID da escola: {school_id}")
+        print(f"Mensagem: {message}")
+
+        if not school_id:
+            print("Erro: ID da escola não fornecido")
+            return JsonResponse({"error": "School ID not provided"}, status=400)
+
+        # Tenta obter a escola, independentemente do tipo de mensagem
+        try:
+            school = CRM_FUI.objects.get(id_escola=school_id)
+            print(f"Escola encontrada: {school.nome_da_escola}")
+        except CRM_FUI.DoesNotExist:
+            print("Erro: Escola não encontrada")
+            return JsonResponse({"error": "School not found"}, status=404)
+
+        # Busca o resumo do NPS, se existir
+        resumo_nps = Resumo_Respostas_NPS.objects.filter(escola=school).first()
+        resumo_nps_text = resumo_nps.resumo if resumo_nps else None
+
+        # Converte o texto markdown para HTML se existir
+        if resumo_nps_text:
+            resumo_nps_text = markdown.markdown(resumo_nps_text, extensions=['nl2br', 'extra'])
+
+            # Substitui <strong> por <span style='font-weight: bold;'>
+            resumo_nps_text = resumo_nps_text.replace("<strong>", "<span style='font-weight: bold;'>").replace("</strong>", "</span>")
+
+        # Busca o resumo do NPS, se existir
+        resumo_co24 = Resumo_Respostas_ClienteOculto24.objects.filter(escola=school).first()
+        resumo_resumo_co24_text = resumo_co24.resumo if resumo_co24 else None
+
+        # Converte o texto markdown para HTML se existir
+        if resumo_resumo_co24_text:
+            resumo_resumo_co24_text = markdown.markdown(resumo_resumo_co24_text, extensions=['nl2br', 'extra'])
+
+            # Substitui <strong> por <span style='font-weight: bold;'>
+            resumo_resumo_co24_text = resumo_resumo_co24_text.replace("<strong>", "<span style='font-weight: bold;'>").replace("</strong>", "</span>")
+
+        # Busca o resumo da Visita da Escola, se existir
+        resumo_visita = Resumo_Visita_Escola.objects.filter(escola=school).first()
+        resumo_visita_escola = resumo_visita.resumo if resumo_visita else None
+        planificador_responses_auto = Planificador_2024.objects.filter(escola__id_escola=school_id).first()  # Pegando o primeiro objeto
+
+        # Converte o texto markdown para HTML se existir
+        if resumo_visita_escola: 
+            resumo_visita_escola = markdown.markdown(resumo_visita_escola, extensions=['nl2br', 'extra'])
+
+            # Substitui <strong> por <span style='font-weight: bold;'>
+            resumo_visita_escola = resumo_visita_escola.replace("<strong>", "<span style='font-weight: bold;'>").replace("</strong>", "</span>")
+
+
+
+
+        if message == 'auto':
+            # Registra a requisição com tokens = 0, pois não utiliza a API da OpenAI
+            log, created = UserRequestLog.objects.get_or_create(user=user)
+            log.request_count += 1
+            log.tokens_used += 0  # Não houve uso de tokens
+            log.save()
+
+
+            complemento = ""
+            if school.complemento_escola and school.complemento_escola.lower() not in ["", "null", "nan", "0", "-"]:
+                complemento = f" {school.complemento_escola}"
+            segmento_info = ""
+            if school.segmento_da_escola and school.segmento_da_escola.lower() not in ["", "null", "nan", "em implantação"] \
+                    and school.atual_serie and school.atual_serie.lower() not in ["", "null", "nan", "em implantação"]:
+                segmento_info = (
+                    f"<span style='font-weight: bold;'>Segmento:</span> {school.segmento_da_escola} - "
+                    f"<span style='font-weight: bold;'>Atual Série:</span> {school.atual_serie} - "
+                    f"<span style='font-weight: bold;'>Avanço de Segmento:</span> {school.avanco_segmento}.<br>"
+                )
+
+            inadimplencia_info = ""
+            if school.status_de_adimplencia.lower() != "adimplente":
+                inadimplencia_info = f" - <span style='font-weight: bold;'>Inadimplência:</span> R$ {school.inadimplencia}"
+
+            # URLs de download
+            url_slm_2024 = f"/download_excel_report/?school_id={school_id}"
+            url_slm_2025 = f"/download_excel_report_25/?school_id={school_id}"
+            url_pedidos_alterados = f"/export_pedidos_alterados/{school_id}/"
+
+            download_icon = '<i class="ri-file-excel-line"  style="font-size: 18px"></i>'
+
+            frase_inicial = escolher_frase_inicial(school)
+            frase_final = escolher_frase_final(school)
+
+            response = (
+                f"{frase_inicial}<br><br>"
+                
+                f"<span style='font-weight: bold;'>Informações Básicas:</span><br>"
+                f"<span style='font-weight: bold;'>Id da Escola:</span> {school.id_escola} - <span style='font-weight: bold;'>CNPJ:</span> {school.CNPJ} - <span style='font-weight: bold;'>Cluster:</span> {school.cluster} - <span style='font-weight: bold;'>Status:</span> {school.status_da_escola}.<br>"
+                f"<span style='font-weight: bold;'>Endereço:</span> {school.endereco}{complemento}, {school.bairro_escola}, {school.cidade_da_escola}, {school.estado_da_escola}, CEP {school.cep_escola}, na região {school.regiao_da_escola} do Brasil."
+                f" - <span style='font-weight: bold;'>Telefone:</span> {school.telefone_de_contato_da_escola} - <span style='font-weight: bold;'>Email:</span> {school.email_da_escola}.<br>"
+                f"{segmento_info}"
+                
+                f"<br><span style='font-weight: bold;'>Vendas e Metas de SLM:</span><br>"
+                f"<span style='font-weight: bold;'>SLMs Vendidos 2024:</span> {school.slms_vendidos} - "
+                f"<a href='{url_slm_2024}'>{download_icon}</a> - "
+                f"<span style='font-weight: bold;'>Meta de SLMs 2024:</span> {school.meta} - "
+                f"<span style='font-weight: bold;'>SLMs Vendidos 2025:</span> {school.slms_vendidos_25} - "
+                f"<a href='{url_slm_2025}'>{download_icon}</a> - "
+                f"<span style='font-weight: bold;'>Relatório de Pedidos Cancelados:</span> - "
+                f"<a href='{url_pedidos_alterados}'>{download_icon}</a> - "
+                f"<span style='font-weight: bold;'>Meta de SLMs 2025:</span> Ainda não foi definido - "
+                f"<span style='font-weight: bold;'>Dias Úteis para Entrega do SLM:</span> {school.dias_uteis_entrega_slm}.<br>"
+                
+                f"<br><span style='font-weight: bold;'>Avaliações:</span><br>"
+                f"<span style='font-weight: bold;'>NPS Pais 2024 - 1ª Onda:</span> {school.nps_pais_2024_1_onda} - "
+                f"<span style='font-weight: bold;'>Cliente Oculto 2024:</span> {school.cliente_oculto_2024} - "
+                f"<span style='font-weight: bold;'>Quality Assurance 2024: </span> {school.quality_assurance_2024}.<br>"
+
+                f"<br><span style='font-weight: bold;'>Financeiro:</span><br>"
+                f"<span style='font-weight: bold;'>Ticket Médio:</span> R$ {school.ticket_medio} - "
+                f"<span style='font-weight: bold;'>Valor Royalties:</span> R$ {school.valor_royalties} - "
+                f"<span style='font-weight: bold;'>Valor de FDMP:</span> R$ {school.valor_fdmp} - "
+                f"<span style='font-weight: bold;'>Status de Adimplência/Inadimplência:</span> {school.status_de_adimplencia}{inadimplencia_info}.<br>"
+
+                f"<br><span style='font-weight: bold;'>Consultores:</span><br>"
+                f"<span style='font-weight: bold;'>Consultor Comercial:</span> {school.consultor_comercial} - "
+                f"<span style='font-weight: bold;'>Consultor de Gestão Escolar:</span> {school.consultor_gestao_escolar} - "
+                f"<span style='font-weight: bold;'>Consultor Acadêmico:</span> {school.consultor_academico} - "
+                f"<span style='font-weight: bold;'>Consultor SAF:</span> {school.consultor_saf}.<br>"
+
+                f"<br><span style='font-weight: bold;'>Planificador:</span><br>"
+                f"<span style='font-weight: bold;'>Tem CRM B2C Implementado ?</span> {planificador_responses_auto.crm_b2c} - "
+                f"<span style='font-weight: bold;'>Tem Árvore Implementado ?</span> {planificador_responses_auto.arvore} - "
+                f"<span style='font-weight: bold;'>Tem Toddle Implementado ?</span> {planificador_responses_auto.toddle} - "
+                f"<span style='font-weight: bold;'>Circular de Oferta 2025 foi Publicada ?</span> {planificador_responses_auto.circular_oferta_2025_publicado}.<br>"
+
+            )
+
+            # Adiciona o resumo do NPS se estiver disponível
+            if resumo_nps_text:
+                response += (
+                    f"<br><span style='font-weight: bold;'>Resumo das Respostas Negativas do NPS:</span><br>"
+                    f"{resumo_nps_text}<br>"
+                )
+            # Adiciona o resumo do NPS se estiver disponível
+            if resumo_resumo_co24_text:
+                response += (
+                    f"<br><span style='font-weight: bold;'>Resumo dos Comentários Negativos do Cliente Oculto:</span><br>"
+                    f"{resumo_resumo_co24_text}<br>"
+                )
+            # Adiciona o resumo do NPS se estiver disponível
+            if resumo_visita_escola:
+                response += (
+                    f"<br><span style='font-weight: bold;'>Resumo da Visita na Escola:</span><br>"
+                    f"{resumo_visita_escola}<br>"
+                )
+
+            # Adiciona a frase final
+            response += f"<br>{frase_final}"
+
+            return JsonResponse({"response": response})
+
+
+        # Apenas chama a função de classificação se a mensagem não for automática
+        question_type = classify_question_excom(message, api_key)
+        print(f"Tipo de pergunta: {question_type}")
+
+        if question_type == "nps":
+            print("Lidando com categoria NPS")
+            nps_responses = (
+                Respostas_NPS.objects.filter(escola__id_escola=school_id)
+                .exclude(comentario__isnull=True)
+                .exclude(comentario__exact="")
+                .exclude(comentario__exact="nan")
+            )
+            context = ""
+            for response in nps_responses:
+                context += (
+                    f"NPS: {school.nps_pais_2024_1_onda} - Pontuação Geral dessa Escola.\n"
+                    f"Nome do respondente: {response.nome}\n"
+                    f"Questão perguntada no NPS: {response.questao}\n"
+                    f"Nota: {response.nota} - "
+                    f"As notas variam de 1 a 5, exceto para a pergunta de recomendação, que varia de 0 a 10.\n"
+                    f"Comentário: {response.comentario}\n\n"
+                )
+            print("Contexto NPS gerado")
+
+
+
+
+        elif question_type == "ouvidoria":
+            print("Lidando com categoria Ouvidoria")
+
+            # Parte 1: Passar resumos das outras escolas primeiro
+            outras_escolas_resumos = Resumo_SAC.objects.exclude(escola__id_escola=school_id)
+            
+            context = "Resumo dos comentários e reclamações de outras escolas:\n"
+            for resumo in outras_escolas_resumos:
+                context += (
+                    f"Escola: {resumo.escola.nome_da_escola}\n"
+                    f"Resumo: {resumo.resumo}\n\n"
+                )
+
+            # Enviar o contexto de resumos para a API
+            print("Contexto inicial (somente resumos) enviado para a API")
+
+            # A API agora vai retornar uma lista das escolas relevantes, baseadas nos resumos.
+            escolas_relevantes_ids = processar_resumos_sac(context, api_key)
+            
+            # Parte 2: Se a API identificar escolas relacionadas ao assunto, busque os detalhes completos de Ouvidoria_SAC
+            if escolas_relevantes_ids:
+                escolas_relevantes = Ouvidoria_SAC.objects.filter(
+                    escola__id_escola__in=escolas_relevantes_ids
+                ).exclude(comentario__isnull=True).exclude(comentario__exact="").exclude(comentario__exact="nan")
+                
+                detalhes_contexto = "Detalhes completos das escolas relacionadas sobre Ouvidoria/SAC:\n"
+                for response in escolas_relevantes:
+                    detalhes_contexto += (
+                        f"Escola: {response.escola.nome_da_escola}\n"
+                        f"Comentário: {response.comentario}\n"
+                        f"Data: {response.data_reclamacao}\n\n"
+                    )
+
+                # Enviar os detalhes das escolas relacionadas para a segunda validação pela API
+                escolas_validadas_ids = validar_detalhes_ouvidoria(detalhes_contexto, api_key)
+
+                # Agora incluir no contexto final apenas as escolas que passaram na segunda validação
+                if escolas_validadas_ids:
+                    context += "\nInformações detalhadas das escolas relacionadas (após validação) da Ouvidoria/SAC:\n"
+                    escolas_validadas = Ouvidoria_SAC.objects.filter(
+                        escola__id_escola__in=escolas_validadas_ids
+                    ).exclude(comentario__isnull=True).exclude(comentario__exact="").exclude(comentario__exact="nan")
+                    
+                    for response in escolas_validadas:
+                        context += (
+                            f"Escola: {response.escola.nome_da_escola}\n"
+                            f"Comentário: {response.comentario}\n"
+                            f"Data: {response.data_reclamacao}\n\n"
+                        )
+
+            # Parte 3: Agora adicionamos as informações detalhadas da escola atual
+            ouvidoria_responses = (
+                Ouvidoria_SAC.objects.filter(escola__id_escola=school_id)
+                .exclude(comentario__isnull=True)
+                .exclude(comentario__exact="")
+                .exclude(comentario__exact="nan")
+            )
+
+            context += "\nSituação da escola atual referente à pergunta do usuário sobre Ouvidoria/SAC:\n"
+            for response in ouvidoria_responses:
+                context += (
+                    f"Escola: {school.nome_da_escola}\n"
+                    f"Comentário: {response.comentario}\n"
+                    f"Data: {response.data_reclamacao}\n\n"
+                )
+
+            print("Contexto final gerado com detalhes das escolas relacionadas e da escola atual")
+
+
+
+        elif question_type == "cliente_oculto":
+            print("Lidando com categoria Cliente Oculto")
+            co24_responses = (
+                Avaliacao_Cliente_Oculto_24.objects.filter(escola__id_escola=school_id)
+            )
+            context = ""
+            context += (
+                f"Cliente Oculto é uma avaliação realizada por cliente secreto enviado pela franqueada Maple Bear onde o objetivo é avaliar a escola do ponte de vista de um cliente:\n"
+            )
+            for response in co24_responses:
+                context += (
+                    f"Categoria: {response.categoria}\n"
+                    f"Questão perguntada no Cliente Oculto 2024: {response.pergunta}\n"
+                    f"Resposta: {response.resposta}\n\n"
+                )
+            print("Contexto Cliente Oculto")
+
+
+
+        elif question_type == "sprinklr":
+            print("Lidando com categoria Sprinklr")
+            sprinklr_responses = Ticket_Sprinklr.objects.filter(escola__id_escola=school_id)
+
+            # Contagem total de tickets distintos
+            total_tickets = sprinklr_responses.values('id_ticket').distinct().count()
+
+            # Ranking de assuntos (mantido sem ajuste, pois é baseado em contagem total)
+            assuntos_ranking = (
+                sprinklr_responses
+                .values('assunto')
+                .annotate(total=Count('assunto'))
+                .order_by('-total')
+            )
+
+            # Ranking de clientes com contagem distinta de tickets
+            clientes_ranking = (
+                sprinklr_responses
+                .values('cliente')
+                .annotate(total=Count('id_ticket', distinct=True))
+                .order_by('-total')
+            )
+
+            # Contagem de tickets por data_ticket com contagem distinta
+            data_ranking = (
+                sprinklr_responses
+                .values('data_ticket')
+                .annotate(total=Count('id_ticket', distinct=True))
+                .order_by('data_ticket')
+            )
+
+            context = (
+                f"Sprinklr é o sistema de atendimentos por tickets da Maple Bear:\n\n"
+                f"Resumo das informações gerais da Sprinklr dessa escola:\n"
+                f"Total de Tickets Distintos: {total_tickets}\n\n"
+            )
+
+            context += "\nRanking de Assuntos:\n"
+
+            # Adiciona o ranking de assuntos ao contexto
+            for assunto in assuntos_ranking:
+                context += f"{assunto['assunto']} - Total de Tickets: {assunto['total']}\n"
+
+            context += "\nTotal de Tickets por Data:\n"
+
+            # Adiciona a contagem de tickets por data_ticket ao contexto
+            for data in data_ranking:
+                context += f"{data['data_ticket']} - Total de Tickets: {data['total']}\n"
+
+            context += "\nRanking de Clientes:\n"
+
+            # Adiciona o ranking de clientes ao contexto
+            for cliente in clientes_ranking:
+                context += f"{cliente['cliente']} - Total de Tickets: {cliente['total']}\n"
+
+            context += "\nDetalhe dos Tickets:\n"
+
+            for response in sprinklr_responses:
+                context += (
+                    f"["
+                    f"Id do Ticket: {response.id_ticket}\n"
+                    f"Cliente: {response.cliente}\n"
+                    f"Assunto: {response.assunto}\n"
+                    f"Data: {response.data_ticket}\n"
+                    f"]\n"
+                )
+
+            context += "\nImportante detalhe responda apenas com as informações solicitadas pelo o usuario, estou te passando todo esse contexto para facilitar o fornecimento das informações. Outra coisa caso ele peça um resumo, tente resumir tudo em uma paragrafo apenas explicando em texto, ou seja, veja o contexto e interprete a informação e forneça uma analise do que foi pedido não copie e contexto apenas cole na resposta.\n"
+
+            print("Contexto Sprinklr gerado")
+
+
+        elif question_type in ["vendas", "relatório de vendas"]:
+            vendas_responses_2024 = Vendas_SLM_2024.objects.filter(
+                escola__id_escola=school_id
+            )
+            total_quantidade_2024 = vendas_responses_2024.aggregate(total=Sum('quantidade'))['total']
+
+            vendas_responses_2025 = Vendas_SLM_2025.objects.filter(
+                escola__id_escola=school_id
+            )
+            total_quantidade_2025 = vendas_responses_2025.aggregate(total=Sum('quantidade'))['total']
+
+            context = (
+                f"O total de vendas da escola no ciclo de 2024 foi {total_quantidade_2024} e no ciclo de 2025 foi {total_quantidade_2025}. "
+                f"Para outras informações, você pode ver o relatório completo em Excel das vendas do ciclo de 2024 clicando "
+                f"[aqui](/download_excel_report/?school_id={school_id}) e para as vendas do ciclo de 2025 clicando "
+                f"[aqui](/download_excel_report_25/?school_id={school_id})."
+            )
+            print("Contexto de relatório de vendas gerado")
+            
+        else:
+            context = (
+                f"Informações Básicas da Escola:\n"
+                f"Nome da Escola: {school.nome_da_escola}\n"
+                f"CNPJ: {school.CNPJ}\n"
+                f"Status: {school.status_da_escola}\n"
+                f"Cluster: {school.cluster}\n"
+                f"CEP: {school.cep_escola}\n"
+                f"Endereço: {school.endereco}\n"
+                f"Complemento: {school.complemento_escola}\n"
+                f"Bairro: {school.bairro_escola}\n"
+                f"Cidade: {school.cidade_da_escola}\n"
+                f"Estado: {school.estado_da_escola}\n"
+                f"Região: {school.regiao_da_escola}\n"
+                f"Telefone: {school.telefone_de_contato_da_escola}\n"
+                f"Email: {school.email_da_escola}\n"
+                f"Segmento: {school.segmento_da_escola}\n"
+                f"Atual Série: {school.atual_serie}\n"
+                f"Avanço Segmento: {school.avanco_segmento}\n"
+                
+                f"Vendas e Metas de SLM:\n"
+                f"SLMs Vendidos 2024: {school.slms_vendidos} - SLM ou SLMs no plural são os materiais vendidos, esses aqui são referente a 2024.\n"
+                f"SLMs Vendidos 2025: {school.slms_vendidos_25} - SLM ou SLMs no plural são os materiais vendidos, esses aqui são referente a 2025.\n"
+                f"Meta de SLMs 2024: {school.meta} - Esse campo é a meta de Vendas de SLM vendidos.\n"
+                f"Meta de SLMs 2025: Ainda não foi definido a meta por escola.\n"
+                f"Dias Úteis para Entrega do SLM nessa escola: {school.dias_uteis_entrega_slm} - Basicamente o prazo de entrega do material nessa escola.\n"
+                
+                f"Avaliações:\n"
+                f"NPS Pais 2024 - 1° Onda: {school.nps_pais_2024_1_onda} - "
+                f"Este campo indica a pontuação referente ao NPS(Net Promoter Score) dos pais dos alunos que estudam na escola, que foi realizado no 1° semestre no ano(1° Onda).\n"
+                f"Cliente Oculto 2024: {school.cliente_oculto_2024} - "
+                f"Este campo indica a pontuação referente ao Cliente Oculto, que uma avaliação realizada por uma empresa terceirizada onde consiste em um falso cliente ir até a escola para avaliar ela.\n"
+                f"Quality Assurance 2024: {school.quality_assurance_2024} - "
+                f"Este campo indica a pontuação referente Quality Assurance uma avaliação realizada para ver a qualidade da escola.\n"
+                
+                f"Financeiro:\n"
+                f"Ticket Médio: {school.ticket_medio} - Este é o valor médio de mensalidade cobrada pela escola.\n"
+                f"Valor Royalties: {school.valor_royalties} - Este é o valor de royalties que a escola deve pagar por mês à franqueada Maple Bear.\n"
+                f"Valor de FDMP(Fundo de Marketing): {school.valor_fdmp} - Este é o valor de FDMP(Fundo de Marketing) que a escola deve pagar por mês à franqueada Maple Bear.\n"
+                f"Status de Adimplência/Inadimplência: {school.status_de_adimplencia} - "
+                f"Este campo indica se a escola está Adimplente ou Inadimplente referente aos seus pagamentos(Royalties e FDMP) que devem ser feitos à franqueada Maple Bear.\n"
+            )
+
+            if school.status_de_adimplencia == "Inadimplente":
+                context += f"Inadimplência: {school.inadimplencia} - Este é o valor que a escola está devendo para a Maple Bear.\n"
+
+            context += (
+                f"Consultores:\n"
+                f"Consultor Comercial: {school.consultor_comercial}\n"
+                f"Consultor Gestão Escolar: {school.consultor_gestao_escolar}\n"
+                f"Consultor Acadêmico: {school.consultor_academico}\n"
+                f"Consultor SAF(Serviço de Atendimento ao Franqueado): {school.consultor_saf}\n"
+            )
+
+        response_data = config_chat_excom(message, api_key, context)
+
+        tokens_used = response_data['tokens']  # Ajuste conforme o retorno da função utils
+
+        # Atualiza o log de requisições com os tokens usados
+        log, created = UserRequestLog.objects.get_or_create(user=user)
+        log.request_count += 1
+        log.tokens_used += tokens_used
+        log.save()
+
+        return JsonResponse({"response": response_data['formatted_response']})
+    else:
+        schools = CRM_FUI.objects.all().order_by(
+            "nome_da_escola"
+        )  # Ordenar alfabeticamente
+        return render(request, "chatapp/excom.html", {"schools": schools})
+
+
+
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+
+
+
 
 
 

@@ -30,6 +30,7 @@ from .views import (chat_view, generate_excel_report, ReclamacaoUpdateView, Recl
     gerar_resumo_alteracoes,
     gerar_resumo_visita_escola,
     gerar_resumos_visita_escola_todas,
+    excom,
     )
 
 urlpatterns = [
@@ -40,6 +41,7 @@ urlpatterns = [
 
     path("importar_nps/", ExcelImportView.as_view(), name="importar_nps"),
     path("hr/", hr_assistant_view, name="hr_assistant"),
+    path("excom/", excom, name="excom"),
     path("import_crm_fui/", import_crm_fui, name="import_crm_fui"),
     path("import_respostas_nps/", import_resposta, name="import_respostas_nps"),
     path("chinook-mb/", filtered_chat_view, name="filtered_chat"),
