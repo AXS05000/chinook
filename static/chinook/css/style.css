@@ -421,6 +421,23 @@ body {
     align-items: center;
     margin-left: auto;
 }
+
+.conversation-item-video {
+    width: 15.5rem;
+    height: 15.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    overflow: hidden;
+}
+
+@media (max-width: 1040px) {
+    .conversation-item-video {
+        width: 7rem;
+        height: 7rem;
+    }
+}
+
 .conversation-buttons > * {
     width: 36px;
     height: 36px;
@@ -469,12 +486,20 @@ body {
     margin-right: 8px;
 }
 .conversation-item-image {
-    width: 24px;
-    height: 24px;
+    width: 15.5rem;
+    height: 15.5rem;
     border-radius: 50%;
     object-fit: cover;
     display: block;
 }
+
+@media (max-width: 1040px) {
+    .conversation-item-image {
+      width: 7rem;
+      height: 7rem;
+    }
+  }
+
 .conversation-item-content {
     width: 100%;
 }
@@ -512,12 +537,19 @@ body {
     padding: 12px 16px 8px;
     background-color: var(--red-400);
     color: var(--white);
-    box-shadow: 0 2px 12px -2px rgba(255, 5, 5, 0.418);
-    font-size: 14px;
+    box-shadow: 0 2px 12px -2px #0f3a5fb7;
+    font-size: 18;
     border-radius: 6px;
     line-height: 1.5;
     margin-left: 32px;
 }
+
+@media (max-width: 1040px) {
+    .conversation-item-text {
+        font-size: 12px;
+    }
+  }
+
 .conversation-item.me .conversation-item-text {
     margin-left: unset;
     margin-right: 32px;
