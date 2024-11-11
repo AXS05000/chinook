@@ -1296,7 +1296,7 @@ def filtered_chat_view(request):
 
 
 
-############################################# CHAT SAF###########################################################
+############################################# CHAT EXCOM###########################################################
 #################################################################################################################
 #################################################################################################################
 
@@ -1354,18 +1354,6 @@ def excom(request):
 
             # Substitui <strong> por <span style='font-weight: bold;'>
             resumo_resumo_co24_text = resumo_resumo_co24_text.replace("<strong>", "<span style='font-weight: bold;'>").replace("</strong>", "</span>")
-
-        # Busca o resumo da Visita da Escola, se existir
-        resumo_visita = Resumo_Visita_Escola.objects.filter(escola=school).first()
-        resumo_visita_escola = resumo_visita.resumo if resumo_visita else None
-        planificador_responses_auto = Planificador_2024.objects.filter(escola__id_escola=school_id).first()  # Pegando o primeiro objeto
-
-        # Converte o texto markdown para HTML se existir
-        if resumo_visita_escola: 
-            resumo_visita_escola = markdown.markdown(resumo_visita_escola, extensions=['nl2br', 'extra'])
-
-            # Substitui <strong> por <span style='font-weight: bold;'>
-            resumo_visita_escola = resumo_visita_escola.replace("<strong>", "<span style='font-weight: bold;'>").replace("</strong>", "</span>")
 
 
 
@@ -1435,18 +1423,6 @@ def excom(request):
                 f"<span style='font-weight: bold;'>Valor de FDMP:</span> R$ {school.valor_fdmp} - "
                 f"<span style='font-weight: bold;'>Status de Adimplência/Inadimplência:</span> {school.status_de_adimplencia}{inadimplencia_info}.<br>"
 
-                f"<br><span style='font-weight: bold;'>Consultores:</span><br>"
-                f"<span style='font-weight: bold;'>Consultor Comercial:</span> {school.consultor_comercial} - "
-                f"<span style='font-weight: bold;'>Consultor de Gestão Escolar:</span> {school.consultor_gestao_escolar} - "
-                f"<span style='font-weight: bold;'>Consultor Acadêmico:</span> {school.consultor_academico} - "
-                f"<span style='font-weight: bold;'>Consultor SAF:</span> {school.consultor_saf}.<br>"
-
-                f"<br><span style='font-weight: bold;'>Planificador:</span><br>"
-                f"<span style='font-weight: bold;'>Tem CRM B2C Implementado ?</span> {planificador_responses_auto.crm_b2c} - "
-                f"<span style='font-weight: bold;'>Tem Árvore Implementado ?</span> {planificador_responses_auto.arvore} - "
-                f"<span style='font-weight: bold;'>Tem Toddle Implementado ?</span> {planificador_responses_auto.toddle} - "
-                f"<span style='font-weight: bold;'>Circular de Oferta 2025 foi Publicada ?</span> {planificador_responses_auto.circular_oferta_2025_publicado}.<br>"
-
             )
 
             # Adiciona o resumo do NPS se estiver disponível
@@ -1461,13 +1437,6 @@ def excom(request):
                     f"<br><span style='font-weight: bold;'>Resumo dos Comentários Negativos do Cliente Oculto:</span><br>"
                     f"{resumo_resumo_co24_text}<br>"
                 )
-            # Adiciona o resumo do NPS se estiver disponível
-            if resumo_visita_escola:
-                response += (
-                    f"<br><span style='font-weight: bold;'>Resumo da Visita na Escola:</span><br>"
-                    f"{resumo_visita_escola}<br>"
-                )
-
             # Adiciona a frase final
             response += f"<br>{frase_final}"
 
