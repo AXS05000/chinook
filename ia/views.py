@@ -1365,7 +1365,7 @@ def excom(request):
         if message == 'auto':
 
             # Soma dos valores de processos com status específico
-            status_ativos = ["ATIVO", "INDEFINIDO", "EM GRAU DE RECURSO", "SUSPENSO", "REDISTRIBUIDO", "AUTUADO", "SEGREDO DE JUSTIÇA"]
+            status_ativos = ["ATIVO", "EM GRAU DE RECURSO", "REDISTRIBUIDO", "AUTUADO", "SEGREDO DE JUSTIÇA", "JULGADO", "TRANSITADO EM JULGADO"]
             soma_valores_processos = Processo.objects.filter(escola=school, status_do_processo__in=status_ativos).aggregate(total_valor=Sum('valor'))['total_valor'] or 0
 
             # Soma dos valores e quantidade dos protestos com resultado 'Positivo'
