@@ -73,7 +73,9 @@
   --bs-highlight-bg: #fcf8e3;
 }
 
-
+.form-check-input {
+  margin-right: 35px;
+}
 
 
 .form{
@@ -209,7 +211,7 @@
 }
 
 .horizontal-radio label {
-  margin-right: 10px; /* Ajuste o espaço entre os botões de rádio conforme necessário */
+  margin-right: 45px; /* Ajuste o espaço entre os botões de rádio conforme necessário */
 }
 
 .radio-options {

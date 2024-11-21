@@ -51,7 +51,6 @@ class ComercialForm(forms.ModelForm):
         fields = "__all__"
 
 
-
 class Dominio1Form(forms.ModelForm):
     class Meta:
         model = Dominio1
@@ -73,11 +72,25 @@ class Dominio1Form(forms.ModelForm):
             'strategic_planning_pdf',
         ]
         widgets = {
-            'program_implementation': forms.RadioSelect,
-            'staffing_instructional_program': forms.RadioSelect,
-            'resource_allocation': forms.RadioSelect,
-            'implementation_supervision_instructional_program': forms.RadioSelect,
-            'professional_learning_opportunities': forms.RadioSelect,
-            'commitment_to_bilingual_education': forms.RadioSelect,
-            'strategic_planning': forms.RadioSelect,
+            'program_implementation': forms.RadioSelect(attrs={
+                'class': 'horizontal-radio form-check-label form-check-input form-check'
+            }),
+            'staffing_instructional_program': forms.RadioSelect(attrs={
+                'class': 'horizontal-radio form-check-label form-check-input form-check'
+            }),
+            'resource_allocation': forms.RadioSelect(attrs={
+                'class': 'horizontal-radio form-check-label form-check-input form-check'
+            }),
+            'implementation_supervision_instructional_program': forms.RadioSelect(attrs={
+                'class': 'horizontal-radio form-check-label form-check-input form-check'
+            }),
+            'professional_learning_opportunities': forms.RadioSelect(attrs={
+                'class': 'horizontal-radio form-check-label form-check-input form-check'
+            }),
+            'commitment_to_bilingual_education': forms.RadioSelect(attrs={
+                'class': 'horizontal-radio form-check-label form-check-input form-check'
+            }),
+            'strategic_planning': forms.RadioSelect(attrs={
+                'class': 'horizontal-radio form-check-label form-check-input form-check'
+            }),
         }
