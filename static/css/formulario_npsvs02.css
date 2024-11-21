@@ -78,6 +78,14 @@
 
 /*Configuração de aparencia do botão Cadastrar*/
 
+.button-content {
+  display: flex;
+  align-items: center;
+  padding-right: 0.4rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 12px;
+}
+
 .login-button {
     
     display: flex;
