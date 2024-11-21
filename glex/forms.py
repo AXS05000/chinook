@@ -53,7 +53,7 @@ class ComercialForm(forms.ModelForm):
 
 class Dominio1Form(forms.ModelForm):
     class Meta:
-        model = Dominio1
+        model = Dominio1        
         fields = [
             'escola',
             'program_implementation',
@@ -94,3 +94,10 @@ class Dominio1Form(forms.ModelForm):
                 'class': 'horizontal-radio form-check-label form-check-input form-check'
             }),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Remove a opção "-------" de todos os campos de RadioSelect
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, forms.RadioSelect):
+                field.choices = list(field.choices)[1:] 
