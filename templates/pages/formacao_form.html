@@ -1,0 +1,356 @@
+{% load filters %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords" content="Bootstrap, Landing page, Template, Registration, Landing">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Grayrids">
+    <title>Maple Bear</title>
+
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets_2/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/line-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/owl.theme.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/nivo-lightbox.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/color-switcher.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/menu_sideslide.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/main.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/formulariovs02.css' %}">    
+    <link rel="stylesheet" href="{% static 'assets_2/css/responsive.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'assets_2/img/maple_bear.svg' %}">
+    <link id="pagestyle" href="{% static 'css/busca.css' %}" rel="stylesheet" />
+    <link id="pagestyle" href="{% static 'css/paginacao.css' %}" rel="stylesheet" />
+    <link href="{% static 'glex/css/mat2.css' %}" rel="stylesheet" />
+    <style>
+      .btn .button-content {
+        display: flex;
+        align-items: center;
+        font-size: 12px; /* Ajuste o tamanho da fonte conforme necessário */
+        font-family: 'Cambria', sans-serif; /* Substitua 'Arial' pela família de fonte desejada */
+      }
+
+      .input-box input,
+      .input-box textarea {
+          margin: 0.6rem 0;
+          padding: 0.8rem 1.2rem;
+          border: none;
+          border-radius: 10px;
+          box-shadow: 1px 1px 6px #0000001c;
+      }
+      
+      .input-box input:hover,
+      .input-box textarea:hover {
+          background-color: #eeeeee75;
+      }
+      
+      .input-box input:focus-visible,
+      .input-box textarea:focus-visible {
+          outline: 1px solid #ba332e;
+      }
+      
+      .input-box label,
+      .gender-title h6 {
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: #000000c0;
+      }
+      
+
+      .input-box input::placeholder,
+        .input-box textarea::placeholder {
+            color: rgba(0, 0, 0, 0.4); /* Cor preta com 40% de opacidade */
+        }
+      
+      .btn .material-icons {
+        margin-right: 8px; /* Ajuste o espaço entre o ícone e o texto conforme necessário */
+        font-size: 12px; /* Ajuste o tamanho do ícone conforme necessário */
+      }
+
+      .input-box select {
+        padding: 0.1rem 1.2rem;
+    }
+
+    </style>
+  </head>
+  
+  <body>
+    <!-- Header Section Start -->
+    <header>  
+      {% include 'navbar/navbar.html' %}
+
+
+    </header>
+    <!-- Header Section End --> 
+
+
+      
+    <!-- Features Section Start -->
+    <section id="busca" class="section">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      <div class="container">
+        
+
+
+          <div class="col-md-12">
+            <div class="card card-plain">
+              <div class="section-header text-center" >          
+                <h2 class="section-title" style="padding-top: 2rem;">FORMAÇÃO</h2>
+                <span style="padding-top: 2rem;">MAPLE BEAR</span>
+            </div>
+              <div class="card-header card-header-success card-header-icon">
+                <div class="card-icon">
+                  <i class="material-icons">assignment</i>
+                </div>
+                <h2 class="card-title mt-0">Formulário</h2>
+                
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <form method="POST" class="form-horizontal container" autocomplete="off" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-header">
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% comment %} {% if message.tags == 'success' %}
+                                <div class="alert alert-sucess alert-dismissible text-white" role="alert">
+                                    <span class="text-sm">{{ message }}</span>
+                                    <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div> {% endcomment %}
+                                {% if message.tags == 'error' %}
+                                    <div class="alert alert-danger alert-dismissible text-white" role="alert">
+                                        <span class="text-sm">{{ message }}</span>
+                                        <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% elif message.tags == 'warning' %}
+                                    <div class="alert alert-info2 alert-dismissible text-white" role="alert">
+                                        <span class="text-sm">{{ message }}</span>
+                                        <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% comment %} {% else %}
+                                    <li>{{ message }}</li> {% endcomment %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <div class="input-group container">
+                            <div class="input-box ">
+                                <div class="select centro-container">
+                                    <br><br>
+
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Tema da Formação:
+                                            {% comment %} <p style="font-size: 12px;">Insira aqui o nome da formação/webinar/workshop/ação. Caso não tenha um nome específico, insira o tema central abordado.</p> {% endcomment %}
+                                        </div>
+                                        <div class="comp-nota-1">{{ form.tema_da_formacao }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Data Início: <i class="material-icons" style="font-size: 24px" title="Insira aqui a data que teve início o evento.">info</i></div>
+                                        <div class="comp-nota-1">{{ form.data_inicio }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Data Fim: <i class="material-icons" style="font-size: 24px" title="Insira aqui a data em  que  o evento foi finalizado">info</i></div>
+                                        <div class="comp-nota-1">{{ form.data_fim }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Público Alvo:</div>
+                                        <div class="comp-nota-1">{{ form.publico_alvo }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Facilitador: <i class="material-icons" style="font-size: 24px" title="Se a pessoa responsável pela facilitação/aplicação da ação/evento pertence ao escritório da Maple Bear Central selecioe: 'INTERNO', se a pessoa foi contratada e não faz parte do quadro de colaboradores selecione 'EXTERNO' ou se houve mais de um facilitador/aplicador de modo que ao menos um pertença ao escritório da Maple Bear Central e o outro seja externo, marque como 'HÍBRIDO'.">info</i></div>
+                                        <div class="comp-nota-1">{{ form.facilitador }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Nome do Responsável pela Facilitação:</div>
+                                        <div class="comp-nota-1">{{ form.nome_responsavel_facilitacao }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Modalidade: <i class="material-icons" style="font-size: 24px" title="Caso a ação tenha acontecido de forma 100% remota/virtual marque a opção: REMOTO. Se aconteceu 100% presencial, marque: PRESENCIAL. Caso a ação tenha sido realizada parte de forma remota/virtual e parte de forma presencial, ou então se ela aconteceu de forma presencial mas foi transmitida remotamente/virtualmente, selecione a opção HÍBRIDO.">info</i></div>
+                                        <div class="comp-nota-1">{{ form.modalidade }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">NPS:</div>
+                                        <div class="comp-nota-1">{{ form.nps }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">CH:</div>
+                                        <div class="comp-nota-1">{{ form.ch }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Nº de Convidados:</div>
+                                        <div class="comp-nota-1">{{ form.numero_convidados }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Nº de Formados:</div>
+                                        <div class="comp-nota-1">{{ form.numero_formados }}</div>
+                                    </div>
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">Investimento BU:</div>
+                                        <div class="comp-nota-1">{{ form.investimento_bu }}</div>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="login-button">
+                              <button type="submit" class="btn btn-primary">Salvar</button>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          
+
+
+
+
+
+
+      
+    </section>
+    </div>
+    <!-- Features Section End -->   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     
+
+    </footer>
+    <!-- Footer Section End --> 
+
+    <!-- Go To Top Link -->
+    {% comment %} <a href="#" class="back-to-top">
+      <i class="lni-arrow-up"></i>
+    </a> {% endcomment %}
+
+    <div id="loader">
+      <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+      </div>
+    </div>    
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#id_cliente_gi').change(function () {
+                let cliente_gi_id = $(this).val();
+                $.get('/api/departamentos/?cliente_gi_id=' + cliente_gi_id, function (data) {
+                    let select = $('#id_departamento');
+                    select.empty();
+                    select.append('<option value="" selected>---------</option>'); // Adicionado aqui
+                    $.each(data, function (index, value) {
+                        select.append('<option value="' + value.id + '">' + value.nome_departamento + '</option>');
+                    });
+                });
+                $.get('/api/bases/?cliente_gi_id=' + cliente_gi_id, function (data) {
+                    let select = $('#id_cargo');
+                    select.empty();
+                    select.append('<option value="" selected>---------</option>'); // Adicionado aqui
+                    $.each(data, function (index, value) {
+                        select.append('<option value="' + value.id + '">' + value.cargo + '</option>');
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#id_departamento').change(function() {
+                var departamento_id = $(this).val();
+                $.getJSON('/api/turnos/?departamento_id=' + departamento_id, function(data) {
+                    var select = $('#id_turno');
+                    select.empty();
+                    select.append('<option value="" selected>---------</option>'); // Adicionado aqui
+                    $.each(data, function(index, value) {
+                        select.append('<option value="' + value.id + '">' + value.nome + '</option>');
+                    });
+                });
+            });
+        });
+    </script>
+    <script src="{% static 'assets_2/js/jquery-min.js' %}"></script>
+    <script src="{% static 'assets_2/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets_2/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets_2/js/classie.js' %}"></script>
+
+    <script src="{% static 'assets_2/js/jquery.mixitup.js' %}"></script>
+    <script src="{% static 'assets_2/js/nivo-lightbox.js' %}"></script>
+    <script src="{% static 'assets_2/js/owl.carousel.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.stellar.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.nav.js' %}"></script>    
+    <script src="{% static 'assets_2/js/scrolling-nav.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.easing.min.js' %}"></script>     
+    <script src="{% static 'assets_2/js/wow.js' %}"></script> 
+    <script src="{% static 'assets_2/js/jquery.vide.js' %}"></script>
+    <script src="{% static 'assets_2/js/jquery.counterup.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.magnific-popup.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/waypoints.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/form-validator.min.js' %}"></script>
+    <script src="{% static 'assets_2/js/contact-form-script.js' %}"></script>   
+    <script src="{% static 'assets_2/js/main.js' %}"></script>
+    <script>
+      document.getElementById('search-input').addEventListener('focus', function() {
+          this.style.border = 'none';
+      });
+      document.getElementById('search-input').addEventListener('blur', function() {
+          this.style.border = '';  // Restaure a borda quando o elemento perde o foco
+      });
+      </script>
+  </body>
+</html>

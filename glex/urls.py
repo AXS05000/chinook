@@ -7,6 +7,7 @@ from .views import (
     AdministrativoUpdateView,
     ComercialCreateView,
     ComercialUpdateView,
+    Dominio1CreateView,
 )
 
 urlpatterns = [
@@ -25,4 +26,5 @@ urlpatterns = [
     ),
     path("glex_comercial/", ComercialCreateView.as_view(), name="comercial_form"),
     path("glex_comercial/editar/", ComercialUpdateView.as_view(), name="comercial_form_edit"),
+    path('dominio1/create/', Dominio1CreateView.as_view(), name='dominio1_create'),
 ]

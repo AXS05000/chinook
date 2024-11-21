@@ -1,5 +1,5 @@
 from django import forms
-from .models import Administrativo, Comercial
+from .models import Administrativo, Comercial, Dominio1
 from django.core.exceptions import ValidationError
 
 
@@ -49,3 +49,35 @@ class ComercialForm(forms.ModelForm):
     class Meta:
         model = Comercial
         fields = "__all__"
+
+
+
+class Dominio1Form(forms.ModelForm):
+    class Meta:
+        model = Dominio1
+        fields = [
+            'escola',
+            'program_implementation',
+            'program_implementation_pdf',
+            'staffing_instructional_program',
+            'staffing_instructional_program_pdf',
+            'resource_allocation',
+            'resource_allocation_pdf',
+            'implementation_supervision_instructional_program',
+            'implementation_supervision_instructional_program_pdf',
+            'professional_learning_opportunities',
+            'professional_learning_opportunities_pdf',
+            'commitment_to_bilingual_education',
+            'commitment_to_bilingual_education_pdf',
+            'strategic_planning',
+            'strategic_planning_pdf',
+        ]
+        widgets = {
+            'program_implementation': forms.RadioSelect,
+            'staffing_instructional_program': forms.RadioSelect,
+            'resource_allocation': forms.RadioSelect,
+            'implementation_supervision_instructional_program': forms.RadioSelect,
+            'professional_learning_opportunities': forms.RadioSelect,
+            'commitment_to_bilingual_education': forms.RadioSelect,
+            'strategic_planning': forms.RadioSelect,
+        }

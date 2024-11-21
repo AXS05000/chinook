@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView, CreateView, UpdateView
-from .forms import AdministrativoForm, ComercialForm
-from .models import Administrativo, Comercial
+from .forms import AdministrativoForm, ComercialForm, Dominio1Form
+from .models import Administrativo, Comercial, Dominio1
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
@@ -172,3 +172,13 @@ class ComercialUpdateView(LoginRequiredMixin, UpdateView):
                 pass  # Aqui você pode adicionar alguma lógica se precisar
 
         return super().form_valid(form)
+    
+
+#######################  QA ##########################
+
+
+class Dominio1CreateView(CreateView):
+    model = Dominio1
+    form_class = Dominio1Form
+    template_name = 'pages/dominio1_form.html'
+    success_url = reverse_lazy('dominio1_list')
