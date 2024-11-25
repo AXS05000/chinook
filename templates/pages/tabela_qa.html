@@ -1,0 +1,241 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords" content="Bootstrap, Landing page, Template, Registration, Landing">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Grayrids">
+    <title>Maple Bear</title>
+
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets_2/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/line-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/owl.theme.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/nivo-lightbox.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/color-switcher.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/menu_sideslide.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/main.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/formulario.css' %}">    
+    <link rel="stylesheet" href="{% static 'assets_2/css/responsive.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'assets_2/img/maple_bear.svg' %}">
+    <link id="pagestyle" href="{% static 'css/busca.css' %}" rel="stylesheet" />
+    <link id="pagestyle" href="{% static 'css/paginacao.css' %}" rel="stylesheet" />
+    <link href="{% static 'glex/css/mat2.css' %}" rel="stylesheet" />
+    <style>
+      .btn .button-content {
+        display: flex;
+        align-items: center;
+        font-size: 12px; /* Ajuste o tamanho da fonte conforme necessário */
+        font-family: 'Cambria', sans-serif; /* Substitua 'Arial' pela família de fonte desejada */
+      }
+      
+      .btn .material-icons {
+        margin-right: 8px; /* Ajuste o espaço entre o ícone e o texto conforme necessário */
+        font-size: 12px; /* Ajuste o tamanho do ícone conforme necessário */
+      }
+    </style>
+  </head>
+  
+  <body>
+    <!-- Header Section Start -->
+    <header>  
+      {% include 'navbar/navbar.html' %}
+
+
+    </header>
+    <!-- Header Section End --> 
+
+
+      
+    <!-- Features Section Start -->
+    <section id="busca" class="section">
+
+
+
+
+
+
+
+
+
+
+      <div class="container">
+        <div class="col-md-12">
+            <div class="card card-plain">
+                <div class="section-header text-center">          
+                    <h2 class="section-title" style="padding-top: 2rem;">Pontuação Geral</h2>
+                    <span style="padding-top: 2rem;">Maple Bear</span>
+                </div>
+                <div class="card-header card-header-success card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <h2 class="card-title mt-0">Domínios</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Domínio</th>
+                                    <th>Status</th>
+                                    <th>Pontuação</th>
+                                    <th class="text-center">Link</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dominio in dominios %}
+                                <tr>
+                                    <td>{{ dominio.dominio }}</td>
+                                    <td>
+                                        {% if dominio.status == "complete" %}
+                                        <button class="btn btn-success btn-round" style="cursor: default;">
+                                            <span class="button-content">
+                                                <i class="material-icons">check</i>
+                                                Concluído
+                                            </span>
+                                            <div class="ripple-container"></div>
+                                        </button>
+                                        {% else %}
+                                        <button class="btn btn-danger btn-round" style="cursor: default;">
+                                            <span class="button-content">
+                                                <i class="material-icons">close</i>
+                                                Pendente
+                                            </span>
+                                            <div class="ripple-container"></div>
+                                        </button>
+                                        {% endif %}
+                                    </td>
+                                    <td style="padding-left: 2rem">{{ dominio.pontuacao }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ dominio.url }}">
+                                            <i class="material-icons" style="color: #28a745;">assignment</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      
+    </section>
+    </div>
+    <!-- Features Section End -->   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     
+
+    </footer>
+    <!-- Footer Section End --> 
+
+    <!-- Go To Top Link -->
+    <a href="#" class="back-to-top">
+      <i class="lni-arrow-up"></i>
+    </a>
+
+    <div id="loader">
+      <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+      </div>
+    </div>    
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#id_cliente_gi').change(function () {
+                let cliente_gi_id = $(this).val();
+                $.get('/api/departamentos/?cliente_gi_id=' + cliente_gi_id, function (data) {
+                    let select = $('#id_departamento');
+                    select.empty();
+                    select.append('<option value="" selected>---------</option>'); // Adicionado aqui
+                    $.each(data, function (index, value) {
+                        select.append('<option value="' + value.id + '">' + value.nome_departamento + '</option>');
+                    });
+                });
+                $.get('/api/bases/?cliente_gi_id=' + cliente_gi_id, function (data) {
+                    let select = $('#id_cargo');
+                    select.empty();
+                    select.append('<option value="" selected>---------</option>'); // Adicionado aqui
+                    $.each(data, function (index, value) {
+                        select.append('<option value="' + value.id + '">' + value.cargo + '</option>');
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#id_departamento').change(function() {
+                var departamento_id = $(this).val();
+                $.getJSON('/api/turnos/?departamento_id=' + departamento_id, function(data) {
+                    var select = $('#id_turno');
+                    select.empty();
+                    select.append('<option value="" selected>---------</option>'); // Adicionado aqui
+                    $.each(data, function(index, value) {
+                        select.append('<option value="' + value.id + '">' + value.nome + '</option>');
+                    });
+                });
+            });
+        });
+    </script>
+    <script src="{% static 'assets_2/js/jquery-min.js' %}"></script>
+    <script src="{% static 'assets_2/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets_2/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets_2/js/classie.js' %}"></script>
+    <script src="{% static 'assets_2/js/color-switcher.js' %}"></script>
+    <script src="{% static 'assets_2/js/jquery.mixitup.js' %}"></script>
+    <script src="{% static 'assets_2/js/nivo-lightbox.js' %}"></script>
+    <script src="{% static 'assets_2/js/owl.carousel.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.stellar.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.nav.js' %}"></script>    
+    <script src="{% static 'assets_2/js/scrolling-nav.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.easing.min.js' %}"></script>     
+    <script src="{% static 'assets_2/js/wow.js' %}"></script> 
+    <script src="{% static 'assets_2/js/jquery.vide.js' %}"></script>
+    <script src="{% static 'assets_2/js/jquery.counterup.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.magnific-popup.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/waypoints.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/form-validator.min.js' %}"></script>
+    <script src="{% static 'assets_2/js/contact-form-script.js' %}"></script>   
+    <script src="{% static 'assets_2/js/main.js' %}"></script>
+    <script>
+      document.getElementById('search-input').addEventListener('focus', function() {
+          this.style.border = 'none';
+      });
+      document.getElementById('search-input').addEventListener('blur', function() {
+          this.style.border = '';  // Restaure a borda quando o elemento perde o foco
+      });
+      </script>
+  </body>
+</html>

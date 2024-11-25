@@ -13,6 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
+from django.urls import reverse
 
 
 class HomeGlex(TemplateView):
@@ -272,3 +273,40 @@ class Dominio4CreateView(CreateView):
         )
         messages.error(self.request, f"Erro ao salvar Dominio 4: {formatted_errors}")
         return super().form_invalid(form)
+
+
+class TabelaQAView(TemplateView):
+    template_name = "pages/tabela_qa.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Informações dos domínios definidas manualmente
+        context["dominios"] = [
+            {
+                "dominio": "Domínio 1",
+                "pontuacao": "0/7",
+                "status": "pending",
+                "url": reverse("dominio1_create"),
+            },
+            {
+                "dominio": "Domínio 2",
+                "pontuacao": "0/7",
+                "status": "pending",
+                "url": reverse("dominio2_create"),
+            },
+            {
+                "dominio": "Domínio 3",
+                "pontuacao": "0/7",
+                "status": "pending",
+                "url": reverse("dominio3_create"),
+            },
+            {
+                "dominio": "Domínio 4",
+                "pontuacao": "0/5",
+                "status": "pending",
+                "url": reverse("dominio4_create"),
+            },
+        ]
+
+        return context

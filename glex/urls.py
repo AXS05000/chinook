@@ -11,6 +11,7 @@ from .views import (
     Dominio2CreateView,
     Dominio3CreateView,
     Dominio4CreateView,
+    TabelaQAView,
 )
 
 urlpatterns = [
@@ -37,4 +38,5 @@ urlpatterns = [
     path("dominio2/create/", Dominio2CreateView.as_view(), name="dominio2_create"),
     path("dominio3/create/", Dominio3CreateView.as_view(), name="dominio3_create"),
     path("dominio4/create/", Dominio4CreateView.as_view(), name="dominio4_create"),
+    path("tabela_qa/", TabelaQAView.as_view(), name="tabela_qa"),
 ]
