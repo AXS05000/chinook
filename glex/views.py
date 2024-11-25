@@ -7,10 +7,12 @@ from .forms import (
     Dominio3Form,
     Dominio4Form,
 )
+from django.utils.html import strip_tags
 from .models import Administrativo, Comercial, Dominio1, Dominio2, Dominio3, Dominio4
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
+from django.contrib import messages
 
 
 class HomeGlex(TemplateView):
@@ -196,13 +198,23 @@ class ComercialUpdateView(LoginRequiredMixin, UpdateView):
 
 
 #######################  QA ##########################
-
-
 class Dominio1CreateView(CreateView):
     model = Dominio1
     form_class = Dominio1Form
     template_name = "pages/dominio1_form.html"
     success_url = reverse_lazy("dominio1_list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "Dominio 1 foi salvo com sucesso!")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao salvar Dominio 1: {formatted_errors}")
+        return super().form_invalid(form)
 
 
 class Dominio2CreateView(CreateView):
@@ -211,6 +223,18 @@ class Dominio2CreateView(CreateView):
     template_name = "pages/dominio2_form.html"
     success_url = reverse_lazy("dominio2_list")
 
+    def form_valid(self, form):
+        messages.success(self.request, "Dominio 2 foi salvo com sucesso!")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao salvar Dominio 2: {formatted_errors}")
+        return super().form_invalid(form)
+
 
 class Dominio3CreateView(CreateView):
     model = Dominio3
@@ -218,9 +242,33 @@ class Dominio3CreateView(CreateView):
     template_name = "pages/dominio3_form.html"
     success_url = reverse_lazy("dominio3_list")
 
+    def form_valid(self, form):
+        messages.success(self.request, "Dominio 3 foi salvo com sucesso!")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao salvar Dominio 3: {formatted_errors}")
+        return super().form_invalid(form)
+
 
 class Dominio4CreateView(CreateView):
     model = Dominio4
     form_class = Dominio4Form
     template_name = "pages/dominio4_form.html"
     success_url = reverse_lazy("dominio4_list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "Dominio 4 foi salvo com sucesso!")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao salvar Dominio 4: {formatted_errors}")
+        return super().form_invalid(form)
