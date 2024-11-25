@@ -1,0 +1,469 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords" content="Bootstrap, Landing page, Template, Registration, Landing">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Grayrids">
+    <title>Maple Bear</title>
+
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets_2/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/line-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/owl.theme.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/nivo-lightbox.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/color-switcher.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/menu_sideslide.css' %}">
+    <link rel="stylesheet" href="{% static 'assets_2/css/main.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/formulario_npsvs02.css' %}">    
+    <link rel="stylesheet" href="{% static 'assets_2/css/responsive.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'assets_2/img/maple_bear.svg' %}">
+    <link id="pagestyle" href="{% static 'css/busca.css' %}" rel="stylesheet" />
+    <link id="pagestyle" href="{% static 'css/paginacao.css' %}" rel="stylesheet" />
+    <link href="{% static 'glex/css/mat2.css' %}" rel="stylesheet" />
+    <style>
+
+    
+
+    </style>
+  </head>
+  
+  <body>
+    <!-- Header Section Start -->
+    <header>  
+      {% include 'navbar/navbar.html' %}
+
+
+    </header>
+    <!-- Header Section End --> 
+
+
+      
+    <!-- Features Section Start -->
+    <section id="busca" class="section">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    <div class="container">
+        
+
+
+          <div class="col-md-12">
+            <div class="card card-plain">
+              <div class="section-header text-center" >          
+                <h2 class="section-title" style="padding-top: 2rem;">Domínio 1</h2>
+                <span style="padding-top: 2rem;">MAPLE BEAR</span>
+            </div>
+              <div class="card-header card-header-success card-header-icon">
+                <div class="card-icon">
+                  <i class="material-icons">assignment</i>
+                </div>
+                <h2 class="card-title mt-0">Integrity of Maple Bear & Local Programming</h2>
+                
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <form method="POST" class="form-horizontal container" autocomplete="off" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-header">
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% comment %} {% if message.tags == 'success' %}
+                                <div class="alert alert-sucess alert-dismissible text-white" role="alert">
+                                    <span class="text-sm">{{ message }}</span>
+                                    <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div> {% endcomment %}
+                                {% if message.tags == 'error' %}
+                                    <div class="alert alert-danger alert-dismissible text-white" role="alert">
+                                        <span class="text-sm">{{ message }}</span>
+                                        <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% elif message.tags == 'warning' %}
+                                    <div class="alert alert-info2 alert-dismissible text-white" role="alert">
+                                        <span class="text-sm">{{ message }}</span>
+                                        <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% comment %} {% else %}
+                                    <li>{{ message }}</li> {% endcomment %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <div class="input-group container">
+                            <div class="input-box-nps">
+                                <div class="select centro-container">
+                                    <br><br>
+
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">
+                                            1. Instructional processes and practices: Teachers deepen their understanding of the Maple Bear curriculum and refine instruction to meet the needs of every student.
+                                        </div>
+                                        <div class="comp-nota-1">
+                                            <div class="radio-options">
+                                                {{ form.instructional_processes_practices }}
+                                            </div>
+                                            <div class="tipo-de-faturamento-1 comp-nota-2">
+                                                <input type="file" id="file-upload-1" name="instructional_processes_practices_pdf" style="display: none;">
+                                                <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-1').click();" id="btn-upload-1">
+                                                    <span class="button-content">
+                                                        <i class="material-icons">attach_file</i>
+                                                        Escolher Arquivo
+                                                    </span>
+                                                </button>
+                                                <button class="file-name btn btn-success btn-round" id="file-name-1" style="display: none;">
+                                                    <span class="button-content">
+                                                        <i class="material-icons">check</i>
+                                                        Nenhum arquivo escolhido
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><hr>
+                                
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">
+                                            2. Learning Plans: Teachers, when planning, show a clear understanding of Maple Bear programs as well as the learning outcomes of lessons and units, delivering successful learning experiences for students.
+                                        </div>
+                                        <div class="comp-nota-1">
+                                            <div class="radio-options">
+                                                {{ form.learning_plans }}
+                                            </div>
+                                            <div class="tipo-de-faturamento-1 comp-nota-2">
+                                                <input type="file" id="file-upload-2" name="learning_plans_pdf" style="display: none;">
+                                                <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-2').click();" id="btn-upload-2">
+                                                    <span class="button-content">
+                                                        <i class="material-icons">attach_file</i>
+                                                        Escolher Arquivo
+                                                    </span>
+                                                </button>
+                                                <button class="file-name btn btn-success btn-round" id="file-name-2" style="display: none;">
+                                                    <span class="button-content">
+                                                        <i class="material-icons">check</i>
+                                                        Nenhum arquivo escolhido
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><hr>
+                                
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">
+                                            3. Student Centered Learning: Teachers deliver a student-centered learning approach which is at the heart of the Maple Bear immersion program. There are opportunities for student voice and choice. Students contribute to the design of their learning experiences and take ownership of their learning. Student centered learning promotes collaboration, innovation, creativity and higher order thinking skills.
+                                        </div>
+                                        <div class="comp-nota-1">
+                                            <div class="radio-options">
+                                                {{ form.student_centered_learning }}
+                                            </div>
+                                            <div class="tipo-de-faturamento-1 comp-nota-2">
+                                                <input type="file" id="file-upload-3" name="student_centered_learning_pdf" style="display: none;">
+                                                <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-3').click();" id="btn-upload-3">
+                                                    <span class="button-content">
+                                                        <i class="material-icons">attach_file</i>
+                                                        Escolher Arquivo
+                                                    </span>
+                                                </button>
+                                                <button class="file-name btn btn-success btn-round" id="file-name-3" style="display: none;">
+                                                    <span class="button-content">
+                                                        <i class="material-icons">check</i>
+                                                        Nenhum arquivo escolhido
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><hr>
+                                
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">
+                                            4. Inclusionary practices: As observed in classrooms, teachers create opportunities for students with diverse abilities to learn and be a part of the general education curriculum, classroom, and school community.
+                                        </div>
+                                        <div class="comp-nota-1">
+                                            <div class="radio-options">
+                                                {{ form.inclusionary_practices }}
+                                            </div>
+                                            <div class="tipo-de-faturamento-1 comp-nota-2">
+                                                <input type="file" id="file-upload-4" name="inclusionary_practices_pdf" style="display: none;">
+                                                <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-4').click();" id="btn-upload-4">
+                                                    <span class="button-content">
+                                                        <i class="material-icons">attach_file</i>
+                                                        Escolher Arquivo
+                                                    </span>
+                                                </button>
+                                                <button class="file-name btn btn-success btn-round" id="file-name-4" style="display: none;">
+                                                    <span class="button-content">
+                                                        <i class="material-icons">check</i>
+                                                        Nenhum arquivo escolhido
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><hr>
+                                
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">
+                                            5. Teacher collaboration: Target language* and Home language teachers work collaboratively to provide consistent classroom practices to support student learning outcomes.
+                                        </div>
+                                        <div class="comp-nota-1">
+                                            <div class="radio-options">
+                                                {{ form.teacher_collaboration }}
+                                            </div>
+                                            <div class="tipo-de-faturamento-1 comp-nota-2">
+                                                <input type="file" id="file-upload-5" name="teacher_collaboration_pdf" style="display: none;">
+                                                <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-5').click();" id="btn-upload-5">
+                                                    <span class="button-content">
+                                                        <i class="material-icons">attach_file</i>
+                                                        Escolher Arquivo
+                                                    </span>
+                                                </button>
+                                                <button class="file-name btn btn-success btn-round" id="file-name-5" style="display: none;">
+                                                    <span class="button-content">
+                                                        <i class="material-icons">check</i>
+                                                        Nenhum arquivo escolhido
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><hr>
+                                
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">
+                                            6. Classroom management: It is crucial for teachers to understand that good classroom management is, in many respects, preventative, not reactive. Instead of merely responding to behaviour, the skilled teacher creates the conditions that sustain the desired behaviours and prevent problematic behaviours before they happen.
+                                        </div>
+                                        <div class="comp-nota-1">
+                                            <div class="radio-options">
+                                                {{ form.classroom_management }}
+                                            </div>
+                                            <div class="tipo-de-faturamento-1 comp-nota-2">
+                                                <input type="file" id="file-upload-6" name="classroom_management_pdf" style="display: none;">
+                                                <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-6').click();" id="btn-upload-6">
+                                                    <span class="button-content">
+                                                        <i class="material-icons">attach_file</i>
+                                                        Escolher Arquivo
+                                                    </span>
+                                                </button>
+                                                <button class="file-name btn btn-success btn-round" id="file-name-6" style="display: none;">
+                                                    <span class="button-content">
+                                                        <i class="material-icons">check</i>
+                                                        Nenhum arquivo escolhido
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><hr>
+                                
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">
+                                            7. Supervision & Evaluation: Leadership provides ongoing monitoring and supervision of staff and follows Maple Bear’s Teacher Performance Assessment Protocol to conduct teacher performance appraisals.
+                                        </div>
+                                        <div class="comp-nota-1">
+                                            <div class="radio-options">
+                                                {{ form.supervision_evaluation }}
+                                            </div>
+                                            <div class="tipo-de-faturamento-1 comp-nota-2">
+                                                <input type="file" id="file-upload-7" name="supervision_evaluation_pdf" style="display: none;">
+                                                <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-7').click();" id="btn-upload-7">
+                                                    <span class="button-content">
+                                                        <i class="material-icons">attach_file</i>
+                                                        Escolher Arquivo
+                                                    </span>
+                                                </button>
+                                                <button class="file-name btn btn-success btn-round" id="file-name-7" style="display: none;">
+                                                    <span class="button-content">
+                                                        <i class="material-icons">check</i>
+                                                        Nenhum arquivo escolhido
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><hr>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="login-button">
+                              <button type="submit" class="btn btn-primary">Salvar</button>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+
+
+
+
+
+
+      
+    </section>
+    </div>
+    <!-- Features Section End -->   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     
+
+    </footer>
+    <!-- Footer Section End --> 
+
+    <!-- Go To Top Link -->
+    {% comment %} <a href="#" class="back-to-top">
+      <i class="lni-arrow-up"></i>
+    </a> {% endcomment %}
+
+    <div id="loader">
+      <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+      </div>
+    </div>    
+    <script>
+        document.querySelectorAll('input[type="file"]').forEach(input => {
+            input.onchange = function () {
+                const idSuffix = this.id.split('-').pop();
+                const fileNameSpan = document.getElementById('file-name-' + idSuffix);
+                const uploadButton = document.getElementById('btn-upload-' + idSuffix);
+        
+                if (this.files.length > 0) {
+                    fileNameSpan.innerHTML = `
+                        <span class="button-content">
+                            <i class="material-icons">check</i> ${this.files[0].name}
+                        </span>`;
+                    fileNameSpan.style.display = 'inline';
+                    uploadButton.style.display = 'none';
+                } else {
+                    fileNameSpan.style.display = 'none';
+                    uploadButton.style.display = 'inline';
+                }
+            };
+        });
+    </script>
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#id_cliente_gi').change(function () {
+                let cliente_gi_id = $(this).val();
+                $.get('/api/departamentos/?cliente_gi_id=' + cliente_gi_id, function (data) {
+                    let select = $('#id_departamento');
+                    select.empty();
+                    select.append('<option value="" selected>---------</option>'); // Adicionado aqui
+                    $.each(data, function (index, value) {
+                        select.append('<option value="' + value.id + '">' + value.nome_departamento + '</option>');
+                    });
+                });
+                $.get('/api/bases/?cliente_gi_id=' + cliente_gi_id, function (data) {
+                    let select = $('#id_cargo');
+                    select.empty();
+                    select.append('<option value="" selected>---------</option>'); // Adicionado aqui
+                    $.each(data, function (index, value) {
+                        select.append('<option value="' + value.id + '">' + value.cargo + '</option>');
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#id_departamento').change(function() {
+                var departamento_id = $(this).val();
+                $.getJSON('/api/turnos/?departamento_id=' + departamento_id, function(data) {
+                    var select = $('#id_turno');
+                    select.empty();
+                    select.append('<option value="" selected>---------</option>'); // Adicionado aqui
+                    $.each(data, function(index, value) {
+                        select.append('<option value="' + value.id + '">' + value.nome + '</option>');
+                    });
+                });
+            });
+        });
+    </script>
+    <script src="{% static 'assets_2/js/jquery-min.js' %}"></script>
+    <script src="{% static 'assets_2/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets_2/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets_2/js/classie.js' %}"></script>
+
+    <script src="{% static 'assets_2/js/jquery.mixitup.js' %}"></script>
+    <script src="{% static 'assets_2/js/nivo-lightbox.js' %}"></script>
+    <script src="{% static 'assets_2/js/owl.carousel.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.stellar.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.nav.js' %}"></script>    
+    <script src="{% static 'assets_2/js/scrolling-nav.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.easing.min.js' %}"></script>     
+    <script src="{% static 'assets_2/js/wow.js' %}"></script> 
+    <script src="{% static 'assets_2/js/jquery.vide.js' %}"></script>
+    <script src="{% static 'assets_2/js/jquery.counterup.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/jquery.magnific-popup.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/waypoints.min.js' %}"></script>    
+    <script src="{% static 'assets_2/js/form-validator.min.js' %}"></script>
+    <script src="{% static 'assets_2/js/contact-form-script.js' %}"></script>   
+    <script src="{% static 'assets_2/js/main.js' %}"></script>
+    <script>
+      document.getElementById('search-input').addEventListener('focus', function() {
+          this.style.border = 'none';
+      });
+      document.getElementById('search-input').addEventListener('blur', function() {
+          this.style.border = '';  // Restaure a borda quando o elemento perde o foco
+      });
+      </script>
+  </body>
+</html>

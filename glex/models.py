@@ -252,3 +252,149 @@ class Dominio2(models.Model):
 
     def __str__(self):
         return f"{self.escola} - Dominio2"
+
+
+class Dominio3(models.Model):
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="dominio3",
+        verbose_name="Nome da Escola",
+    )
+
+    instructional_processes_practices = models.IntegerField(
+        choices=EXPECTATION_CHOICES,
+        verbose_name="Instructional Processes and Practices",
+    )
+    instructional_processes_practices_pdf = models.FileField(
+        upload_to="pdfs/dominio3/",
+        blank=True,
+        null=True,
+        verbose_name="Instructional Processes and Practices (PDF)",
+    )
+
+    learning_plans = models.IntegerField(
+        choices=EXPECTATION_CHOICES, verbose_name="Learning Plans"
+    )
+    learning_plans_pdf = models.FileField(
+        upload_to="pdfs/dominio3/",
+        blank=True,
+        null=True,
+        verbose_name="Learning Plans (PDF)",
+    )
+
+    student_centered_learning = models.IntegerField(
+        choices=EXPECTATION_CHOICES, verbose_name="Student Centered Learning"
+    )
+    student_centered_learning_pdf = models.FileField(
+        upload_to="pdfs/dominio3/",
+        blank=True,
+        null=True,
+        verbose_name="Student Centered Learning (PDF)",
+    )
+
+    inclusionary_practices = models.IntegerField(
+        choices=EXPECTATION_CHOICES, verbose_name="Inclusionary Practices"
+    )
+    inclusionary_practices_pdf = models.FileField(
+        upload_to="pdfs/dominio3/",
+        blank=True,
+        null=True,
+        verbose_name="Inclusionary Practices (PDF)",
+    )
+
+    teacher_collaboration = models.IntegerField(
+        choices=EXPECTATION_CHOICES, verbose_name="Teacher Collaboration"
+    )
+    teacher_collaboration_pdf = models.FileField(
+        upload_to="pdfs/dominio3/",
+        blank=True,
+        null=True,
+        verbose_name="Teacher Collaboration (PDF)",
+    )
+
+    classroom_management = models.IntegerField(
+        choices=EXPECTATION_CHOICES, verbose_name="Classroom Management"
+    )
+    classroom_management_pdf = models.FileField(
+        upload_to="pdfs/dominio3/",
+        blank=True,
+        null=True,
+        verbose_name="Classroom Management (PDF)",
+    )
+
+    supervision_evaluation = models.IntegerField(
+        choices=EXPECTATION_CHOICES, verbose_name="Supervision & Evaluation"
+    )
+    supervision_evaluation_pdf = models.FileField(
+        upload_to="pdfs/dominio3/",
+        blank=True,
+        null=True,
+        verbose_name="Supervision & Evaluation (PDF)",
+    )
+
+    def __str__(self):
+        return f"{self.escola} - Dominio3"
+
+
+class Dominio4(models.Model):
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="dominio4",
+        verbose_name="Nome da Escola",
+    )
+
+    learning_goals_success_criteria = models.IntegerField(
+        choices=EXPECTATION_CHOICES, verbose_name="Learning Goals and Success Criteria"
+    )
+    learning_goals_success_criteria_pdf = models.FileField(
+        upload_to="pdfs/dominio4/",
+        blank=True,
+        null=True,
+        verbose_name="Learning Goals and Success Criteria (PDF)",
+    )
+
+    assessment_strategies_tools = models.IntegerField(
+        choices=EXPECTATION_CHOICES, verbose_name="Assessment Strategies and Tools"
+    )
+    assessment_strategies_tools_pdf = models.FileField(
+        upload_to="pdfs/dominio4/",
+        blank=True,
+        null=True,
+        verbose_name="Assessment Strategies and Tools (PDF)",
+    )
+
+    fair_assessment_practices = models.IntegerField(
+        choices=EXPECTATION_CHOICES, verbose_name="Fair Assessment Practices"
+    )
+    fair_assessment_practices_pdf = models.FileField(
+        upload_to="pdfs/dominio4/",
+        blank=True,
+        null=True,
+        verbose_name="Fair Assessment Practices (PDF)",
+    )
+
+    assessment_triangulation_data = models.IntegerField(
+        choices=EXPECTATION_CHOICES,
+        verbose_name="Assessment and the Triangulation of Data",
+    )
+    assessment_triangulation_data_pdf = models.FileField(
+        upload_to="pdfs/dominio4/",
+        blank=True,
+        null=True,
+        verbose_name="Assessment and the Triangulation of Data (PDF)",
+    )
+
+    reporting_student_achievement = models.IntegerField(
+        choices=EXPECTATION_CHOICES, verbose_name="Reporting Student Achievement"
+    )
+    reporting_student_achievement_pdf = models.FileField(
+        upload_to="pdfs/dominio4/",
+        blank=True,
+        null=True,
+        verbose_name="Reporting Student Achievement (PDF)",
+    )
+
+    def __str__(self):
+        return f"{self.escola} - Dominio4"

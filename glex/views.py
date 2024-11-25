@@ -1,6 +1,13 @@
 from django.views.generic import TemplateView, CreateView, UpdateView
-from .forms import AdministrativoForm, ComercialForm, Dominio1Form, Dominio2Form
-from .models import Administrativo, Comercial, Dominio1, Dominio2
+from .forms import (
+    AdministrativoForm,
+    ComercialForm,
+    Dominio1Form,
+    Dominio2Form,
+    Dominio3Form,
+    Dominio4Form,
+)
+from .models import Administrativo, Comercial, Dominio1, Dominio2, Dominio3, Dominio4
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
@@ -203,3 +210,17 @@ class Dominio2CreateView(CreateView):
     form_class = Dominio2Form
     template_name = "pages/dominio2_form.html"
     success_url = reverse_lazy("dominio2_list")
+
+
+class Dominio3CreateView(CreateView):
+    model = Dominio3
+    form_class = Dominio3Form
+    template_name = "pages/dominio3_form.html"
+    success_url = reverse_lazy("dominio3_list")
+
+
+class Dominio4CreateView(CreateView):
+    model = Dominio4
+    form_class = Dominio4Form
+    template_name = "pages/dominio4_form.html"
+    success_url = reverse_lazy("dominio4_list")

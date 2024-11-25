@@ -1,5 +1,5 @@
 from django import forms
-from .models import Administrativo, Comercial, Dominio1, Dominio2
+from .models import Administrativo, Comercial, Dominio1, Dominio2, Dominio3, Dominio4
 from django.core.exceptions import ValidationError
 
 
@@ -169,6 +169,124 @@ class Dominio2Form(forms.ModelForm):
                 }
             ),
             "collection_interpretation_data": forms.RadioSelect(
+                attrs={
+                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                }
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Remove a opção "-------" de todos os campos de RadioSelect
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, forms.RadioSelect):
+                field.choices = list(field.choices)[1:]
+
+
+class Dominio3Form(forms.ModelForm):
+    class Meta:
+        model = Dominio3
+        fields = [
+            "escola",
+            "instructional_processes_practices",
+            "instructional_processes_practices_pdf",
+            "learning_plans",
+            "learning_plans_pdf",
+            "student_centered_learning",
+            "student_centered_learning_pdf",
+            "inclusionary_practices",
+            "inclusionary_practices_pdf",
+            "teacher_collaboration",
+            "teacher_collaboration_pdf",
+            "classroom_management",
+            "classroom_management_pdf",
+            "supervision_evaluation",
+            "supervision_evaluation_pdf",
+        ]
+        widgets = {
+            "instructional_processes_practices": forms.RadioSelect(
+                attrs={
+                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                }
+            ),
+            "learning_plans": forms.RadioSelect(
+                attrs={
+                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                }
+            ),
+            "student_centered_learning": forms.RadioSelect(
+                attrs={
+                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                }
+            ),
+            "inclusionary_practices": forms.RadioSelect(
+                attrs={
+                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                }
+            ),
+            "teacher_collaboration": forms.RadioSelect(
+                attrs={
+                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                }
+            ),
+            "classroom_management": forms.RadioSelect(
+                attrs={
+                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                }
+            ),
+            "supervision_evaluation": forms.RadioSelect(
+                attrs={
+                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                }
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Remove a opção "-------" de todos os campos de RadioSelect
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, forms.RadioSelect):
+                field.choices = list(field.choices)[1:]
+
+
+class Dominio4Form(forms.ModelForm):
+    class Meta:
+        model = Dominio4
+        fields = [
+            "escola",
+            "learning_goals_success_criteria",
+            "learning_goals_success_criteria_pdf",
+            "assessment_strategies_tools",
+            "assessment_strategies_tools_pdf",
+            "fair_assessment_practices",
+            "fair_assessment_practices_pdf",
+            "assessment_triangulation_data",
+            "assessment_triangulation_data_pdf",
+            "reporting_student_achievement",
+            "reporting_student_achievement_pdf",
+        ]
+        widgets = {
+            "learning_goals_success_criteria": forms.RadioSelect(
+                attrs={
+                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                }
+            ),
+            "assessment_strategies_tools": forms.RadioSelect(
+                attrs={
+                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                }
+            ),
+            "fair_assessment_practices": forms.RadioSelect(
+                attrs={
+                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                }
+            ),
+            "assessment_triangulation_data": forms.RadioSelect(
+                attrs={
+                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                }
+            ),
+            "reporting_student_achievement": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }

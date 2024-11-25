@@ -9,6 +9,8 @@ from .views import (
     ComercialUpdateView,
     Dominio1CreateView,
     Dominio2CreateView,
+    Dominio3CreateView,
+    Dominio4CreateView,
 )
 
 urlpatterns = [
@@ -33,4 +35,6 @@ urlpatterns = [
     ),
     path("dominio1/create/", Dominio1CreateView.as_view(), name="dominio1_create"),
     path("dominio2/create/", Dominio2CreateView.as_view(), name="dominio2_create"),
+    path("dominio3/create/", Dominio3CreateView.as_view(), name="dominio3_create"),
+    path("dominio4/create/", Dominio4CreateView.as_view(), name="dominio4_create"),
 ]
