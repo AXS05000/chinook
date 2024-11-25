@@ -118,9 +118,9 @@
                                     </td>
                                     <td style="padding-left: 2rem">{{ dominio.pontuacao }}</td>
                                     <td class="text-center">
-                                        <a href="{{ dominio.url }}">
-                                            <i class="material-icons" style="color: #28a745;">assignment</i>
-                                        </a>
+                                      <a href="{{ dominio.url }}">
+                                          <i class="material-icons" {% if dominio.status == "complete" %} style="color: #28a745;" {% endif %}>assignment</i>
+                                      </a>
                                     </td>
                                 </tr>
                                 {% endfor %}
