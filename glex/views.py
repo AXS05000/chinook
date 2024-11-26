@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, CreateView, UpdateView
+from django.views.generic import TemplateView, CreateView, UpdateView, View
 from .forms import (
     AdministrativoForm,
     ComercialForm,
@@ -14,6 +14,8 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
+from ia.models import CRM_FUI
+from django.http import Http404
 
 
 class HomeGlex(TemplateView):
@@ -203,9 +205,17 @@ class Dominio1CreateView(CreateView):
     model = Dominio1
     form_class = Dominio1Form
     template_name = "pages/dominio1_form.html"
-    success_url = reverse_lazy("dominio1_list")
+    success_url = reverse_lazy("tabela_qa")
+
+    def get_initial(self):
+        initial = super().get_initial()
+        escola_id = self.request.GET.get("escola_id")
+        if escola_id:
+            initial["escola"] = escola_id
+        return initial
 
     def form_valid(self, form):
+        form.instance.escola_id = self.request.GET.get("escola_id")
         messages.success(self.request, "Dominio 1 foi salvo com sucesso!")
         return super().form_valid(form)
 
@@ -222,9 +232,17 @@ class Dominio2CreateView(CreateView):
     model = Dominio2
     form_class = Dominio2Form
     template_name = "pages/dominio2_form.html"
-    success_url = reverse_lazy("dominio2_list")
+    success_url = reverse_lazy("tabela_qa")
+
+    def get_initial(self):
+        initial = super().get_initial()
+        escola_id = self.request.GET.get("escola_id")
+        if escola_id:
+            initial["escola"] = escola_id
+        return initial
 
     def form_valid(self, form):
+        form.instance.escola_id = self.request.GET.get("escola_id")
         messages.success(self.request, "Dominio 2 foi salvo com sucesso!")
         return super().form_valid(form)
 
@@ -241,9 +259,17 @@ class Dominio3CreateView(CreateView):
     model = Dominio3
     form_class = Dominio3Form
     template_name = "pages/dominio3_form.html"
-    success_url = reverse_lazy("dominio3_list")
+    success_url = reverse_lazy("tabela_qa")
+
+    def get_initial(self):
+        initial = super().get_initial()
+        escola_id = self.request.GET.get("escola_id")
+        if escola_id:
+            initial["escola"] = escola_id
+        return initial
 
     def form_valid(self, form):
+        form.instance.escola_id = self.request.GET.get("escola_id")
         messages.success(self.request, "Dominio 3 foi salvo com sucesso!")
         return super().form_valid(form)
 
@@ -260,9 +286,17 @@ class Dominio4CreateView(CreateView):
     model = Dominio4
     form_class = Dominio4Form
     template_name = "pages/dominio4_form.html"
-    success_url = reverse_lazy("dominio4_list")
+    success_url = reverse_lazy("tabela_qa")
+
+    def get_initial(self):
+        initial = super().get_initial()
+        escola_id = self.request.GET.get("escola_id")
+        if escola_id:
+            initial["escola"] = escola_id
+        return initial
 
     def form_valid(self, form):
+        form.instance.escola_id = self.request.GET.get("escola_id")
         messages.success(self.request, "Dominio 4 foi salvo com sucesso!")
         return super().form_valid(form)
 
@@ -280,8 +314,15 @@ class TabelaQAView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        escola_id = kwargs.get("escola_id")
 
-        # Informações dos domínios definidas manualmente
+        # Busca a escola correspondente
+        try:
+            escola = CRM_FUI.objects.get(id_escola=escola_id)
+        except CRM_FUI.DoesNotExist:
+            raise Http404("Escola não encontrada.")
+
+        # Informações dos domínios
         context["dominios"] = [
             {
                 "dominio": "Domínio 1",
@@ -308,5 +349,48 @@ class TabelaQAView(TemplateView):
                 "url": reverse("dominio4_create"),
             },
         ]
-
+        context["escola"] = escola
         return context
+
+    def get_pontuacao(self, model, escola):
+        """Calcula a pontuação com base nas perguntas respondidas."""
+        instance = model.objects.filter(escola=escola).first()
+        if not instance:
+            return "0/0"  # Nenhum dado preenchido
+        total_perguntas = len(model._meta.fields) - 2  # Remove 'id' e 'escola'
+        respostas_preenchidas = sum(
+            bool(getattr(instance, field.name))
+            for field in model._meta.fields
+            if field.name not in ["id", "escola"]
+        )
+        return f"{respostas_preenchidas}/{total_perguntas}"
+
+    def get_status(self, model, escola):
+        """Verifica se todas as perguntas foram respondidas."""
+        instance = model.objects.filter(escola=escola).first()
+        if not instance:
+            return "pending"  # Sem dados preenchidos
+        total_perguntas = len(model._meta.fields) - 2  # Remove 'id' e 'escola'
+        respostas_preenchidas = sum(
+            bool(getattr(instance, field.name))
+            for field in model._meta.fields
+            if field.name not in ["id", "escola"]
+        )
+        return "complete" if respostas_preenchidas == total_perguntas else "pending"
+
+
+class BuscarEscolaView(TemplateView):
+    template_name = (
+        "pages/buscar_escola.html"  # Nome do seu template para busca do CNPJ
+    )
+
+    def post(self, request, *args, **kwargs):
+        cnpj = request.POST.get("cnpj")
+        try:
+            escola = CRM_FUI.objects.get(CNPJ=cnpj)
+            return redirect(
+                reverse("tabela_qa", kwargs={"escola_id": escola.id_escola})
+            )
+        except CRM_FUI.DoesNotExist:
+            messages.error(request, "Escola com o CNPJ fornecido não encontrada.")
+            return redirect("buscar_escola")

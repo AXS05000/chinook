@@ -12,6 +12,7 @@ from .views import (
     Dominio3CreateView,
     Dominio4CreateView,
     TabelaQAView,
+    BuscarEscolaView,
 )
 
 urlpatterns = [
@@ -38,5 +39,6 @@ urlpatterns = [
     path("dominio2/create/", Dominio2CreateView.as_view(), name="dominio2_create"),
     path("dominio3/create/", Dominio3CreateView.as_view(), name="dominio3_create"),
     path("dominio4/create/", Dominio4CreateView.as_view(), name="dominio4_create"),
-    path("tabela_qa/", TabelaQAView.as_view(), name="tabela_qa"),
+    path("tabela_qa/<int:escola_id>/", TabelaQAView.as_view(), name="tabela_qa"),
+    path("buscar_escola/", BuscarEscolaView.as_view(), name="buscar_escola"),
 ]

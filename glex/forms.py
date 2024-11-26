@@ -54,23 +54,7 @@ class ComercialForm(forms.ModelForm):
 class Dominio1Form(forms.ModelForm):
     class Meta:
         model = Dominio1
-        fields = [
-            "escola",
-            "program_implementation",
-            "program_implementation_pdf",
-            "staffing_instructional_program",
-            "staffing_instructional_program_pdf",
-            "resource_allocation",
-            "resource_allocation_pdf",
-            "implementation_supervision_instructional_program",
-            "implementation_supervision_instructional_program_pdf",
-            "professional_learning_opportunities",
-            "professional_learning_opportunities_pdf",
-            "commitment_to_bilingual_education",
-            "commitment_to_bilingual_education_pdf",
-            "strategic_planning",
-            "strategic_planning_pdf",
-        ]
+        exclude = ["escola"]  # O campo escola será preenchido automaticamente
         widgets = {
             "program_implementation": forms.RadioSelect(
                 attrs={
@@ -110,7 +94,10 @@ class Dominio1Form(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        escola_id = kwargs.pop("escola_id", None)
         super().__init__(*args, **kwargs)
+        if escola_id:
+            self.fields["escola"].initial = escola_id
         # Remove a opção "-------" de todos os campos de RadioSelect
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.RadioSelect):
@@ -120,30 +107,14 @@ class Dominio1Form(forms.ModelForm):
 class Dominio2Form(forms.ModelForm):
     class Meta:
         model = Dominio2
-        fields = [
-            "escola",
-            "culture",
-            "culture_pdf",
-            "safe_and_caring_school",
-            "safe_and_caring_school_pdf",
-            "equity_diversity_inclusion",
-            "equity_diversity_inclusion_pdf",
-            "stakeholder_communication",
-            "stakeholder_communication_pdf",
-            "stakeholder_engagement",
-            "stakeholder_engagement_pdf",
-            "health_and_safety",
-            "health_and_safety_pdf",
-            "collection_interpretation_data",
-            "collection_interpretation_data_pdf",
-        ]
+        exclude = ["escola"]
         widgets = {
             "culture": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
             ),
-            "safe_and_caring_school": forms.RadioSelect(
+            "safe_caring_school": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
@@ -163,12 +134,12 @@ class Dominio2Form(forms.ModelForm):
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
             ),
-            "health_and_safety": forms.RadioSelect(
+            "health_safety": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
             ),
-            "collection_interpretation_data": forms.RadioSelect(
+            "whole_school_data": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
@@ -176,8 +147,10 @@ class Dominio2Form(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        escola_id = kwargs.pop("escola_id", None)
         super().__init__(*args, **kwargs)
-        # Remove a opção "-------" de todos os campos de RadioSelect
+        if escola_id:
+            self.fields["escola"].initial = escola_id
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.RadioSelect):
                 field.choices = list(field.choices)[1:]
@@ -186,25 +159,9 @@ class Dominio2Form(forms.ModelForm):
 class Dominio3Form(forms.ModelForm):
     class Meta:
         model = Dominio3
-        fields = [
-            "escola",
-            "instructional_processes_practices",
-            "instructional_processes_practices_pdf",
-            "learning_plans",
-            "learning_plans_pdf",
-            "student_centered_learning",
-            "student_centered_learning_pdf",
-            "inclusionary_practices",
-            "inclusionary_practices_pdf",
-            "teacher_collaboration",
-            "teacher_collaboration_pdf",
-            "classroom_management",
-            "classroom_management_pdf",
-            "supervision_evaluation",
-            "supervision_evaluation_pdf",
-        ]
+        exclude = ["escola"]
         widgets = {
-            "instructional_processes_practices": forms.RadioSelect(
+            "instructional_processes": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
@@ -242,8 +199,10 @@ class Dominio3Form(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        escola_id = kwargs.pop("escola_id", None)
         super().__init__(*args, **kwargs)
-        # Remove a opção "-------" de todos os campos de RadioSelect
+        if escola_id:
+            self.fields["escola"].initial = escola_id
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.RadioSelect):
                 field.choices = list(field.choices)[1:]
@@ -252,26 +211,14 @@ class Dominio3Form(forms.ModelForm):
 class Dominio4Form(forms.ModelForm):
     class Meta:
         model = Dominio4
-        fields = [
-            "escola",
-            "learning_goals_success_criteria",
-            "learning_goals_success_criteria_pdf",
-            "assessment_strategies_tools",
-            "assessment_strategies_tools_pdf",
-            "fair_assessment_practices",
-            "fair_assessment_practices_pdf",
-            "assessment_triangulation_data",
-            "assessment_triangulation_data_pdf",
-            "reporting_student_achievement",
-            "reporting_student_achievement_pdf",
-        ]
+        exclude = ["escola"]
         widgets = {
-            "learning_goals_success_criteria": forms.RadioSelect(
+            "learning_goals": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
             ),
-            "assessment_strategies_tools": forms.RadioSelect(
+            "assessment_strategies": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
@@ -281,7 +228,7 @@ class Dominio4Form(forms.ModelForm):
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
             ),
-            "assessment_triangulation_data": forms.RadioSelect(
+            "triangulation_of_data": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
@@ -294,8 +241,10 @@ class Dominio4Form(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        escola_id = kwargs.pop("escola_id", None)
         super().__init__(*args, **kwargs)
-        # Remove a opção "-------" de todos os campos de RadioSelect
+        if escola_id:
+            self.fields["escola"].initial = escola_id
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.RadioSelect):
                 field.choices = list(field.choices)[1:]
