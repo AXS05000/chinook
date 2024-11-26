@@ -456,25 +456,25 @@ class TabelaQAView(TemplateView):
         # Informações dos domínios
         context["dominios"] = [
             {
-                "dominio": "Domínio 1",
+                "dominio": "D1: Integrity of Maple Bear & Local Programming",
                 "pontuacao": "0/7",
                 "status": "pending",
                 "url": reverse("dominio1_create"),
             },
             {
-                "dominio": "Domínio 2",
+                "dominio": "D2 - Leadership and Management",
                 "pontuacao": "0/7",
                 "status": "pending",
                 "url": reverse("dominio2_create"),
             },
             {
-                "dominio": "Domínio 3",
+                "dominio": "D3 - Quality of Instruction and Learning",
                 "pontuacao": "0/7",
                 "status": "pending",
                 "url": reverse("dominio3_create"),
             },
             {
-                "dominio": "Domínio 4",
+                "dominio": "D4: Assessment, Evaluation and Reporting",
                 "pontuacao": "0/5",
                 "status": "pending",
                 "url": reverse("dominio4_create"),
