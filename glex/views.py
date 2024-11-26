@@ -205,7 +205,6 @@ class Dominio1CreateView(CreateView):
     model = Dominio1
     form_class = Dominio1Form
     template_name = "pages/dominio1_form.html"
-    success_url = reverse_lazy("tabela_qa")
 
     def get_initial(self):
         initial = super().get_initial()
@@ -215,8 +214,10 @@ class Dominio1CreateView(CreateView):
         return initial
 
     def form_valid(self, form):
-        form.instance.escola_id = self.request.GET.get("escola_id")
+        escola_id = self.request.GET.get("escola_id")
+        form.instance.escola_id = escola_id
         messages.success(self.request, "Dominio 1 foi salvo com sucesso!")
+        self.success_url = reverse_lazy("tabela_qa", kwargs={"escola_id": escola_id})
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -232,7 +233,6 @@ class Dominio2CreateView(CreateView):
     model = Dominio2
     form_class = Dominio2Form
     template_name = "pages/dominio2_form.html"
-    success_url = reverse_lazy("tabela_qa")
 
     def get_initial(self):
         initial = super().get_initial()
@@ -242,8 +242,10 @@ class Dominio2CreateView(CreateView):
         return initial
 
     def form_valid(self, form):
-        form.instance.escola_id = self.request.GET.get("escola_id")
+        escola_id = self.request.GET.get("escola_id")
+        form.instance.escola_id = escola_id
         messages.success(self.request, "Dominio 2 foi salvo com sucesso!")
+        self.success_url = reverse_lazy("tabela_qa", kwargs={"escola_id": escola_id})
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -259,7 +261,6 @@ class Dominio3CreateView(CreateView):
     model = Dominio3
     form_class = Dominio3Form
     template_name = "pages/dominio3_form.html"
-    success_url = reverse_lazy("tabela_qa")
 
     def get_initial(self):
         initial = super().get_initial()
@@ -269,8 +270,10 @@ class Dominio3CreateView(CreateView):
         return initial
 
     def form_valid(self, form):
-        form.instance.escola_id = self.request.GET.get("escola_id")
+        escola_id = self.request.GET.get("escola_id")
+        form.instance.escola_id = escola_id
         messages.success(self.request, "Dominio 3 foi salvo com sucesso!")
+        self.success_url = reverse_lazy("tabela_qa", kwargs={"escola_id": escola_id})
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -286,7 +289,6 @@ class Dominio4CreateView(CreateView):
     model = Dominio4
     form_class = Dominio4Form
     template_name = "pages/dominio4_form.html"
-    success_url = reverse_lazy("tabela_qa")
 
     def get_initial(self):
         initial = super().get_initial()
@@ -296,8 +298,10 @@ class Dominio4CreateView(CreateView):
         return initial
 
     def form_valid(self, form):
-        form.instance.escola_id = self.request.GET.get("escola_id")
+        escola_id = self.request.GET.get("escola_id")
+        form.instance.escola_id = escola_id
         messages.success(self.request, "Dominio 4 foi salvo com sucesso!")
+        self.success_url = reverse_lazy("tabela_qa", kwargs={"escola_id": escola_id})
         return super().form_valid(form)
 
     def form_invalid(self, form):

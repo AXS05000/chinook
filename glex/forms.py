@@ -114,7 +114,7 @@ class Dominio2Form(forms.ModelForm):
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
             ),
-            "safe_caring_school": forms.RadioSelect(
+            "safe_and_caring_school": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
@@ -134,12 +134,12 @@ class Dominio2Form(forms.ModelForm):
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
             ),
-            "health_safety": forms.RadioSelect(
+            "health_and_safety": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
             ),
-            "whole_school_data": forms.RadioSelect(
+            "collection_interpretation_data": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
@@ -161,7 +161,7 @@ class Dominio3Form(forms.ModelForm):
         model = Dominio3
         exclude = ["escola"]
         widgets = {
-            "instructional_processes": forms.RadioSelect(
+            "instructional_processes_practices": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
@@ -213,12 +213,12 @@ class Dominio4Form(forms.ModelForm):
         model = Dominio4
         exclude = ["escola"]
         widgets = {
-            "learning_goals": forms.RadioSelect(
+            "learning_goals_success_criteria": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
             ),
-            "assessment_strategies": forms.RadioSelect(
+            "assessment_strategies_tools": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
@@ -228,7 +228,7 @@ class Dominio4Form(forms.ModelForm):
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
             ),
-            "triangulation_of_data": forms.RadioSelect(
+            "assessment_triangulation_data": forms.RadioSelect(
                 attrs={
                     "class": "horizontal-radio form-check-label form-check-input form-check"
                 }
