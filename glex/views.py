@@ -201,23 +201,34 @@ class ComercialUpdateView(LoginRequiredMixin, UpdateView):
 
 
 #######################  QA ##########################
-class Dominio1CreateView(CreateView):
+class Dominio1View(CreateView):
     model = Dominio1
     form_class = Dominio1Form
     template_name = "pages/dominio1_form.html"
 
+    def dispatch(self, request, *args, **kwargs):
+        escola_id = request.GET.get("escola_id")
+        if not escola_id:
+            messages.error(request, "Escola não identificada.")
+            return redirect("buscar_escola")
+
+        self.escola_id = escola_id
+        self.instance = Dominio1.objects.filter(escola_id=escola_id).first()
+
+        if self.instance:
+            return redirect(reverse("dominio1_update", kwargs={"pk": self.instance.pk}))
+
+        return super().dispatch(request, *args, **kwargs)
+
     def get_initial(self):
         initial = super().get_initial()
-        escola_id = self.request.GET.get("escola_id")
-        if escola_id:
-            initial["escola"] = escola_id
+        initial["escola"] = self.escola_id
         return initial
 
     def form_valid(self, form):
-        escola_id = self.request.GET.get("escola_id")
-        form.instance.escola_id = escola_id
+        form.instance.escola_id = self.escola_id
         messages.success(self.request, "Dominio 1 foi salvo com sucesso!")
-        self.success_url = reverse_lazy("tabela_qa", kwargs={"escola_id": escola_id})
+        self.success_url = reverse("tabela_qa", kwargs={"escola_id": self.escola_id})
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -229,23 +240,55 @@ class Dominio1CreateView(CreateView):
         return super().form_invalid(form)
 
 
-class Dominio2CreateView(CreateView):
+class Dominio1UpdateView(UpdateView):
+    model = Dominio1
+    form_class = Dominio1Form
+    template_name = "pages/dominio1_form.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Dominio 1 foi atualizado com sucesso!")
+        escola_id = form.instance.escola_id
+        self.success_url = reverse("tabela_qa", kwargs={"escola_id": escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao atualizar Dominio 1: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+# Dominio2 Views
+class Dominio2View(CreateView):
     model = Dominio2
     form_class = Dominio2Form
     template_name = "pages/dominio2_form.html"
 
+    def dispatch(self, request, *args, **kwargs):
+        escola_id = request.GET.get("escola_id")
+        if not escola_id:
+            messages.error(request, "Escola não identificada.")
+            return redirect("buscar_escola")
+
+        self.escola_id = escola_id
+        self.instance = Dominio2.objects.filter(escola_id=escola_id).first()
+
+        if self.instance:
+            return redirect(reverse("dominio2_update", kwargs={"pk": self.instance.pk}))
+
+        return super().dispatch(request, *args, **kwargs)
+
     def get_initial(self):
         initial = super().get_initial()
-        escola_id = self.request.GET.get("escola_id")
-        if escola_id:
-            initial["escola"] = escola_id
+        initial["escola"] = self.escola_id
         return initial
 
     def form_valid(self, form):
-        escola_id = self.request.GET.get("escola_id")
-        form.instance.escola_id = escola_id
+        form.instance.escola_id = self.escola_id
         messages.success(self.request, "Dominio 2 foi salvo com sucesso!")
-        self.success_url = reverse_lazy("tabela_qa", kwargs={"escola_id": escola_id})
+        self.success_url = reverse("tabela_qa", kwargs={"escola_id": self.escola_id})
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -257,23 +300,55 @@ class Dominio2CreateView(CreateView):
         return super().form_invalid(form)
 
 
-class Dominio3CreateView(CreateView):
+class Dominio2UpdateView(UpdateView):
+    model = Dominio2
+    form_class = Dominio2Form
+    template_name = "pages/dominio2_form.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Dominio 2 foi atualizado com sucesso!")
+        escola_id = form.instance.escola_id
+        self.success_url = reverse("tabela_qa", kwargs={"escola_id": escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao atualizar Dominio 2: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+# Dominio3 Views
+class Dominio3View(CreateView):
     model = Dominio3
     form_class = Dominio3Form
     template_name = "pages/dominio3_form.html"
 
+    def dispatch(self, request, *args, **kwargs):
+        escola_id = request.GET.get("escola_id")
+        if not escola_id:
+            messages.error(request, "Escola não identificada.")
+            return redirect("buscar_escola")
+
+        self.escola_id = escola_id
+        self.instance = Dominio3.objects.filter(escola_id=escola_id).first()
+
+        if self.instance:
+            return redirect(reverse("dominio3_update", kwargs={"pk": self.instance.pk}))
+
+        return super().dispatch(request, *args, **kwargs)
+
     def get_initial(self):
         initial = super().get_initial()
-        escola_id = self.request.GET.get("escola_id")
-        if escola_id:
-            initial["escola"] = escola_id
+        initial["escola"] = self.escola_id
         return initial
 
     def form_valid(self, form):
-        escola_id = self.request.GET.get("escola_id")
-        form.instance.escola_id = escola_id
+        form.instance.escola_id = self.escola_id
         messages.success(self.request, "Dominio 3 foi salvo com sucesso!")
-        self.success_url = reverse_lazy("tabela_qa", kwargs={"escola_id": escola_id})
+        self.success_url = reverse("tabela_qa", kwargs={"escola_id": self.escola_id})
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -285,23 +360,55 @@ class Dominio3CreateView(CreateView):
         return super().form_invalid(form)
 
 
-class Dominio4CreateView(CreateView):
+class Dominio3UpdateView(UpdateView):
+    model = Dominio3
+    form_class = Dominio3Form
+    template_name = "pages/dominio3_form.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Dominio 3 foi atualizado com sucesso!")
+        escola_id = form.instance.escola_id
+        self.success_url = reverse("tabela_qa", kwargs={"escola_id": escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao atualizar Dominio 3: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+# Dominio4 Views
+class Dominio4View(CreateView):
     model = Dominio4
     form_class = Dominio4Form
     template_name = "pages/dominio4_form.html"
 
+    def dispatch(self, request, *args, **kwargs):
+        escola_id = request.GET.get("escola_id")
+        if not escola_id:
+            messages.error(request, "Escola não identificada.")
+            return redirect("buscar_escola")
+
+        self.escola_id = escola_id
+        self.instance = Dominio4.objects.filter(escola_id=escola_id).first()
+
+        if self.instance:
+            return redirect(reverse("dominio4_update", kwargs={"pk": self.instance.pk}))
+
+        return super().dispatch(request, *args, **kwargs)
+
     def get_initial(self):
         initial = super().get_initial()
-        escola_id = self.request.GET.get("escola_id")
-        if escola_id:
-            initial["escola"] = escola_id
+        initial["escola"] = self.escola_id
         return initial
 
     def form_valid(self, form):
-        escola_id = self.request.GET.get("escola_id")
-        form.instance.escola_id = escola_id
+        form.instance.escola_id = self.escola_id
         messages.success(self.request, "Dominio 4 foi salvo com sucesso!")
-        self.success_url = reverse_lazy("tabela_qa", kwargs={"escola_id": escola_id})
+        self.success_url = reverse("tabela_qa", kwargs={"escola_id": self.escola_id})
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -310,6 +417,26 @@ class Dominio4CreateView(CreateView):
             f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
         )
         messages.error(self.request, f"Erro ao salvar Dominio 4: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class Dominio4UpdateView(UpdateView):
+    model = Dominio4
+    form_class = Dominio4Form
+    template_name = "pages/dominio4_form.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Dominio 4 foi atualizado com sucesso!")
+        escola_id = form.instance.escola_id
+        self.success_url = reverse("tabela_qa", kwargs={"escola_id": escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao atualizar Dominio 4: {formatted_errors}")
         return super().form_invalid(form)
 
 
