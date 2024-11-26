@@ -453,33 +453,69 @@ class TabelaQAView(TemplateView):
         except CRM_FUI.DoesNotExist:
             raise Http404("Escola não encontrada.")
 
-        # Informações dos domínios
-        context["dominios"] = [
+        # Função auxiliar para calcular pontuação e status
+        def calcular_pontuacao_e_status(model, escola):
+            instance = model.objects.filter(escola=escola).first()
+            if not instance:
+                total_perguntas = len(
+                    [
+                        field
+                        for field in model._meta.fields
+                        if getattr(
+                            field, "choices", None
+                        )  # Inclui apenas campos com `choices`
+                    ]
+                )
+                return f"0/{total_perguntas}", "pending"
+
+            respostas_preenchidas = sum(
+                bool(getattr(instance, field.name))
+                for field in model._meta.fields
+                if getattr(field, "choices", None)  # Inclui apenas campos com `choices`
+            )
+            total_perguntas = len(
+                [
+                    field
+                    for field in model._meta.fields
+                    if getattr(
+                        field, "choices", None
+                    )  # Inclui apenas campos com `choices`
+                ]
+            )
+            status = (
+                "complete" if respostas_preenchidas == total_perguntas else "pending"
+            )
+            return f"{respostas_preenchidas}/{total_perguntas}", status
+
+        # Informações dos domínios com pontuações e status
+        dominios = [
             {
                 "dominio": "D1: Integrity of Maple Bear & Local Programming",
-                "pontuacao": "0/7",
-                "status": "pending",
+                "pontuacao": calcular_pontuacao_e_status(Dominio1, escola)[0],
+                "status": calcular_pontuacao_e_status(Dominio1, escola)[1],
                 "url": reverse("dominio1_create"),
             },
             {
                 "dominio": "D2 - Leadership and Management",
-                "pontuacao": "0/7",
-                "status": "pending",
+                "pontuacao": calcular_pontuacao_e_status(Dominio2, escola)[0],
+                "status": calcular_pontuacao_e_status(Dominio2, escola)[1],
                 "url": reverse("dominio2_create"),
             },
             {
                 "dominio": "D3 - Quality of Instruction and Learning",
-                "pontuacao": "0/7",
-                "status": "pending",
+                "pontuacao": calcular_pontuacao_e_status(Dominio3, escola)[0],
+                "status": calcular_pontuacao_e_status(Dominio3, escola)[1],
                 "url": reverse("dominio3_create"),
             },
             {
                 "dominio": "D4: Assessment, Evaluation and Reporting",
-                "pontuacao": "0/5",
-                "status": "pending",
+                "pontuacao": calcular_pontuacao_e_status(Dominio4, escola)[0],
+                "status": calcular_pontuacao_e_status(Dominio4, escola)[1],
                 "url": reverse("dominio4_create"),
             },
         ]
+
+        context["dominios"] = dominios
         context["escola"] = escola
         return context
 
