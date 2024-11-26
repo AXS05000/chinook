@@ -83,6 +83,22 @@ class Comercial(models.Model):
 #######################  QA ##########################
 
 
+def upload_to_dominio1(instance, filename):
+    return f"{instance.escola.id_escola}/escola/pdfs/dominio1/{filename}"
+
+
+def upload_to_dominio2(instance, filename):
+    return f"{instance.escola.id_escola}/escola/pdfs/dominio2/{filename}"
+
+
+def upload_to_dominio3(instance, filename):
+    return f"{instance.escola.id_escola}/escola/pdfs/dominio3/{filename}"
+
+
+def upload_to_dominio4(instance, filename):
+    return f"{instance.escola.id_escola}/escola/pdfs/dominio4/{filename}"
+
+
 EXPECTATION_CHOICES = [
     (1, "1 - Below Expectations"),
     (2, "2 - Approaching Expectations"),
@@ -99,12 +115,11 @@ class Dominio1(models.Model):
         verbose_name="Nome da Escola",
     )
 
-    # Campos com Choices Reutilizáveis
     program_implementation = models.IntegerField(
         choices=EXPECTATION_CHOICES, verbose_name="Program Implementation"
     )
     program_implementation_pdf = models.FileField(
-        upload_to="pdfs/dominio1/",
+        upload_to=upload_to_dominio1,
         blank=True,
         null=True,
         verbose_name="Program Implementation (PDF)",
@@ -114,7 +129,7 @@ class Dominio1(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Staffing the Instructional Program"
     )
     staffing_instructional_program_pdf = models.FileField(
-        upload_to="pdfs/dominio1/",
+        upload_to=upload_to_dominio1,
         blank=True,
         null=True,
         verbose_name="Staffing the Instructional Program (PDF)",
@@ -124,7 +139,7 @@ class Dominio1(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Resource Allocation"
     )
     resource_allocation_pdf = models.FileField(
-        upload_to="pdfs/dominio1/",
+        upload_to=upload_to_dominio1,
         blank=True,
         null=True,
         verbose_name="Resource Allocation (PDF)",
@@ -135,7 +150,7 @@ class Dominio1(models.Model):
         verbose_name="Implementation and Supervision of the Instructional Program",
     )
     implementation_supervision_instructional_program_pdf = models.FileField(
-        upload_to="pdfs/dominio1/",
+        upload_to=upload_to_dominio1,
         blank=True,
         null=True,
         verbose_name="Implementation and Supervision (PDF)",
@@ -145,7 +160,7 @@ class Dominio1(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Professional Learning Opportunities"
     )
     professional_learning_opportunities_pdf = models.FileField(
-        upload_to="pdfs/dominio1/",
+        upload_to=upload_to_dominio1,
         blank=True,
         null=True,
         verbose_name="Professional Learning Opportunities (PDF)",
@@ -155,7 +170,7 @@ class Dominio1(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Commitment to Bilingual Education"
     )
     commitment_to_bilingual_education_pdf = models.FileField(
-        upload_to="pdfs/dominio1/",
+        upload_to=upload_to_dominio1,
         blank=True,
         null=True,
         verbose_name="Commitment to Bilingual Education (PDF)",
@@ -165,7 +180,7 @@ class Dominio1(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Strategic Planning"
     )
     strategic_planning_pdf = models.FileField(
-        upload_to="pdfs/dominio1/",
+        upload_to=upload_to_dominio1,
         blank=True,
         null=True,
         verbose_name="Strategic Planning (PDF)",
@@ -183,17 +198,19 @@ class Dominio2(models.Model):
         verbose_name="Nome da Escola",
     )
 
-    # Campos com Choices Reutilizáveis
     culture = models.IntegerField(choices=EXPECTATION_CHOICES, verbose_name="Culture")
     culture_pdf = models.FileField(
-        upload_to="pdfs/dominio2/", blank=True, null=True, verbose_name="Culture (PDF)"
+        upload_to=upload_to_dominio2,
+        blank=True,
+        null=True,
+        verbose_name="Culture (PDF)",
     )
 
     safe_and_caring_school = models.IntegerField(
         choices=EXPECTATION_CHOICES, verbose_name="Safe and Caring School"
     )
     safe_and_caring_school_pdf = models.FileField(
-        upload_to="pdfs/dominio2/",
+        upload_to=upload_to_dominio2,
         blank=True,
         null=True,
         verbose_name="Safe and Caring School (PDF)",
@@ -203,7 +220,7 @@ class Dominio2(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Equity, Diversity and Inclusion"
     )
     equity_diversity_inclusion_pdf = models.FileField(
-        upload_to="pdfs/dominio2/",
+        upload_to=upload_to_dominio2,
         blank=True,
         null=True,
         verbose_name="Equity, Diversity and Inclusion (PDF)",
@@ -213,7 +230,7 @@ class Dominio2(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Stakeholder Communication"
     )
     stakeholder_communication_pdf = models.FileField(
-        upload_to="pdfs/dominio2/",
+        upload_to=upload_to_dominio2,
         blank=True,
         null=True,
         verbose_name="Stakeholder Communication (PDF)",
@@ -223,7 +240,7 @@ class Dominio2(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Stakeholder Engagement"
     )
     stakeholder_engagement_pdf = models.FileField(
-        upload_to="pdfs/dominio2/",
+        upload_to=upload_to_dominio2,
         blank=True,
         null=True,
         verbose_name="Stakeholder Engagement (PDF)",
@@ -233,7 +250,7 @@ class Dominio2(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Health and Safety"
     )
     health_and_safety_pdf = models.FileField(
-        upload_to="pdfs/dominio2/",
+        upload_to=upload_to_dominio2,
         blank=True,
         null=True,
         verbose_name="Health and Safety (PDF)",
@@ -244,7 +261,7 @@ class Dominio2(models.Model):
         verbose_name="Collection and Interpretation of Whole School Assessment Data",
     )
     collection_interpretation_data_pdf = models.FileField(
-        upload_to="pdfs/dominio2/",
+        upload_to=upload_to_dominio2,
         blank=True,
         null=True,
         verbose_name="Collection and Interpretation of Whole School Assessment Data (PDF)",
@@ -267,7 +284,7 @@ class Dominio3(models.Model):
         verbose_name="Instructional Processes and Practices",
     )
     instructional_processes_practices_pdf = models.FileField(
-        upload_to="pdfs/dominio3/",
+        upload_to=upload_to_dominio3,
         blank=True,
         null=True,
         verbose_name="Instructional Processes and Practices (PDF)",
@@ -277,7 +294,7 @@ class Dominio3(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Learning Plans"
     )
     learning_plans_pdf = models.FileField(
-        upload_to="pdfs/dominio3/",
+        upload_to=upload_to_dominio3,
         blank=True,
         null=True,
         verbose_name="Learning Plans (PDF)",
@@ -287,7 +304,7 @@ class Dominio3(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Student Centered Learning"
     )
     student_centered_learning_pdf = models.FileField(
-        upload_to="pdfs/dominio3/",
+        upload_to=upload_to_dominio3,
         blank=True,
         null=True,
         verbose_name="Student Centered Learning (PDF)",
@@ -297,7 +314,7 @@ class Dominio3(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Inclusionary Practices"
     )
     inclusionary_practices_pdf = models.FileField(
-        upload_to="pdfs/dominio3/",
+        upload_to=upload_to_dominio3,
         blank=True,
         null=True,
         verbose_name="Inclusionary Practices (PDF)",
@@ -307,7 +324,7 @@ class Dominio3(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Teacher Collaboration"
     )
     teacher_collaboration_pdf = models.FileField(
-        upload_to="pdfs/dominio3/",
+        upload_to=upload_to_dominio3,
         blank=True,
         null=True,
         verbose_name="Teacher Collaboration (PDF)",
@@ -317,7 +334,7 @@ class Dominio3(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Classroom Management"
     )
     classroom_management_pdf = models.FileField(
-        upload_to="pdfs/dominio3/",
+        upload_to=upload_to_dominio3,
         blank=True,
         null=True,
         verbose_name="Classroom Management (PDF)",
@@ -327,7 +344,7 @@ class Dominio3(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Supervision & Evaluation"
     )
     supervision_evaluation_pdf = models.FileField(
-        upload_to="pdfs/dominio3/",
+        upload_to=upload_to_dominio3,
         blank=True,
         null=True,
         verbose_name="Supervision & Evaluation (PDF)",
@@ -349,7 +366,7 @@ class Dominio4(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Learning Goals and Success Criteria"
     )
     learning_goals_success_criteria_pdf = models.FileField(
-        upload_to="pdfs/dominio4/",
+        upload_to=upload_to_dominio4,
         blank=True,
         null=True,
         verbose_name="Learning Goals and Success Criteria (PDF)",
@@ -359,7 +376,7 @@ class Dominio4(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Assessment Strategies and Tools"
     )
     assessment_strategies_tools_pdf = models.FileField(
-        upload_to="pdfs/dominio4/",
+        upload_to=upload_to_dominio4,
         blank=True,
         null=True,
         verbose_name="Assessment Strategies and Tools (PDF)",
@@ -369,7 +386,7 @@ class Dominio4(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Fair Assessment Practices"
     )
     fair_assessment_practices_pdf = models.FileField(
-        upload_to="pdfs/dominio4/",
+        upload_to=upload_to_dominio4,
         blank=True,
         null=True,
         verbose_name="Fair Assessment Practices (PDF)",
@@ -380,7 +397,7 @@ class Dominio4(models.Model):
         verbose_name="Assessment and the Triangulation of Data",
     )
     assessment_triangulation_data_pdf = models.FileField(
-        upload_to="pdfs/dominio4/",
+        upload_to=upload_to_dominio4,
         blank=True,
         null=True,
         verbose_name="Assessment and the Triangulation of Data (PDF)",
@@ -390,7 +407,7 @@ class Dominio4(models.Model):
         choices=EXPECTATION_CHOICES, verbose_name="Reporting Student Achievement"
     )
     reporting_student_achievement_pdf = models.FileField(
-        upload_to="pdfs/dominio4/",
+        upload_to=upload_to_dominio4,
         blank=True,
         null=True,
         verbose_name="Reporting Student Achievement (PDF)",
