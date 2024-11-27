@@ -19,6 +19,7 @@ from .models import (
     PedidosAlterados,
     HistoricoAlteracoes,
     Visita_Escola,
+    Pedido,
     Resumo_Visita_Escola,
     ResumoAlteracoes_Planificador,
     Resumo_Respostas_NPS_1_Onda_Geral,
@@ -28,6 +29,7 @@ from .models import (
 )
 
 # Register your models here.
+admin.site.register(Pedido)
 admin.site.register(Reclamacao)
 admin.site.register(Protesto)
 admin.site.register(Processo)

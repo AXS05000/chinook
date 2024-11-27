@@ -31,6 +31,7 @@ from .models import (
     FolhaPonto,
     HistoricoAlteracoes,
     Resumo_Respostas_NPS,
+    Pedido,
     Salario,
     Resumo_Respostas_NPS_1_Onda_Geral,
     Ferias,
@@ -59,6 +60,7 @@ from .utils import (
     obter_distribuicao_nps,
     classify_question_excom,
     config_chat_rh,
+    extract_order_number,
     config_chat_excom,
     config_resumo_sac,
     config_resumo_visita_escola,
@@ -933,7 +935,41 @@ def filtered_chat_view(request):
 
             print("Contexto final gerado com detalhes das escolas relacionadas e da escola atual")
 
+        elif question_type == "pedido":
+            print("Categoria identificada: Pedido")
 
+            try:
+                print("Extraindo número do pedido da mensagem...")
+                order_number = extract_order_number(message, api_key)
+                print(f"Número do pedido extraído: {order_number}")
+            except Exception as e:
+                print(f"Erro ao extrair número do pedido: {e}")
+                return JsonResponse({"error": f"Erro ao extrair número do pedido: {e}"}, status=500)
+
+            try:
+                print(f"Consultando o pedido {order_number} na base de dados...")
+                pedido = Pedido.objects.get(pedido=order_number)
+                print(f"Pedido encontrado: {order_number}")
+                response = (
+                    f"Informações do pedido {order_number}<br>"
+                    f"<span style='font-weight: bold;'>Nome da Escola:</span> {pedido.escola.nome_da_escola}<br>"
+                    f"<span style='font-weight: bold;'>Data do Pedido:</span> {pedido.data_do_pedido}<br>"
+                    f"<span style='font-weight: bold;'>Nome do Produto:</span> {pedido.nome_do_produto}<br>"
+                    f"<span style='font-weight: bold;'>Nome do Pai/Mãe:</span> {pedido.nome_pais}<br>"
+                    f"<span style='font-weight: bold;'>Nome do Aluno/Aluna:</span> {pedido.nome_do_aluno}<br>"
+                    f"<span style='font-weight: bold;'>Código do Produto:</span> {pedido.codigo_do_produto}<br>"
+                    f"<span style='font-weight: bold;'>Status ERP:</span> {pedido.status_erp}<br>"
+                    f"<span style='font-weight: bold;'>Status Logístico:</span> {pedido.status_logistico}<br>"
+                    f"<span style='font-weight: bold;'>Status Transportadora:</span> {pedido.status_transportadora}<br>"
+                )
+            except Pedido.DoesNotExist:
+                print(f"Pedido {order_number} não encontrado.")
+                response = f"Pedido {order_number} não encontrado."
+            except Exception as e:
+                print(f"Erro ao consultar o pedido {order_number}: {e}")
+                response = f"Erro ao consultar o pedido: {e}"
+
+            return JsonResponse({"response": response})
 
         elif question_type == "cliente_oculto":
             print("Lidando com categoria Cliente Oculto")
@@ -2620,6 +2656,61 @@ class EscolaSearchView(ListView):
         return CRM_FUI.objects.all().order_by(order_by)
     
 
+
+############################# PEDIDOS CHINOOK #################################################
+
+
+@login_required(login_url='/login/')
+def import_pedidos(request):
+    if request.method == "POST":
+        file = request.FILES.get("file")
+        if not file or not file.name.endswith(".xlsx"):
+            messages.error(request, "Por favor, envie um arquivo Excel.")
+            return redirect("import_pedidos")
+
+        try:
+            df = pd.read_excel(file)
+        except Exception as e:
+            messages.error(request, f"Erro ao ler o arquivo Excel: {e}")
+            return redirect("import_pedidos")
+
+        with transaction.atomic():
+            Pedido.objects.all().delete()  # Limpar a tabela antes de importar novos dados
+
+            for _, row in df.iterrows():
+                try:
+                    escola = CRM_FUI.objects.get(id_escola=row["id_escola"])
+                    
+                    Pedido.objects.create(
+                        id_linha=row["id_linha"],
+                        ano=row["ano"],
+                        escola=escola,
+                        data_do_pedido=row["data_do_pedido"],
+                        serie=row["serie"],
+                        nome_do_produto=row["nome_do_produto"],
+                        codigo_do_produto=row["codigo_do_produto"],
+                        nome_pais=row["nome_pais"],
+                        nome_do_aluno=row["nome_do_aluno"],
+                        pedido=row["pedido"],
+                        status_erp=row["status_erp"],
+                        status_logistico=row["status_logistico"],
+                        status_transportadora=row["status_transportadora"],
+                    )
+                except CRM_FUI.DoesNotExist:
+                    messages.error(
+                        request, f"Escola com id_escola {row['id_escola']} não encontrada."
+                    )
+                    continue
+                except Exception as e:
+                    messages.error(
+                        request,
+                        f"Erro ao importar a linha com id_linha {row['id_linha']}: {e}",
+                    )
+                    continue
+
+        messages.success(request, "Dados importados com sucesso!")
+        return redirect("import_pedidos_chinook")
+    return render(request, "chatapp/import/import_pedidos.html")
 
 ################################################# ATUALIZAÇÃO JSON ######################################################
 

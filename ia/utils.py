@@ -263,7 +263,7 @@ def classify_question_chat_central(prompt, api_key):
         messages=[
             {
                 "role": "system",
-                "content": "Você é um assistente útil que classifica perguntas sobre escolas em categorias: ('informações gerais' - Se o usuário pedir informações como resumo da escola, informações basicas como nome, cnpj, cluster, endereço, avaliações. Exemplos de perguntas para essa categoria: Faça um resumo dessa escola. Mas se ele falar 'faça um resumo do cliente oculto ou NPS dessa escola' ou falar 'faça um resumo bem resumido do cliente oculto ou NPS dessa escola' é outra categoria não é essa), ('planificador' -  Se o usuário pedir informações relacionados ao planificador escolha essa categoria.), ('sprinklr' -  Se o usuário pedir informações relacionados a ticket ou a Sprinklr escolha essa categoria, observação pode ter erros de digitação então se ele colocar Sprinklr, Sbrinklr ou outras variações escolha essa categoria.),('ouvidoria' - Se o usuário pedir informações relacionado a ouvidoria ou sac escolha essa categoria),('NPS' - Se o usuário pedir informações relacionado ao Net Promoter Score(NPS) responda com essa categoria), ('cliente_oculto' - Se o usuário pedir informações relacionado ao Cliente Oculto responda com essa categoria), ('vendas' ou 'relatório de vendas' - Se o usuário pedir informações sobre vendas da escola ou relatório de vendas da escola escolha essa categoria.), ('base de conhecimento' - Se o usuário pedir algo que pareça estar em uma base de conhecimento escolha essa categoria. Por exemplo se na pergunta tiver algo como conforme base de conhecimento, como na base de conhecimento, no conhecimento.), ('analise completa da escola' - Só escolha essa categoria se tiver esse conjunto de palavras ou algo muito similiar. Por exemplo: 'Faça uma analise completa dessa escola', 'Faça uma avaliação geral dessa escola' ou até algo com 'Olhe todas as informações dessa escola'). Responda apenas com a categoria apropriada.  Se você não conseguir categorizar a pergunta, responda com 'base de conhecimento'.",
+                "content": "Você é um assistente útil que classifica perguntas sobre escolas em categorias: ('informações gerais' - Se o usuário pedir informações como resumo da escola, informações basicas como nome, cnpj, cluster, endereço, avaliações. Exemplos de perguntas para essa categoria: Faça um resumo dessa escola. Mas se ele falar 'faça um resumo do cliente oculto ou NPS dessa escola' ou falar 'faça um resumo bem resumido do cliente oculto ou NPS dessa escola' é outra categoria não é essa), ('pedido' -  Se o usuário pedir consulte esse pedido ou olha esse pedido e o pedido for 10 caracteres e começar com '2' escolha essa categoria.), ('planificador' -  Se o usuário pedir informações relacionados ao planificador escolha essa categoria.), ('sprinklr' -  Se o usuário pedir informações relacionados a ticket ou a Sprinklr escolha essa categoria, observação pode ter erros de digitação então se ele colocar Sprinklr, Sbrinklr ou outras variações escolha essa categoria.),('ouvidoria' - Se o usuário pedir informações relacionado a ouvidoria ou sac escolha essa categoria),('NPS' - Se o usuário pedir informações relacionado ao Net Promoter Score(NPS) responda com essa categoria), ('cliente_oculto' - Se o usuário pedir informações relacionado ao Cliente Oculto responda com essa categoria), ('vendas' ou 'relatório de vendas' - Se o usuário pedir informações sobre vendas da escola ou relatório de vendas da escola escolha essa categoria.), ('base de conhecimento' - Se o usuário pedir algo que pareça estar em uma base de conhecimento escolha essa categoria. Por exemplo se na pergunta tiver algo como conforme base de conhecimento, como na base de conhecimento, no conhecimento.), ('analise completa da escola' - Só escolha essa categoria se tiver esse conjunto de palavras ou algo muito similiar. Por exemplo: 'Faça uma analise completa dessa escola', 'Faça uma avaliação geral dessa escola' ou até algo com 'Olhe todas as informações dessa escola'). Responda apenas com a categoria apropriada.  Se você não conseguir categorizar a pergunta, responda com 'base de conhecimento'.",
             },
             {"role": "user", "content": prompt},
         ],
@@ -328,6 +328,36 @@ def config_chat_central(prompt, api_key, context=""):
         'tokens': tokens_used
     }
 
+
+def extract_order_number(prompt, api_key):
+    openai.api_key = api_key
+
+    for attempt in range(5):  # Tenta no máximo 5 vezes para evitar loops infinitos
+        print(f"Tentativa {attempt + 1} de extração do número do pedido")
+        response = openai.ChatCompletion.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "Você é um assistente que extrai números de pedidos de uma pergunta. A pergunta sempre terá um número de pedido, como 'Consulta o pedido 1234567890'. Identifique o número do pedido na pergunta do usuário e retorne apenas o número, sem explicações.",
+                },
+                {"role": "user", "content": prompt},
+            ],
+            max_tokens=50,
+        )
+
+        order_number = response["choices"][0]["message"]["content"].strip()
+        print(f"Resposta da IA: {order_number}")
+
+        # Verifica se o número do pedido tem exatamente 10 caracteres
+        if len(order_number) == 10 and order_number.isdigit():
+            print(f"Número do pedido válido extraído: {order_number}")
+            return order_number
+        else:
+            print(f"Número inválido extraído: {order_number}. Tentando novamente...")
+
+
+    raise ValueError("Não foi possível extrair um número de pedido válido após 5 tentativas.")
 
 ################################ CHAT EXCOM########################################
 

@@ -22,6 +22,7 @@ from .views import (chat_view, generate_excel_report, ReclamacaoUpdateView, Recl
     gerar_resumos_todas_escolas_geral,
     import_pedidos_alterados_json,    
     import_ticket_sprinklr,
+    import_pedidos,
     atualizar_id_escola_view,
     gerar_resumo_cliente_oculto,
     gerar_resumos_todas_escolas_sac,
@@ -50,6 +51,9 @@ urlpatterns = [
     path("chinook-mb/", filtered_chat_view, name="filtered_chat"),
     path(
         "import_ticket_sprinklr/", import_ticket_sprinklr, name="import_ticket_sprinklr"
+    ),
+    path(
+        "import_pedidos_chinook/", import_pedidos, name="import_pedidos_chinook"
     ),
     path(
         "import_ouvidoria/", import_ouvidoria_sac, name="import_ouvidoria"

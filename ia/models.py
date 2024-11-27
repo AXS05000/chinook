@@ -880,3 +880,27 @@ class Protesto(models.Model):
     cartorio = models.TextField(max_length=2550, blank=True, null=True)
     quantidade = models.IntegerField(blank=True, null=True)
     valor = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True, default=Decimal('0.00'))
+
+
+class Pedido(models.Model):
+    id_linha = models.BigIntegerField(primary_key=True)
+    ano = models.IntegerField()
+    escola = models.ForeignKey(
+        CRM_FUI,
+        on_delete=models.CASCADE,
+        related_name="pedidos_escola",
+        verbose_name="Nome da Escola pedidos",
+    )
+    data_do_pedido = models.DateField()
+    serie = models.CharField(max_length=255)
+    nome_do_produto = models.CharField(max_length=255)
+    codigo_do_produto = models.CharField(max_length=50)
+    nome_pais = models.CharField(max_length=255)
+    nome_do_aluno = models.CharField(max_length=255)
+    pedido = models.CharField(max_length=50)
+    status_erp = models.CharField(max_length=50)
+    status_logistico = models.CharField(max_length=50)
+    status_transportadora = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"Pedido {self.id_linha} - {self.nome_do_produto}"
