@@ -104,6 +104,12 @@ class Dominio1Form(forms.ModelForm):
             if isinstance(field.widget, forms.RadioSelect):
                 field.choices = list(field.choices)[1:]
 
+        # Aplica classe 'form-control' aos campos TextField e remove obrigatoriedade
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, forms.Textarea):
+                field.widget.attrs.update({"class": "textarea-control", "rows": 4})
+            field.required = False
+
         self.fields["program_implementation"].choices = [
             (1, mark_safe('<span>Below Expectations <i class="material-icons" style="font-size: 16px" title="Evidence of implementation integrity is not yet established:&#10;&#10; - Few teachers are using appropriate methodology, curriculum and programs.&#10; - Few classrooms are sufficiently resourced with math and science manipulatives as well as grade appropriate books and textbooks from the most current book lists.&#10; - The school has designated spaces for instruction in a few classrooms.&#10;&#10;Instructional time for both English and Local programming is not monitored and documented yet. The school is aware that this is an area for critical growth.">info</i></span>')),
             (2, mark_safe('<span>Approaching Expectations <i class="material-icons" style="font-size: 16px" title="There is evidence of program implementation that meets some of the following expectations:&#10;&#10; - Teachers are implementing appropriate methodology, curriculum and programs.&#10; - Classrooms are resourced with required math and science manipulatives as well as required grade appropriate books and textbooks from the most current book lists.&#10; - Classrooms have designated spaces for instruction and learning.&#10;&#10;Instructional time for both English and Local programming is monitored and documented.">info</i></span>')),
@@ -203,10 +209,17 @@ class Dominio2Form(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if escola_id:
             self.fields["escola"].initial = escola_id
+        
         # Remove a opção "-------" de todos os campos de RadioSelect
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.RadioSelect):
                 field.choices = list(field.choices)[1:]
+
+        # Aplica classe 'form-control' aos campos TextField e remove obrigatoriedade
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, forms.Textarea):
+                field.widget.attrs.update({"class": "textarea-control", "rows": 4})
+            field.required = False
 
         self.fields["culture"].choices = [
             (1, mark_safe('<span>Below Expectations <i class="material-icons" style="font-size: 16px" title="Evidence of implementation integrity is not yet established:&#10;&#10; - Few teachers are using appropriate methodology, curriculum and programs.&#10; - Few classrooms are sufficiently resourced with math and science manipulatives as well as grade appropriate books and textbooks from the most current book lists.&#10; - The school has designated spaces for instruction in a few classrooms.&#10;&#10;Instructional time for both English and Local programming is not monitored and documented yet. The school is aware that this is an area for critical growth.">info</i></span>')),
@@ -305,9 +318,17 @@ class Dominio3Form(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if escola_id:
             self.fields["escola"].initial = escola_id
+        
+        # Remove a opção "-------" de todos os campos de RadioSelect
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.RadioSelect):
                 field.choices = list(field.choices)[1:]
+
+        # Aplica classe 'form-control' aos campos TextField e remove obrigatoriedade
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, forms.Textarea):
+                field.widget.attrs.update({"class": "textarea-control", "rows": 4})
+            field.required = False
 
         self.fields["instructional_processes_practices"].choices = [
             (1, mark_safe('<span>Below Expectations <i class="material-icons" style="font-size: 16px" title="Evidence of implementation integrity is not yet established:&#10;&#10; - Few teachers are using appropriate methodology, curriculum and programs.&#10; - Few classrooms are sufficiently resourced with math and science manipulatives as well as grade appropriate books and textbooks from the most current book lists.&#10; - The school has designated spaces for instruction in a few classrooms.&#10;&#10;Instructional time for both English and Local programming is not monitored and documented yet. The school is aware that this is an area for critical growth.">info</i></span>')),
@@ -397,9 +418,17 @@ class Dominio4Form(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if escola_id:
             self.fields["escola"].initial = escola_id
+        
+        # Remove a opção "-------" de todos os campos de RadioSelect
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.RadioSelect):
                 field.choices = list(field.choices)[1:]
+
+        # Aplica classe 'form-control' aos campos TextField e remove obrigatoriedade
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, forms.Textarea):
+                field.widget.attrs.update({"class": "textarea-control", "rows": 4})
+            field.required = False
 
         self.fields["learning_goals_success_criteria"].choices = [
             (1, mark_safe('<span>Below Expectations <i class="material-icons" style="font-size: 16px" title="Evidence of implementation integrity is not yet established:&#10;&#10; - Few teachers are using appropriate methodology, curriculum and programs.&#10; - Few classrooms are sufficiently resourced with math and science manipulatives as well as grade appropriate books and textbooks from the most current book lists.&#10; - The school has designated spaces for instruction in a few classrooms.&#10;&#10;Instructional time for both English and Local programming is not monitored and documented yet. The school is aware that this is an area for critical growth.">info</i></span>')),

@@ -33,7 +33,27 @@
     <link href="{% static 'glex/css/mat2.css' %}" rel="stylesheet" />
     <style>
 
-    
+        .textarea-control {
+            margin: 0.6rem 0;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 1px 1px 6px #0000001c;
+            width: 100%; /* Para garantir que se adapte ao espaço disponível */
+            resize: vertical; /* Permite redimensionamento vertical apenas */
+        }
+        
+        .textarea-control:hover {
+            background-color: #eeeeee75; /* Mesmo hover dos campos de texto */
+        }
+        
+        .textarea-control:focus-visible {
+            outline: 1px solid #ba332e; /* Foco consistente */
+        }
+        
+        .textarea-control::placeholder {
+            color: #000000be; /* Placeholder consistente */
+        }    
 
     </style>
   </head>
