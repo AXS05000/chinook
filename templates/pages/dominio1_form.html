@@ -1,3 +1,4 @@
+{% load custom_filters2 %}
 {% load static %}
 
 <!DOCTYPE html>
@@ -70,29 +71,7 @@
       
     <!-- Features Section Start -->
     <section id="busca" class="section">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
     <div class="container">
-        
-
-
           <div class="col-md-12">
             <div class="card card-plain">
               <div class="section-header text-center" >          
@@ -153,19 +132,20 @@
                                                 {{ form.program_implementation }}
                                             </div>
                                             <div class="tipo-de-faturamento-1 comp-nota-2">
-                                                <input type="file" id="file-upload-1" name="program_implementation_pdf" style="display: none;">
-                                                <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-1').click();" id="btn-upload-1">
-                                                    <span class="button-content">
-                                                        <i class="material-icons">attach_file</i>
-                                                        Escolher Arquivo
-                                                    </span>
-                                                </button>
-                                                <button class="file-name btn btn-success btn-round" id="file-name-1" style="display: none;">
-                                                    <span class="button-content">
-                                                        <i class="material-icons">check</i>
-                                                        Nenhum arquivo escolhido
-                                                    </span>
-                                                </button>
+                                                <input type="file" id="file-upload-1" name="program_implementation_pdf" style="display: none;"
+                                                data-initial-file="{{ form.instance.program_implementation_pdf.name|basename }}">
+                                            <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-1').click();" id="btn-upload-1">
+                                                <span class="button-content">
+                                                    <i class="material-icons">attach_file</i>
+                                                    Escolher Arquivo
+                                                </span>
+                                            </button>
+                                            <button class="file-name btn btn-success btn-round" id="file-name-1" style="display: none;">
+                                                <span class="button-content">
+                                                    <i class="material-icons">check</i>
+                                                    Nenhum arquivo escolhido
+                                                </span>
+                                            </button>
                                             </div>
                                             <div class="form-contratos">
                                                 <div class="comp-nota-1"> Program implementation Comment:</div>
@@ -184,7 +164,8 @@
                                                 {{ form.staffing_instructional_program }}
                                             </div>
                                             <div class="tipo-de-faturamento-1 comp-nota-2">
-                                                <input type="file" id="file-upload-2" name="staffing_instructional_program_pdf" style="display: none;">
+                                                <input type="file" id="file-upload-2" name="staffing_instructional_program_pdf" style="display: none;"
+                                                data-initial-file="{{ form.instance.staffing_instructional_program_pdf.name|basename }}">
                                                 <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-2').click();" id="btn-upload-2">
                                                     <span class="button-content">
                                                         <i class="material-icons">attach_file</i>
@@ -215,7 +196,8 @@
                                                 {{ form.resource_allocation }}
                                             </div>
                                             <div class="tipo-de-faturamento-1 comp-nota-2">
-                                                <input type="file" id="file-upload-3" name="resource_allocation_pdf" style="display: none;">
+                                                <input type="file" id="file-upload-3" name="resource_allocation_pdf" style="display: none;"
+                                                data-initial-file="{{ form.instance.resource_allocation_pdf.name|basename }}">
                                                 <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-3').click();" id="btn-upload-3">
                                                     <span class="button-content">
                                                         <i class="material-icons">attach_file</i>
@@ -246,7 +228,8 @@
                                                 {{ form.implementation_supervision_instructional_program }}
                                             </div>
                                             <div class="tipo-de-faturamento-1 comp-nota-2">
-                                                <input type="file" id="file-upload-4" name="implementation_supervision_instructional_program_pdf" style="display: none;">
+                                                <input type="file" id="file-upload-4" name="implementation_supervision_instructional_program_pdf" style="display: none;"
+                                                data-initial-file="{{ form.instance.implementation_supervision_instructional_program_pdf.name|basename }}">
                                                 <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-4').click();" id="btn-upload-4">
                                                     <span class="button-content">
                                                         <i class="material-icons">attach_file</i>
@@ -277,7 +260,8 @@
                                                 {{ form.professional_learning_opportunities }}
                                             </div>
                                             <div class="tipo-de-faturamento-1 comp-nota-2">
-                                                <input type="file" id="file-upload-5" name="professional_learning_opportunities_pdf" style="display: none;">
+                                                <input type="file" id="file-upload-5" name="professional_learning_opportunities_pdf" style="display: none;"
+                                                data-initial-file="{{ form.instance.professional_learning_opportunities_pdf.name|basename }}">
                                                 <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-5').click();" id="btn-upload-5">
                                                     <span class="button-content">
                                                         <i class="material-icons">attach_file</i>
@@ -308,7 +292,8 @@
                                                 {{ form.commitment_to_bilingual_education }}
                                             </div>
                                             <div class="tipo-de-faturamento-1 comp-nota-2">
-                                                <input type="file" id="file-upload-6" name="commitment_to_bilingual_education_pdf" style="display: none;">
+                                                <input type="file" id="file-upload-6" name="commitment_to_bilingual_education_pdf" style="display: none;"
+                                                data-initial-file="{{ form.instance.commitment_to_bilingual_education_pdf.name|basename }}">
                                                 <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-6').click();" id="btn-upload-6">
                                                     <span class="button-content">
                                                         <i class="material-icons">attach_file</i>
@@ -339,7 +324,8 @@
                                                 {{ form.strategic_planning }}
                                             </div>
                                             <div class="tipo-de-faturamento-1 comp-nota-2">
-                                                <input type="file" id="file-upload-7" name="strategic_planning_pdf" style="display: none;">
+                                                <input type="file" id="file-upload-7" name="strategic_planning_pdf" style="display: none;"
+                                                data-initial-file="{{ form.instance.strategic_planning_pdf.name|basename }}">
                                                 <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-7').click();" id="btn-upload-7">
                                                     <span class="button-content">
                                                         <i class="material-icons">attach_file</i>
@@ -424,24 +410,37 @@
       </div>
     </div>    
     <script>
-        document.querySelectorAll('input[type="file"]').forEach(input => {
-            input.onchange = function () {
-                const idSuffix = this.id.split('-').pop();
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('input[type="file"]').forEach(input => {
+                const idSuffix = input.id.split('-').pop();
                 const fileNameSpan = document.getElementById('file-name-' + idSuffix);
                 const uploadButton = document.getElementById('btn-upload-' + idSuffix);
         
-                if (this.files.length > 0) {
+                // Verifica se o input de arquivo já tem um valor
+                const initialFileName = input.getAttribute('data-initial-file');
+                if (initialFileName && initialFileName !== 'None') {
                     fileNameSpan.innerHTML = `
                         <span class="button-content">
-                            <i class="material-icons">check</i> ${this.files[0].name}
+                            <i class="material-icons">check</i> ${initialFileName}
                         </span>`;
                     fileNameSpan.style.display = 'inline';
                     uploadButton.style.display = 'none';
-                } else {
-                    fileNameSpan.style.display = 'none';
-                    uploadButton.style.display = 'inline';
                 }
-            };
+        
+                input.onchange = function () {
+                    if (this.files.length > 0) {
+                        fileNameSpan.innerHTML = `
+                            <span class="button-content">
+                                <i class="material-icons">check</i> ${this.files[0].name}
+                            </span>`;
+                        fileNameSpan.style.display = 'inline';
+                        uploadButton.style.display = 'none';
+                    } else {
+                        fileNameSpan.style.display = 'none';
+                        uploadButton.style.display = 'inline';
+                    }
+                };
+            });
         });
     </script>
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
