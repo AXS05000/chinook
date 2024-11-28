@@ -58,37 +58,37 @@ class Dominio1Form(forms.ModelForm):
         widgets = {
             "program_implementation": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "staffing_instructional_program": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "resource_allocation": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "implementation_supervision_instructional_program": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "professional_learning_opportunities": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "commitment_to_bilingual_education": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "strategic_planning": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
         }
@@ -169,37 +169,37 @@ class Dominio2Form(forms.ModelForm):
         widgets = {
             "culture": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "safe_and_caring_school": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "equity_diversity_inclusion": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "stakeholder_communication": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "stakeholder_engagement": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "health_and_safety": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "collection_interpretation_data": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
         }
@@ -278,37 +278,37 @@ class Dominio3Form(forms.ModelForm):
         widgets = {
             "instructional_processes_practices": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "learning_plans": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "student_centered_learning": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "inclusionary_practices": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "teacher_collaboration": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "classroom_management": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "supervision_evaluation": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
         }
@@ -388,27 +388,27 @@ class Dominio4Form(forms.ModelForm):
         widgets = {
             "learning_goals_success_criteria": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "assessment_strategies_tools": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "fair_assessment_practices": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "assessment_triangulation_data": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
             "reporting_student_achievement": forms.RadioSelect(
                 attrs={
-                    "class": "horizontal-radio form-check-label form-check-input form-check"
+                    "class": "horizontal-radio form-check-label form-check-input form-check radio-options"
                 }
             ),
         }

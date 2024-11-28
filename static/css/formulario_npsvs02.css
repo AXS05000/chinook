@@ -447,3 +447,21 @@
   box-sizing: border-box; /* Inclui o padding no cálculo da largura */
 }
 
+@media screen and (max-width: 768px) {
+  .radio-options {
+    display: flex;
+    flex-direction: column; /* Garante alinhamento vertical */
+    align-items: flex-start; /* Alinha os itens à esquerda */
+    gap: 10px; /* Adiciona espaçamento entre os itens */
+    padding-bottom: 8rem;
+  }
+
+  .radio-options label {
+    display: block; /* Faz o label ocupar 100% da largura */
+    margin: 0; /* Remove margens laterais */
+  }
+
+  .radio-options input[type="radio"] {
+    margin-right: 10px; /* Adiciona espaço entre o botão e o texto */
+  }
+}
