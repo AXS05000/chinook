@@ -490,7 +490,7 @@ class TabelaQAView(TemplateView):
         # Informações dos domínios com pontuações e status
         dominios = [
             {
-                "dominio": "D1: Integrity of Maple Bear & Local Programming",
+                "dominio": "D1 - Integrity of Maple Bear & Local Programming",
                 "pontuacao": calcular_pontuacao_e_status(Dominio1, escola)[0],
                 "status": calcular_pontuacao_e_status(Dominio1, escola)[1],
                 "url": reverse("dominio1_create"),
@@ -508,7 +508,7 @@ class TabelaQAView(TemplateView):
                 "url": reverse("dominio3_create"),
             },
             {
-                "dominio": "D4: Assessment, Evaluation and Reporting",
+                "dominio": "D4 - Assessment, Evaluation and Reporting",
                 "pontuacao": calcular_pontuacao_e_status(Dominio4, escola)[0],
                 "status": calcular_pontuacao_e_status(Dominio4, escola)[1],
                 "url": reverse("dominio4_create"),

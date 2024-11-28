@@ -314,6 +314,8 @@ class Dominio2(models.Model):
     def __str__(self):
         return f"{self.escola} - Dominio2"
 
+
+
 class Dominio3(models.Model):
     escola = models.ForeignKey(
         CRM_FUI,
