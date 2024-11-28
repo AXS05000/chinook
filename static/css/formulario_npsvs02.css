@@ -436,3 +436,14 @@
 ::placeholder { /* Para a maioria dos navegadores modernos */
   opacity: 0.8;
 }
+
+
+/* Ajuste para o texto respeitar as bordas */
+.input-box-nps {
+  text-align: justify;
+  padding: 10px; /* Adiciona espaçamento interno */
+  word-wrap: break-word; /* Permite que o texto quebre em palavras longas */
+  width: 100%; /* Garante que o texto ocupe a largura disponível */
+  box-sizing: border-box; /* Inclui o padding no cálculo da largura */
+}
+
