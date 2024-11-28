@@ -5,5 +5,7 @@ register = template.Library()
 
 @register.filter
 def basename(value):
-    """Retorna apenas o nome do arquivo, sem o caminho."""
-    return os.path.basename(value)
+    """Retorna apenas o nome do arquivo, ou uma string vazia se o valor for None."""
+    if value:
+        return os.path.basename(value)
+    return ""
