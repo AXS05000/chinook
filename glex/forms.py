@@ -107,7 +107,7 @@ class Dominio1Form(forms.ModelForm):
         # Aplica classe 'form-control' aos campos TextField e remove obrigatoriedade
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.Textarea):
-                field.widget.attrs.update({"class": "textarea-control", "rows": 4})
+                field.widget.attrs.update({"class": "textarea-control", "rows": 4, 'placeholder': 'Leave a comment...'})
             field.required = False
 
         self.fields["program_implementation"].choices = [
@@ -218,7 +218,7 @@ class Dominio2Form(forms.ModelForm):
         # Aplica classe 'form-control' aos campos TextField e remove obrigatoriedade
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.Textarea):
-                field.widget.attrs.update({"class": "textarea-control", "rows": 4})
+                field.widget.attrs.update({"class": "textarea-control", "rows": 4, 'placeholder': 'Leave a comment...'})
             field.required = False
 
         self.fields["culture"].choices = [
@@ -327,7 +327,7 @@ class Dominio3Form(forms.ModelForm):
         # Aplica classe 'form-control' aos campos TextField e remove obrigatoriedade
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.Textarea):
-                field.widget.attrs.update({"class": "textarea-control", "rows": 4})
+                field.widget.attrs.update({"class": "textarea-control", "rows": 4, 'placeholder': 'Leave a comment...'})
             field.required = False
 
         self.fields["instructional_processes_practices"].choices = [
@@ -427,7 +427,7 @@ class Dominio4Form(forms.ModelForm):
         # Aplica classe 'form-control' aos campos TextField e remove obrigatoriedade
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.Textarea):
-                field.widget.attrs.update({"class": "textarea-control", "rows": 4})
+                field.widget.attrs.update({"class": "textarea-control", "rows": 4, 'placeholder': 'Leave a comment...'})
             field.required = False
 
         self.fields["learning_goals_success_criteria"].choices = [
