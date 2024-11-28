@@ -133,7 +133,8 @@
                                                 {{ form.instructional_processes_practices }}
                                             </div>
                                             <div class="tipo-de-faturamento-1 comp-nota-2">
-                                                <input type="file" id="file-upload-1" name="instructional_processes_practices_pdf" style="display: none;">
+                                                <input type="file" id="file-upload-1" name="instructional_processes_practices_pdf" style="display: none;"
+                                                data-initial-file="{{ form.instance.instructional_processes_practices_pdf.name|default_if_none:''|basename }}">
                                                 <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-1').click();" id="btn-upload-1">
                                                     <span class="button-content">
                                                         <i class="material-icons">attach_file</i>
@@ -164,7 +165,8 @@
                                                 {{ form.learning_plans }}
                                             </div>
                                             <div class="tipo-de-faturamento-1 comp-nota-2">
-                                                <input type="file" id="file-upload-2" name="learning_plans_pdf" style="display: none;">
+                                                <input type="file" id="file-upload-2" name="learning_plans_pdf" style="display: none;"
+                                                data-initial-file="{{ form.instance.learning_plans_pdf.name|default_if_none:''|basename }}">
                                                 <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-2').click();" id="btn-upload-2">
                                                     <span class="button-content">
                                                         <i class="material-icons">attach_file</i>
@@ -195,7 +197,8 @@
                                                 {{ form.student_centered_learning }}
                                             </div>
                                             <div class="tipo-de-faturamento-1 comp-nota-2">
-                                                <input type="file" id="file-upload-3" name="student_centered_learning_pdf" style="display: none;">
+                                                <input type="file" id="file-upload-3" name="student_centered_learning_pdf" style="display: none;"
+                                                data-initial-file="{{ form.instance.student_centered_learning_pdf.name|default_if_none:''|basename }}">
                                                 <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-3').click();" id="btn-upload-3">
                                                     <span class="button-content">
                                                         <i class="material-icons">attach_file</i>
@@ -226,7 +229,8 @@
                                                 {{ form.inclusionary_practices }}
                                             </div>
                                             <div class="tipo-de-faturamento-1 comp-nota-2">
-                                                <input type="file" id="file-upload-4" name="inclusionary_practices_pdf" style="display: none;">
+                                                <input type="file" id="file-upload-4" name="inclusionary_practices_pdf" style="display: none;"
+                                                data-initial-file="{{ form.instance.inclusionary_practices_pdf.name|default_if_none:''|basename }}">
                                                 <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-4').click();" id="btn-upload-4">
                                                     <span class="button-content">
                                                         <i class="material-icons">attach_file</i>
@@ -257,7 +261,8 @@
                                                 {{ form.teacher_collaboration }}
                                             </div>
                                             <div class="tipo-de-faturamento-1 comp-nota-2">
-                                                <input type="file" id="file-upload-5" name="teacher_collaboration_pdf" style="display: none;">
+                                                <input type="file" id="file-upload-5" name="teacher_collaboration_pdf" style="display: none;"
+                                                data-initial-file="{{ form.instance.teacher_collaboration_pdf.name|default_if_none:''|basename }}">
                                                 <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-5').click();" id="btn-upload-5">
                                                     <span class="button-content">
                                                         <i class="material-icons">attach_file</i>
@@ -289,7 +294,8 @@
                                                 {{ form.classroom_management }}
                                             </div>
                                             <div class="tipo-de-faturamento-1 comp-nota-2">
-                                                <input type="file" id="file-upload-6" name="classroom_management_pdf" style="display: none;">
+                                                <input type="file" id="file-upload-6" name="classroom_management_pdf" style="display: none;"
+                                                data-initial-file="{{ form.instance.classroom_management_pdf.name|default_if_none:''|basename }}">
                                                 <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-6').click();" id="btn-upload-6">
                                                     <span class="button-content">
                                                         <i class="material-icons">attach_file</i>
@@ -320,7 +326,8 @@
                                                 {{ form.supervision_evaluation }}
                                             </div>
                                             <div class="tipo-de-faturamento-1 comp-nota-2">
-                                                <input type="file" id="file-upload-7" name="supervision_evaluation_pdf" style="display: none;">
+                                                <input type="file" id="file-upload-7" name="supervision_evaluation_pdf" style="display: none;"
+                                                data-initial-file="{{ form.instance.supervision_evaluation_pdf.name|default_if_none:''|basename }}">
                                                 <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-7').click();" id="btn-upload-7">
                                                     <span class="button-content">
                                                         <i class="material-icons">attach_file</i>
