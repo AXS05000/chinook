@@ -364,24 +364,37 @@
       </div>
     </div>    
     <script>
-        document.querySelectorAll('input[type="file"]').forEach(input => {
-            input.onchange = function () {
-                const idSuffix = this.id.split('-').pop();
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('input[type="file"]').forEach(input => {
+                const idSuffix = input.id.split('-').pop();
                 const fileNameSpan = document.getElementById('file-name-' + idSuffix);
                 const uploadButton = document.getElementById('btn-upload-' + idSuffix);
         
-                if (this.files.length > 0) {
+                // Verifica se o input de arquivo já tem um valor
+                const initialFileName = input.getAttribute('data-initial-file');
+                if (initialFileName && initialFileName !== 'None') {
                     fileNameSpan.innerHTML = `
                         <span class="button-content">
-                            <i class="material-icons">check</i> ${this.files[0].name}
+                            <i class="material-icons">check</i> ${initialFileName}
                         </span>`;
                     fileNameSpan.style.display = 'inline';
                     uploadButton.style.display = 'none';
-                } else {
-                    fileNameSpan.style.display = 'none';
-                    uploadButton.style.display = 'inline';
                 }
-            };
+        
+                input.onchange = function () {
+                    if (this.files.length > 0) {
+                        fileNameSpan.innerHTML = `
+                            <span class="button-content">
+                                <i class="material-icons">check</i> ${this.files[0].name}
+                            </span>`;
+                        fileNameSpan.style.display = 'inline';
+                        uploadButton.style.display = 'none';
+                    } else {
+                        fileNameSpan.style.display = 'none';
+                        uploadButton.style.display = 'inline';
+                    }
+                };
+            });
         });
     </script>
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
