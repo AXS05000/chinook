@@ -1,7 +1,7 @@
 from django import forms
 from .models import Administrativo, Comercial, Dominio1, Dominio2, Dominio3, Dominio4
 from django.core.exceptions import ValidationError
-
+from django.utils.safestring import mark_safe
 
 class PDFFileField(forms.FileField):
     def validate(self, value):
@@ -98,10 +98,18 @@ class Dominio1Form(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if escola_id:
             self.fields["escola"].initial = escola_id
+        
         # Remove a opção "-------" de todos os campos de RadioSelect
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.RadioSelect):
                 field.choices = list(field.choices)[1:]
+
+        self.fields["program_implementation"].choices = [
+            (1, mark_safe('<span>Below Expectations <i class="material-icons" style="font-size: 16px" title="Evidence of implementation integrity is not yet established:&#10;&#10; - Few teachers are using appropriate methodology, curriculum and programs.&#10; - Few classrooms are sufficiently resourced with math and science manipulatives as well as grade appropriate books and textbooks from the most current book lists.&#10; - The school has designated spaces for instruction in a few classrooms.&#10;&#10;Instructional time for both English and Local programming is not monitored and documented yet. The school is aware that this is an area for critical growth.">info</i></span>')),
+            (2, mark_safe('<span>Approaching Expectations <i class="material-icons" style="font-size: 16px" title="There is evidence of program implementation that meets some of the following expectations:&#10;&#10; - Teachers are implementing appropriate methodology, curriculum and programs.&#10; - Classrooms are resourced with required math and science manipulatives as well as required grade appropriate books and textbooks from the most current book lists.&#10; - Classrooms have designated spaces for instruction and learning.&#10;&#10;Instructional time for both English and Local programming is monitored and documented.">info</i></span>')),
+            (3, mark_safe('<span>Meeting Expectations <i class="material-icons" style="font-size: 16px" title="There is evidence of program implementation that meets all of the following expectations:&#10;&#10; - Teachers are implementing appropriate and updated methodology, curriculum and programs.&#10; - Classrooms are resourced with required math and science manipulatives as well as required grade appropriate books and textbooks from the most current book lists.&#10; - Classrooms have designated spaces for instruction and learning.&#10;&#10;Instructional time for both English and Local programming is monitored and documented according to Maple Bear proposed scheduling.">info</i></span>')),
+            (4, mark_safe('<span>Exceeding Expectations <i class="material-icons" style="font-size: 16px" title="There is evidence of program implementation that exceeds all expectations:&#10;&#10; - All teachers are implementing appropriate methodology, curriculum and programs with fidelity and cultivate energy, creativity, curiosity, imagination, and innovation.&#10; - All teachers provide curriculum-based rich tasks to advance learning, creativity and innovation.&#10; - All classrooms are resourced with required math and science manipulatives as well as required grade appropriate books and textbooks from the most current book lists - these are available in print to students.&#10; - All classrooms offer flexibility for large and small group collaboration, quiet places for reflection, active areas for investigation, inquiry, communication and documentation and rich Maple Bear resources that are transparently accessible.&#10;&#10;Instructional time for both English and Local programming is monitored and documented according to Maple Bear proposed scheduling.">info</i></span>')),
+        ]
 
 
 class Dominio2Form(forms.ModelForm):
