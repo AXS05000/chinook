@@ -447,6 +447,10 @@
   box-sizing: border-box; /* Inclui o padding no cálculo da largura */
 }
 
+.radio-options {
+  padding-bottom: 0.5rem;
+}
+
 @media screen and (max-width: 768px) {
   .radio-options {
     display: flex;
