@@ -218,7 +218,12 @@ class Dominio2(models.Model):
         verbose_name="Nome da Escola",
     )
 
-    culture = models.IntegerField(choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Culture")
+    culture = models.IntegerField(
+        choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Culture"
+    )
+    culture_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Culture"
+    )
     culture_pdf = models.FileField(
         upload_to=upload_to_dominio2,
         blank=True,
@@ -228,6 +233,9 @@ class Dominio2(models.Model):
 
     safe_and_caring_school = models.IntegerField(
         choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Safe and Caring School"
+    )
+    safe_and_caring_school_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Safe and Caring School"
     )
     safe_and_caring_school_pdf = models.FileField(
         upload_to=upload_to_dominio2,
@@ -239,6 +247,9 @@ class Dominio2(models.Model):
     equity_diversity_inclusion = models.IntegerField(
         choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Equity, Diversity and Inclusion"
     )
+    equity_diversity_inclusion_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Equity, Diversity and Inclusion"
+    )
     equity_diversity_inclusion_pdf = models.FileField(
         upload_to=upload_to_dominio2,
         blank=True,
@@ -248,6 +259,9 @@ class Dominio2(models.Model):
 
     stakeholder_communication = models.IntegerField(
         choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Stakeholder Communication"
+    )
+    stakeholder_communication_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Stakeholder Communication"
     )
     stakeholder_communication_pdf = models.FileField(
         upload_to=upload_to_dominio2,
@@ -259,6 +273,9 @@ class Dominio2(models.Model):
     stakeholder_engagement = models.IntegerField(
         choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Stakeholder Engagement"
     )
+    stakeholder_engagement_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Stakeholder Engagement"
+    )
     stakeholder_engagement_pdf = models.FileField(
         upload_to=upload_to_dominio2,
         blank=True,
@@ -268,6 +285,9 @@ class Dominio2(models.Model):
 
     health_and_safety = models.IntegerField(
         choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Health and Safety"
+    )
+    health_and_safety_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Health and Safety"
     )
     health_and_safety_pdf = models.FileField(
         upload_to=upload_to_dominio2,
@@ -280,6 +300,10 @@ class Dominio2(models.Model):
         choices=EXPECTATION_CHOICES, blank=True, null=True,
         verbose_name="Collection and Interpretation of Whole School Assessment Data",
     )
+    collection_interpretation_data_comment = models.TextField(
+        blank=True, null=True,
+        verbose_name="Comment for Collection and Interpretation of Whole School Assessment Data",
+    )
     collection_interpretation_data_pdf = models.FileField(
         upload_to=upload_to_dominio2,
         blank=True,
@@ -289,7 +313,6 @@ class Dominio2(models.Model):
 
     def __str__(self):
         return f"{self.escola} - Dominio2"
-
 
 class Dominio3(models.Model):
     escola = models.ForeignKey(
@@ -303,6 +326,9 @@ class Dominio3(models.Model):
         choices=EXPECTATION_CHOICES, blank=True, null=True,
         verbose_name="Instructional Processes and Practices",
     )
+    instructional_processes_practices_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Instructional Processes and Practices"
+    )
     instructional_processes_practices_pdf = models.FileField(
         upload_to=upload_to_dominio3,
         blank=True,
@@ -312,6 +338,9 @@ class Dominio3(models.Model):
 
     learning_plans = models.IntegerField(
         choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Learning Plans"
+    )
+    learning_plans_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Learning Plans"
     )
     learning_plans_pdf = models.FileField(
         upload_to=upload_to_dominio3,
@@ -323,6 +352,9 @@ class Dominio3(models.Model):
     student_centered_learning = models.IntegerField(
         choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Student Centered Learning"
     )
+    student_centered_learning_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Student Centered Learning"
+    )
     student_centered_learning_pdf = models.FileField(
         upload_to=upload_to_dominio3,
         blank=True,
@@ -332,6 +364,9 @@ class Dominio3(models.Model):
 
     inclusionary_practices = models.IntegerField(
         choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Inclusionary Practices"
+    )
+    inclusionary_practices_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Inclusionary Practices"
     )
     inclusionary_practices_pdf = models.FileField(
         upload_to=upload_to_dominio3,
@@ -343,6 +378,9 @@ class Dominio3(models.Model):
     teacher_collaboration = models.IntegerField(
         choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Teacher Collaboration"
     )
+    teacher_collaboration_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Teacher Collaboration"
+    )
     teacher_collaboration_pdf = models.FileField(
         upload_to=upload_to_dominio3,
         blank=True,
@@ -353,6 +391,9 @@ class Dominio3(models.Model):
     classroom_management = models.IntegerField(
         choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Classroom Management"
     )
+    classroom_management_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Classroom Management"
+    )
     classroom_management_pdf = models.FileField(
         upload_to=upload_to_dominio3,
         blank=True,
@@ -362,6 +403,9 @@ class Dominio3(models.Model):
 
     supervision_evaluation = models.IntegerField(
         choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Supervision & Evaluation"
+    )
+    supervision_evaluation_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Supervision & Evaluation"
     )
     supervision_evaluation_pdf = models.FileField(
         upload_to=upload_to_dominio3,
@@ -385,6 +429,9 @@ class Dominio4(models.Model):
     learning_goals_success_criteria = models.IntegerField(
         choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Learning Goals and Success Criteria"
     )
+    learning_goals_success_criteria_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Learning Goals and Success Criteria"
+    )
     learning_goals_success_criteria_pdf = models.FileField(
         upload_to=upload_to_dominio4,
         blank=True,
@@ -395,6 +442,9 @@ class Dominio4(models.Model):
     assessment_strategies_tools = models.IntegerField(
         choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Assessment Strategies and Tools"
     )
+    assessment_strategies_tools_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Assessment Strategies and Tools"
+    )
     assessment_strategies_tools_pdf = models.FileField(
         upload_to=upload_to_dominio4,
         blank=True,
@@ -404,6 +454,9 @@ class Dominio4(models.Model):
 
     fair_assessment_practices = models.IntegerField(
         choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Fair Assessment Practices"
+    )
+    fair_assessment_practices_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Fair Assessment Practices"
     )
     fair_assessment_practices_pdf = models.FileField(
         upload_to=upload_to_dominio4,
@@ -416,6 +469,9 @@ class Dominio4(models.Model):
         choices=EXPECTATION_CHOICES, blank=True, null=True,
         verbose_name="Assessment and the Triangulation of Data",
     )
+    assessment_triangulation_data_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Assessment and the Triangulation of Data"
+    )
     assessment_triangulation_data_pdf = models.FileField(
         upload_to=upload_to_dominio4,
         blank=True,
@@ -425,6 +481,9 @@ class Dominio4(models.Model):
 
     reporting_student_achievement = models.IntegerField(
         choices=EXPECTATION_CHOICES, blank=True, null=True, verbose_name="Reporting Student Achievement"
+    )
+    reporting_student_achievement_comment = models.TextField(
+        blank=True, null=True, verbose_name="Comment for Reporting Student Achievement"
     )
     reporting_student_achievement_pdf = models.FileField(
         upload_to=upload_to_dominio4,
