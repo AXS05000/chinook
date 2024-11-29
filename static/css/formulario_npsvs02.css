@@ -457,7 +457,7 @@
     flex-direction: column; /* Garante alinhamento vertical */
     align-items: flex-start; /* Alinha os itens à esquerda */
     gap: 10px; /* Adiciona espaçamento entre os itens */
-    padding-bottom: 8rem;
+    margin-bottom: 8rem;
   }
 
   .radio-options label {
