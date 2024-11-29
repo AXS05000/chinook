@@ -469,3 +469,11 @@
     margin-right: 10px; /* Adiciona espaço entre o botão e o texto */
   }
 }
+
+@media (max-width: 768px) {
+  .login-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+}
