@@ -88,7 +88,7 @@
                             <thead>
                                 <tr>
                                     <th>Domínio</th>
-                                    <th>Status</th>
+                                    <th class="d-none d-md-table-cell">Status</th>
                                     <th>Progresso</th>
                                     <th class="text-center">Link</th>
                                 </tr>
@@ -97,7 +97,7 @@
                                 {% for dominio in dominios %}
                                 <tr>
                                     <td>{{ dominio.dominio }}</td>
-                                    <td>
+                                    <td class="d-none d-md-table-cell">
                                         {% if dominio.status == "complete" %}
                                         <button class="btn btn-success btn-round" style="cursor: default;">
                                             <span class="button-content">
@@ -118,10 +118,10 @@
                                     </td>
                                     <td style="padding-left: 2rem">{{ dominio.pontuacao }}</td>
                                     <td class="text-center">
-                                      <a href="{{ dominio.url }}?escola_id={{ escola.id_escola }}">
-                                          <i class="material-icons" {% if dominio.status == "complete" %} style="color: #28a745;" {% endif %}>assignment</i>
-                                      </a>
-                                   </td>
+                                        <a href="{{ dominio.url }}?escola_id={{ escola.id_escola }}">
+                                            <i class="material-icons" {% if dominio.status == "complete" %} style="color: #28a745;" {% endif %}>assignment</i>
+                                        </a>
+                                     </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
