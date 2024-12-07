@@ -12,6 +12,7 @@
     <title>Chat Chinook</title>
 
     <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'chinook/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'chinook/css/tailwindcss-colors.css' %}">
@@ -271,7 +272,7 @@
                                   <div class="conversation-item-text">
                                       <p>${data.response}</p>
                                       <button class="open-modal-button  conversation-form-button conversation-form-submit" data-modal-content="${encodeURIComponent(data.response)}">
-                                          <i class="ri-send-plane-2-line"></i>
+                                          <i class="material-icons">list</i>
                                       </button>
                                       <div class="conversation-item-time">${new Date().toLocaleTimeString()}</div>
                                   </div>
