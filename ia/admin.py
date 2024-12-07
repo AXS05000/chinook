@@ -26,9 +26,11 @@ from .models import (
     Reclamacao,
     Protesto,
     Processo,
+    Resumo_Respostas_ClienteOculto24,
 )
 
 # Register your models here.
+admin.site.register(Resumo_Respostas_ClienteOculto24)
 admin.site.register(Pedido)
 admin.site.register(Reclamacao)
 admin.site.register(Protesto)

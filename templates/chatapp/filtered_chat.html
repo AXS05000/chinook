@@ -21,6 +21,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <style>
+      .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color: #ffcccc; /* Vermelho claro */
+        color: black; /* Cor do texto */
+    }
       .modal {
           position: fixed;
           z-index: 1000;
@@ -59,7 +63,6 @@
       <div id="modal-response" class="modal" style="display: none;">
         <div class="modal-content">
             <span id="close-modal" class="close">&times;</span>
-            <h2>Detalhes da Resposta</h2>
             <div id="modal-body"></div>
         </div>
       </div>
@@ -271,9 +274,6 @@
                               <div class="conversation-item-box">
                                   <div class="conversation-item-text">
                                       <p>${data.response}</p>
-                                      <button class="open-modal-button  conversation-form-button conversation-form-submit" data-modal-content="${encodeURIComponent(data.response)}">
-                                          <i class="material-icons">list</i>
-                                      </button>
                                       <div class="conversation-item-time">${new Date().toLocaleTimeString()}</div>
                                   </div>
                               </div>

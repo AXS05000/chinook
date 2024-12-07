@@ -766,6 +766,8 @@ def filtered_chat_view(request):
             url_pedidos_alterados = f"/export_pedidos_alterados/{school_id}/"
 
             download_icon = '<i class="ri-file-excel-line"  style="font-size: 18px"></i>'
+            list_icon = '<i class="ri-feedback-fill"  style="font-size: 18px"></i>'
+
 
             frase_inicial = escolher_frase_inicial(school)
             frase_final = escolher_frase_final(school)
@@ -785,9 +787,9 @@ def filtered_chat_view(request):
                 f"<span style='font-weight: bold;'>Meta de SLMs 2024:</span> {school.meta} - "
                 f"<span style='font-weight: bold;'>SLMs Vendidos 2025:</span> {school.slms_vendidos_25} - "
                 f"<a href='{url_slm_2025}'>{download_icon}</a> - "
+                f"<span style='font-weight: bold;'>Meta de SLMs 2025:</span> Ainda não foi definido - "
                 f"<span style='font-weight: bold;'>Relatório de Pedidos Cancelados:</span> - "
                 f"<a href='{url_pedidos_alterados}'>{download_icon}</a> - "
-                f"<span style='font-weight: bold;'>Meta de SLMs 2025:</span> Ainda não foi definido - "
                 f"<span style='font-weight: bold;'>Dias Úteis para Entrega do SLM:</span> {school.dias_uteis_entrega_slm}.<br>"
                 
                 f"<br><span style='font-weight: bold;'>Avaliações:</span><br>"
@@ -818,14 +820,18 @@ def filtered_chat_view(request):
             # Adiciona o resumo do NPS se estiver disponível
             if resumo_nps_text:
                 response += (
-                    f"<br><span style='font-weight: bold;'>Resumo das Respostas Negativas do NPS:</span><br>"
-                    f"{resumo_nps_text}<br>"
+                f"<br><span style='font-weight: bold;'>Resumo Comentários Negativos NPS 1° Onda:</span> - "
+                f'<a class="open-modal-button" '
+                f'data-modal-content="{resumo_nps_text}">'
+                f'{list_icon} Ver Resumo</a>'
                 )
             # Adiciona o resumo do NPS se estiver disponível
             if resumo_resumo_co24_text:
                 response += (
-                    f"<br><span style='font-weight: bold;'>Resumo dos Comentários Negativos do Cliente Oculto:</span><br>"
-                    f"{resumo_resumo_co24_text}<br>"
+                f"<br><span style='font-weight: bold;'>Resumo Comentários Negativos Cliente Oculo 23/24:</span> - "
+                f"<a class='open-modal-button' "
+                f"data-modal-content='{resumo_resumo_co24_text}'>"
+                f"{list_icon} Ver Resumo</a><br>"
                 )
             # Adiciona o resumo do NPS se estiver disponível
             if resumo_visita_escola:
@@ -834,8 +840,9 @@ def filtered_chat_view(request):
                     f"{resumo_visita_escola}<br>"
                 )
 
-            # Adiciona a frase final
+
             response += f"<br>{frase_final}"
+
 
             return JsonResponse({"response": response})
 
