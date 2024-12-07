@@ -192,6 +192,20 @@ class CRM_FUI(models.Model):
     dias_uteis_entrega_slm = models.CharField(
         max_length=100, null=True, blank=True, verbose_name="Dias Úteis para entrega do SLM"
     )
+    nps_pais_2024_2_onda = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="NPS Pais 2024 - 2° Onda",
+    )
+    nps_pais_2024_2_onda_engajamento = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="NPS Pais 2024 - 2° Onda Engajamento",
+    )
 
     def __str__(self):
 
