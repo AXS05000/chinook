@@ -257,21 +257,57 @@ def config_chat_rh(prompt, api_key, context=""):
 
 def classify_question_chat_central(prompt, api_key):
     openai.api_key = api_key
+    valid_categories = [
+        "informações gerais",
+        "pedido",
+        "planificador",
+        "sprinklr",
+        "ouvidoria",
+        "nps",
+        "cliente_oculto",
+        "vendas",
+        "base de conhecimento",
+        "analise completa da escola"
+    ]
 
-    response = openai.ChatCompletion.create(
-        model="gpt-4o-2024-08-06",
-        messages=[
-            {
-                "role": "system",
-                "content": "Você é um assistente útil que classifica perguntas sobre escolas em categorias: ('informações gerais' - Se o usuário pedir informações como resumo da escola, informações basicas como nome, cnpj, cluster, endereço, avaliações. Exemplos de perguntas para essa categoria: Faça um resumo dessa escola. Mas se ele falar 'faça um resumo do cliente oculto ou NPS dessa escola' ou falar 'faça um resumo bem resumido do cliente oculto ou NPS dessa escola' é outra categoria não é essa), ('pedido' -  Se o usuário pedir consulte esse pedido ou olha esse pedido e o pedido for 10 caracteres e começar com '2' escolha essa categoria.), ('planificador' -  Se o usuário pedir informações relacionados ao planificador escolha essa categoria.), ('sprinklr' -  Se o usuário pedir informações relacionados a ticket ou a Sprinklr escolha essa categoria, observação pode ter erros de digitação então se ele colocar Sprinklr, Sbrinklr ou outras variações escolha essa categoria.),('ouvidoria' - Se o usuário pedir informações relacionado a ouvidoria ou sac escolha essa categoria),('NPS' - Se o usuário pedir informações relacionado ao Net Promoter Score(NPS) responda com essa categoria), ('cliente_oculto' - Se o usuário pedir informações relacionado ao Cliente Oculto responda com essa categoria), ('vendas' ou 'relatório de vendas' - Se o usuário pedir informações sobre vendas da escola ou relatório de vendas da escola escolha essa categoria.), ('base de conhecimento' - Se o usuário pedir algo que pareça estar em uma base de conhecimento escolha essa categoria. Por exemplo se na pergunta tiver algo como conforme base de conhecimento, como na base de conhecimento, no conhecimento.), ('analise completa da escola' - Só escolha essa categoria se tiver esse conjunto de palavras ou algo muito similiar. Por exemplo: 'Faça uma analise completa dessa escola', 'Faça uma avaliação geral dessa escola' ou até algo com 'Olhe todas as informações dessa escola'). Responda apenas com a categoria apropriada.  Se você não conseguir categorizar a pergunta, responda com 'base de conhecimento'.",
-            },
-            {"role": "user", "content": prompt},
-        ],
-        max_tokens=2500,
-    )
-    print(f"Total tokens usados para classificar a categoria: {response['usage']['total_tokens']}")
-    category = response["choices"][0]["message"]["content"].strip().lower()
-    return category
+    for attempt in range(10):
+        response = openai.ChatCompletion.create(
+            model="gpt-4o-2024-08-06",
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "Você é um assistente útil que classifica perguntas sobre escolas em categorias: "
+                        "('informações gerais' - Se o usuário pedir informações como resumo da escola, informações básicas como nome, CNPJ, cluster, endereço, avaliações. "
+                        "Exemplos de perguntas para essa categoria: Faça um resumo dessa escola. Mas se ele falar 'faça um resumo do cliente oculto ou NPS dessa escola' ou falar 'faça um resumo bem resumido do cliente oculto ou NPS dessa escola' é outra categoria não é essa), "
+                        "('pedido' -  Se o usuário pedir consulte esse pedido ou olha esse pedido e o pedido for 10 caracteres e começar com '2' escolha essa categoria.), "
+                        "('planificador' -  Se o usuário pedir informações relacionadas ao planificador escolha essa categoria.), "
+                        "('sprinklr' -  Se o usuário pedir informações relacionadas a ticket ou à Sprinklr escolha essa categoria, observação pode ter erros de digitação então se ele colocar Sprinklr, Sbrinklr ou outras variações escolha essa categoria.), "
+                        "('ouvidoria' - Se o usuário pedir informações relacionadas a ouvidoria ou SAC escolha essa categoria), "
+                        "('nps' - Se o usuário pedir informações relacionadas ao Net Promoter Score(NPS) responda com essa categoria), "
+                        "('cliente_oculto' - Se o usuário pedir informações relacionadas ao Cliente Oculto responda com essa categoria), "
+                        "('vendas' ou 'relatório de vendas' - Se o usuário pedir informações sobre vendas da escola ou relatório de vendas da escola escolha essa categoria.), "
+                        "('base de conhecimento' - Se o usuário pedir algo que pareça estar em uma base de conhecimento escolha essa categoria. Por exemplo se na pergunta tiver algo como conforme base de conhecimento, como na base de conhecimento, no conhecimento.), "
+                        "('analise completa da escola' - Só escolha essa categoria se tiver esse conjunto de palavras ou algo muito similar. Por exemplo: 'Faça uma análise completa dessa escola', 'Faça uma avaliação geral dessa escola' ou até algo com 'Olhe todas as informações dessa escola'). "
+                        "Responda apenas com a categoria apropriada. Se você não conseguir categorizar a pergunta, responda com 'base de conhecimento'."
+                    ),
+                },
+                {"role": "user", "content": prompt},
+            ],
+            max_tokens=2500,
+        )
+
+        print(f"Tentativa {attempt + 1}: Total tokens usados para classificar a categoria: {response['usage']['total_tokens']}")
+
+        category = response["choices"][0]["message"]["content"].strip().lower()
+
+        if category in valid_categories:
+            print(f"Categoria válida encontrada: {category}")
+            return category
+
+        print(f"Categoria inválida: {category}. Repetindo classificação...")
+
+    raise ValueError("A classificação falhou após 10 tentativas.")
 
 def config_chat_central(prompt, api_key, context=""):
     if not context:

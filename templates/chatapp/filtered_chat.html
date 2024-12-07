@@ -19,10 +19,50 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    
+    <style>
+      .modal {
+          position: fixed;
+          z-index: 1000;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          overflow: auto;
+          background-color: rgba(0, 0, 0, 0.4);
+      }
+      .modal-content {
+          background-color: #fff;
+          margin: 10% auto;
+          padding: 20px;
+          border: 1px solid #888;
+          width: 80%;
+          border-radius: 8px;
+      }
+      .close {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+          color: black;
+          text-decoration: none;
+          cursor: pointer;
+      }
+    </style>
   </head>
   
   <body>
+
+      <div id="modal-response" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span id="close-modal" class="close">&times;</span>
+            <h2>Detalhes da Resposta</h2>
+            <div id="modal-body"></div>
+        </div>
+      </div>
+
     <!-- start: Chat -->
     <section class="chat-section">
       <div class="chat-container">
@@ -230,6 +270,9 @@
                               <div class="conversation-item-box">
                                   <div class="conversation-item-text">
                                       <p>${data.response}</p>
+                                      <button class="open-modal-button  conversation-form-button conversation-form-submit" data-modal-content="${encodeURIComponent(data.response)}">
+                                          <i class="ri-send-plane-2-line"></i>
+                                      </button>
                                       <div class="conversation-item-time">${new Date().toLocaleTimeString()}</div>
                                   </div>
                               </div>
@@ -1117,5 +1160,31 @@
   
     <script src="{% static 'chinook/js/script.js' %}"></script>
 
+  
+  <script>
+    document.addEventListener('click', (e) => {
+      // Procura o botão clicado ou seu elemento pai
+      const button = e.target.closest('.open-modal-button');
+      if (button) {
+          const modal = document.getElementById('modal-response');
+          const modalBody = document.getElementById('modal-body');
+  
+          const content = decodeURIComponent(button.getAttribute('data-modal-content'));
+          modalBody.innerHTML = content;
+          modal.style.display = 'block';
+      }
+  });
+    
+    document.getElementById('close-modal').addEventListener('click', () => {
+        document.getElementById('modal-response').style.display = 'none';
+    });
+    
+    window.addEventListener('click', (e) => {
+        const modal = document.getElementById('modal-response');
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+  </script>
   </body>
 </html>
