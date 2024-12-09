@@ -11,39 +11,55 @@ def upload_html_view(request):
             html_content = uploaded_file.read().decode('utf-8')
             soup = BeautifulSoup(html_content, 'html.parser')
 
-            # Inicializa as variáveis para armazenar o último título e conteúdo
+            # Variáveis para controle
             titulo_atual = None
+            topico_atual = None
+            sub_topico_atual = None
             conteudo_atual = []
+            elementos_processados = set()  # Para evitar duplicação
 
-            # Itera pelos elementos relevantes do corpo
-            for element in soup.body.find_all(['h9', 'p', 'ul', 'ol']):
+            # Itera pelos elementos relevantes no corpo do HTML
+            for element in soup.body.find_all(['h9', 'h8', 'h1', 'p', 'ul', 'li', 'ol']):
+                # Obtém o texto do elemento
+                texto_elemento = element.get_text(strip=True)
+                if texto_elemento in elementos_processados or not texto_elemento:
+                    continue  # Ignora elementos duplicados ou vazios
+                elementos_processados.add(texto_elemento)
+
+                # Processa os títulos e seções
                 if element.name == 'h9':  # Novo título
-                    # Salva o registro anterior, se existir
-                    if titulo_atual and conteudo_atual:
-                        Base_de_Conhecimento_Geral.objects.create(
-                            titulo=titulo_atual,
-                            conteudo=' '.join(conteudo_atual).strip(),
-                            criado_em=now()
-                        )
-                    # Atualiza para o novo título
-                    titulo_atual = element.get_text(strip=True)
+                    if conteudo_atual:
+                        salvar_registro(titulo_atual, topico_atual, sub_topico_atual, conteudo_atual)
+                    titulo_atual = texto_elemento
+                    topico_atual, sub_topico_atual, conteudo_atual = None, None, []
+                elif element.name == 'h8':  # Novo tópico
+                    if conteudo_atual:
+                        salvar_registro(titulo_atual, topico_atual, sub_topico_atual, conteudo_atual)
+                    topico_atual = texto_elemento
+                    sub_topico_atual, conteudo_atual = None, []
+                elif element.name == 'h1':  # Novo subtópico
+                    if conteudo_atual:
+                        salvar_registro(titulo_atual, topico_atual, sub_topico_atual, conteudo_atual)
+                    sub_topico_atual = texto_elemento
                     conteudo_atual = []
-                elif element.name in ['p', 'ul', 'ol']:
-                    # Processa o conteúdo sem duplicar itens de lista
-                    if element.name in ['ul', 'ol']:
-                        list_items = [li.get_text(strip=True) for li in element.find_all('li', recursive=False)]
-                        conteudo_atual.extend(list_items)
-                    else:
-                        # Adiciona o texto puro do parágrafo
-                        conteudo_atual.append(element.get_text(strip=True))
+                elif element.name in ['p', 'ul', 'li', 'ol']:  # Conteúdo
+                    conteudo_atual.append(texto_elemento)
 
             # Salva o último registro após o loop
-            if titulo_atual and conteudo_atual:
-                Base_de_Conhecimento_Geral.objects.create(
-                    titulo=titulo_atual,
-                    conteudo=' '.join(conteudo_atual).strip(),
-                    criado_em=now()
-                )
+            if conteudo_atual:
+                salvar_registro(titulo_atual, topico_atual, sub_topico_atual, conteudo_atual)
 
             return redirect('upload_html')
     return render(request, 'upload_html.html')
+
+
+def salvar_registro(titulo, topico, sub_topico, conteudo):
+    """Função para salvar um registro na model."""
+    if titulo or topico or sub_topico or conteudo:
+        Base_de_Conhecimento_Geral.objects.create(
+            titulo=titulo,
+            topico=topico,
+            sub_topico=sub_topico,
+            conteudo='\n'.join(conteudo),  # Junta os textos com quebra de linha
+            criado_em=now()
+        )

@@ -505,9 +505,12 @@ class Dominio4(models.Model):
 
 class Base_de_Conhecimento_Geral(models.Model):
     titulo = models.CharField(max_length=255)
+    topico = models.CharField(max_length=255, null=True, blank=True)
+    sub_topico = models.CharField(max_length=255, null=True, blank=True)
     conteudo = models.TextField()
+    resumo = models.TextField(null=True, blank=True)
     criado_em = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.titulo}"
+        return f"{self.titulo} - {self.topico} - {self.sub_topico}"
     

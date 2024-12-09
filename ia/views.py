@@ -19,6 +19,7 @@ from usuarios.models import UserRequestLog
 from usuarios.models import CustomUsuario
 from decimal import Decimal
 import locale
+from glex.models import Base_de_Conhecimento_Geral
 from .models import (
     Informacao,
     RegistroIA,
@@ -1211,7 +1212,7 @@ def filtered_chat_view(request):
             print("Contexto de análise completa da escola gerado")
         elif question_type == "base de conhecimento":
             print("Lidando com categoria conhecimento")
-            knowledge_base_entries = Base_de_Conhecimento.objects.all()
+            knowledge_base_entries = Base_de_Conhecimento_Geral.objects.all()
             context = (
                 f"Informações Básicas da Escola:\n"
                 f"Nome da Escola: {school.nome_da_escola}\n"
@@ -1257,7 +1258,7 @@ def filtered_chat_view(request):
             )
 
             for entry in knowledge_base_entries:
-                context += f"Titulo: {entry.titulo}\n Assunto: {entry.assunto}\nSub Assunto: {entry.sub_assunto}\nTexto: {entry.texto}\n\n"
+                context += f"Titulo: {entry.titulo}\n Assunto: {entry.topico}\nSub Assunto: {entry.sub_topico}\nTexto: {entry.conteudo}\n\n"
             print("Contexto de conhecimento gerado")
         
         elif question_type in ["vendas", "relatório de vendas"]:
