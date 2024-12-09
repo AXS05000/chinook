@@ -1333,6 +1333,7 @@ def filtered_chat_view(request):
         # Salvar a interação no modelo RegistroIA
         RegistroIA.objects.create(
             usuario=user,
+            escola=school,  # Vincula o objeto da escola
             pergunta=message,
             resposta=response_text,  # Resposta limpa salva no banco
             tokens_used=tokens_used

@@ -4,17 +4,6 @@ from django.utils import timezone
 from decimal import Decimal
 
 
-class RegistroIA(models.Model):
-    usuario = models.ForeignKey(CustomUsuario, on_delete=models.CASCADE)
-    pergunta = models.TextField()
-    resposta = models.TextField()
-    tokens_used = models.IntegerField(default=0)
-
-
-    def __str__(self):
-        return f"Usuario {self.usuario}"
-
-
 
 class Informacao(models.Model):
     nome = models.CharField(max_length=100)
@@ -930,3 +919,21 @@ class Pedido(models.Model):
 
     def __str__(self):
         return f"Pedido {self.id_linha} - {self.nome_do_produto}"
+    
+
+
+class RegistroIA(models.Model):
+    usuario = models.ForeignKey(CustomUsuario, on_delete=models.CASCADE)
+    escola = models.ForeignKey(
+        CRM_FUI, 
+        on_delete=models.CASCADE, 
+        related_name="registros_ia", 
+        verbose_name="Escola", blank=True, null=True
+    )
+    pergunta = models.TextField()
+    resposta = models.TextField()
+    tokens_used = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Usuario {self.usuario} - Escola {self.escola.nome_da_escola} - Pergunta em {self.created_at.strftime('%d/%m/%Y %H:%M:%S')}"
