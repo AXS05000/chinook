@@ -21,6 +21,7 @@ from decimal import Decimal
 import locale
 from .models import (
     Informacao,
+    RegistroIA,
     Resumo_SAC,
     Ouvidoria_SAC,
     Processo, 
@@ -1323,8 +1324,15 @@ def filtered_chat_view(request):
             )
 
         response_data = config_chat_central(message, api_key, context)
+        response_text = response_data['formatted_response']
+        tokens_used = response_data['tokens'] # Ajuste conforme o retorno da função utils
 
-        tokens_used = response_data['tokens']  # Ajuste conforme o retorno da função utils
+        RegistroIA.objects.create(
+            usuario=user,
+            pergunta=message,
+            resposta=response_text,
+            tokens_used=tokens_used
+        )
 
         # Atualiza o log de requisições com os tokens usados
         log, created = UserRequestLog.objects.get_or_create(user=user)
@@ -1332,7 +1340,7 @@ def filtered_chat_view(request):
         log.tokens_used += tokens_used
         log.save()
 
-        return JsonResponse({"response": response_data['formatted_response']})
+        return JsonResponse({"response": response_text})
     else:
         schools = CRM_FUI.objects.all().order_by(
             "nome_da_escola"

@@ -4,6 +4,18 @@ from django.utils import timezone
 from decimal import Decimal
 
 
+class RegistroIA(models.Model):
+    usuario = models.ForeignKey(CustomUsuario, on_delete=models.CASCADE)
+    pergunta = models.TextField()
+    resposta = models.TextField()
+    tokens_used = models.IntegerField(default=0)
+
+
+    def __str__(self):
+        return f"Usuario {self.usuario}"
+
+
+
 class Informacao(models.Model):
     nome = models.CharField(max_length=100)
     persona = models.CharField(max_length=100)
