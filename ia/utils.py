@@ -777,3 +777,82 @@ def config_resumo_alteracoes(prompt, api_key):
     print(f"Resposta formatada: {formatted_response[:50]}...")  # Exibe os primeiros 50 caracteres
 
     return formatted_response
+
+
+
+############################################# RESUMO BASE DE CONHECIMENTO ###########################################################
+
+def gerar_resumo_base_de_conhecimento(conteudo, api_key):
+    """
+    Gera um resumo detalhado do conteúdo para garantir que todas as informações importantes
+    estejam presentes na coluna resumo.
+    """
+    print("Iniciando a geração de resumo completo...")
+    openai.api_key = api_key
+
+    # Prompt ajustado para garantir que todo o conteúdo seja incluído no resumo
+    prompt = (
+        "Você é um assistente que deve gerar um resumo detalhado e completo do texto fornecido. "
+        "O resumo deve capturar todas as informações presentes no texto original sem omitir nada relevante, "
+        "e deve ser conciso, mas suficiente para garantir que todas as ideias principais estejam presentes. "
+        "Segue o texto:\n"
+        f"{conteudo}\n"
+        "Por favor, crie um resumo que inclua todas as informações essenciais do texto."
+    )
+
+    # Chamada à API
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-2024-08-06",
+        messages=[
+            {"role": "system", "content": "Você é um especialista em gerar resumos detalhados e completos."},
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=2000,  # Ajuste o limite para garantir resumos completos
+    )
+
+    # Extrai o resumo gerado
+    resumo = response["choices"][0]["message"]["content"].strip()
+    print(f"Resumo gerado: {resumo[:100]}...")  # Exibe os primeiros 100 caracteres para validação
+    return resumo
+
+def filtrar_resumos_conhecimento(pergunta, context_resumos, api_key):
+    """
+    Filtra os IDs relevantes com base nos resumos disponíveis e na pergunta do usuário.
+    """
+    print("Filtrando resumos relevantes para a pergunta...")
+    openai.api_key = api_key
+
+    # Contexto detalhado com a pergunta e os resumos
+    prompt = (
+        "Você é um assistente especializado em encontrar conteúdos relevantes com base em resumos.\n"
+        "Abaixo está uma pergunta do usuário e uma lista de resumos identificados por IDs.\n"
+        "Retorne os IDs dos resumos que são mais relevantes para responder à pergunta.\n\n"
+        f"Pergunta: {pergunta}\n\n"
+        "Resumos:\n"
+        f"{context_resumos}\n\n"
+        "Por favor, liste os IDs relevantes separados por vírgulas, como no formato: 1849, 1854, 1855."
+    )
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-2024-08-06",
+        messages=[
+            {"role": "system", "content": "Você é um especialista em análise de relevância baseada em resumos."},
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=500,
+    )
+
+    formatted_response = response["choices"][0]["message"]["content"].strip()
+    print(f"Resposta da API: {formatted_response}")
+
+    # Extrai apenas números separados por vírgulas
+    try:
+        ids_relevantes = [
+            int(num) for num in formatted_response.replace(" ", "").split(",") if num.isdigit()
+        ]
+    except Exception as e:
+        print(f"Erro ao processar IDs: {str(e)}")
+        ids_relevantes = []
+
+    print(f"IDs relevantes extraídos: {ids_relevantes}")
+    return ids_relevantes

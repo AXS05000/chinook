@@ -63,6 +63,8 @@ from .utils import (
     classify_question_excom,
     config_chat_rh,
     extract_order_number,
+    gerar_resumo_base_de_conhecimento,
+    filtrar_resumos_conhecimento,
     config_chat_excom,
     config_resumo_sac,
     config_resumo_visita_escola,
@@ -1211,15 +1213,46 @@ def filtered_chat_view(request):
             print("Contexto de análise completa da escola gerado")
         
         elif question_type == "base de conhecimento":
-            print("Lidando com categoria conhecimento")
-            knowledge_base_entries = Base_de_Conhecimento_Geral.objects.all()
-            context = (
-                f"Nome da Escola: {school.nome_da_escola}\n"
-            )
+            print("Lidando com categoria Base de Conhecimento")
+            
+            # Parte 1: Obter os resumos de todas as entradas
+            resumos = Base_de_Conhecimento_Geral.objects.values("id", "resumo")
+            if not resumos:
+                print("Nenhum resumo encontrado na base de conhecimento.")
+                return JsonResponse({"error": "Nenhum resumo encontrado."}, status=404)
 
-            for entry in knowledge_base_entries:
-                context += f"Titulo: {entry.titulo}\n Assunto: {entry.topico}\nSub Assunto: {entry.sub_topico}\nTexto: {entry.conteudo}\n\n"
-            print("Contexto de conhecimento gerado")
+            # Formatar o contexto para enviar para a API
+            context_resumos = "\n".join([f"ID: {r['id']} - Resumo: {r['resumo']}" for r in resumos if r['resumo']])
+            if not context_resumos.strip():
+                print("Nenhum resumo válido para enviar à API.")
+                return JsonResponse({"error": "Nenhum resumo válido para enviar."}, status=404)
+
+            print("Enviando resumos para a API para identificar IDs relevantes...")
+            
+            # Parte 2: Filtrar os IDs relevantes com base na pergunta do usuário
+            try:
+                ids_relevantes = filtrar_resumos_conhecimento(message, context_resumos, api_key)
+                print(f"IDs relevantes recebidos: {ids_relevantes}")
+            except Exception as e:
+                print(f"Erro ao processar IDs relevantes: {str(e)}")
+                return JsonResponse({"error": "Erro ao processar IDs relevantes."}, status=500)
+
+            # Parte 3: Construir o contexto com os resumos relevantes
+            if not ids_relevantes:
+                print("Nenhum ID relevante foi retornado pela API.")
+                return JsonResponse({"error": "Nenhum ID relevante encontrado."}, status=404)
+
+            entradas_relevantes = Base_de_Conhecimento_Geral.objects.filter(id__in=ids_relevantes)
+            context = "Entradas relevantes encontradas:\n"
+            for entrada in entradas_relevantes:
+                context += (
+                    f"Título: {entrada.titulo}\n"
+                    f"Assunto: {entrada.topico}\n"
+                    f"Sub Assunto: {entrada.sub_topico}\n"
+                    f"Resumo: {entrada.resumo}\n\n"
+                )
+
+            print("Contexto gerado com base de conhecimento relevante")
         
         elif question_type in ["vendas", "relatório de vendas"]:
             vendas_responses_2024 = Vendas_SLM_2024.objects.filter(
@@ -3100,3 +3133,39 @@ def atualizar_id_escola_view(request):
         form = AtualizarIDEscolaForm()
 
     return render(request, 'atualizar_id_escola.html', {'form': form})
+
+
+
+def gerar_resumos_base_conhecimento(request):
+    """
+    Gera resumos detalhados para todas as entradas da model Base_de_Conhecimento_Geral,
+    garantindo que todas as informações do conteúdo original estejam presentes no resumo.
+    """
+    entradas = Base_de_Conhecimento_Geral.objects.all()
+    resultados = []
+
+    for entrada in entradas:
+        try:
+            print(f"Gerando resumo para a entrada ID: {entrada.id} - Título: {entrada.titulo}")
+
+            # Gera o resumo com todas as informações presentes no conteúdo
+            conteudo = entrada.conteudo
+            api_key = request.user.api_key  # Certifique-se de que o usuário tem uma chave API válida
+            resumo = gerar_resumo_base_de_conhecimento(conteudo, api_key)
+
+            # Salva o resumo na model
+            entrada.resumo = resumo
+            entrada.save()
+
+            resultados.append(f"Resumo gerado para ID: {entrada.id} - Título: {entrada.titulo}")
+            print(f"Resumo gerado com sucesso para ID: {entrada.id}")
+        
+        except Exception as e:
+            print(f"Erro ao gerar resumo para ID: {entrada.id} - Título: {entrada.titulo}: {str(e)}")
+            resultados.append(f"Erro ao gerar resumo para ID: {entrada.id} - Título: {entrada.titulo}")
+
+        # Delay opcional para evitar sobrecarga na API
+        time.sleep(2)
+
+    print("Processo concluído para todas as entradas.")
+    return JsonResponse({"resultados": resultados})

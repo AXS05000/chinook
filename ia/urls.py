@@ -30,6 +30,7 @@ from .views import (chat_view, generate_excel_report, ReclamacaoUpdateView, Recl
     export_pedidos_alterados_excel,
     gerar_resumo_alteracoes,
     gerar_resumo_visita_escola,
+    gerar_resumos_base_conhecimento,
     gerar_resumos_visita_escola_todas,
     import_processo_protestos,
     excom,
@@ -88,6 +89,8 @@ urlpatterns = [
     path('gerar_resumo_nps/<int:school_id>/', gerar_resumo_nps, name='gerar_resumo_nps'),
     path('gerar-resumos-todas-escolas/', gerar_resumos_todas_escolas, name='gerar_resumos_todas_escolas'),
     path('gerar-resumos-todas-escolas-geral/', gerar_resumos_todas_escolas_geral, name='gerar_resumos_todas_escolas_geral'),
+    path('gerar-resumos-base/', gerar_resumos_base_conhecimento, name='gerar_resumos_base_conhecimento'),
+
 
     path('gerar-resumo-cliente-oculto/<int:school_id>/', gerar_resumo_cliente_oculto, name='gerar_resumo_cliente_oculto'),
     path('gerar-resumos-cliente-oculto-todas-escolas/', gerar_resumos_cliente_oculto_todas_escolas, name='gerar_resumos_cliente_oculto_todas_escolas'),
