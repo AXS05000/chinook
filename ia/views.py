@@ -745,6 +745,16 @@ def filtered_chat_view(request):
             log.save()
 
 
+            # Registra uma linha na model RegistroIA para mensagens automáticas
+            RegistroIA.objects.create(
+                usuario=user,
+                escola=school,  # Associa a escola
+                pergunta="Por favor passe o resumo da escola",  # Pergunta padrão
+                resposta="Resumo gerado",  # Resposta padrão
+                tokens_used=0  # Tokens usados para mensagens automáticas
+            )
+
+
             complemento = ""
             if school.complemento_escola and school.complemento_escola.lower() not in ["", "null", "nan", "0", "-"]:
                 complemento = f" {school.complemento_escola}"
