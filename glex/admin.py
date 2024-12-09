@@ -4,6 +4,7 @@ from django.contrib import admin
 from .models import (
     Administrativo,
     Comercial,
+    Base_de_Conhecimento_Geral,
 
 )
 
@@ -11,3 +12,5 @@ from .models import (
 admin.site.register(Administrativo)
 
 admin.site.register(Comercial)
+
+admin.site.register(Base_de_Conhecimento_Geral)

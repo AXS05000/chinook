@@ -37,6 +37,13 @@ class CustomUsuario(AbstractUser):
     login_attempts = models.IntegerField(default=0)
     lockout_until = models.DateTimeField(null=True, blank=True)
     api_key = models.CharField('Chave API', max_length=255, blank=True, null=True)
+    clickup_api_token = models.CharField(
+        "Token API ClickUp", max_length=255, blank=True, null=True
+    )
+    clickup_list_id = models.CharField(
+        "List ID ClickUp", max_length=255, blank=True, null=True
+    )
+    
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'fone']
 

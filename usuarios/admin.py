@@ -29,7 +29,7 @@ class CustomUsuarioAdmin(UserAdmin):
     model = CustomUsuario
     list_display = ('first_name', 'last_name', 'email', 'fone', 'is_staff')
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'api_key')}),
+        (None, {'fields': ('email', 'password', 'api_key','clickup_api_token', 'clickup_list_id')}),
         ('Informações Pessoais', {'fields': ('first_name', 'last_name', 'fone')}),
         ('Permissões', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Datas Importantes', {'fields': ('last_login', 'date_joined')}),
