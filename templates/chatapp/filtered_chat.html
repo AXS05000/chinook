@@ -1123,7 +1123,7 @@
                       <div class="conversation-item-content">
                           <div class="conversation-item-box">
                               <div class="conversation-item-text">
-                                  <p>${data.response}</p>
+                                  <p>${data.response.replace(/\n/g, '<br>')}</p>
                                   <div class="conversation-item-time">${new Date().toLocaleTimeString()}</div>
                               </div>
                           </div>
