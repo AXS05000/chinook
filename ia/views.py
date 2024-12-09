@@ -1155,15 +1155,19 @@ def filtered_chat_view(request):
 
             print("Contexto Sprinklr gerado")
 
+
         elif question_type == "analise completa da escola":
             print("Lidando com análise completa da escola")
-            knowledge_base_entries = Base_de_Conhecimento.objects.all()
+            
+            # Obter respostas do NPS relacionadas à escola
             nps_responses = (
                 Respostas_NPS.objects.filter(escola__id_escola=school_id)
                 .exclude(comentario__isnull=True)
                 .exclude(comentario__exact="")
                 .exclude(comentario__exact="nan")
             )
+            
+            # Construir o contexto inicial com informações básicas da escola
             context = (
                 f"Informações Básicas da Escola:\n"
                 f"Nome da Escola: {school.nome_da_escola}\n"
@@ -1180,35 +1184,71 @@ def filtered_chat_view(request):
                 f"Atual Série: {school.atual_serie}\n"
                 f"Avanço Segmento: {school.avanco_segmento}\n"
                 f"Vendas e Metas de SLM:\n"
-                f"SLMs Vendidos 2024: {school.slms_vendidos} - SLM ou SLMs no plural são os materiais vendidos, esses aqui são referente a 2024.\n"
-                f"SLMs Vendidos 2025: {school.slms_vendidos_25} - SLM ou SLMs no plural são os materiais vendidos, esses aqui são referente a 2025.\n"
-                f"Meta de SLMs 2024: {school.meta} - Esse campo é a meta de Vendas de SLM vendidos.\n"
-                f"Meta de SLMs 2025: Ainda não foi definido a meta por escola.\n"
+                f"SLMs Vendidos 2024: {school.slms_vendidos} - Referente ao ano de 2024.\n"
+                f"SLMs Vendidos 2025: {school.slms_vendidos_25} - Referente ao ano de 2025.\n"
+                f"Meta de SLMs 2024: {school.meta} - Meta de vendas para 2024.\n"
+                f"Meta de SLMs 2025: Ainda não definida para 2025.\n"
                 f"Avaliações:\n"
-                f"NPS Pais 2024 - 1° Onda: {school.nps_pais_2024_1_onda} - Este campo indica a pontuação referente ao NPS(Net Promoter Score) dos pais dos alunos que estudam na escola, que foi realizado no 1° semestre no ano(1° Onda).\n"
-                f"Cliente Oculto 2024: {school.cliente_oculto_2024} - Este campo indica a pontuação referente ao Cliente Oculto, que uma avaliação realizada por uma empresa terceirizada onde consiste em um falso cliente ir até a escola para avaliar ela.\n"
-                f"Quality Assurance 2024: {school.quality_assurance_2024} - Este campo indica a pontuação referente Quality Assurance uma avaliação realizada para ver a qualidade da escola.\n"
+                f"NPS Pais 2024 - 1° Onda: {school.nps_pais_2024_1_onda} - Pontuação do NPS (Net Promoter Score) dos pais dos alunos no primeiro semestre de 2024.\n"
+                f"Cliente Oculto 2024: {school.cliente_oculto_2024} - Pontuação da avaliação feita por cliente oculto em 2024.\n"
+                f"Quality Assurance 2024: {school.quality_assurance_2024} - Pontuação da avaliação de qualidade da escola em 2024.\n"
                 f"Financeiro:\n"
-                f"Ticket Médio: {school.ticket_medio} - Este é o valor médio de mensalidade cobrada pela escola.\n"
-                f"Valor Royalties: {school.valor_royalties} - Este é o valor de royalties que a escola deve pagar por mês à franqueada Maple Bear.\n"
-                f"Valor de FDMP(Fundo de Marketing): {school.valor_fdmp} - Este é o valor de FDMP(Fundo de Marketing) que a escola deve pagar por mês à franqueada Maple Bear.\n"
-                f"Status de Adimplência/Inadimplência: {school.status_de_adimplencia} - Este campo indica se a escola está Adimplente ou Inadimplente referente aos seus pagamentos(Royalties e FDMP) que devem ser feitos à franqueada Maple Bear.\n"
+                f"Ticket Médio: {school.ticket_medio} - Valor médio de mensalidade.\n"
+                f"Valor Royalties: {school.valor_royalties} - Valor mensal de royalties devido à franqueada.\n"
+                f"Valor de FDMP (Fundo de Marketing): {school.valor_fdmp} - Valor mensal de contribuição ao fundo de marketing.\n"
+                f"Status de Adimplência/Inadimplência: {school.status_de_adimplencia}.\n"
             )
-            if school.status_de_adimplencia == "Inadimplente":
-                context += f"Inadimplência: {school.inadimplencia} - Este é o valor que a escola está devendo para a Maple Bear.\n"
-
-            for response in nps_responses:
-                context += (
-                    f"Respostas do NPS dessa escola:\n"
-                    f"Questão perguntada no NPS: {response.questao}\n"
-                    f"Comentário: {response.comentario}\n\n"
-                )
             
-            context += (
-                f"Base de Conhecimento, com ela você busca todas informações referentes a Maple Bear para conseguir responder o usuário:\n"
-            )
-            for entry in knowledge_base_entries:
-                context += f"Título: {entry.titulo}\nSub Assunto: {entry.sub_assunto}\nTexto: {entry.texto}\n\n"
+            if school.status_de_adimplencia == "Inadimplente":
+                context += f"Inadimplência: R$ {school.inadimplencia} - Valor devido pela escola.\n"
+            
+            # Adicionar respostas do NPS ao contexto
+            if nps_responses.exists():
+                context += "\nRespostas do NPS dessa escola:\n"
+                for response in nps_responses:
+                    context += (
+                        f"Questão perguntada no NPS: {response.questao}\n"
+                        f"Comentário: {response.comentario}\n\n"
+                    )
+            else:
+                context += "\nNenhuma resposta do NPS encontrada para esta escola.\n"
+            
+            # Parte 1: Obter os resumos de todas as entradas da base de conhecimento
+            resumos = Base_de_Conhecimento_Geral.objects.values("id", "resumo")
+            if not resumos:
+                print("Nenhum resumo encontrado na base de conhecimento.")
+                context += "\nBase de Conhecimento:\nNenhum resumo encontrado na base de conhecimento.\n"
+            else:
+                # Formatar o contexto para enviar para a API
+                context_resumos = "\n".join([f"ID: {r['id']} - Resumo: {r['resumo']}" for r in resumos if r['resumo']])
+                if not context_resumos.strip():
+                    print("Nenhum resumo válido para enviar à API.")
+                    context += "\nBase de Conhecimento:\nNenhum resumo válido para enviar à base de conhecimento.\n"
+                else:
+                    print("Enviando resumos para a API para identificar IDs relevantes...")
+                    
+                    # Parte 2: Filtrar os IDs relevantes com base na pergunta do usuário
+                    try:
+                        ids_relevantes = filtrar_resumos_conhecimento(message, context_resumos, api_key)
+                        print(f"IDs relevantes recebidos: {ids_relevantes}")
+                    except Exception as e:
+                        print(f"Erro ao processar IDs relevantes: {str(e)}")
+                        return JsonResponse({"error": "Erro ao processar IDs relevantes."}, status=500)
+
+                    # Parte 3: Construir o contexto com os resumos relevantes
+                    if not ids_relevantes:
+                        print("Nenhum ID relevante foi retornado pela API.")
+                        context += "\nBase de Conhecimento:\nNenhum ID relevante encontrado na base de conhecimento.\n"
+                    else:
+                        entradas_relevantes = Base_de_Conhecimento_Geral.objects.filter(id__in=ids_relevantes)
+                        context += "\nBase de Conhecimento:\n"
+                        for entrada in entradas_relevantes:
+                            context += (
+                                f"Título: {entrada.titulo}\n"
+                                f"Assunto: {entrada.topico}\n"
+                                f"Sub Assunto: {entrada.sub_topico}\n"
+                                f"Resumo: {entrada.resumo}\n\n"
+                            )
 
             print("Contexto de análise completa da escola gerado")
         
