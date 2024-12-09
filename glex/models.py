@@ -511,5 +511,5 @@ class Base_de_Conhecimento_Geral(models.Model):
     criado_em = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.titulo} - {self.topico}"
+        return f"{self.titulo} - {self.topico} - {self.sub_topico}"
     

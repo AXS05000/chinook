@@ -19,6 +19,8 @@ from .views import (
     BuscarEscolaView,
 )
 
+from .import_html import upload_html_view
+
 urlpatterns = [
     path("home_glex", HomeGlex.as_view(), name="home_glex"),
     path("glex", Glex.as_view(), name="glex"),
@@ -65,4 +67,6 @@ urlpatterns = [
     ),
     path("tabela_qa/<int:escola_id>/", TabelaQAView.as_view(), name="tabela_qa"),
     path("buscar_escola/", BuscarEscolaView.as_view(), name="buscar_escola"),
+    path('upload-html/', upload_html_view, name='upload_html'),
+
 ]
