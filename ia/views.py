@@ -748,10 +748,10 @@ def filtered_chat_view(request):
             # Registra uma linha na model RegistroIA para mensagens automáticas
             RegistroIA.objects.create(
                 usuario=user,
-                escola=school,  # Associa a escola
-                pergunta="Por favor passe o resumo da escola",  # Pergunta padrão
-                resposta="Resumo gerado",  # Resposta padrão
-                tokens_used=0  # Tokens usados para mensagens automáticas
+                escola=school,
+                pergunta="Por favor passe o resumo da escola",
+                resposta="Resumo gerado",
+                tokens_used=0
             )
 
 
@@ -1335,27 +1335,23 @@ def filtered_chat_view(request):
 
         response_data = config_chat_central(message, api_key, context)
         response_html = response_data['formatted_response']
-        tokens_used = response_data['tokens']  # Ajuste conforme o retorno da função utils
+        tokens_used = response_data['tokens']
 
-        # Remover HTML apenas para salvar na model
         response_text = BeautifulSoup(response_html, "html.parser").get_text()
 
-        # Salvar a interação no modelo RegistroIA
         RegistroIA.objects.create(
             usuario=user,
-            escola=school,  # Vincula o objeto da escola
+            escola=school,
             pergunta=message,
-            resposta=response_text,  # Resposta limpa salva no banco
+            resposta=response_text,
             tokens_used=tokens_used
         )
 
-        # Atualizar log de requisições do usuário
         log, created = UserRequestLog.objects.get_or_create(user=user)
         log.request_count += 1
         log.tokens_used += tokens_used
         log.save()
 
-        # Retornar a resposta com HTML para o front-end
         return JsonResponse({"response": response_html})
     else:
         schools = CRM_FUI.objects.all().order_by("nome_da_escola")
