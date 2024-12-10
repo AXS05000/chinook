@@ -130,7 +130,6 @@
                                         style="display: none;"
                                         data-initial-file="{{ field.value|default_if_none:'' }}"
                                     >
-                    
                                     <!-- Botão estilizado para upload -->
                                     <button
                                         type="button"
@@ -143,7 +142,6 @@
                                             Attach file
                                         </span>
                                     </button>
-                    
                                     <!-- Mostrar nome do arquivo selecionado -->
                                     <button
                                         class="file-name btn btn-success btn-round"
@@ -160,7 +158,11 @@
                                 {% endif %}
                             </div>
                         </div>
-                        <br><hr>
+                        {% if "comment" in field.name %}
+                            <br><hr>
+                        {% else %}
+                            <br>
+                        {% endif %}
                     </div>
                     {% endfor %}
                     

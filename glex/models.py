@@ -443,10 +443,10 @@ class GlexGestaoDeParceria(models.Model):
 
     # 1.01
     registros_documentacao = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="1.01 Registros atualizados de documentação"
+        choices=CHOICES, blank=True, null=True, verbose_name="1.01 - A escola possui registros atualizados de toda a documentação, registro, negócios e licenças educacionais necessárias para operar como uma escola de acordo com os requisitos regionais?"
     )
     registros_documentacao_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 1.01"
+        blank=True, null=True, verbose_name="1.01 - Comentário:"
     )
     registros_documentacao_file = models.FileField(
         upload_to=upload_to_gestao_parceria,
@@ -457,10 +457,10 @@ class GlexGestaoDeParceria(models.Model):
 
     # 1.02
     polices_seguro = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="1.02 Polices de seguro ativas"
+        choices=CHOICES, blank=True, null=True, verbose_name="1.02 - A escola tem registro de apólices de seguro ativas que estão de acordo com os requisitos regionais?"
     )
     polices_seguro_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 1.02"
+        blank=True, null=True, verbose_name="1.02 - Comentário:"
     )
     polices_seguro_file = models.FileField(
         upload_to=upload_to_gestao_parceria,
@@ -471,7 +471,7 @@ class GlexGestaoDeParceria(models.Model):
 
     # 1.03
     registros_legais = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="1.03 Ausência de registros de processos legais"
+        choices=CHOICES, blank=True, null=True, verbose_name="1.03 - A escola pode demonstrar que não há registros de processos judiciais, penalidades ou multas em vista de seus registros ou operações aplicadas pelas autoridades locais."
     )
     registros_legais_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 1.03"

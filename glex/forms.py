@@ -521,6 +521,42 @@ class GlexGestaoDeParceriaForm(forms.ModelForm):
                 })
             field.required = False
 
+        self.order_fields([
+            "registros_documentacao",
+            "registros_documentacao_file",
+            "registros_documentacao_comment",
+            "polices_seguro",
+            "polices_seguro_file",
+            "polices_seguro_comment",
+            "registros_legais",
+            "registros_legais_file",
+            "registros_legais_comment",
+            "contrato_franquia",
+            "contrato_franquia_file",
+            "contrato_franquia_comment",
+            "senso_franquia",
+            "senso_franquia_file",
+            "senso_franquia_comment",
+            "reclamacoes_defesa_consumidor",
+            "reclamacoes_defesa_consumidor_file",
+            "reclamacoes_defesa_consumidor_comment",
+            "envio_cases_sucesso",
+            "envio_cases_sucesso_file",
+            "envio_cases_sucesso_comment",
+            "cadastro_crm",
+            "cadastro_crm_file",
+            "cadastro_crm_comment",
+            "avcb_atualizado",
+            "avcb_atualizado_file",
+            "avcb_atualizado_comment",
+            "alvara_sanitaria",
+            "alvara_sanitaria_file",
+            "alvara_sanitaria_comment",
+            "encontros_lideres",
+            "encontros_lideres_file",
+            "encontros_lideres_comment",
+        ])
+
 
 class GlexGenteForm(forms.ModelForm):
     class Meta:
