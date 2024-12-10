@@ -55,7 +55,9 @@
         .textarea-control::placeholder {
             color: #000000be; /* Placeholder consistente */
         }    
-
+        .radio-options {
+            padding-top: 0.5rem;
+        }
     </style>
   </head>
   
@@ -132,6 +134,7 @@
                                                         data-initial-file="{{ field.value|default_if_none:'' }}"
                                                     >
                                                     <!-- Botão estilizado para upload -->
+                                                    <br>
                                                     <button
                                                         type="button"
                                                         class="btn btn-danger btn-round"
@@ -140,10 +143,11 @@
                                                     >
                                                         <span class="button-content">
                                                             <i class="material-icons">attach_file</i>
-                                                            Attach file
+                                                            Escolher Arquivo
                                                         </span>
                                                     </button>
                                                     <!-- Mostrar nome do arquivo selecionado -->
+                                                    <br>
                                                     <button
                                                         class="file-name btn btn-success btn-round"
                                                         id="file-name-{{ forloop.counter }}"
@@ -162,7 +166,6 @@
                                         {% if "comment" in field.name %}
                                             <br><hr>
                                         {% else %}
-                                            <br>
                                         {% endif %}
                                     </div>
                                     {% endfor %}

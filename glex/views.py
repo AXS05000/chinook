@@ -564,7 +564,7 @@ class BuscarEscolaView(TemplateView):
 class GlexGestaoDeParceriaCreateView(CreateView):
     model = GlexGestaoDeParceria
     form_class = GlexGestaoDeParceriaForm
-    template_name = "pages/glex_gestao_de_parceria_form.html"
+    template_name = "pages/forms_glex.html"
 
     def dispatch(self, request, *args, **kwargs):
         escola_id = request.GET.get("escola_id")
@@ -603,7 +603,7 @@ class GlexGestaoDeParceriaCreateView(CreateView):
 class GlexGestaoDeParceriaUpdateView(UpdateView):
     model = GlexGestaoDeParceria
     form_class = GlexGestaoDeParceriaForm
-    template_name = "pages/glex_gestao_de_parceria_form.html"
+    template_name = "pages/forms_glex.html"
 
     def form_valid(self, form):
         messages.success(self.request, "Gestão de Parceria foi atualizada com sucesso!")
@@ -623,7 +623,7 @@ class GlexGestaoDeParceriaUpdateView(UpdateView):
 class GlexGenteCreateView(CreateView):
     model = GlexGente
     form_class = GlexGenteForm
-    template_name = "pages/glex_gente_form.html"
+    template_name = "pages/forms_glex.html"
 
     def dispatch(self, request, *args, **kwargs):
         escola_id = request.GET.get("escola_id")
@@ -662,7 +662,7 @@ class GlexGenteCreateView(CreateView):
 class GlexGenteUpdateView(UpdateView):
     model = GlexGente
     form_class = GlexGenteForm
-    template_name = "pages/glex_gente_form.html"
+    template_name = "pages/forms_glex.html"
 
     def form_valid(self, form):
         messages.success(self.request, "Gente foi atualizado com sucesso!")
@@ -682,7 +682,7 @@ class GlexGenteUpdateView(UpdateView):
 class GlexAdministrativoCreateView(CreateView):
     model = GlexAdministrativo
     form_class = GlexAdministrativoForm
-    template_name = "pages/glex_administrativo_form.html"
+    template_name = "pages/forms_glex.html"
 
     def dispatch(self, request, *args, **kwargs):
         escola_id = request.GET.get("escola_id")
@@ -721,7 +721,7 @@ class GlexAdministrativoCreateView(CreateView):
 class GlexAdministrativoUpdateView(UpdateView):
     model = GlexAdministrativo
     form_class = GlexAdministrativoForm
-    template_name = "pages/glex_administrativo_form.html"
+    template_name = "pages/forms_glex.html"
 
     def form_valid(self, form):
         messages.success(self.request, "Administrativo foi atualizado com sucesso!")
@@ -741,7 +741,7 @@ class GlexAdministrativoUpdateView(UpdateView):
 class GlexTecnologiaCreateView(CreateView):
     model = GlexTecnologia
     form_class = GlexTecnologiaForm
-    template_name = "pages/glex_tecnologia_form.html"
+    template_name = "pages/forms_glex.html"
 
     def dispatch(self, request, *args, **kwargs):
         escola_id = request.GET.get("escola_id")
@@ -780,7 +780,7 @@ class GlexTecnologiaCreateView(CreateView):
 class GlexTecnologiaUpdateView(UpdateView):
     model = GlexTecnologia
     form_class = GlexTecnologiaForm
-    template_name = "pages/glex_tecnologia_form.html"
+    template_name = "pages/forms_glex.html"
 
     def form_valid(self, form):
         messages.success(self.request, "Tecnologia foi atualizado com sucesso!")
@@ -800,7 +800,7 @@ class GlexTecnologiaUpdateView(UpdateView):
 class GlexMarketingCreateView(CreateView):
     model = GlexMarketing
     form_class = GlexMarketingForm
-    template_name = "pages/glex_marketing_form.html"
+    template_name = "pages/forms_glex.html"
 
     def dispatch(self, request, *args, **kwargs):
         escola_id = request.GET.get("escola_id")
@@ -839,7 +839,7 @@ class GlexMarketingCreateView(CreateView):
 class GlexMarketingUpdateView(UpdateView):
     model = GlexMarketing
     form_class = GlexMarketingForm
-    template_name = "pages/glex_marketing_form.html"
+    template_name = "pages/forms_glex.html"
 
     def form_valid(self, form):
         messages.success(self.request, "Marketing foi atualizado com sucesso!")
@@ -859,7 +859,7 @@ class GlexMarketingUpdateView(UpdateView):
 class GlexAcademicoCreateView(CreateView):
     model = GlexAcademico
     form_class = GlexAcademicoForm
-    template_name = "pages/glex_academico_form.html"
+    template_name = "pages/forms_glex.html"
 
     def dispatch(self, request, *args, **kwargs):
         escola_id = request.GET.get("escola_id")
@@ -898,7 +898,7 @@ class GlexAcademicoCreateView(CreateView):
 class GlexAcademicoUpdateView(UpdateView):
     model = GlexAcademico
     form_class = GlexAcademicoForm
-    template_name = "pages/glex_academico_form.html"
+    template_name = "pages/forms_glex.html"
 
     def form_valid(self, form):
         messages.success(self.request, "Acadêmico foi atualizado com sucesso!")
@@ -918,7 +918,7 @@ class GlexAcademicoUpdateView(UpdateView):
 class GlexGestaoEscolarCreateView(CreateView):
     model = GlexGestaoEscolar
     form_class = GlexGestaoEscolarForm
-    template_name = "pages/glex_gestao_escolar_form.html"
+    template_name = "pages/forms_glex.html"
 
     def dispatch(self, request, *args, **kwargs):
         escola_id = request.GET.get("escola_id")
@@ -957,7 +957,7 @@ class GlexGestaoEscolarCreateView(CreateView):
 class GlexGestaoEscolarUpdateView(UpdateView):
     model = GlexGestaoEscolar
     form_class = GlexGestaoEscolarForm
-    template_name = "pages/glex_gestao_escolar_form.html"
+    template_name = "pages/forms_glex.html"
 
     def form_valid(self, form):
         messages.success(self.request, "Gestão Escolar foi atualizado com sucesso!")
@@ -977,7 +977,7 @@ class GlexGestaoEscolarUpdateView(UpdateView):
 class GlexOperacaoAcademicaCreateView(CreateView):
     model = GlexOperacaoAcademica
     form_class = GlexOperacaoAcademicaForm
-    template_name = "pages/glex_operacao_academica_form.html"
+    template_name = "pages/forms_glex.html"
 
     def dispatch(self, request, *args, **kwargs):
         escola_id = request.GET.get("escola_id")
@@ -1016,7 +1016,7 @@ class GlexOperacaoAcademicaCreateView(CreateView):
 class GlexOperacaoAcademicaUpdateView(UpdateView):
     model = GlexOperacaoAcademica
     form_class = GlexOperacaoAcademicaForm
-    template_name = "pages/glex_operacao_academica_form.html"
+    template_name = "pages/forms_glex.html"
 
     def form_valid(self, form):
         messages.success(self.request, "Operação Acadêmica foi atualizado com sucesso!")
@@ -1036,7 +1036,7 @@ class GlexOperacaoAcademicaUpdateView(UpdateView):
 class GlexImplantacaoCreateView(CreateView):
     model = GlexImplantacao
     form_class = GlexImplantacaoForm
-    template_name = "pages/glex_implantacao_form.html"
+    template_name = "pages/forms_glex.html"
 
     def dispatch(self, request, *args, **kwargs):
         escola_id = request.GET.get("escola_id")
@@ -1075,7 +1075,7 @@ class GlexImplantacaoCreateView(CreateView):
 class GlexImplantacaoUpdateView(UpdateView):
     model = GlexImplantacao
     form_class = GlexImplantacaoForm
-    template_name = "pages/glex_implantacao_form.html"
+    template_name = "pages/forms_glex.html"
 
     def form_valid(self, form):
         messages.success(self.request, "Implantação foi atualizado com sucesso!")
@@ -1095,7 +1095,7 @@ class GlexImplantacaoUpdateView(UpdateView):
 class GlexComercialCreateView(CreateView):
     model = GlexComercial
     form_class = GlexComercialForm
-    template_name = "pages/glex_comercial_form.html"
+    template_name = "pages/forms_glex.html"
 
     def dispatch(self, request, *args, **kwargs):
         escola_id = request.GET.get("escola_id")
@@ -1154,7 +1154,7 @@ class GlexComercialUpdateView(UpdateView):
 class GlexResultadoCreateView(CreateView):
     model = GlexResultado
     form_class = GlexResultadoForm
-    template_name = "pages/glex_resultado_form.html"
+    template_name = "pages/forms_glex.html"
 
     def dispatch(self, request, *args, **kwargs):
         escola_id = request.GET.get("escola_id")
@@ -1193,7 +1193,7 @@ class GlexResultadoCreateView(CreateView):
 class GlexResultadoUpdateView(UpdateView):
     model = GlexResultado
     form_class = GlexResultadoForm
-    template_name = "pages/glex_resultado_form.html"
+    template_name = "pages/forms_glex.html"
 
     def form_valid(self, form):
         messages.success(self.request, "Resultado foi atualizado com sucesso!")
