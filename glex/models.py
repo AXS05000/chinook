@@ -837,8 +837,6 @@ class GlexGente(models.Model):
         return f"{self.escola} - Gente"
 
 
-
-
 def upload_to_administrativo(instance, filename):
     return f"glex/{instance.escola.id_escola}/administrativo/{filename}"
 
@@ -852,142 +850,142 @@ class GlexAdministrativo(models.Model):
 
     # 3.01
     profissionais_qualificados = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="3.01 Profissionais qualificados na recepção"
+        choices=CHOICES, blank=True, null=True, verbose_name="3.01 - Existem profissionais qualificados na recepção para receber e registrar os pais e convidados, que fiscalizam eficazmente as operações administrativas?"
     )
     profissionais_qualificados_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 3.01"
+        blank=True, null=True, verbose_name="3.01 - Comentário:"
     )
     profissionais_qualificados_file = models.FileField(
         upload_to=upload_to_administrativo,
         blank=True,
         null=True,
-        verbose_name="3.01 Profissionais qualificados na recepção",
+        verbose_name="3.01 - Arquivo sobre profissionais qualificados na recepção",
     )
 
     # 3.02
     sistema_administracao = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="3.02 Uso do sistema de administração escolar"
+        choices=CHOICES, blank=True, null=True, verbose_name="3.02 - O sistema de administração escolar está sendo usado de acordo com os padrões da Maple Bear?"
     )
     sistema_administracao_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 3.02"
+        blank=True, null=True, verbose_name="3.02 - Comentário:"
     )
     sistema_administracao_file = models.FileField(
         upload_to=upload_to_administrativo,
         blank=True,
         null=True,
-        verbose_name="3.02 Uso do sistema de administração escolar",
+        verbose_name="3.02 - Arquivo sobre uso do sistema de administração escolar",
     )
 
     # 3.03
     pagamentos_em_dia = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="3.03 Pagamentos à sede regional em dia"
+        choices=CHOICES, blank=True, null=True, verbose_name="3.03 - A escola está em dia com seus pagamentos de royalties, pagamentos de fundos de marketing e quaisquer outros pagamentos devidos à sede regional?"
     )
     pagamentos_em_dia_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 3.03"
+        blank=True, null=True, verbose_name="3.03 - Comentário:"
     )
     pagamentos_em_dia_file = models.FileField(
         upload_to=upload_to_administrativo,
         blank=True,
         null=True,
-        verbose_name="3.03 Pagamentos à sede regional em dia",
+        verbose_name="3.03 - Arquivo sobre pagamentos à sede regional em dia",
     )
 
     # 3.04
     gerencia_queixas = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="3.04 Processo para gerenciar queixas da comunidade"
+        choices=CHOICES, blank=True, null=True, verbose_name="3.04 - A escola tem um processo para gerenciar as queixas da comunidade escolar?"
     )
     gerencia_queixas_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 3.04"
+        blank=True, null=True, verbose_name="3.04 - Comentário:"
     )
     gerencia_queixas_file = models.FileField(
         upload_to=upload_to_administrativo,
         blank=True,
         null=True,
-        verbose_name="3.04 Processo para gerenciar queixas da comunidade",
+        verbose_name="3.04 - Arquivo sobre processo para gerenciar queixas da comunidade",
     )
 
     # 3.05
     desempenho_kpi = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="3.05 Desempenho do KPI alinhado com metas regionais"
+        choices=CHOICES, blank=True, null=True, verbose_name="3.05 - O desempenho do KPI da escola está alinhado com as metas estabelecidas pela sede regional?"
     )
     desempenho_kpi_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 3.05"
+        blank=True, null=True, verbose_name="3.05 - Comentário:"
     )
     desempenho_kpi_file = models.FileField(
         upload_to=upload_to_administrativo,
         blank=True,
         null=True,
-        verbose_name="3.05 Desempenho do KPI alinhado com metas regionais",
+        verbose_name="3.05 - Arquivo sobre desempenho do KPI alinhado com metas regionais",
     )
 
     # 3.06
     politica_negocios = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="3.06 Adesão à Política de Negócios Maple Bear"
+        choices=CHOICES, blank=True, null=True, verbose_name="3.06 - A escola está aderente à Política de Negócios Maple Bear?"
     )
     politica_negocios_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 3.06"
+        blank=True, null=True, verbose_name="3.06 - Comentário:"
     )
     politica_negocios_file = models.FileField(
         upload_to=upload_to_administrativo,
         blank=True,
         null=True,
-        verbose_name="3.06 Adesão à Política de Negócios Maple Bear",
+        verbose_name="3.06 - Arquivo sobre adesão à Política de Negócios Maple Bear",
     )
 
     # 3.07
     controle_inadimplencia = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="3.07 Controle de inadimplência com os clientes"
+        choices=CHOICES, blank=True, null=True, verbose_name="3.07 - A escola realiza o controle de inadimplência com os seus clientes?"
     )
     controle_inadimplencia_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 3.07"
+        blank=True, null=True, verbose_name="3.07 - Comentário:"
     )
     controle_inadimplencia_file = models.FileField(
         upload_to=upload_to_administrativo,
         blank=True,
         null=True,
-        verbose_name="3.07 Controle de inadimplência com os clientes",
+        verbose_name="3.07 - Arquivo sobre controle de inadimplência com os clientes",
     )
 
     # 3.08
     balanco_dre = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="3.08 Realiza Balanço Patrimonial e DRE"
+        choices=CHOICES, blank=True, null=True, verbose_name="3.08 - Faz o Balanço Patrimonial e Demonstrativo de Resultado de Exercício (DRE)?"
     )
     balanco_dre_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 3.08"
+        blank=True, null=True, verbose_name="3.08 - Comentário:"
     )
     balanco_dre_file = models.FileField(
         upload_to=upload_to_administrativo,
         blank=True,
         null=True,
-        verbose_name="3.08 Realiza Balanço Patrimonial e DRE",
+        verbose_name="3.08 - Arquivo sobre Balanço Patrimonial e DRE",
     )
 
     # 3.09
     planejamento_orcamento = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="3.09 Planejamento de orçamento antes do próximo ano"
+        choices=CHOICES, blank=True, null=True, verbose_name="3.09 - Faz planejamento de orçamento antes do início do próximo ano letivo?"
     )
     planejamento_orcamento_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 3.09"
+        blank=True, null=True, verbose_name="3.09 - Comentário:"
     )
     planejamento_orcamento_file = models.FileField(
         upload_to=upload_to_administrativo,
         blank=True,
         null=True,
-        verbose_name="3.09 Planejamento de orçamento antes do próximo ano",
+        verbose_name="3.09 - Arquivo sobre planejamento de orçamento antes do próximo ano",
     )
 
     # 3.10
     compartilhamento_orcamento = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="3.10 Compartilhamento do orçamento com áreas operacionais"
+        choices=CHOICES, blank=True, null=True, verbose_name="3.10 - O planejamento de orçamento é compartilhado com as demais áreas operacionais?"
     )
     compartilhamento_orcamento_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 3.10"
+        blank=True, null=True, verbose_name="3.10 - Comentário:"
     )
     compartilhamento_orcamento_file = models.FileField(
         upload_to=upload_to_administrativo,
         blank=True,
         null=True,
-        verbose_name="3.10 Compartilhamento do orçamento com áreas operacionais",
+        verbose_name="3.10 - Arquivo sobre compartilhamento do orçamento com áreas operacionais",
     )
 
     def __str__(self):
