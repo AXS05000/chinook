@@ -121,27 +121,30 @@
                         <div class="comp-nota-1">
                             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                             <div class="radio-options">
-                                {{ field }}
+                                {% if field.field.widget.input_type == "file" %}
+                                    <!-- Campo de arquivo escondido -->
+                                    <input type="file" id="file-upload-{{ forloop.counter }}" name="{{ field.name }}" style="display: none;">
+                        
+                                    <!-- Botão estilizado para upload -->
+                                    <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-{{ forloop.counter }}').click();" id="btn-upload-{{ forloop.counter }}">
+                                        <span class="button-content">
+                                            <i class="material-icons">attach_file</i>
+                                            Attach file
+                                        </span>
+                                    </button>
+                        
+                                    <!-- Mostrar nome do arquivo selecionado -->
+                                    <button class="file-name btn btn-success btn-round" id="file-name-{{ forloop.counter }}" style="display: none;">
+                                        <span class="button-content">
+                                            <i class="material-icons">check</i>
+                                            Nenhum arquivo escolhido
+                                        </span>
+                                    </button>
+                                {% else %}
+                                    {{ field }}
+                                {% endif %}
                             </div>
                         </div>
-
-                        {% if not field.name|slice:"-8:" == "_comment" and field.field.widget.input_type != "select" and field.field.widget.input_type != "radio" %}
-                        <div class="comp-nota-1">
-                            <input type="file" id="file-upload-{{ forloop.counter }}" name="{{ field.name }}_file" style="display: none;">
-                            <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-{{ forloop.counter }}').click();" id="btn-upload-{{ forloop.counter }}">
-                                <span class="button-content">
-                                    <i class="material-icons">attach_file</i>
-                                    Attach file
-                                </span>
-                            </button>
-                            <button class="file-name btn btn-success btn-round" id="file-name-{{ forloop.counter }}" style="display: none;">
-                                <span class="button-content">
-                                    <i class="material-icons">check</i>
-                                    Nenhum arquivo escolhido
-                                </span>
-                            </button>
-                        </div>
-                        {% endif %}
                         <br><hr>
                     </div>
                     {% endfor %}
@@ -209,48 +212,25 @@
     </div>    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Função para truncar o nome do arquivo
-            function truncateFilename(filename, maxLength = 10) {
-                if (filename.length > maxLength) {
-                    return filename.slice(0, maxLength) + "...";
-                }
-                return filename;
-            }
-    
-            // Função principal para manipular os inputs de arquivo
             document.querySelectorAll('input[type="file"]').forEach(input => {
-                const idSuffix = input.id.split('-').pop(); // Identifica o sufixo do ID
-                const fileNameSpan = document.getElementById('file-name-' + idSuffix); // Elemento onde o nome será exibido
-                const uploadButton = document.getElementById('btn-upload-' + idSuffix); // Botão de upload associado
-    
-                // Verifica se o input de arquivo já tem um valor inicial
-                const initialFileName = input.getAttribute('data-initial-file');
-                if (initialFileName && initialFileName !== 'None') {
-                    const truncatedName = truncateFilename(initialFileName); // Aplica truncamento
-                    fileNameSpan.innerHTML = `
-                        <span class="button-content">
-                            <i class="material-icons">check</i> ${truncatedName}
-                        </span>`;
-                    fileNameSpan.style.display = 'inline'; // Exibe o nome
-                    uploadButton.style.display = 'none'; // Esconde o botão de upload
-                }
-    
-                // Evento para alterar o comportamento ao selecionar um novo arquivo
-                input.onchange = function () {
+                const idSuffix = input.id.split('-').pop();
+                const fileNameSpan = document.getElementById('file-name-' + idSuffix);
+                const uploadButton = document.getElementById('btn-upload-' + idSuffix);
+        
+                input.addEventListener('change', function () {
                     if (this.files.length > 0) {
-                        const truncatedName = truncateFilename(this.files[0].name); // Aplica truncamento
+                        const fileName = this.files[0].name;
                         fileNameSpan.innerHTML = `
                             <span class="button-content">
-                                <i class="material-icons">check</i> ${truncatedName}
+                                <i class="material-icons">check</i> ${fileName}
                             </span>`;
-                        fileNameSpan.style.display = 'inline'; // Exibe o nome
-                        uploadButton.style.display = 'none'; // Esconde o botão de upload
+                        fileNameSpan.style.display = 'inline';
+                        uploadButton.style.display = 'none';
                     } else {
-                        // Caso nenhum arquivo seja selecionado
-                        fileNameSpan.style.display = 'none'; // Esconde o nome
-                        uploadButton.style.display = 'inline'; // Exibe o botão de upload
+                        fileNameSpan.style.display = 'none';
+                        uploadButton.style.display = 'inline';
                     }
-                };
+                });
             });
         });
     </script>
