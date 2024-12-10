@@ -120,6 +120,8 @@
                                     {{ field }}
                                 </div>
                             </div>
+                    
+                            {% if field.field.widget.input_type != "select" and field.field.widget.input_type != "radio" %}
                             <div class="comp-nota-1">
                                 <input type="file" id="file-upload-{{ forloop.counter }}" name="{{ field.name }}_file" style="display: none;">
                                 <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-{{ forloop.counter }}').click();" id="btn-upload-{{ forloop.counter }}">
@@ -135,7 +137,7 @@
                                     </span>
                                 </button>
                             </div>
-
+                            {% endif %}
                             <br><hr>
                         </div>
                         {% endfor %}
@@ -144,6 +146,7 @@
                             <button type="submit" class="btn btn-primary">Salvar</button>
                         </div>
                     </form>
+                    
                     
                     
                     
