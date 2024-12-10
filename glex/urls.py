@@ -1,12 +1,5 @@
 from django.urls import path
 from .views import (
-    HomeGlex,
-    Glex,
-    TabelaFormsGlex,
-    AdministrativoCreateView,
-    AdministrativoUpdateView,
-    ComercialCreateView,
-    ComercialUpdateView,
     Dominio1View,
     Dominio1UpdateView,
     Dominio2View,
@@ -22,25 +15,6 @@ from .views import (
 from .import_html import upload_html_view
 
 urlpatterns = [
-    path("home_glex", HomeGlex.as_view(), name="home_glex"),
-    path("glex", Glex.as_view(), name="glex"),
-    path("tabel_forms_glex", TabelaFormsGlex.as_view(), name="table_forms_glex"),
-    path(
-        "glex_administrativo/",
-        AdministrativoCreateView.as_view(),
-        name="administrativo_form",
-    ),
-    path(
-        "glex_administrativo/editar/",
-        AdministrativoUpdateView.as_view(),
-        name="administrativo_form_edit",
-    ),
-    path("glex_comercial/", ComercialCreateView.as_view(), name="comercial_form"),
-    path(
-        "glex_comercial/editar/",
-        ComercialUpdateView.as_view(),
-        name="comercial_form_edit",
-    ),
     path("dominio1/create/", Dominio1View.as_view(), name="dominio1_create"),
     path(
         "dominio1/update/<int:pk>/",
@@ -70,3 +44,21 @@ urlpatterns = [
     path('upload-html/', upload_html_view, name='upload_html'),
 
 ]
+
+
+
+# urlpatterns = [
+#     path("home_glex", HomeGlex.as_view(), name="home_glex"),
+#     path("glex", Glex.as_view(), name="glex"),
+#     path("tabel_forms_glex", TabelaFormsGlex.as_view(), name="table_forms_glex"),
+#     path(
+#         "glex_administrativo/",
+#         AdministrativoCreateView.as_view(),
+#         name="administrativo_form",
+#     ),
+#     path(
+#         "glex_administrativo/editar/",
+#         AdministrativoUpdateView.as_view(),
+#         name="administrativo_form_edit",
+#     ),
+# ]
