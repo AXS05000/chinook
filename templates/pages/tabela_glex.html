@@ -80,7 +80,7 @@
                     <div class="card-icon">
                         <i class="material-icons">assignment</i>
                     </div>
-                    <h2 class="card-title mt-0">Glex Dashboard</h2>
+                    <h2 class="card-title mt-0">Dashboard</h2>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -94,9 +94,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for dominio in dominios %}
+                                {% for dominio in glex_data %}
                                 <tr>
-                                    <td>{{ dominio.dominio }}</td>
+                                    <td>{{ dominio.nome }}</td>
                                     <td class="d-none d-md-table-cell">
                                         {% if dominio.status == "complete" %}
                                         <button class="btn btn-success btn-round" style="cursor: default;">
