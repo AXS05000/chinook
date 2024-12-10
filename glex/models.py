@@ -1428,411 +1428,428 @@ class GlexGestaoEscolar(models.Model):
 
     # 7.01
     plano_emergencia = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.01 Plano de Preparação para Emergências"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.01 - A escola tem um Plano de Preparação para Emergências em vigor?"
     )
     plano_emergencia_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.01"
+        blank=True, null=True, verbose_name="7.01 - Comentário:"
     )
     plano_emergencia_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.01 Plano de Preparação para Emergências",
+        verbose_name="7.01 - Arquivo sobre Plano de Preparação para Emergências",
     )
 
     # 7.02
     info_medicas_atualizadas = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.02 Informações médicas atualizadas"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.02 - A escola mantém informações atualizadas para apoiar alunos e funcionários com condições médicas prevalentes?"
     )
     info_medicas_atualizadas_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.02"
+        blank=True, null=True, verbose_name="7.02 - Comentário:"
     )
     info_medicas_atualizadas_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.02 Informações médicas atualizadas",
+        verbose_name="7.02 - Arquivo sobre informações médicas atualizadas",
     )
 
     # 7.03
     contato_atualizado = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.03 Lista de contatos atualizada e disponível"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.03 - A escola mantém uma lista atualizada de informações de contato de alunos e funcionários? Essas informações estão prontamente disponíveis para a Equipe de Resposta a Emergências?"
     )
     contato_atualizado_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.03"
+        blank=True, null=True, verbose_name="7.03 - Comentário:"
     )
     contato_atualizado_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.03 Lista de contatos atualizada e disponível",
+        verbose_name="7.03 - Arquivo sobre lista de contatos atualizada",
     )
 
     # 7.04
     seguranca_contra_incendio = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.04 Equipamentos de segurança contra incêndio"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.04 - A escola possui equipamentos de prevenção e segurança contra incêndio adequados e de fácil acesso, instalados corretamente e inspecionados regularmente?"
     )
     seguranca_contra_incendio_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.04"
+        blank=True, null=True, verbose_name="7.04 - Comentário:"
     )
     seguranca_contra_incendio_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.04 Equipamentos de segurança contra incêndio",
+        verbose_name="7.04 - Arquivo sobre equipamentos de segurança contra incêndio",
     )
 
     # 7.05
     saidas_emergencia = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.05 Saídas de emergência marcadas e desobstruídas"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.05 - A escola tem saídas de emergência claramente marcadas e desobstruídas?"
     )
     saidas_emergencia_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.05"
+        blank=True, null=True, verbose_name="7.05 - Comentário:"
     )
     saidas_emergencia_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.05 Saídas de emergência marcadas e desobstruídas",
+        verbose_name="7.05 - Arquivo sobre saídas de emergência marcadas e desobstruídas",
     )
 
     # 7.06
     kits_primeiros_socorros = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.06 Kits de primeiros socorros disponíveis"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.06 - A escola tem kits de primeiros socorros totalmente abastecidos disponíveis?"
     )
     kits_primeiros_socorros_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.06"
+        blank=True, null=True, verbose_name="7.06 - Comentário:"
     )
     kits_primeiros_socorros_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.06 Kits de primeiros socorros disponíveis",
+        verbose_name="7.06 - Arquivo sobre kits de primeiros socorros disponíveis",
     )
 
     # 7.07
     funcionarios_treinados_primeiros_socorros = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.07 Funcionários treinados em primeiros socorros e RCP"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.07 - A escola tem funcionários treinados em primeiros socorros e RCP?"
     )
     funcionarios_treinados_primeiros_socorros_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.07"
+        blank=True, null=True, verbose_name="7.07 - Comentário:"
     )
     funcionarios_treinados_primeiros_socorros_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.07 Funcionários treinados em primeiros socorros e RCP",
+        verbose_name="7.07 - Arquivo sobre funcionários treinados em primeiros socorros e RCP",
     )
 
     # 7.08
     simulacoes_emergencia = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.08 Simulações de emergência realizadas"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.08 - A escola realiza exercícios de emergência variados para simular situações de emergência para testar procedimentos universais (bloqueios, evacuação, abrigo no local)?"
     )
     simulacoes_emergencia_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.08"
+        blank=True, null=True, verbose_name="7.08 - Comentário:"
     )
     simulacoes_emergencia_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.08 Simulações de emergência realizadas",
+        verbose_name="7.08 - Arquivo sobre simulações de emergência realizadas",
     )
 
     # 7.09
     recursos_maple_bear = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.09 Recursos Maple Bear em condições adequadas"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.09 - Os livros e os recursos da Maple Bear estão em condições e qualidade adequadas?"
     )
     recursos_maple_bear_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.09"
+        blank=True, null=True, verbose_name="7.09 - Comentário:"
     )
     recursos_maple_bear_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.09 Recursos Maple Bear em condições adequadas",
+        verbose_name="7.09 - Arquivo sobre recursos Maple Bear em condições adequadas",
     )
 
     # 7.10
     garantia_qualidade = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.10 Envolvimento em Garantia de Qualidade"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.10 - A escola se envolveu em Garantia de Qualidade em alinhamento com o padrão Maple Bear?"
     )
     garantia_qualidade_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.10"
+        blank=True, null=True, verbose_name="7.10 - Comentário:"
     )
     garantia_qualidade_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.10 Envolvimento em Garantia de Qualidade",
+        verbose_name="7.10 - Arquivo sobre envolvimento em Garantia de Qualidade",
     )
-
+    
     # 7.11
     treinamento_academico = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.11 Envolvimento em treinamento acadêmico"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.11 - A escola se envolveu em treinamento acadêmico em alinhamento com o padrão Maple Bear?"
     )
     treinamento_academico_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.11"
+        blank=True, null=True, verbose_name="7.11 - Comentário:"
     )
     treinamento_academico_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.11 Envolvimento em treinamento acadêmico",
+        verbose_name="7.11 - Arquivo sobre envolvimento em treinamento acadêmico",
     )
 
     # 7.12
     reunioes_lideranca = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.12 Cumprimento do calendário de reuniões de Liderança"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.12 - A escola cumpriu o calendário de reuniões de Liderança?"
     )
     reunioes_lideranca_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.12"
+        blank=True, null=True, verbose_name="7.12 - Comentário:"
     )
     reunioes_lideranca_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.12 Cumprimento do calendário de reuniões de Liderança",
+        verbose_name="7.12 - Arquivo sobre cumprimento do calendário de reuniões de Liderança",
     )
 
     # 7.13
     processo_padronizado_atendimento = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.13 Processo padronizado de atendimento"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.13 - A escola possui um processo definido e padronizado de atendimento aos pais, responsáveis e clientes?"
     )
     processo_padronizado_atendimento_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.13"
+        blank=True, null=True, verbose_name="7.13 - Comentário:"
     )
     processo_padronizado_atendimento_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.13 Processo padronizado de atendimento",
+        verbose_name="7.13 - Arquivo sobre processo padronizado de atendimento",
     )
+
     # 7.14
     controle_frequencia_alunos = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.14 Controle diário de frequência dos Alunos"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.14 - A escola possui controle diário de frequência dos alunos?"
     )
     controle_frequencia_alunos_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.14"
+        blank=True, null=True, verbose_name="7.14 - Comentário:"
     )
     controle_frequencia_alunos_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.14 Controle diário de frequência dos Alunos",
+        verbose_name="7.14 - Arquivo sobre controle diário de frequência dos alunos",
     )
 
     # 7.15
     controle_media_alunos = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.15 Controle e monitoramento da média de Alunos por turma"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.15 - A escola possui controle e monitora a média de alunos por turma?"
     )
     controle_media_alunos_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.15"
+        blank=True, null=True, verbose_name="7.15 - Comentário:"
     )
     controle_media_alunos_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.15 Controle e monitoramento da média de Alunos por turma",
+        verbose_name="7.15 - Arquivo sobre controle e monitoramento da média de alunos por turma",
     )
 
     # 7.16
     atividades_extracurriculares = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.16 Atividades extracurriculares disponíveis"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.16 - A escola possui atividades extracurriculares?"
     )
     atividades_extracurriculares_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.16"
+        blank=True, null=True, verbose_name="7.16 - Comentário:"
     )
     atividades_extracurriculares_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
         blank=True,
         null=True,
-        verbose_name="7.16 Atividades extracurriculares disponíveis",
+        verbose_name="7.16 - Arquivo sobre atividades extracurriculares disponíveis",
     )
 
     # 7.17
     analise_pontos_fortes = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.17 Análise de pontos fortes, fracos, oportunidades e ameaças"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.17 - A escola realizou análise dos pontos fortes, fracos, oportunidades e ameaças em relação à unidade?"
     )
     analise_pontos_fortes_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.17"
+        blank=True, null=True, verbose_name="7.17 - Comentário:"
     )
     analise_pontos_fortes_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
-        blank=True, null=True,
-        verbose_name="7.17 Análise de pontos fortes, fracos, oportunidades e ameaças",
+        blank=True,
+        null=True,
+        verbose_name="7.17 - Arquivo sobre análise de pontos fortes, fracos, oportunidades e ameaças",
     )
 
     # 7.18
     planos_acao_defasagens = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.18 Planos de ação para sanar defasagens"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.18 - A escola desenvolve planos de ação para sanar as defasagens identificadas?"
     )
     planos_acao_defasagens_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.18"
+        blank=True, null=True, verbose_name="7.18 - Comentário:"
     )
     planos_acao_defasagens_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
-        blank=True, null=True,
-        verbose_name="7.18 Planos de ação para sanar defasagens",
+        blank=True,
+        null=True,
+        verbose_name="7.18 - Arquivo sobre planos de ação para sanar defasagens",
     )
 
     # 7.19
     experiencia_professores = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.19 Professores com experiência mínima de 1 ano"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.19 - Os professores possuem experiência mínima desejada de 1 ano como professor?"
     )
     experiencia_professores_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.19"
+        blank=True, null=True, verbose_name="7.19 - Comentário:"
     )
     experiencia_professores_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
-        blank=True, null=True,
-        verbose_name="7.19 Professores com experiência mínima de 1 ano",
+        blank=True,
+        null=True,
+        verbose_name="7.19 - Arquivo sobre professores com experiência mínima de 1 ano",
     )
 
     # 7.20
     professores_por_turma = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.20 Todas as turmas possuem Professores"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.20 - Todas as turmas possuem professores?"
     )
     professores_por_turma_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.20"
+        blank=True, null=True, verbose_name="7.20 - Comentário:"
     )
     professores_por_turma_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
-        blank=True, null=True,
-        verbose_name="7.20 Todas as turmas possuem Professores",
+        blank=True,
+        null=True,
+        verbose_name="7.20 - Arquivo sobre professores por turma",
     )
 
     # 7.21
     observacao_aulas = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.21 Liderança observa aulas ministradas pela Equipe Pedagógica"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.21 - A liderança observa aulas ministradas pela equipe pedagógica?"
     )
     observacao_aulas_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.21"
+        blank=True, null=True, verbose_name="7.21 - Comentário:"
     )
     observacao_aulas_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
-        blank=True, null=True,
-        verbose_name="7.21 Liderança observa aulas ministradas pela Equipe Pedagógica",
+        blank=True,
+        null=True,
+        verbose_name="7.21 - Arquivo sobre observação de aulas pela liderança",
     )
 
     # 7.22
     lideranca_graduada = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.22 Liderança graduada em pedagogia e gestão escolar"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.22 - A escola possui liderança graduada em pedagogia e gestão escolar que assine pela escola?"
     )
     lideranca_graduada_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.22"
+        blank=True, null=True, verbose_name="7.22 - Comentário:"
     )
     lideranca_graduada_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
-        blank=True, null=True,
-        verbose_name="7.22 Liderança graduada em pedagogia e gestão escolar",
+        blank=True,
+        null=True,
+        verbose_name="7.22 - Arquivo sobre liderança graduada em pedagogia e gestão escolar",
     )
 
     # 7.23
     coordenacao_por_segmento = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.23 Coordenação para cada segmento"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.23 - A escola possui coordenação para cada segmento?"
     )
     coordenacao_por_segmento_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.23"
+        blank=True, null=True, verbose_name="7.23 - Comentário:"
     )
     coordenacao_por_segmento_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
-        blank=True, null=True,
-        verbose_name="7.23 Coordenação para cada segmento",
+        blank=True,
+        null=True,
+        verbose_name="7.23 - Arquivo sobre coordenação para cada segmento",
     )
-
     # 7.24
     cumprimento_legislacao = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.24 Cumprimento da legislação local"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.24 - A escola segue a legislação de onde está localizada?"
     )
     cumprimento_legislacao_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.24"
+        blank=True, null=True, verbose_name="7.24 - Comentário:"
     )
     cumprimento_legislacao_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
-        blank=True, null=True,
-        verbose_name="7.24 Cumprimento da legislação local",
+        blank=True,
+        null=True,
+        verbose_name="7.24 - Arquivo sobre cumprimento da legislação local",
     )
 
     # 7.25
     guia_familia = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.25 Possui Parents Handbook (Guia da Família)"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.25 - A escola possui Parents Handbook (Guia da Família)?"
     )
     guia_familia_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.25"
+        blank=True, null=True, verbose_name="7.25 - Comentário:"
     )
     guia_familia_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
-        blank=True, null=True,
-        verbose_name="7.25 Possui Parents Handbook (Guia da Família)",
+        blank=True,
+        null=True,
+        verbose_name="7.25 - Arquivo sobre Parents Handbook (Guia da Família)",
     )
 
     # 7.26
     comunicacao_interna = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.26 Possui esquema de comunicação interna"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.26 - A escola possui esquema de comunicação interna?"
     )
     comunicacao_interna_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.26"
+        blank=True, null=True, verbose_name="7.26 - Comentário:"
     )
     comunicacao_interna_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
-        blank=True, null=True,
-        verbose_name="7.26 Possui esquema de comunicação interna",
+        blank=True,
+        null=True,
+        verbose_name="7.26 - Arquivo sobre esquema de comunicação interna",
     )
 
     # 7.27
     toddle_comunicacao = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.27 Utiliza a Toddle como recurso padrão de comunicação"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.27 - A escola utiliza a Toddle como recurso padrão de comunicação?"
     )
     toddle_comunicacao_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.27"
+        blank=True, null=True, verbose_name="7.27 - Comentário:"
     )
     toddle_comunicacao_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
-        blank=True, null=True,
-        verbose_name="7.27 Utiliza a Toddle como recurso padrão de comunicação",
+        blank=True,
+        null=True,
+        verbose_name="7.27 - Arquivo sobre uso da Toddle como recurso padrão de comunicação",
     )
 
     # 7.28
     nps_acima_70 = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.28 NPS acima de 70 pontos"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.28 - A escola tem NPS (Net Promoter Score) acima de 70 pontos?"
     )
     nps_acima_70_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.28"
+        blank=True, null=True, verbose_name="7.28 - Comentário:"
     )
     nps_acima_70_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
-        blank=True, null=True,
-        verbose_name="7.28 NPS acima de 70 pontos",
+        blank=True,
+        null=True,
+        verbose_name="7.28 - Arquivo sobre NPS acima de 70 pontos",
     )
 
     # 7.29
     orientador_pedagogico = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.29 Possui Orientador Pedagógico (a partir do Middle Year)"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.29 - A escola possui Orientador Pedagógico (a partir do Middle Year)?"
     )
     orientador_pedagogico_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.29"
+        blank=True, null=True, verbose_name="7.29 - Comentário:"
     )
     orientador_pedagogico_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
-        blank=True, null=True,
-        verbose_name="7.29 Possui Orientador Pedagógico (a partir do Middle Year)",
+        blank=True,
+        null=True,
+        verbose_name="7.29 - Arquivo sobre Orientador Pedagógico (a partir do Middle Year)",
     )
 
     # 7.30
     certificado_lei_lucas = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="7.30 Certificado da Lei de Primeiro Socorros (Lei Lucas)"
+        choices=CHOICES, blank=True, null=True, verbose_name="7.30 - A escola possui certificado da Lei de Primeiro Socorros (Lei Lucas)?"
     )
     certificado_lei_lucas_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 7.30"
+        blank=True, null=True, verbose_name="7.30 - Comentário:"
     )
     certificado_lei_lucas_file = models.FileField(
         upload_to=upload_to_gestao_escolar,
-        blank=True, null=True,
-        verbose_name="7.30 Certificado da Lei de Primeiro Socorros (Lei Lucas)",
+        blank=True,
+        null=True,
+        verbose_name="7.30 - Arquivo sobre certificado da Lei de Primeiro Socorros (Lei Lucas)",
     )
 
     def __str__(self):
         return f"{self.escola} - Gestão Escolar"
+
+
+
 
 
 def upload_to_operacao_academica(instance, filename):
