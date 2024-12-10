@@ -88,6 +88,7 @@
               </div>
               <div class="card-body">
                 <div class="table-responsive">
+                    <br><br>
 
 
 
@@ -119,7 +120,9 @@
                     {% for field in form %}
                     <div class="form-contratos">
                         <div class="comp-nota-1">
-                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {% if field.field.widget.input_type != "file" %}
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {% endif %}
                             <div class="radio-options">
                                 {% if field.field.widget.input_type == "file" %}
                                     <!-- Campo de arquivo escondido -->
@@ -165,6 +168,7 @@
                         {% endif %}
                     </div>
                     {% endfor %}
+                    
                     
 
                     <div class="login-button">
