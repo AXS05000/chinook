@@ -452,7 +452,7 @@ class GlexGestaoDeParceria(models.Model):
         upload_to=upload_to_gestao_parceria,
         blank=True,
         null=True,
-        verbose_name="1.01 Registros atualizados de documentação",
+        verbose_name="1.01 - Arquivo de registros atualizados de documentação",
     )
 
     # 1.02
@@ -466,133 +466,133 @@ class GlexGestaoDeParceria(models.Model):
         upload_to=upload_to_gestao_parceria,
         blank=True,
         null=True,
-        verbose_name="1.02 Polices de seguro ativas",
+        verbose_name="1.02 - Arquivo de apólices de seguro ativas",
     )
 
     # 1.03
     registros_legais = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="1.03 - A escola pode demonstrar que não há registros de processos judiciais, penalidades ou multas em vista de seus registros ou operações aplicadas pelas autoridades locais."
+        choices=CHOICES, blank=True, null=True, verbose_name="1.03 - A escola pode demonstrar que não há registros de processos judiciais, penalidades ou multas em vista de seus registros ou operações aplicadas pelas autoridades locais?"
     )
     registros_legais_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 1.03"
+        blank=True, null=True, verbose_name="1.03 - Comentário:"
     )
     registros_legais_file = models.FileField(
         upload_to=upload_to_gestao_parceria,
         blank=True,
         null=True,
-        verbose_name="1.03 Ausência de registros de processos legais",
+        verbose_name="1.03 - Arquivo de ausência de registros de processos legais",
     )
 
     # 1.04
     contrato_franquia = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="1.04 Cumprimento do contrato de franquia"
+        choices=CHOICES, blank=True, null=True, verbose_name="1.04 - O franqueado conhece e cumpre as disposições do contrato de Franquia?"
     )
     contrato_franquia_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 1.04"
+        blank=True, null=True, verbose_name="1.04 - Comentário:"
     )
     contrato_franquia_file = models.FileField(
         upload_to=upload_to_gestao_parceria,
         blank=True,
         null=True,
-        verbose_name="1.04 Cumprimento do contrato de franquia",
+        verbose_name="1.04 - Arquivo sobre contrato de franquia",
     )
 
     # 1.05
     senso_franquia = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="1.05 Preenchimento do senso de Franchising anual"
+        choices=CHOICES, blank=True, null=True, verbose_name="1.05 - Preenchimento do senso de Franchising anual?"
     )
     senso_franquia_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 1.05"
+        blank=True, null=True, verbose_name="1.05 - Comentário:"
     )
     senso_franquia_file = models.FileField(
         upload_to=upload_to_gestao_parceria,
         blank=True,
         null=True,
-        verbose_name="1.05 Preenchimento do senso de Franchising anual",
+        verbose_name="1.05 - Arquivo do senso de Franchising anual",
     )
 
     # 1.06
     reclamacoes_defesa_consumidor = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="1.06 Reclamações em órgãos de defesa do consumidor"
+        choices=CHOICES, blank=True, null=True, verbose_name="1.06 - O franqueado evita reclamações junto aos órgãos de defesa do consumidor?"
     )
     reclamacoes_defesa_consumidor_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 1.06"
+        blank=True, null=True, verbose_name="1.06 - Comentário:"
     )
     reclamacoes_defesa_consumidor_file = models.FileField(
         upload_to=upload_to_gestao_parceria,
         blank=True,
         null=True,
-        verbose_name="1.06 Reclamações em órgãos de defesa do consumidor",
+        verbose_name="1.06 - Arquivo de reclamações em órgãos de defesa do consumidor",
     )
 
     # 1.07
     envio_cases_sucesso = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="1.07 Envio de cases de sucesso"
+        choices=CHOICES, blank=True, null=True, verbose_name="1.07 - Faz o envio dos cases de sucesso no ano vigente?"
     )
     envio_cases_sucesso_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 1.07"
+        blank=True, null=True, verbose_name="1.07 - Comentário:"
     )
     envio_cases_sucesso_file = models.FileField(
         upload_to=upload_to_gestao_parceria,
         blank=True,
         null=True,
-        verbose_name="1.07 Envio de cases de sucesso",
+        verbose_name="1.07 - Arquivo sobre envio de cases de sucesso",
     )
 
     # 1.08
     cadastro_crm = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="1.08 Manutenção do cadastro no CRM B2C"
+        choices=CHOICES, blank=True, null=True, verbose_name="1.08 - Mantém o cadastro atualizado no CRM B2C?"
     )
     cadastro_crm_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 1.08"
+        blank=True, null=True, verbose_name="1.08 - Comentário:"
     )
     cadastro_crm_file = models.FileField(
         upload_to=upload_to_gestao_parceria,
         blank=True,
         null=True,
-        verbose_name="1.08 Manutenção do cadastro no CRM B2C",
+        verbose_name="1.08 - Arquivo sobre manutenção do cadastro no CRM B2C",
     )
 
     # 1.09
     avcb_atualizado = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="1.09 AVCB atualizado"
+        choices=CHOICES, blank=True, null=True, verbose_name="1.09 - A escola possui o AVCB (Auto de Vistoria do Corpo de Bombeiros) atualizado?"
     )
     avcb_atualizado_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 1.09"
+        blank=True, null=True, verbose_name="1.09 - Comentário:"
     )
     avcb_atualizado_file = models.FileField(
         upload_to=upload_to_gestao_parceria,
         blank=True,
         null=True,
-        verbose_name="1.09 AVCB atualizado",
+        verbose_name="1.09 - Arquivo do AVCB atualizado",
     )
 
     # 1.10
     alvara_sanitaria = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="1.10 Alvará de vigilância sanitária vigente"
+        choices=CHOICES, blank=True, null=True, verbose_name="1.10 - O alvará de vigilância sanitária da escola está vigente pela prefeitura do município?"
     )
     alvara_sanitaria_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 1.10"
+        blank=True, null=True, verbose_name="1.10 - Comentário:"
     )
     alvara_sanitaria_file = models.FileField(
         upload_to=upload_to_gestao_parceria,
         blank=True,
         null=True,
-        verbose_name="1.10 Alvará de vigilância sanitária vigente",
+        verbose_name="1.10 - Arquivo do alvará de vigilância sanitária vigente",
     )
 
     # 1.11
     encontros_lideres = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="1.11 Participação em Encontros de Líderes"
+        choices=CHOICES, blank=True, null=True, verbose_name="1.11 - Participou de pelo menos 8 'Encontros de líderes' nos últimos 12 meses?"
     )
     encontros_lideres_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 1.11"
+        blank=True, null=True, verbose_name="1.11 - Comentário:"
     )
     encontros_lideres_file = models.FileField(
         upload_to=upload_to_gestao_parceria,
         blank=True,
         null=True,
-        verbose_name="1.11 Participação em Encontros de Líderes",
+        verbose_name="1.11 - Arquivo sobre participação em Encontros de Líderes",
     )
 
     def __str__(self):
