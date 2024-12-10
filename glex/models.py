@@ -2831,21 +2831,20 @@ class GlexResultado(models.Model):
 
     # 11.01
     taxa_retenção_rotatividade = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="11.01 Mede taxa de retenção e rotatividade dos alunos"
+        choices=CHOICES, blank=True, null=True, verbose_name="11.01 - A escola mede a taxa de retenção (rematrícula) e a taxa de rotatividade (desistência) dos alunos?"
     )
     taxa_retenção_rotatividade_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 11.01"
     )
     taxa_retenção_rotatividade_file = models.FileField(
         upload_to=upload_to_resultado,
-        blank=True,
-        null=True,
-        verbose_name="11.01 Mede taxa de retenção e rotatividade dos alunos",
+        blank=True, null=True,
+        verbose_name="Arquivo para 11.01",
     )
 
     # 11.02
     meta_rematricula_carta = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="11.02 Atingiu meta de rematrícula definida em carta meta"
+        choices=CHOICES, blank=True, null=True, verbose_name="11.02 - Atingiu a meta de rematricula definida em carta meta?"
     )
     meta_rematricula_carta_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 11.02"
@@ -2853,12 +2852,12 @@ class GlexResultado(models.Model):
     meta_rematricula_carta_file = models.FileField(
         upload_to=upload_to_resultado,
         blank=True, null=True,
-        verbose_name="11.02 Atingiu meta de rematrícula definida em carta meta",
+        verbose_name="Arquivo para 11.02",
     )
 
     # 11.03
     meta_matricula_carta = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="11.03 Atingiu meta de matrícula definida em carta meta"
+        choices=CHOICES, blank=True, null=True, verbose_name="11.03 - Atingiu a meta de matrícula definida em carta meta?"
     )
     meta_matricula_carta_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 11.03"
@@ -2866,12 +2865,12 @@ class GlexResultado(models.Model):
     meta_matricula_carta_file = models.FileField(
         upload_to=upload_to_resultado,
         blank=True, null=True,
-        verbose_name="11.03 Atingiu meta de matrícula definida em carta meta",
+        verbose_name="Arquivo para 11.03",
     )
 
     # 11.04
     compras_slm_conjuntas = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="11.04 Compras de SLM ocorreram conjuntamente com matrículas e rematrículas em 70% dos casos"
+        choices=CHOICES, blank=True, null=True, verbose_name="11.04 - As compras de SLM ocorreram de forma conjunta com as matrículas e rematrículas em pelo menos 70% dos casos?"
     )
     compras_slm_conjuntas_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 11.04"
@@ -2879,20 +2878,21 @@ class GlexResultado(models.Model):
     compras_slm_conjuntas_file = models.FileField(
         upload_to=upload_to_resultado,
         blank=True, null=True,
-        verbose_name="11.04 Compras de SLM ocorreram conjuntamente com matrículas e rematrículas em 70% dos casos",
+        verbose_name="Arquivo para 11.04",
     )
 
     # 11.05
     resultado_financeiro_bp = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="11.05 Atingiu resultado financeiro conforme BP planejado"
+        choices=CHOICES, blank=True, null=True, verbose_name="11.05 - A Escola atingiu o resultado financeiro de receita e lucratividade de acordo com o BP planejado?"
     )
     resultado_financeiro_bp_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 11.05"
     )
     resultado_financeiro_bp_file = models.FileField(
         upload_to=upload_to_resultado,
-        blank=True, null=True,
-        verbose_name="11.05 Atingiu resultado financeiro conforme BP planejado",
+        blank=True,
+        null=True,
+        verbose_name="Arquivo para 11.05",
     )
 
     def __str__(self):
