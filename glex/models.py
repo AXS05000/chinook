@@ -1005,156 +1005,156 @@ class GlexTecnologia(models.Model):
 
     # 4.01
     uso_intranet = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="4.01 Uso da Intranet Maple Bear"
+        choices=CHOICES, blank=True, null=True, verbose_name="4.01 - A escola está usando a Intranet da Maple Bear para acessar o currículo e os recursos operacionais em conformidade com os requisitos da Maple Bear?"
     )
     uso_intranet_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 4.01"
+        blank=True, null=True, verbose_name="4.01 - Comentário:"
     )
     uso_intranet_file = models.FileField(
         upload_to=upload_to_tecnologia,
         blank=True,
         null=True,
-        verbose_name="4.01 Uso da Intranet Maple Bear",
+        verbose_name="4.01 - Arquivo sobre uso da Intranet Maple Bear",
     )
 
     # 4.02
     cadastro_lex = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="4.02 Colaboradores cadastrados na LEX"
+        choices=CHOICES, blank=True, null=True, verbose_name="4.02 - Os colaboradores estão devidamente cadastrados na LEX?"
     )
     cadastro_lex_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 4.02"
+        blank=True, null=True, verbose_name="4.02 - Comentário:"
     )
     cadastro_lex_file = models.FileField(
         upload_to=upload_to_tecnologia,
         blank=True,
         null=True,
-        verbose_name="4.02 Colaboradores cadastrados na LEX",
+        verbose_name="4.02 - Arquivo sobre colaboradores cadastrados na LEX",
     )
 
     # 4.03
     crm_b2c = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="4.03 CRM B2C implementado"
+        choices=CHOICES, blank=True, null=True, verbose_name="4.03 - Tem CRM B2C implementado?"
     )
     crm_b2c_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 4.03"
+        blank=True, null=True, verbose_name="4.03 - Comentário:"
     )
     crm_b2c_file = models.FileField(
         upload_to=upload_to_tecnologia,
         blank=True,
         null=True,
-        verbose_name="4.03 CRM B2C implementado",
+        verbose_name="4.03 - Arquivo sobre CRM B2C implementado",
     )
 
     # 4.04
     gestao_leads = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="4.04 Gestão de Leads pelo CRM"
+        choices=CHOICES, blank=True, null=True, verbose_name="4.04 - Faz a gestão dos leads plenamente pelo CRM?"
     )
     gestao_leads_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 4.04"
+        blank=True, null=True, verbose_name="4.04 - Comentário:"
     )
     gestao_leads_file = models.FileField(
         upload_to=upload_to_tecnologia,
         blank=True,
         null=True,
-        verbose_name="4.04 Gestão de Leads pelo CRM",
+        verbose_name="4.04 - Arquivo sobre gestão de leads pelo CRM",
     )
 
     # 4.05
     tarefas_leads = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="4.05 Organização e atualização de tarefas no CRM"
+        choices=CHOICES, blank=True, null=True, verbose_name="4.05 - Organiza as tarefas relacionadas aos Leads e as mantém atualizadas no CRM?"
     )
     tarefas_leads_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 4.05"
+        blank=True, null=True, verbose_name="4.05 - Comentário:"
     )
     tarefas_leads_file = models.FileField(
         upload_to=upload_to_tecnologia,
         blank=True,
         null=True,
-        verbose_name="4.05 Organização e atualização de tarefas no CRM",
+        verbose_name="4.05 - Arquivo sobre organização e atualização de tarefas no CRM",
     )
 
     # 4.06
     visitas_familias = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="4.06 Organização e atualização de visitas no CRM"
+        choices=CHOICES, blank=True, null=True, verbose_name="4.06 - Organiza as visitas das famílias e as mantém atualizadas no CRM?"
     )
     visitas_familias_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 4.06"
+        blank=True, null=True, verbose_name="4.06 - Comentário:"
     )
     visitas_familias_file = models.FileField(
         upload_to=upload_to_tecnologia,
         blank=True,
         null=True,
-        verbose_name="4.06 Organização e atualização de visitas no CRM",
+        verbose_name="4.06 - Arquivo sobre organização e atualização de visitas no CRM",
     )
 
     # 4.07
     oportunidades_matriculas = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="4.07 Geração e atualização de oportunidades no CRM"
+        choices=CHOICES, blank=True, null=True, verbose_name="4.07 - Gera oportunidades futuras de matrículas e as mantém atualizadas no CRM?"
     )
     oportunidades_matriculas_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 4.07"
+        blank=True, null=True, verbose_name="4.07 - Comentário:"
     )
     oportunidades_matriculas_file = models.FileField(
         upload_to=upload_to_tecnologia,
         blank=True,
         null=True,
-        verbose_name="4.07 Geração e atualização de oportunidades no CRM",
+        verbose_name="4.07 - Arquivo sobre geração e atualização de oportunidades no CRM",
     )
 
     # 4.08
     pedidos_matriculas = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="4.08 Emissão de pedidos de matrículas pelo CRM"
+        choices=CHOICES, blank=True, null=True, verbose_name="4.08 - Emite seus pedidos de matrículas pelo CRM?"
     )
     pedidos_matriculas_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 4.08"
+        blank=True, null=True, verbose_name="4.08 - Comentário:"
     )
     pedidos_matriculas_file = models.FileField(
         upload_to=upload_to_tecnologia,
         blank=True,
         null=True,
-        verbose_name="4.08 Emissão de pedidos de matrículas pelo CRM",
+        verbose_name="4.08 - Arquivo sobre emissão de pedidos de matrículas pelo CRM",
     )
 
     # 4.09
     eventos_leads = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="4.09 Conversão de leads através de eventos no CRM"
+        choices=CHOICES, blank=True, null=True, verbose_name="4.09 - Os eventos criados pela sua escola convertem leads no CRM?"
     )
     eventos_leads_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 4.09"
+        blank=True, null=True, verbose_name="4.09 - Comentário:"
     )
     eventos_leads_file = models.FileField(
         upload_to=upload_to_tecnologia,
         blank=True,
         null=True,
-        verbose_name="4.09 Conversão de leads através de eventos no CRM",
+        verbose_name="4.09 - Arquivo sobre conversão de leads através de eventos no CRM",
     )
 
     # 4.10
     toddle_habilitado = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="4.10 Toddle habilitado para todas as turmas"
+        choices=CHOICES, blank=True, null=True, verbose_name="4.10 - O sistema homologado Toddle está habilitado para todas as turmas com o produto família?"
     )
     toddle_habilitado_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 4.10"
+        blank=True, null=True, verbose_name="4.10 - Comentário:"
     )
     toddle_habilitado_file = models.FileField(
         upload_to=upload_to_tecnologia,
         blank=True,
         null=True,
-        verbose_name="4.10 Toddle habilitado para todas as turmas",
+        verbose_name="4.10 - Arquivo sobre Toddle habilitado para todas as turmas",
     )
 
     # 4.11
     uso_sponte = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="4.11 Uso do sistema homologado Sponte"
+        choices=CHOICES, blank=True, null=True, verbose_name="4.11 - A escola utiliza o sistema homologado Sponte?"
     )
     uso_sponte_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 4.11"
+        blank=True, null=True, verbose_name="4.11 - Comentário:"
     )
     uso_sponte_file = models.FileField(
         upload_to=upload_to_tecnologia,
         blank=True,
         null=True,
-        verbose_name="4.11 Uso do sistema homologado Sponte",
+        verbose_name="4.11 - Arquivo sobre uso do sistema homologado Sponte",
     )
 
     def __str__(self):
