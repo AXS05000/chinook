@@ -88,16 +88,18 @@
               </div>
               <div class="card-body">
                 <div class="table-responsive">
-                    <br><br>
-
-
-
-
-                <form method="POST" class="form-horizontal container" autocomplete="off" enctype="multipart/form-data">
+                  <form method="POST" class="form-horizontal container" autocomplete="off" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-header">
                         {% if messages %}
                             {% for message in messages %}
+                                {% comment %} {% if message.tags == 'success' %}
+                                <div class="alert alert-sucess alert-dismissible text-white" role="alert">
+                                    <span class="text-sm">{{ message }}</span>
+                                    <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div> {% endcomment %}
                                 {% if message.tags == 'error' %}
                                     <div class="alert alert-danger alert-dismissible text-white" role="alert">
                                         <span class="text-sm">{{ message }}</span>
@@ -106,84 +108,87 @@
                                         </button>
                                     </div>
                                 {% elif message.tags == 'warning' %}
-                                    <div class="alert alert-info alert-dismissible text-white" role="alert">
+                                    <div class="alert alert-info2 alert-dismissible text-white" role="alert">
                                         <span class="text-sm">{{ message }}</span>
                                         <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
+                                {% comment %} {% else %}
+                                    <li>{{ message }}</li> {% endcomment %}
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
-                    </div>
+                        <div class="input-group container">
+                            <div class="input-box-nps">
+                                <div class="select centro-container">
+                                    <br><br>
 
-                    {% for field in form %}
-                    <div class="form-contratos">
-                        <div class="comp-nota-1">
-                            {% if field.field.widget.input_type != "file" %}
-                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            {% endif %}
-                            <div class="radio-options">
-                                {% if field.field.widget.input_type == "file" %}
-                                    <!-- Campo de arquivo escondido -->
-                                    <input
-                                        type="file"
-                                        id="file-upload-{{ forloop.counter }}"
-                                        name="{{ field.name }}"
-                                        style="display: none;"
-                                        data-initial-file="{{ field.value|default_if_none:'' }}"
-                                    >
-                                    <!-- Botão estilizado para upload -->
-                                    <button
-                                        type="button"
-                                        class="btn btn-danger btn-round"
-                                        onclick="document.getElementById('file-upload-{{ forloop.counter }}').click();"
-                                        id="btn-upload-{{ forloop.counter }}"
-                                    >
-                                        <span class="button-content">
-                                            <i class="material-icons">attach_file</i>
-                                            Attach file
-                                        </span>
-                                    </button>
-                                    <!-- Mostrar nome do arquivo selecionado -->
-                                    <button
-                                        class="file-name btn btn-success btn-round"
-                                        id="file-name-{{ forloop.counter }}"
-                                        style="display: none;"
-                                    >
-                                        <span class="button-content">
-                                            <i class="material-icons">check</i>
-                                            Nenhum arquivo escolhido
-                                        </span>
-                                    </button>
-                                {% else %}
-                                    {{ field }}
-                                {% endif %}
+                                    {% for field in form %}
+                                    <div class="form-contratos">
+                                        <div class="comp-nota-1">
+                                            {% if field.field.widget.input_type != "file" %}
+                                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                            {% endif %}
+                                            <div class="radio-options">
+                                                {% if field.field.widget.input_type == "file" %}
+                                                    <!-- Campo de arquivo escondido -->
+                                                    <input
+                                                        type="file"
+                                                        id="file-upload-{{ forloop.counter }}"
+                                                        name="{{ field.name }}"
+                                                        style="display: none;"
+                                                        data-initial-file="{{ field.value|default_if_none:'' }}"
+                                                    >
+                                                    <!-- Botão estilizado para upload -->
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-danger btn-round"
+                                                        onclick="document.getElementById('file-upload-{{ forloop.counter }}').click();"
+                                                        id="btn-upload-{{ forloop.counter }}"
+                                                    >
+                                                        <span class="button-content">
+                                                            <i class="material-icons">attach_file</i>
+                                                            Attach file
+                                                        </span>
+                                                    </button>
+                                                    <!-- Mostrar nome do arquivo selecionado -->
+                                                    <button
+                                                        class="file-name btn btn-success btn-round"
+                                                        id="file-name-{{ forloop.counter }}"
+                                                        style="display: none;"
+                                                    >
+                                                        <span class="button-content">
+                                                            <i class="material-icons">check</i>
+                                                            Nenhum arquivo escolhido
+                                                        </span>
+                                                    </button>
+                                                {% else %}
+                                                    {{ field }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        {% if "comment" in field.name %}
+                                            <br><hr>
+                                        {% else %}
+                                            <br>
+                                        {% endif %}
+                                    </div>
+                                    {% endfor %}
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="login-button">
+                              <button type="submit" class="btn btn-primary">Salvar</button>
                             </div>
                         </div>
-                        {% if "comment" in field.name %}
-                            <br><hr>
-                        {% else %}
-                            <br>
-                        {% endif %}
-                    </div>
-                    {% endfor %}
-                    
-                    
 
-                    <div class="login-button">
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                    </div>
-                </form>
 
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+
+                    </div>
+                  </form>
 
                 </div>
               </div>
@@ -235,6 +240,56 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Função para truncar o nome do arquivo
+            function truncateFilename(filename, maxLength = 10) {
+                if (filename.length > maxLength) {
+                    return filename.slice(0, maxLength) + "...";
+                }
+                return filename;
+            }
+    
+            // Função principal para manipular os inputs de arquivo
+            document.querySelectorAll('input[type="file"]').forEach(input => {
+                const idSuffix = input.id.split('-').pop(); // Identifica o sufixo do ID
+                const fileNameSpan = document.getElementById('file-name-' + idSuffix); // Elemento onde o nome será exibido
+                const uploadButton = document.getElementById('btn-upload-' + idSuffix); // Botão de upload associado
+    
+                // Verifica se o input de arquivo já tem um valor inicial
+                const initialFileName = input.getAttribute('data-initial-file');
+                if (initialFileName && initialFileName !== 'None') {
+                    const truncatedName = truncateFilename(initialFileName); // Aplica truncamento
+                    fileNameSpan.innerHTML = `
+                        <span class="button-content">
+                            <i class="material-icons">check</i> ${truncatedName}
+                        </span>`;
+                    fileNameSpan.style.display = 'inline'; // Exibe o nome
+                    uploadButton.style.display = 'none'; // Esconde o botão de upload
+                }
+    
+                // Evento para alterar o comportamento ao selecionar um novo arquivo
+                input.onchange = function () {
+                    if (this.files.length > 0) {
+                        const truncatedName = truncateFilename(this.files[0].name); // Aplica truncamento
+                        fileNameSpan.innerHTML = `
+                            <span class="button-content">
+                                <i class="material-icons">check</i> ${truncatedName}
+                            </span>`;
+                        fileNameSpan.style.display = 'inline'; // Exibe o nome
+                        uploadButton.style.display = 'none'; // Esconde o botão de upload
+                    } else {
+                        // Caso nenhum arquivo seja selecionado
+                        fileNameSpan.style.display = 'none'; // Esconde o nome
+                        uploadButton.style.display = 'inline'; // Exibe o botão de upload
+                    }
+                };
+            });
+        });
+    </script>
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Função para truncar o nome do arquivo
             function truncateFilename(filename, maxLength = 20) {
                 if (filename.length > maxLength) {
                     return filename.slice(0, maxLength) + "...";
@@ -275,32 +330,6 @@
                         fileNameSpan.style.display = 'none'; // Esconde o nome do arquivo
                         uploadButton.style.display = 'inline'; // Mostra o botão vermelho
                     }
-                });
-            });
-        });
-    </script>
-    <!-- jQuery first, then Tether, then Bootstrap JS. -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#id_cliente_gi').change(function () {
-                let cliente_gi_id = $(this).val();
-                $.get('/api/departamentos/?cliente_gi_id=' + cliente_gi_id, function (data) {
-                    let select = $('#id_departamento');
-                    select.empty();
-                    select.append('<option value="" selected>---------</option>'); // Adicionado aqui
-                    $.each(data, function (index, value) {
-                        select.append('<option value="' + value.id + '">' + value.nome_departamento + '</option>');
-                    });
-                });
-                $.get('/api/bases/?cliente_gi_id=' + cliente_gi_id, function (data) {
-                    let select = $('#id_cargo');
-                    select.empty();
-                    select.append('<option value="" selected>---------</option>'); // Adicionado aqui
-                    $.each(data, function (index, value) {
-                        select.append('<option value="' + value.id + '">' + value.cargo + '</option>');
-                    });
                 });
             });
         });
