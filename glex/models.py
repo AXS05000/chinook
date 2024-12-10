@@ -612,230 +612,231 @@ class GlexGente(models.Model):
 
     # 2.01
     funcionarios_presentes = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.01 Funcionários presentes no local"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.01 - A escola pode demonstrar que está com todos os funcionários - que todo o pessoal administrativo, acadêmico e de manutenção necessário está no local?"
     )
     funcionarios_presentes_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.01"
+        blank=True, null=True, verbose_name="2.01 - Comentário:"
     )
     funcionarios_presentes_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.01 Funcionários presentes no local",
+        verbose_name="2.01 - Arquivo de funcionários presentes no local",
     )
 
     # 2.02
     registros_licencas = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.02 Registros de licenças e qualificações atualizados"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.02 - A escola pode produzir registros atualizados que demonstrem que todos os funcionários (incluindo terceirizados / contratados) possuem as licenças e qualificações necessárias para suas funções?"
     )
     registros_licencas_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.02"
+        blank=True, null=True, verbose_name="2.02 - Comentário:"
     )
     registros_licencas_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.02 Registros de licenças e qualificações atualizados",
+        verbose_name="2.02 - Arquivo de registros de licenças e qualificações atualizados",
     )
 
     # 2.03
     uso_uniformes = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.03 Uso de uniformes conforme a política"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.03 - Todos os funcionários e alunos estão usando uniformes em conformidade com a Política de Uniformes da Maple Bear?"
     )
     uso_uniformes_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.03"
+        blank=True, null=True, verbose_name="2.03 - Comentário:"
     )
     uso_uniformes_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.03 Uso de uniformes conforme a política",
+        verbose_name="2.03 - Arquivo sobre uso de uniformes conforme a política",
     )
 
     # 2.04
     desenvolvimento_profissional = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.04 Desenvolvimento profissional contínuo"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.04 - A escola pode demonstrar que realiza desenvolvimento profissional contínuo e treinamento relevante para funcionários em todas as áreas da Escola, em intervalos apropriados?"
     )
     desenvolvimento_profissional_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.04"
+        blank=True, null=True, verbose_name="2.04 - Comentário:"
     )
     desenvolvimento_profissional_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.04 Desenvolvimento profissional contínuo",
+        verbose_name="2.04 - Arquivo sobre desenvolvimento profissional contínuo",
     )
 
     # 2.05
     controle_absenteismo = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.05 Controle de absenteísmo, turnover e horas extras"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.05 - Controla a taxa de absenteísmo, turnover e as horas extras trabalhadas?"
     )
     controle_absenteismo_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.05"
+        blank=True, null=True, verbose_name="2.05 - Comentário:"
     )
     controle_absenteismo_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.05 Controle de absenteísmo, turnover e horas extras",
+        verbose_name="2.05 - Arquivo sobre controle de absenteísmo, turnover e horas extras",
     )
 
     # 2.06
     plano_carreira = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.06 Plano de Carreira e Salários estruturado"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.06 - Tem estabelecido um Plano e Carreira/Cargos e Salários com critérios que envolvam as performances, as competências e os desenvolvimentos entre as avaliações de desempenho?"
     )
     plano_carreira_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.06"
+        blank=True, null=True, verbose_name="2.06 - Comentário:"
     )
     plano_carreira_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.06 Plano de Carreira e Salários estruturado",
+        verbose_name="2.06 - Arquivo sobre Plano de Carreira e Salários estruturado",
     )
 
     # 2.07
     entrevista_desligamento = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.07 Entrevistas de desligamento realizadas"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.07 - Realizou entrevista de desligamento com todos os ex-colaboradores?"
     )
     entrevista_desligamento_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.07"
+        blank=True, null=True, verbose_name="2.07 - Comentário:"
     )
     entrevista_desligamento_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.07 Entrevistas de desligamento realizadas",
+        verbose_name="2.07 - Arquivo sobre entrevistas de desligamento realizadas",
     )
 
     # 2.08
     comunicacao_interna = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.08 Canal de comunicação interna disponível"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.08 - Possuí pelo menos um canal de comunicação interna para seus Colaboradores e Prestadores de Serviços e este material é compartilhado com todos?"
     )
     comunicacao_interna_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.08"
+        blank=True, null=True, verbose_name="2.08 - Comentário:"
     )
     comunicacao_interna_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.08 Canal de comunicação interna disponível",
+        verbose_name="2.08 - Arquivo sobre canal de comunicação interna disponível",
     )
 
     # 2.09
     legislacao_trabalhista = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.09 Cumprimento da legislação trabalhista"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.09 - Cumpre a legislação trabalhista quanto às obrigações em relação aos Colaboradores?"
     )
     legislacao_trabalhista_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.09"
+        blank=True, null=True, verbose_name="2.09 - Comentário:"
     )
     legislacao_trabalhista_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.09 Cumprimento da legislação trabalhista",
+        verbose_name="2.09 - Arquivo sobre cumprimento da legislação trabalhista",
     )
 
     # 2.10
     descricao_cargos = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.10 Disponibilização visual de descrições de cargos"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.10 - Disponibiliza de forma visual as Descrições dos Cargos existentes na Unidade?"
     )
     descricao_cargos_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.10"
+        blank=True, null=True, verbose_name="2.10 - Comentário:"
     )
     descricao_cargos_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.10 Disponibilização visual de descrições de cargos",
+        verbose_name="2.10 - Arquivo sobre disponibilização visual de descrições de cargos",
     )
-
     # 2.11
     onboarding_colaboradores = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.11 Onboarding realizado no mês de contratação"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.11 - Todos os Colaboradores passaram pelo onboarding referente a sua função no mês de sua contratação?"
     )
     onboarding_colaboradores_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.11"
+        blank=True, null=True, verbose_name="2.11 - Comentário:"
     )
     onboarding_colaboradores_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.11 Onboarding realizado no mês de contratação",
+        verbose_name="2.11 - Arquivo sobre onboarding realizado no mês de contratação",
     )
 
     # 2.12
     acesso_academy = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.12 Acesso à Maple Bear Academy"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.12 - Todos os Colaboradores da Franquia, aptos a receber treinamentos, têm acesso à Maple Bear Academy?"
     )
     acesso_academy_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.12"
+        blank=True, null=True, verbose_name="2.12 - Comentário:"
     )
     acesso_academy_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.12 Acesso à Maple Bear Academy",
+        verbose_name="2.12 - Arquivo sobre acesso à Maple Bear Academy",
     )
 
     # 2.13
     identificacao_colaboradores = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.13 Colaboradores com identificação"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.13 - Os Colaboradores trabalham com identificação?"
     )
     identificacao_colaboradores_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.13"
+        blank=True, null=True, verbose_name="2.13 - Comentário:"
     )
     identificacao_colaboradores_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.13 Colaboradores com identificação",
+        verbose_name="2.13 - Arquivo sobre identificação dos colaboradores",
     )
 
     # 2.14
     pesquisa_clima = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.14 Pesquisa de Clima Organizacional aplicada"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.14 - Aplicou a pesquisa de Clima Organizacional e desenvolveu Plano de Ação com intuito de obter melhores resultados?"
     )
     pesquisa_clima_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.14"
+        blank=True, null=True, verbose_name="2.14 - Comentário:"
     )
     pesquisa_clima_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.14 Pesquisa de Clima Organizacional aplicada",
+        verbose_name="2.14 - Arquivo sobre pesquisa de Clima Organizacional aplicada",
     )
 
     # 2.15
     recrutamento_selecao = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.15 Processo de Recrutamento e Seleção estruturado"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.15 - Tem e aplica um processo de Recrutamento e Seleção estruturado e padronizado?"
     )
     recrutamento_selecao_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.15"
+        blank=True, null=True, verbose_name="2.15 - Comentário:"
     )
     recrutamento_selecao_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.15 Processo de Recrutamento e Seleção estruturado",
+        verbose_name="2.15 - Arquivo sobre processo de Recrutamento e Seleção estruturado",
     )
 
     # 2.16
     avaliacao_desempenho = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="2.16 Avaliação de desempenho comunicada"
+        choices=CHOICES, blank=True, null=True, verbose_name="2.16 - Implementa e comunica os funcionários sobre avaliação de desempenho e comportamento dos Colaboradores?"
     )
     avaliacao_desempenho_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 2.16"
+        blank=True, null=True, verbose_name="2.16 - Comentário:"
     )
     avaliacao_desempenho_file = models.FileField(
         upload_to=upload_to_gente,
         blank=True,
         null=True,
-        verbose_name="2.16 Avaliação de desempenho comunicada",
+        verbose_name="2.16 - Arquivo sobre avaliação de desempenho comunicada",
     )
 
     def __str__(self):
         return f"{self.escola} - Gente"
+
+
 
 
 def upload_to_administrativo(instance, filename):
