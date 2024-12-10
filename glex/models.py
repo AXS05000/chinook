@@ -1343,72 +1343,72 @@ class GlexAcademico(models.Model):
 
     # 6.01
     uso_curriculo_atual = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="6.01 Uso do currículo atual da Maple Bear"
+        choices=CHOICES, blank=True, null=True, verbose_name="6.01 - A escola pode demonstrar claramente que está usando o currículo atual da Maple Bear?"
     )
     uso_curriculo_atual_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 6.01"
+        blank=True, null=True, verbose_name="6.01 - Comentário:"
     )
     uso_curriculo_atual_file = models.FileField(
         upload_to=upload_to_academico,
         blank=True,
         null=True,
-        verbose_name="6.01 Uso do currículo atual da Maple Bear",
+        verbose_name="6.01 - Arquivo sobre uso do currículo atual da Maple Bear",
     )
 
     # 6.02
     resultado_qa = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="6.02 Resultado de Q/A acima de 70%"
+        choices=CHOICES, blank=True, null=True, verbose_name="6.02 - A escola possui resultado de Q/A (Quality Assurance) acima de 70%?"
     )
     resultado_qa_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 6.02"
+        blank=True, null=True, verbose_name="6.02 - Comentário:"
     )
     resultado_qa_file = models.FileField(
         upload_to=upload_to_academico,
         blank=True,
         null=True,
-        verbose_name="6.02 Resultado de Q/A acima de 70%",
+        verbose_name="6.02 - Arquivo sobre resultado de Q/A acima de 70%",
     )
 
     # 6.03
     participacao_treinamento = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="6.03 Participação no treinamento do Programa Maple Bear"
+        choices=CHOICES, blank=True, null=True, verbose_name="6.03 - Os professores e liderança acadêmica participaram do treinamento do Programa Maple Bear?"
     )
     participacao_treinamento_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 6.03"
+        blank=True, null=True, verbose_name="6.03 - Comentário:"
     )
     participacao_treinamento_file = models.FileField(
         upload_to=upload_to_academico,
         blank=True,
         null=True,
-        verbose_name="6.03 Participação no treinamento do Programa Maple Bear",
+        verbose_name="6.03 - Arquivo sobre participação no treinamento do Programa Maple Bear",
     )
 
     # 6.04
     guia_teacher_toddle = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="6.04 Possui guia da Unidade ou Teacher Guide (Toddle)"
+        choices=CHOICES, blank=True, null=True, verbose_name="6.04 - Possui guia da Unidade ou Teacher Guide com as orientações de planejamento e aplicação do programa para o Professor (Toddle)?"
     )
     guia_teacher_toddle_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 6.04"
+        blank=True, null=True, verbose_name="6.04 - Comentário:"
     )
     guia_teacher_toddle_file = models.FileField(
         upload_to=upload_to_academico,
         blank=True,
         null=True,
-        verbose_name="6.04 Possui guia da Unidade ou Teacher Guide (Toddle)",
+        verbose_name="6.04 - Arquivo sobre guia da Unidade ou Teacher Guide (Toddle)",
     )
 
     # 6.05
     recursos_alunos_professores = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="6.05 Recursos para Alunos e Professores utilizados"
+        choices=CHOICES, blank=True, null=True, verbose_name="6.05 - Os recursos para alunos e professores são disponibilizados e utilizados conforme plano do Programa Maple Bear?"
     )
     recursos_alunos_professores_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 6.05"
+        blank=True, null=True, verbose_name="6.05 - Comentário:"
     )
     recursos_alunos_professores_file = models.FileField(
         upload_to=upload_to_academico,
         blank=True,
         null=True,
-        verbose_name="6.05 Recursos para Alunos e Professores utilizados",
+        verbose_name="6.05 - Arquivo sobre recursos para alunos e professores utilizados",
     )
 
     def __str__(self):
