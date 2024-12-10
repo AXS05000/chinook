@@ -555,3 +555,763 @@ class BuscarEscolaView(TemplateView):
         except CRM_FUI.DoesNotExist:
             messages.error(request, "Escola com o CNPJ fornecido não encontrada.")
             return redirect("buscar_escola")
+
+
+#######################  GLEX ##########################
+
+
+
+class GlexGestaoDeParceriaCreateView(CreateView):
+    model = GlexGestaoDeParceria
+    form_class = GlexGestaoDeParceriaForm
+    template_name = "pages/glex_gestao_de_parceria_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        escola_id = request.GET.get("escola_id")
+        if not escola_id:
+            messages.error(request, "Escola não identificada.")
+            return redirect("glex_2025")
+
+        self.escola_id = escola_id
+        self.instance = GlexGestaoDeParceria.objects.filter(escola_id=escola_id).first()
+
+        if self.instance:
+            return redirect(reverse("glex_gestao_de_parceria_update", kwargs={"pk": self.instance.pk}))
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["escola"] = self.escola_id
+        return initial
+
+    def form_valid(self, form):
+        form.instance.escola_id = self.escola_id
+        messages.success(self.request, "Gestão de Parceria foi salva com sucesso!")
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": self.escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao salvar Gestão de Parceria: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexGestaoDeParceriaUpdateView(UpdateView):
+    model = GlexGestaoDeParceria
+    form_class = GlexGestaoDeParceriaForm
+    template_name = "pages/glex_gestao_de_parceria_form.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Gestão de Parceria foi atualizada com sucesso!")
+        escola_id = form.instance.escola_id
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao atualizar Gestão de Parceria: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexGenteCreateView(CreateView):
+    model = GlexGente
+    form_class = GlexGenteForm
+    template_name = "pages/glex_gente_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        escola_id = request.GET.get("escola_id")
+        if not escola_id:
+            messages.error(request, "Escola não identificada.")
+            return redirect("glex_2025")
+
+        self.escola_id = escola_id
+        self.instance = GlexGente.objects.filter(escola_id=escola_id).first()
+
+        if self.instance:
+            return redirect(reverse("glex_gente_update", kwargs={"pk": self.instance.pk}))
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["escola"] = self.escola_id
+        return initial
+
+    def form_valid(self, form):
+        form.instance.escola_id = self.escola_id
+        messages.success(self.request, "Gente foi salvo com sucesso!")
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": self.escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao salvar Gente: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexGenteUpdateView(UpdateView):
+    model = GlexGente
+    form_class = GlexGenteForm
+    template_name = "pages/glex_gente_form.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Gente foi atualizado com sucesso!")
+        escola_id = form.instance.escola_id
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao atualizar Gente: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexAdministrativoCreateView(CreateView):
+    model = GlexAdministrativo
+    form_class = GlexAdministrativoForm
+    template_name = "pages/glex_administrativo_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        escola_id = request.GET.get("escola_id")
+        if not escola_id:
+            messages.error(request, "Escola não identificada.")
+            return redirect("glex_2025")
+
+        self.escola_id = escola_id
+        self.instance = GlexAdministrativo.objects.filter(escola_id=escola_id).first()
+
+        if self.instance:
+            return redirect(reverse("glex_administrativo_update", kwargs={"pk": self.instance.pk}))
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["escola"] = self.escola_id
+        return initial
+
+    def form_valid(self, form):
+        form.instance.escola_id = self.escola_id
+        messages.success(self.request, "Administrativo foi salvo com sucesso!")
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": self.escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao salvar Administrativo: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexAdministrativoUpdateView(UpdateView):
+    model = GlexAdministrativo
+    form_class = GlexAdministrativoForm
+    template_name = "pages/glex_administrativo_form.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Administrativo foi atualizado com sucesso!")
+        escola_id = form.instance.escola_id
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao atualizar Administrativo: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexTecnologiaCreateView(CreateView):
+    model = GlexTecnologia
+    form_class = GlexTecnologiaForm
+    template_name = "pages/glex_tecnologia_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        escola_id = request.GET.get("escola_id")
+        if not escola_id:
+            messages.error(request, "Escola não identificada.")
+            return redirect("glex_2025")
+
+        self.escola_id = escola_id
+        self.instance = GlexTecnologia.objects.filter(escola_id=escola_id).first()
+
+        if self.instance:
+            return redirect(reverse("glex_tecnologia_update", kwargs={"pk": self.instance.pk}))
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["escola"] = self.escola_id
+        return initial
+
+    def form_valid(self, form):
+        form.instance.escola_id = self.escola_id
+        messages.success(self.request, "Tecnologia foi salvo com sucesso!")
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": self.escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao salvar Tecnologia: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexTecnologiaUpdateView(UpdateView):
+    model = GlexTecnologia
+    form_class = GlexTecnologiaForm
+    template_name = "pages/glex_tecnologia_form.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Tecnologia foi atualizado com sucesso!")
+        escola_id = form.instance.escola_id
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao atualizar Tecnologia: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexMarketingCreateView(CreateView):
+    model = GlexMarketing
+    form_class = GlexMarketingForm
+    template_name = "pages/glex_marketing_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        escola_id = request.GET.get("escola_id")
+        if not escola_id:
+            messages.error(request, "Escola não identificada.")
+            return redirect("glex_2025")
+
+        self.escola_id = escola_id
+        self.instance = GlexMarketing.objects.filter(escola_id=escola_id).first()
+
+        if self.instance:
+            return redirect(reverse("glex_marketing_update", kwargs={"pk": self.instance.pk}))
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["escola"] = self.escola_id
+        return initial
+
+    def form_valid(self, form):
+        form.instance.escola_id = self.escola_id
+        messages.success(self.request, "Marketing foi salvo com sucesso!")
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": self.escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao salvar Marketing: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexMarketingUpdateView(UpdateView):
+    model = GlexMarketing
+    form_class = GlexMarketingForm
+    template_name = "pages/glex_marketing_form.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Marketing foi atualizado com sucesso!")
+        escola_id = form.instance.escola_id
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao atualizar Marketing: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexAcademicoCreateView(CreateView):
+    model = GlexAcademico
+    form_class = GlexAcademicoForm
+    template_name = "pages/glex_academico_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        escola_id = request.GET.get("escola_id")
+        if not escola_id:
+            messages.error(request, "Escola não identificada.")
+            return redirect("glex_2025")
+
+        self.escola_id = escola_id
+        self.instance = GlexAcademico.objects.filter(escola_id=escola_id).first()
+
+        if self.instance:
+            return redirect(reverse("glex_academico_update", kwargs={"pk": self.instance.pk}))
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["escola"] = self.escola_id
+        return initial
+
+    def form_valid(self, form):
+        form.instance.escola_id = self.escola_id
+        messages.success(self.request, "Acadêmico foi salvo com sucesso!")
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": self.escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao salvar Acadêmico: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexAcademicoUpdateView(UpdateView):
+    model = GlexAcademico
+    form_class = GlexAcademicoForm
+    template_name = "pages/glex_academico_form.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Acadêmico foi atualizado com sucesso!")
+        escola_id = form.instance.escola_id
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao atualizar Acadêmico: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexGestaoEscolarCreateView(CreateView):
+    model = GlexGestaoEscolar
+    form_class = GlexGestaoEscolarForm
+    template_name = "pages/glex_gestao_escolar_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        escola_id = request.GET.get("escola_id")
+        if not escola_id:
+            messages.error(request, "Escola não identificada.")
+            return redirect("glex_2025")
+
+        self.escola_id = escola_id
+        self.instance = GlexGestaoEscolar.objects.filter(escola_id=escola_id).first()
+
+        if self.instance:
+            return redirect(reverse("glex_gestao_escolar_update", kwargs={"pk": self.instance.pk}))
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["escola"] = self.escola_id
+        return initial
+
+    def form_valid(self, form):
+        form.instance.escola_id = self.escola_id
+        messages.success(self.request, "Gestão Escolar foi salvo com sucesso!")
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": self.escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao salvar Gestão Escolar: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexGestaoEscolarUpdateView(UpdateView):
+    model = GlexGestaoEscolar
+    form_class = GlexGestaoEscolarForm
+    template_name = "pages/glex_gestao_escolar_form.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Gestão Escolar foi atualizado com sucesso!")
+        escola_id = form.instance.escola_id
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao atualizar Gestão Escolar: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexOperacaoAcademicaCreateView(CreateView):
+    model = GlexOperacaoAcademica
+    form_class = GlexOperacaoAcademicaForm
+    template_name = "pages/glex_operacao_academica_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        escola_id = request.GET.get("escola_id")
+        if not escola_id:
+            messages.error(request, "Escola não identificada.")
+            return redirect("glex_2025")
+
+        self.escola_id = escola_id
+        self.instance = GlexOperacaoAcademica.objects.filter(escola_id=escola_id).first()
+
+        if self.instance:
+            return redirect(reverse("glex_operacao_academica_update", kwargs={"pk": self.instance.pk}))
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["escola"] = self.escola_id
+        return initial
+
+    def form_valid(self, form):
+        form.instance.escola_id = self.escola_id
+        messages.success(self.request, "Operação Acadêmica foi salvo com sucesso!")
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": self.escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao salvar Operação Acadêmica: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexOperacaoAcademicaUpdateView(UpdateView):
+    model = GlexOperacaoAcademica
+    form_class = GlexOperacaoAcademicaForm
+    template_name = "pages/glex_operacao_academica_form.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Operação Acadêmica foi atualizado com sucesso!")
+        escola_id = form.instance.escola_id
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao atualizar Operação Acadêmica: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexImplantacaoCreateView(CreateView):
+    model = GlexImplantacao
+    form_class = GlexImplantacaoForm
+    template_name = "pages/glex_implantacao_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        escola_id = request.GET.get("escola_id")
+        if not escola_id:
+            messages.error(request, "Escola não identificada.")
+            return redirect("glex_2025")
+
+        self.escola_id = escola_id
+        self.instance = GlexImplantacao.objects.filter(escola_id=escola_id).first()
+
+        if self.instance:
+            return redirect(reverse("glex_implantacao_update", kwargs={"pk": self.instance.pk}))
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["escola"] = self.escola_id
+        return initial
+
+    def form_valid(self, form):
+        form.instance.escola_id = self.escola_id
+        messages.success(self.request, "Implantação foi salvo com sucesso!")
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": self.escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao salvar Implantação: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexImplantacaoUpdateView(UpdateView):
+    model = GlexImplantacao
+    form_class = GlexImplantacaoForm
+    template_name = "pages/glex_implantacao_form.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Implantação foi atualizado com sucesso!")
+        escola_id = form.instance.escola_id
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao atualizar Implantação: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexComercialCreateView(CreateView):
+    model = GlexComercial
+    form_class = GlexComercialForm
+    template_name = "pages/glex_comercial_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        escola_id = request.GET.get("escola_id")
+        if not escola_id:
+            messages.error(request, "Escola não identificada.")
+            return redirect("glex_2025")
+
+        self.escola_id = escola_id
+        self.instance = GlexComercial.objects.filter(escola_id=escola_id).first()
+
+        if self.instance:
+            return redirect(reverse("glex_comercial_update", kwargs={"pk": self.instance.pk}))
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["escola"] = self.escola_id
+        return initial
+
+    def form_valid(self, form):
+        form.instance.escola_id = self.escola_id
+        messages.success(self.request, "Comercial foi salvo com sucesso!")
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": self.escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao salvar Comercial: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexComercialUpdateView(UpdateView):
+    model = GlexComercial
+    form_class = GlexComercialForm
+    template_name = "pages/glex_comercial_form.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Comercial foi atualizado com sucesso!")
+        escola_id = form.instance.escola_id
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao atualizar Comercial: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexResultadoCreateView(CreateView):
+    model = GlexResultado
+    form_class = GlexResultadoForm
+    template_name = "pages/glex_resultado_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        escola_id = request.GET.get("escola_id")
+        if not escola_id:
+            messages.error(request, "Escola não identificada.")
+            return redirect("glex_2025")
+
+        self.escola_id = escola_id
+        self.instance = GlexResultado.objects.filter(escola_id=escola_id).first()
+
+        if self.instance:
+            return redirect(reverse("glex_resultado_update", kwargs={"pk": self.instance.pk}))
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["escola"] = self.escola_id
+        return initial
+
+    def form_valid(self, form):
+        form.instance.escola_id = self.escola_id
+        messages.success(self.request, "Resultado foi salvo com sucesso!")
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": self.escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao salvar Resultado: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class GlexResultadoUpdateView(UpdateView):
+    model = GlexResultado
+    form_class = GlexResultadoForm
+    template_name = "pages/glex_resultado_form.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "Resultado foi atualizado com sucesso!")
+        escola_id = form.instance.escola_id
+        self.success_url = reverse("tabela_glex", kwargs={"escola_id": escola_id})
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        errors = form.errors.get_json_data()
+        formatted_errors = " ".join(
+            f"{field}: {strip_tags(errors[field][0]['message'])}" for field in errors
+        )
+        messages.error(self.request, f"Erro ao atualizar Resultado: {formatted_errors}")
+        return super().form_invalid(form)
+
+
+class TabelaGlexView(TemplateView):
+    template_name = "pages/tabela_glex.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        escola_id = kwargs.get("escola_id")
+
+        # Busca a escola correspondente
+        try:
+            escola = CRM_FUI.objects.get(id_escola=escola_id)
+        except CRM_FUI.DoesNotExist:
+            raise Http404("Escola não encontrada.")
+
+        # Função auxiliar para calcular pontuação e status
+        def calcular_pontuacao_e_status(model, escola):
+            instance = model.objects.filter(escola=escola).first()
+            if not instance:
+                total_perguntas = len(
+                    [
+                        field
+                        for field in model._meta.fields
+                        if getattr(field, "choices", None)  # Inclui apenas campos com `choices`
+                    ]
+                )
+                return f"0/{total_perguntas}", "pending"
+
+            respostas_preenchidas = sum(
+                bool(getattr(instance, field.name))
+                for field in model._meta.fields
+                if getattr(field, "choices", None)  # Inclui apenas campos com `choices`
+            )
+            total_perguntas = len(
+                [
+                    field
+                    for field in model._meta.fields
+                    if getattr(field, "choices", None)  # Inclui apenas campos com `choices`
+                ]
+            )
+            status = "complete" if respostas_preenchidas == total_perguntas else "pending"
+            return f"{respostas_preenchidas}/{total_perguntas}", status
+
+        # Informações das models com pontuações e status
+        models = [
+            ("Gestão de Parceria", GlexGestaoDeParceria, "glex_gestao_de_parceria_create"),
+            ("Gente", GlexGente, "glex_gente_create"),
+            ("Administrativo", GlexAdministrativo, "glex_administrativo_create"),
+            ("Tecnologia", GlexTecnologia, "glex_tecnologia_create"),
+            ("Marketing", GlexMarketing, "glex_marketing_create"),
+            ("Acadêmico", GlexAcademico, "glex_academico_create"),
+            ("Gestão Escolar", GlexGestaoEscolar, "glex_gestao_escolar_create"),
+            ("Operação Acadêmica", GlexOperacaoAcademica, "glex_operacao_academica_create"),
+            ("Implantação", GlexImplantacao, "glex_implantacao_create"),
+            ("Comercial", GlexComercial, "glex_comercial_create"),
+            ("Resultado", GlexResultado, "glex_resultado_create"),
+        ]
+
+        glex_data = [
+            {
+                "nome": nome,
+                "pontuacao": calcular_pontuacao_e_status(model, escola)[0],
+                "status": calcular_pontuacao_e_status(model, escola)[1],
+                "url": reverse(url_name),
+            }
+            for nome, model, url_name in models
+        ]
+
+        context["glex_data"] = glex_data
+        context["escola"] = escola
+        return context
+
+
+
+class BuscarEscolaGlexView(TemplateView):
+    template_name = (
+        "pages/buscar_escola_glex.html"  # Nome do seu template para busca do CNPJ
+    )
+
+    def post(self, request, *args, **kwargs):
+        cnpj = request.POST.get("cnpj")
+        try:
+            escola = CRM_FUI.objects.get(CNPJ=cnpj)
+            return redirect(
+                reverse("tabela_glex", kwargs={"escola_id": escola.id_escola})
+            )
+        except CRM_FUI.DoesNotExist:
+            messages.error(request, "Escola com o CNPJ fornecido não encontrada.")
+            return redirect("glex_2025")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
