@@ -88,64 +88,71 @@
               </div>
               <div class="card-body">
                 <div class="table-responsive">
-                    <form method="POST" class="form-horizontal container" autocomplete="off" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="form-header">
-                            {% if messages %}
-                                {% for message in messages %}
-                                    {% if message.tags == 'error' %}
-                                        <div class="alert alert-danger alert-dismissible text-white" role="alert">
-                                            <span class="text-sm">{{ message }}</span>
-                                            <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    {% elif message.tags == 'warning' %}
-                                        <div class="alert alert-info alert-dismissible text-white" role="alert">
-                                            <span class="text-sm">{{ message }}</span>
-                                            <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
-                        </div>
-                    
-                        {% for field in form %}
-                        <div class="form-contratos">
-                            <div class="comp-nota-1">
-                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                                <div class="radio-options">
-                                    {{ field }}
-                                </div>
+
+
+
+
+                <form method="POST" class="form-horizontal container" autocomplete="off" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-header">
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                    <div class="alert alert-danger alert-dismissible text-white" role="alert">
+                                        <span class="text-sm">{{ message }}</span>
+                                        <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% elif message.tags == 'warning' %}
+                                    <div class="alert alert-info alert-dismissible text-white" role="alert">
+                                        <span class="text-sm">{{ message }}</span>
+                                        <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {% for field in form %}
+                    <div class="form-contratos">
+                        <div class="comp-nota-1">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            <div class="radio-options">
+                                {{ field }}
                             </div>
-                    
-                            {% if field.field.widget.input_type != "select" and field.field.widget.input_type != "radio" %}
-                            <div class="comp-nota-1">
-                                <input type="file" id="file-upload-{{ forloop.counter }}" name="{{ field.name }}_file" style="display: none;">
-                                <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-{{ forloop.counter }}').click();" id="btn-upload-{{ forloop.counter }}">
-                                    <span class="button-content">
-                                        <i class="material-icons">attach_file</i>
-                                        Attach file
-                                    </span>
-                                </button>
-                                <button class="file-name btn btn-success btn-round" id="file-name-{{ forloop.counter }}" style="display: none;">
-                                    <span class="button-content">
-                                        <i class="material-icons">check</i>
-                                        Nenhum arquivo escolhido
-                                    </span>
-                                </button>
-                            </div>
-                            {% endif %}
-                            <br><hr>
                         </div>
-                        {% endfor %}
-                    
-                        <div class="login-button">
-                            <button type="submit" class="btn btn-primary">Salvar</button>
+
+                        {% if not field.name|slice:"-8:" == "_comment" and field.field.widget.input_type != "select" and field.field.widget.input_type != "radio" %}
+                        <div class="comp-nota-1">
+                            <input type="file" id="file-upload-{{ forloop.counter }}" name="{{ field.name }}_file" style="display: none;">
+                            <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-{{ forloop.counter }}').click();" id="btn-upload-{{ forloop.counter }}">
+                                <span class="button-content">
+                                    <i class="material-icons">attach_file</i>
+                                    Attach file
+                                </span>
+                            </button>
+                            <button class="file-name btn btn-success btn-round" id="file-name-{{ forloop.counter }}" style="display: none;">
+                                <span class="button-content">
+                                    <i class="material-icons">check</i>
+                                    Nenhum arquivo escolhido
+                                </span>
+                            </button>
                         </div>
-                    </form>
+                        {% endif %}
+                        <br><hr>
+                    </div>
+                    {% endfor %}
+
+                    <div class="login-button">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+
+                    
+                    
                     
                     
                     
