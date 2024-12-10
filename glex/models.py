@@ -2574,293 +2574,249 @@ class GlexComercial(models.Model):
 
     # 10.01
     processo_matricula_robusto = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.01 Processo de matrícula robusto"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.01 - A escola tem um processo de matrícula robusto?"
     )
     processo_matricula_robusto_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.01"
     )
     processo_matricula_robusto_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True,
-        null=True,
-        verbose_name="10.01 Processo de matrícula robusto",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.01"
     )
 
     # 10.02
     plano_marketing_matricula = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.02 Plano de marketing de matrícula ativo"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.02 - A escola tem um plano de marketing de matrícula ativo?"
     )
     plano_marketing_matricula_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.02"
     )
     plano_marketing_matricula_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.02 Plano de marketing de matrícula ativo",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.02"
     )
 
     # 10.03
     materiais_marketing_padroes = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.03 Materiais de marketing alinhados aos padrões da Maple Bear"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.03 - Materiais de marketing alinhados aos padrões da Maple Bear"
     )
     materiais_marketing_padroes_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.03"
     )
     materiais_marketing_padroes_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.03 Materiais de marketing alinhados aos padrões da Maple Bear",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.03"
     )
 
     # 10.04
     equipe_lideranca_comercial = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.04 Possui liderança e equipe comercial"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.04 - Possui uma liderança e equipe comercial na unidade?"
     )
     equipe_lideranca_comercial_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.04"
     )
     equipe_lideranca_comercial_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.04 Possui liderança e equipe comercial",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.04"
     )
 
     # 10.05
     reunioes_lideranca_comercial = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.05 Reuniões semanais da liderança com a equipe comercial"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.05 - A liderança realiza reunião semanal com o seu time comercial?"
     )
     reunioes_lideranca_comercial_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.05"
     )
     reunioes_lideranca_comercial_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.05 Reuniões semanais da liderança com a equipe comercial",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.05"
     )
 
     # 10.06
     recepcao_visitantes = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.06 Recepção cortês e afável a visitantes, pais e colaboradores"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.06 - Recepção cortês e afável a visitantes, pais e colaboradores?"
     )
     recepcao_visitantes_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.06"
     )
     recepcao_visitantes_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.06 Recepção cortês e afável a visitantes, pais e colaboradores",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.06"
     )
 
     # 10.07
     metas_matriculas_rematriculas = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.07 Desdobramento das metas de matrículas e rematrículas"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.07 - Desdobramento das metas de matrículas e rematrículas?"
     )
     metas_matriculas_rematriculas_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.07"
     )
     metas_matriculas_rematriculas_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.07 Desdobramento das metas de matrículas e rematriculas",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.07"
     )
 
     # 10.08
     metas_nps = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.08 Desdobramento da meta da pesquisa NPS"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.08 - Desdobramento da meta da pesquisa NPS?"
     )
     metas_nps_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.08"
     )
     metas_nps_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.08 Desdobramento da meta da pesquisa NPS",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.08"
     )
 
     # 10.09
     mentoria_vendas = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.09 Participação da equipe comercial em mentoria de vendas"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.09 - Participação da equipe comercial em mentoria de vendas?"
     )
     mentoria_vendas_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.09"
     )
     mentoria_vendas_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.09 Participação da equipe comercial em mentoria de vendas",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.09"
     )
 
     # 10.10
     trilha_treinamento_vendas = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.10 Conclusão da trilha de treinamento de vendas"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.10 - Conclusão da trilha de treinamento de vendas?"
     )
     trilha_treinamento_vendas_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.10"
     )
     trilha_treinamento_vendas_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.10 Conclusão da trilha de treinamento de vendas",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.10"
     )
 
     # 10.11
     funil_vendas_crm = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.11 Etapas do funil de vendas registradas no CRM"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.11 - Etapas do funil de vendas registradas no CRM?"
     )
     funil_vendas_crm_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.11"
     )
     funil_vendas_crm_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.11 Etapas do funil de vendas registradas no CRM",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.11"
     )
 
     # 10.12
     cliente_oculto = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.12 Pontuação acima de 70% no cliente oculto"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.12 - Pontuação acima de 70% no cliente oculto?"
     )
     cliente_oculto_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.12"
     )
     cliente_oculto_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.12 Pontuação acima de 70% no cliente oculto",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.12"
     )
-
     # 10.13
     participacao_campanhas_acoes = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.13 Participação em 70% das campanhas comerciais promovidas"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.13 - Participou de 70% das campanhas e ações comerciais promovidas pela marca?"
     )
     participacao_campanhas_acoes_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.13"
     )
     participacao_campanhas_acoes_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.13 Participação em 70% das campanhas comerciais promovidas",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.13"
     )
 
     # 10.14
     pesquisas_mercado = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.14 Realiza pesquisas de mercado e conhece concorrentes"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.14 - Realiza pesquisas de mercado e conhece concorrentes?"
     )
     pesquisas_mercado_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.14"
     )
     pesquisas_mercado_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.14 Realiza pesquisas de mercado e conhece concorrentes",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.14"
     )
 
     # 10.15
     conversao_leads_marketing = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.15 Converteu 5% dos leads gerados no marketing online"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.15 - Converteu 5% dos leads gerados no marketing online comprovados no CRM?"
     )
     conversao_leads_marketing_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.15"
     )
     conversao_leads_marketing_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.15 Converteu 5% dos leads gerados no marketing online",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.15"
     )
 
     # 10.16
     capacitacao_exposicao_metodologia = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.16 Capacitou equipes para exposição correta da metodologia"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.16 - Capacitou as equipes para exposição correta da metodologia?"
     )
     capacitacao_exposicao_metodologia_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.16"
     )
     capacitacao_exposicao_metodologia_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.16 Capacitou equipes para exposição correta da metodologia",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.16"
     )
 
     # 10.17
     politica_comissionamento = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.17 Adota política de comissionamento/bônus para área Comercial"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.17 - Adota política de comissionamento/bônus para área Comercial?"
     )
     politica_comissionamento_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.17"
     )
     politica_comissionamento_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.17 Adota política de comissionamento/bônus para área Comercial",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.17"
     )
 
     # 10.18
     calendario_trade_marketing = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.18 Possui calendário de Trade Marketing definido"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.18 - Possui calendário de Trade Marketing definido e implementado?"
     )
     calendario_trade_marketing_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.18"
     )
     calendario_trade_marketing_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.18 Possui calendário de Trade Marketing definido",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.18"
     )
 
     # 10.19
     equipe_marketing = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.19 Possui equipe de Marketing ou agência responsável"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.19 - Possui equipe de Marketing ou agência responsável?"
     )
     equipe_marketing_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.19"
     )
     equipe_marketing_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.19 Possui equipe de Marketing ou agência responsável",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.19"
     )
 
     # 10.20
     entrega_kits_rematricula = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.20 Entrega às famílias kits de rematrícula homologados"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.20 - Entrega às famílias kits de rematrícula homologados?"
     )
     entrega_kits_rematricula_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.20"
     )
     entrega_kits_rematricula_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.20 Entrega às famílias kits de rematrícula homologados",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.20"
     )
 
     # 10.21
     entrega_kits_visita = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.21 Entrega às famílias visitantes kits de visita homologados"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.21 - Entrega às famílias visitantes kits de visita homologados?"
     )
     entrega_kits_visita_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.21"
     )
     entrega_kits_visita_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.21 Entrega às famílias visitantes kits de visita homologados",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.21"
     )
 
     # 10.22
     leads_atraso_crm = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="10.22 Menos de 10% dos leads em atraso no CRM"
+        choices=CHOICES, blank=True, null=True, verbose_name="10.22 - Menos de 10% dos leads em atraso no CRM?"
     )
     leads_atraso_crm_comment = models.TextField(
         blank=True, null=True, verbose_name="Comentário para 10.22"
     )
     leads_atraso_crm_file = models.FileField(
-        upload_to=upload_to_comercial,
-        blank=True, null=True,
-        verbose_name="10.22 Menos de 10% dos leads em atraso no CRM",
+        upload_to=upload_to_comercial, blank=True, null=True, verbose_name="Arquivo para 10.22"
     )
 
     def __str__(self):
         return f"{self.escola} - Comercial"
+
+
 
 def upload_to_resultado(instance, filename):
     return f"glex/{instance.escola.id_escola}/resultado/{filename}"
