@@ -1947,573 +1947,614 @@ class GlexImplantacao(models.Model):
 
     # 9.01
     interior_logotipo_maple_bear = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.01 Interior do prédio com logotipo Maple Bear"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.01 - O interior do prédio da Escola tem o logotipo da Maple Bear, o padrão e as cores, conforme definido pelo 'Manual de Identidade da Marca'?"
     )
     interior_logotipo_maple_bear_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.01"
+        blank=True, null=True, verbose_name="9.01 - Comentário:"
     )
     interior_logotipo_maple_bear_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.01 Interior do prédio com logotipo Maple Bear",
+        blank=True,
+        null=True,
+        verbose_name="9.01 - Arquivo sobre logotipo no interior do prédio",
     )
 
     # 9.02
     exterior_logotipo_maple_bear = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.02 Exterior do prédio com logotipo Maple Bear"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.02 - O exterior do prédio da Escola tem o padrão e as cores do logotipo da Maple Bear, conforme definido pelo 'Manual de Identidade da Marca'?"
     )
     exterior_logotipo_maple_bear_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.02"
+        blank=True, null=True, verbose_name="9.02 - Comentário:"
     )
     exterior_logotipo_maple_bear_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.02 Exterior do prédio com logotipo Maple Bear",
+        blank=True,
+        null=True,
+        verbose_name="9.02 - Arquivo sobre logotipo no exterior do prédio",
     )
 
     # 9.03
     logotipo_estado_conservacao = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.03 Logotipo em bom estado de conservação"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.03 - Todos os padrões e cores do logotipo da Maple Bear estão em bom estado de conservação?"
     )
     logotipo_estado_conservacao_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.03"
+        blank=True, null=True, verbose_name="9.03 - Comentário:"
     )
     logotipo_estado_conservacao_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.03 Logotipo em bom estado de conservação",
+        blank=True,
+        null=True,
+        verbose_name="9.03 - Arquivo sobre estado de conservação do logotipo",
     )
 
     # 9.04
     sistema_monitoramento_seguranca = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.04 Sistema de monitoramento de segurança funcional"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.04 - A escola possui um sistema de monitoramento de segurança totalmente funcional na data desta avaliação?"
     )
     sistema_monitoramento_seguranca_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.04"
+        blank=True, null=True, verbose_name="9.04 - Comentário:"
     )
     sistema_monitoramento_seguranca_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.04 Sistema de monitoramento de segurança funcional",
+        blank=True,
+        null=True,
+        verbose_name="9.04 - Arquivo sobre sistema de monitoramento de segurança",
     )
 
     # 9.05
     controle_acesso_predio = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.05 Processo de controle de acesso ao prédio"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.05 - A escola possui um processo de controle de acesso ao prédio para garantir que apenas visitantes autorizados possam entrar, em conformidade com os padrões regionais da Maple Bear?"
     )
     controle_acesso_predio_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.05"
+        blank=True, null=True, verbose_name="9.05 - Comentário:"
     )
     controle_acesso_predio_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.05 Processo de controle de acesso ao prédio",
+        blank=True,
+        null=True,
+        verbose_name="9.05 - Arquivo sobre controle de acesso ao prédio",
     )
-
     # 9.06
     sistema_alarme_emergencia = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.06 Sistema de alarme de emergência instalado"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.06 - A escola tem um sistema de alarme de emergência instalado e existe um procedimento de manutenção e teste periódico estabelecido para este sistema?"
     )
     sistema_alarme_emergencia_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.06"
+        blank=True, null=True, verbose_name="9.06 - Comentário:"
     )
     sistema_alarme_emergencia_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.06 Sistema de alarme de emergência instalado",
+        blank=True,
+        null=True,
+        verbose_name="9.06 - Arquivo sobre sistema de alarme de emergência",
     )
 
     # 9.07
     area_recreacao_conformidade = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.07 Área de recreação em conformidade"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.07 - A área de recreação interna/externa está em conformidade com os padrões da Maple Bear?"
     )
     area_recreacao_conformidade_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.07"
+        blank=True, null=True, verbose_name="9.07 - Comentário:"
     )
     area_recreacao_conformidade_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.07 Área de recreação em conformidade",
+        blank=True,
+        null=True,
+        verbose_name="9.07 - Arquivo sobre área de recreação",
     )
 
     # 9.08
     equipamento_recreacao_conservacao = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.08 Equipamento de recreação em bom estado"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.08 - O equipamento na área de recreação interna/externa está em bom estado de conservação e existe um processo de manutenção para confirmar isso?"
     )
     equipamento_recreacao_conservacao_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.08"
+        blank=True, null=True, verbose_name="9.08 - Comentário:"
     )
     equipamento_recreacao_conservacao_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.08 Equipamento de recreação em bom estado",
+        blank=True,
+        null=True,
+        verbose_name="9.08 - Arquivo sobre equipamento de recreação",
     )
 
     # 9.09
     instalacoes_limpeza_organizacao = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.09 Instalações limpas e organizadas"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.09 - As instalações da escola estão limpas, higienizadas (quando apropriado) e bem organizadas?"
     )
     instalacoes_limpeza_organizacao_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.09"
+        blank=True, null=True, verbose_name="9.09 - Comentário:"
     )
     instalacoes_limpeza_organizacao_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.09 Instalações limpas e organizadas",
+        blank=True,
+        null=True,
+        verbose_name="9.09 - Arquivo sobre limpeza e organização das instalações",
     )
+
     # 9.10
     seguranca_estrutural = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.10 Guardas e sinalizações adequadas para segurança"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.10 - A escola tem guardas de segurança e sinalização adequados nas janelas, corredores e outras áreas da escola para evitar quedas?"
     )
     seguranca_estrutural_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.10"
+        blank=True, null=True, verbose_name="9.10 - Comentário:"
     )
     seguranca_estrutural_file = models.FileField(
         upload_to=upload_to_implantacao,
         blank=True,
         null=True,
-        verbose_name="9.10 Guardas e sinalizações adequadas para segurança",
+        verbose_name="9.10 - Arquivo sobre segurança estrutural",
     )
 
     # 9.11
     sinalizacao_predio = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.11 Sinalização clara para entradas e saídas"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.11 - A escola tem sinalização clara e apropriada denotando as entradas e saídas do prédio?"
     )
     sinalizacao_predio_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.11"
+        blank=True, null=True, verbose_name="9.11 - Comentário:"
     )
     sinalizacao_predio_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.11 Sinalização clara para entradas e saídas",
+        blank=True,
+        null=True,
+        verbose_name="9.11 - Arquivo sobre sinalização do prédio",
     )
 
     # 9.12
     proporcao_adultos_alunos = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.12 Proporção adulto-aluno aprovada pela Maple Bear"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.12 - As salas de aula aderem às proporções de adultos para alunos, conforme aprovado pela Maple Bear Global?"
     )
     proporcao_adultos_alunos_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.12"
+        blank=True, null=True, verbose_name="9.12 - Comentário:"
     )
     proporcao_adultos_alunos_file = models.FileField(
         upload_to=upload_to_implantacao,
         blank=True,
         null=True,
-        verbose_name="9.12 Proporção adulto-aluno aprovada pela Maple Bear",
+        verbose_name="9.12 - Arquivo sobre proporção adulto-aluno",
     )
 
     # 9.13
     mobilia_salas_conservacao = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.13 Mobília das salas em bom estado de conservação"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.13 - A mobília da sala de aula está em bom estado de conservação e existe um processo para garantir a inspeção periódica?"
     )
     mobilia_salas_conservacao_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.13"
+        blank=True, null=True, verbose_name="9.13 - Comentário:"
     )
     mobilia_salas_conservacao_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.13 Mobília das salas em bom estado de conservação",
+        blank=True,
+        null=True,
+        verbose_name="9.13 - Arquivo sobre mobília das salas",
     )
-
     # 9.14
     organizacao_corredores = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.14 Corredores organizados e acessíveis"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.14 - Os corredores da escola são organizados de forma que possam ser facilmente percorridos por alunos, funcionários e visitantes?"
     )
     organizacao_corredores_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.14"
+        blank=True, null=True, verbose_name="9.14 - Comentário:"
     )
     organizacao_corredores_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.14 Corredores organizados e acessíveis",
+        blank=True,
+        null=True,
+        verbose_name="9.14 - Arquivo sobre organização dos corredores",
     )
 
     # 9.15
     acessibilidade_pne = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.15 Instalações acessíveis para pessoas com necessidades especiais"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.15 - A escola possui instalações que garantem acessibilidade adequada para pessoas com necessidades especiais e/ou mobilidade reduzida e estão em bom estado de conservação?"
     )
     acessibilidade_pne_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.15"
+        blank=True, null=True, verbose_name="9.15 - Comentário:"
     )
     acessibilidade_pne_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.15 Instalações acessíveis para pessoas com necessidades especiais",
+        blank=True,
+        null=True,
+        verbose_name="9.15 - Arquivo sobre acessibilidade PNE",
     )
 
     # 9.16
     politica_embarque_desembarque = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.16 Política de embarque e desembarque seguida"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.16 - A escola segue uma política e procedimento de embarque e desembarque?"
     )
     politica_embarque_desembarque_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.16"
+        blank=True, null=True, verbose_name="9.16 - Comentário:"
     )
     politica_embarque_desembarque_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.16 Política de embarque e desembarque seguida",
+        blank=True,
+        null=True,
+        verbose_name="9.16 - Arquivo sobre política de embarque e desembarque",
     )
 
     # 9.17
     banheiros_conservacao = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.17 Banheiros separados e em bom estado de conservação"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.17 - Os banheiros da escola para funcionários e alunos são mantidos separados e estão em bom estado de conservação?"
     )
     banheiros_conservacao_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.17"
+        blank=True, null=True, verbose_name="9.17 - Comentário:"
     )
     banheiros_conservacao_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.17 Banheiros separados e em bom estado de conservação",
+        blank=True,
+        null=True,
+        verbose_name="9.17 - Arquivo sobre conservação dos banheiros",
     )
 
     # 9.18
     conservacao_geral_instalacoes = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.18 Instalações em bom estado de conservação geral"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.18 - As instalações da escola estão em bom estado de conservação, de modo que todos os acessórios, incluindo aqueles relacionados à iluminação, portas e janelas, estejam totalmente funcionais?"
     )
     conservacao_geral_instalacoes_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.18"
+        blank=True, null=True, verbose_name="9.18 - Comentário:"
     )
     conservacao_geral_instalacoes_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.18 Instalações em bom estado de conservação geral",
+        blank=True,
+        null=True,
+        verbose_name="9.18 - Arquivo sobre conservação geral das instalações",
     )
 
     # 9.19
     danos_esteticos_instalacoes = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.19 Ausência de danos estéticos nas instalações"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.19 - As instalações da escola estão em bom estado de conservação, de modo que não haja danos estéticos nas portas, janelas, pisos, tetos e paredes?"
     )
     danos_esteticos_instalacoes_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.19"
+        blank=True, null=True, verbose_name="9.19 - Comentário:"
     )
     danos_esteticos_instalacoes_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.19 Ausência de danos estéticos nas instalações",
+        blank=True,
+        null=True,
+        verbose_name="9.19 - Arquivo sobre danos estéticos das instalações",
     )
 
     # 9.20
     danos_estruturais_eventuais = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.20 Ausência de danos estruturais eventuais"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.20 - As instalações da escola estão em bom estado de conservação, de modo que não haja danos estruturais visíveis em pisos, tetos, paredes, encanamentos ou sistemas elétricos que exijam reparos eventuais?"
     )
     danos_estruturais_eventuais_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.20"
+        blank=True, null=True, verbose_name="9.20 - Comentário:"
     )
     danos_estruturais_eventuais_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.20 Ausência de danos estruturais eventuais",
+        blank=True,
+        null=True,
+        verbose_name="9.20 - Arquivo sobre danos estruturais eventuais",
     )
 
     # 9.21
     danos_estruturais_risco = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.21 Ausência de danos estruturais com risco iminente"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.21 - As instalações da escola estão em bom estado de conservação, de modo que não haja danos estruturais visíveis no piso, teto, paredes, encanamentos ou sistemas elétricos que representem risco iminente para a segurança da comunidade escolar?"
     )
     danos_estruturais_risco_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.21"
+        blank=True, null=True, verbose_name="9.21 - Comentário:"
     )
     danos_estruturais_risco_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.21 Ausência de danos estruturais com risco iminente",
+        blank=True,
+        null=True,
+        verbose_name="9.21 - Arquivo sobre danos estruturais com risco iminente",
     )
+
     # 9.22
     pia_salas_infantil = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.22 Todas as salas de aula do infantil possuem pia"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.22 - Todas as salas de aula do infantil possuem pia para uso dos alunos?"
     )
     pia_salas_infantil_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.22"
+        blank=True, null=True, verbose_name="9.22 - Comentário:"
     )
     pia_salas_infantil_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.22 Todas as salas de aula do infantil possuem pia",
+        blank=True,
+        null=True,
+        verbose_name="9.22 - Arquivo sobre pia nas salas de infantil",
     )
-
     # 9.23
     banheiro_trocador_bear_care = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.23 Salas de Bear Care/Toddler possuem banheiro com trocador"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.23 - Salas de Bear Care/Toddler possuem banheiro com banheira e trocador?"
     )
     banheiro_trocador_bear_care_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.23"
+        blank=True, null=True, verbose_name="9.23 - Comentário:"
     )
     banheiro_trocador_bear_care_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.23 Salas de Bear Care/Toddler possuem banheiro com trocador",
+        blank=True,
+        null=True,
+        verbose_name="9.23 - Arquivo sobre banheiros nas salas de Bear Care/Toddler",
     )
 
     # 9.24
     banheiro_chuveiro_infantil = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.24 Salas de Nursery, JK, SK possuem banheiro com chuveiro"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.24 - Salas de Nursery, JK, SK possuem banheiro com chuveiro?"
     )
     banheiro_chuveiro_infantil_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.24"
+        blank=True, null=True, verbose_name="9.24 - Comentário:"
     )
     banheiro_chuveiro_infantil_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.24 Salas de Nursery, JK, SK possuem banheiro com chuveiro",
+        blank=True,
+        null=True,
+        verbose_name="9.24 - Arquivo sobre banheiros com chuveiro",
     )
 
     # 9.25
     playground_externo = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.25 Playground externo em bom estado de conservação"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.25 - Playground externo em bom estado de conservação?"
     )
     playground_externo_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.25"
+        blank=True, null=True, verbose_name="9.25 - Comentário:"
     )
     playground_externo_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.25 Playground externo em bom estado de conservação",
+        blank=True,
+        null=True,
+        verbose_name="9.25 - Arquivo sobre playground externo",
     )
 
     # 9.26
     rampas_corrimaos = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.26 Possui rampas e escadas com corrimãos duplos"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.26 - Possui rampas e escadas com corrimãos duplos?"
     )
     rampas_corrimaos_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.26"
+        blank=True, null=True, verbose_name="9.26 - Comentário:"
     )
     rampas_corrimaos_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.26 Possui rampas e escadas com corrimãos duplos",
+        blank=True,
+        null=True,
+        verbose_name="9.26 - Arquivo sobre rampas e corrimãos",
     )
 
     # 9.27
     sala_comercial_padroes = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.27 Sala de atendimento comercial segue padrões"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.27 - A sala de atendimento comercial da Unidade segue o padrão da Franqueadora?"
     )
     sala_comercial_padroes_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.27"
+        blank=True, null=True, verbose_name="9.27 - Comentário:"
     )
     sala_comercial_padroes_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.27 Sala de atendimento comercial segue padrões",
+        blank=True,
+        null=True,
+        verbose_name="9.27 - Arquivo sobre sala comercial",
     )
 
     # 9.28
     refeitório_conservacao = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.28 Refeitório atende 1/3 da capacidade e está em bom estado"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.28 - Refeitório atende 1/3 da capacidade e está em bom estado?"
     )
     refeitório_conservacao_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.28"
+        blank=True, null=True, verbose_name="9.28 - Comentário:"
     )
     refeitório_conservacao_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.28 Refeitório atende 1/3 da capacidade e está em bom estado",
+        blank=True,
+        null=True,
+        verbose_name="9.28 - Arquivo sobre refeitório",
     )
 
     # 9.29
     cozinha_vigilancia_sanitaria = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.29 Cozinha em conformidade com normas de vigilância sanitária"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.29 - Cozinha em conformidade com normas de vigilância sanitária?"
     )
     cozinha_vigilancia_sanitaria_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.29"
+        blank=True, null=True, verbose_name="9.29 - Comentário:"
     )
     cozinha_vigilancia_sanitaria_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.29 Cozinha em conformidade com normas de vigilância sanitária",
+        blank=True,
+        null=True,
+        verbose_name="9.29 - Arquivo sobre cozinha",
     )
 
     # 9.30
     playground_interno = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.30 Playground interno em bom estado de conservação"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.30 - Playground interno em bom estado de conservação?"
     )
     playground_interno_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.30"
+        blank=True, null=True, verbose_name="9.30 - Comentário:"
     )
     playground_interno_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.30 Playground interno em bom estado de conservação",
+        blank=True,
+        null=True,
+        verbose_name="9.30 - Arquivo sobre playground interno",
     )
 
     # 9.31
     espaco_esportes = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.31 Espaço para prática de esportes em bom estado"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.31 - Espaço para prática de esportes em bom estado?"
     )
     espaco_esportes_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.31"
+        blank=True, null=True, verbose_name="9.31 - Comentário:"
     )
     espaco_esportes_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.31 Espaço para prática de esportes em bom estado",
+        blank=True,
+        null=True,
+        verbose_name="9.31 - Arquivo sobre espaço esportivo",
     )
 
     # 9.32
     quadra_poliesportiva = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.32 Quadra poliesportiva em bom estado"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.32 - Quadra poliesportiva em bom estado?"
     )
     quadra_poliesportiva_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.32"
+        blank=True, null=True, verbose_name="9.32 - Comentário:"
     )
     quadra_poliesportiva_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.32 Quadra poliesportiva em bom estado",
+        blank=True,
+        null=True,
+        verbose_name="9.32 - Arquivo sobre quadra poliesportiva",
     )
 
     # 9.33
     biblioteca_conservacao = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.33 Biblioteca em bom estado de conservação"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.33 - Biblioteca em bom estado de conservação?"
     )
     biblioteca_conservacao_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.33"
+        blank=True, null=True, verbose_name="9.33 - Comentário:"
     )
     biblioteca_conservacao_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.33 Biblioteca em bom estado de conservação",
+        blank=True,
+        null=True,
+        verbose_name="9.33 - Arquivo sobre biblioteca",
     )
 
     # 9.34
     banheiros_pne_legislacao = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.34 Banheiros PNE de acordo com legislação local"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.34 - Banheiros PNE de acordo com legislação local?"
     )
     banheiros_pne_legislacao_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.34"
+        blank=True, null=True, verbose_name="9.34 - Comentário:"
     )
     banheiros_pne_legislacao_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.34 Banheiros PNE de acordo com legislação local",
+        blank=True,
+        null=True,
+        verbose_name="9.34 - Arquivo sobre banheiros PNE",
     )
-
     # 9.35
     laboratorio_ciencias = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.35 Laboratório de ciências em bom estado (Middle Years)"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.35 - Laboratório de ciências em bom estado (Middle Years)?"
     )
     laboratorio_ciencias_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.35"
+        blank=True, null=True, verbose_name="9.35 - Comentário:"
     )
     laboratorio_ciencias_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.35 Laboratório de ciências em bom estado (Middle Years)",
+        blank=True,
+        null=True,
+        verbose_name="9.35 - Arquivo sobre laboratório de ciências",
     )
+
     # 9.36
     mobiliario_fornecedores_homologados = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.36 Mobiliário adquirido com fornecedores homologados"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.36 - Mobiliário adquirido com fornecedores homologados?"
     )
     mobiliario_fornecedores_homologados_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.36"
+        blank=True, null=True, verbose_name="9.36 - Comentário:"
     )
     mobiliario_fornecedores_homologados_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.36 Mobiliário adquirido com fornecedores homologados",
+        blank=True,
+        null=True,
+        verbose_name="9.36 - Arquivo sobre fornecedores homologados",
     )
 
     # 9.37
     mobiliario_salas_admin_professores = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.37 Mobiliário das salas administrativas e de professores em bom estado"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.37 - Mobiliário das salas administrativas e de professores em bom estado?"
     )
     mobiliario_salas_admin_professores_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.37"
+        blank=True, null=True, verbose_name="9.37 - Comentário:"
     )
     mobiliario_salas_admin_professores_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.37 Mobiliário das salas administrativas e de professores em bom estado",
+        blank=True,
+        null=True,
+        verbose_name="9.37 - Arquivo sobre mobiliário administrativo",
     )
 
     # 9.38
     sala_coordenacao = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.38 Sala de Coordenação em bom estado de conservação"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.38 - Sala de Coordenação em bom estado de conservação?"
     )
     sala_coordenacao_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.38"
+        blank=True, null=True, verbose_name="9.38 - Comentário:"
     )
     sala_coordenacao_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.38 Sala de Coordenação em bom estado de conservação",
+        blank=True,
+        null=True,
+        verbose_name="9.38 - Arquivo sobre sala de coordenação",
     )
 
     # 9.39
     sala_professores = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.39 Sala de Professores em bom estado de conservação"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.39 - Sala de Professores em bom estado de conservação?"
     )
     sala_professores_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.39"
+        blank=True, null=True, verbose_name="9.39 - Comentário:"
     )
     sala_professores_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.39 Sala de Professores em bom estado de conservação",
+        blank=True,
+        null=True,
+        verbose_name="9.39 - Arquivo sobre sala de professores",
     )
 
     # 9.40
     vagas_estacionamento = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.40 Vagas de estacionamento conforme legislação"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.40 - Vagas de estacionamento conforme legislação?"
     )
     vagas_estacionamento_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.40"
+        blank=True, null=True, verbose_name="9.40 - Comentário:"
     )
     vagas_estacionamento_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.40 Vagas de estacionamento conforme legislação",
+        blank=True,
+        null=True,
+        verbose_name="9.40 - Arquivo sobre estacionamento",
     )
 
     # 9.41
     iluminacao_ventilacao = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.41 Atendimento ao padrão de iluminação e ventilação"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.41 - Atendimento ao padrão de iluminação e ventilação?"
     )
     iluminacao_ventilacao_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.41"
+        blank=True, null=True, verbose_name="9.41 - Comentário:"
     )
     iluminacao_ventilacao_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.41 Atendimento ao padrão de iluminação e ventilação",
+        blank=True,
+        null=True,
+        verbose_name="9.41 - Arquivo sobre iluminação e ventilação",
     )
 
     # 9.42
     paredes_balcao_logos = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.42 Paredes, balcão e logos da recepção no padrão da Franqueadora"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.42 - Paredes, balcão e logos da recepção no padrão da Franqueadora?"
     )
     paredes_balcao_logos_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.42"
+        blank=True, null=True, verbose_name="9.42 - Comentário:"
     )
     paredes_balcao_logos_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.42 Paredes, balcão e logos da recepção no padrão da Franqueadora",
+        blank=True,
+        null=True,
+        verbose_name="9.42 - Arquivo sobre recepção",
     )
 
     # 9.43
     salas_55m2 = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.43 Salas de aula com no mínimo 55m², incluindo banheiro"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.43 - Salas de aula com no mínimo 55m², incluindo banheiro?"
     )
     salas_55m2_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.43"
+        blank=True, null=True, verbose_name="9.43 - Comentário:"
     )
     salas_55m2_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.43 Salas de aula com no mínimo 55m², incluindo banheiro",
+        blank=True,
+        null=True,
+        verbose_name="9.43 - Arquivo sobre salas de aula",
     )
 
     # 9.44
     copa_colaboradores = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="9.44 Copa para os Colaboradores em bom estado de conservação"
+        choices=CHOICES, blank=True, null=True, verbose_name="9.44 - Copa para os Colaboradores em bom estado de conservação?"
     )
     copa_colaboradores_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 9.44"
+        blank=True, null=True, verbose_name="9.44 - Comentário:"
     )
     copa_colaboradores_file = models.FileField(
         upload_to=upload_to_implantacao,
-        blank=True, null=True,
-        verbose_name="9.44 Copa para os Colaboradores em bom estado de conservação",
+        blank=True,
+        null=True,
+        verbose_name="9.44 - Arquivo sobre copa dos colaboradores",
     )
 
     def __str__(self):
