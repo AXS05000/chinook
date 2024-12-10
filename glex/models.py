@@ -1565,7 +1565,7 @@ class GlexGestaoEscolar(models.Model):
         null=True,
         verbose_name="7.10 - Arquivo sobre envolvimento em Garantia de Qualidade",
     )
-    
+
     # 7.11
     treinamento_academico = models.IntegerField(
         choices=CHOICES, blank=True, null=True, verbose_name="7.11 - A escola se envolveu em treinamento acadêmico em alinhamento com o padrão Maple Bear?"
@@ -1849,9 +1849,6 @@ class GlexGestaoEscolar(models.Model):
         return f"{self.escola} - Gestão Escolar"
 
 
-
-
-
 def upload_to_operacao_academica(instance, filename):
     return f"glex/{instance.escola.id_escola}/operacao_academica/{filename}"
 
@@ -1865,69 +1862,72 @@ class GlexOperacaoAcademica(models.Model):
 
     # 8.01
     treinamentos_pedagogicos = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="8.01 Participação em treinamentos pedagógicos"
+        choices=CHOICES, blank=True, null=True, verbose_name="8.01 - Participou de todos os treinamentos pedagógicos promovidos pela Franqueadora?"
     )
     treinamentos_pedagogicos_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 8.01"
+        blank=True, null=True, verbose_name="8.01 - Comentário:"
     )
     treinamentos_pedagogicos_file = models.FileField(
         upload_to=upload_to_operacao_academica,
         blank=True,
         null=True,
-        verbose_name="8.01 Participação em treinamentos pedagógicos",
+        verbose_name="8.01 - Arquivo sobre participação em treinamentos pedagógicos",
     )
 
     # 8.02
     professores_nivel_superior = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="8.02 Professores com nível superior em humanas"
+        choices=CHOICES, blank=True, null=True, verbose_name="8.02 - Os professores possuem nível superior em humanas?"
     )
     professores_nivel_superior_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 8.02"
+        blank=True, null=True, verbose_name="8.02 - Comentário:"
     )
     professores_nivel_superior_file = models.FileField(
         upload_to=upload_to_operacao_academica,
-        blank=True, null=True,
-        verbose_name="8.02 Professores com nível superior em humanas",
+        blank=True,
+        null=True,
+        verbose_name="8.02 - Arquivo sobre professores com nível superior em humanas",
     )
 
     # 8.03
     professores_certificacao_internacional = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="8.03 Professores com certificação internacional"
+        choices=CHOICES, blank=True, null=True, verbose_name="8.03 - Os professores possuem TOEIC acima de 800 pontos, exame de proficiência com nota equivalente, CELTA ou Certificação Internacional equivalente?"
     )
     professores_certificacao_internacional_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 8.03"
+        blank=True, null=True, verbose_name="8.03 - Comentário:"
     )
     professores_certificacao_internacional_file = models.FileField(
         upload_to=upload_to_operacao_academica,
         blank=True,
         null=True,
-        verbose_name="8.03 Professores com certificação internacional",
+        verbose_name="8.03 - Arquivo sobre professores com certificação internacional",
     )
 
     # 8.04
     preparo_aulas_previo = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="8.04 Preparo prévio das aulas pelo Professor"
+        choices=CHOICES, blank=True, null=True, verbose_name="8.04 - O professor prepara todas as aulas de forma prévia à aplicação?"
     )
     preparo_aulas_previo_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 8.04"
+        blank=True, null=True, verbose_name="8.04 - Comentário:"
     )
     preparo_aulas_previo_file = models.FileField(
         upload_to=upload_to_operacao_academica,
-        blank=True, null=True,
-        verbose_name="8.04 Preparo prévio das aulas pelo Professor",
+        blank=True,
+        null=True,
+        verbose_name="8.04 - Arquivo sobre preparo prévio das aulas pelo professor",
     )
 
     # 8.05
     metodologia_maple_bear = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="8.05 Aspectos da metodologia Maple Bear no plano de aula"
+        choices=CHOICES, blank=True, null=True, verbose_name="8.05 - O professor contempla aspectos da metodologia Maple Bear no plano de aula?"
     )
     metodologia_maple_bear_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 8.05"
+        blank=True, null=True, verbose_name="8.05 - Comentário:"
     )
     metodologia_maple_bear_file = models.FileField(
         upload_to=upload_to_operacao_academica,
-        blank=True, null=True,
-        verbose_name="8.05 Aspectos da metodologia Maple Bear no plano de aula",
+        blank=True,
+        null=True,
+        verbose_name="8.05 - Arquivo sobre aspectos da metodologia Maple Bear no plano de aula",
     )
 
     def __str__(self):
