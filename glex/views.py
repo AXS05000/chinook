@@ -1,12 +1,39 @@
 from django.views.generic import TemplateView, CreateView, UpdateView, View
 from .forms import (
+    GlexGestaoDeParceriaForm,
+    GlexGenteForm,
+    GlexAdministrativoForm,
+    GlexTecnologiaForm,
+    GlexMarketingForm,
+    GlexAcademicoForm,
+    GlexGestaoEscolarForm,
+    GlexOperacaoAcademicaForm,
+    GlexImplantacaoForm,
+    GlexComercialForm,
+    GlexResultadoForm,
     Dominio1Form,
     Dominio2Form,
     Dominio3Form,
     Dominio4Form,
 )
 from django.utils.html import strip_tags
-from .models import Dominio1, Dominio2, Dominio3, Dominio4
+from .models import (
+    GlexGestaoDeParceria,
+    GlexGente,
+    GlexAdministrativo,
+    GlexTecnologia,
+    GlexMarketing,
+    GlexAcademico,
+    GlexGestaoEscolar,
+    GlexOperacaoAcademica,
+    GlexImplantacao,
+    GlexComercial,
+    GlexResultado,
+    Dominio1,
+    Dominio2,
+    Dominio3,
+    Dominio4,
+)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
