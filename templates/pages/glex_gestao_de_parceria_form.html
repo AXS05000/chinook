@@ -93,13 +93,6 @@
                     <div class="form-header">
                         {% if messages %}
                             {% for message in messages %}
-                                {% comment %} {% if message.tags == 'success' %}
-                                <div class="alert alert-sucess alert-dismissible text-white" role="alert">
-                                    <span class="text-sm">{{ message }}</span>
-                                    <button type="button" class="btn-close text-lg py-3 opacity-10 cursor-pointer" data-bs-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div> {% endcomment %}
                                 {% if message.tags == 'error' %}
                                     <div class="alert alert-danger alert-dismissible text-white" role="alert">
                                         <span class="text-sm">{{ message }}</span>
@@ -114,8 +107,6 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                {% comment %} {% else %}
-                                    <li>{{ message }}</li> {% endcomment %}
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
@@ -224,12 +215,6 @@
      
 
     </footer>
-    <!-- Footer Section End --> 
-
-    <!-- Go To Top Link -->
-    {% comment %} <a href="#" class="back-to-top">
-      <i class="lni-arrow-up"></i>
-    </a> {% endcomment %}
 
     <div id="loader">
       <div class="spinner">
