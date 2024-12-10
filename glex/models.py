@@ -1174,156 +1174,156 @@ class GlexMarketing(models.Model):
 
     # 5.01
     campanhas_marketing = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="5.01 Execução de campanhas de marketing"
+        choices=CHOICES, blank=True, null=True, verbose_name="5.01 - A escola executa campanhas de marketing voltadas para reconhecimento da marca e/ou geração de leads de acordo com a campanha vigente da Maple Bear Central?"
     )
     campanhas_marketing_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 5.01"
+        blank=True, null=True, verbose_name="5.01 - Comentário:"
     )
     campanhas_marketing_file = models.FileField(
         upload_to=upload_to_marketing,
         blank=True,
         null=True,
-        verbose_name="5.01 Execução de campanhas de marketing",
+        verbose_name="5.01 - Arquivo sobre execução de campanhas de marketing",
     )
 
     # 5.02
     planejamento_eventos = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="5.02 Planejamento de eventos"
+        choices=CHOICES, blank=True, null=True, verbose_name="5.02 - A escola possui um planejamento de eventos (Exemplo: Experience Day)?"
     )
     planejamento_eventos_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 5.02"
+        blank=True, null=True, verbose_name="5.02 - Comentário:"
     )
     planejamento_eventos_file = models.FileField(
         upload_to=upload_to_marketing,
         blank=True,
         null=True,
-        verbose_name="5.02 Planejamento de eventos",
+        verbose_name="5.02 - Arquivo sobre planejamento de eventos",
     )
 
     # 5.03
     comite_gestao_crise = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="5.03 Comitê de Gestão de Crise"
+        choices=CHOICES, blank=True, null=True, verbose_name="5.03 - Existe um comitê de Gestão de Crise integrado por representantes permanentes da Alta Administração da Escola e com diretrizes de comunicação a cada situação de emergência?"
     )
     comite_gestao_crise_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 5.03"
+        blank=True, null=True, verbose_name="5.03 - Comentário:"
     )
     comite_gestao_crise_file = models.FileField(
         upload_to=upload_to_marketing,
         blank=True,
         null=True,
-        verbose_name="5.03 Comitê de Gestão de Crise",
+        verbose_name="5.03 - Arquivo sobre comitê de Gestão de Crise",
     )
 
     # 5.04
     newsletter_semanal = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="5.04 Disponibilização semanal de Newsletter"
+        choices=CHOICES, blank=True, null=True, verbose_name="5.04 - A Diretoria da Escola disponibiliza semanalmente a Newsletter para os públicos estratégicos e colaboradores?"
     )
     newsletter_semanal_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 5.04"
+        blank=True, null=True, verbose_name="5.04 - Comentário:"
     )
     newsletter_semanal_file = models.FileField(
         upload_to=upload_to_marketing,
         blank=True,
         null=True,
-        verbose_name="5.04 Disponibilização semanal de Newsletter",
+        verbose_name="5.04 - Arquivo sobre disponibilização semanal de Newsletter",
     )
 
     # 5.05
     ambientacao_datas_especiais = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="5.05 Ambientação e ações para datas especiais"
+        choices=CHOICES, blank=True, null=True, verbose_name="5.05 - A escola faz ambientação e executa ações relacionadas a datas especiais/comemorativas (Exemplo: Festa Junina)?"
     )
     ambientacao_datas_especiais_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 5.05"
+        blank=True, null=True, verbose_name="5.05 - Comentário:"
     )
     ambientacao_datas_especiais_file = models.FileField(
         upload_to=upload_to_marketing,
         blank=True,
         null=True,
-        verbose_name="5.05 Ambientação e ações para datas especiais",
+        verbose_name="5.05 - Arquivo sobre ambientação e ações para datas especiais",
     )
 
     # 5.06
     google_meu_negocio = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="5.06 Google Meu Negócio atualizado"
+        choices=CHOICES, blank=True, null=True, verbose_name="5.06 - O recurso Google Meu Negócio está atualizado?"
     )
     google_meu_negocio_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 5.06"
+        blank=True, null=True, verbose_name="5.06 - Comentário:"
     )
     google_meu_negocio_file = models.FileField(
         upload_to=upload_to_marketing,
         blank=True,
         null=True,
-        verbose_name="5.06 Google Meu Negócio atualizado",
+        verbose_name="5.06 - Arquivo sobre Google Meu Negócio atualizado",
     )
 
     # 5.07
     uso_site_oficial = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="5.07 Uso do site oficial da Maple Bear"
+        choices=CHOICES, blank=True, null=True, verbose_name="5.07 - A escola utiliza o site oficial da Maple Bear para divulgação da escola e da metodologia de ensino?"
     )
     uso_site_oficial_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 5.07"
+        blank=True, null=True, verbose_name="5.07 - Comentário:"
     )
     uso_site_oficial_file = models.FileField(
         upload_to=upload_to_marketing,
         blank=True,
         null=True,
-        verbose_name="5.07 Uso do site oficial da Maple Bear",
+        verbose_name="5.07 - Arquivo sobre uso do site oficial da Maple Bear",
     )
 
     # 5.08
     redes_sociais = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="5.08 Atualização e engajamento nas redes sociais"
+        choices=CHOICES, blank=True, null=True, verbose_name="5.08 - As redes sociais estão atualizadas e garantindo engajamento?"
     )
     redes_sociais_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 5.08"
+        blank=True, null=True, verbose_name="5.08 - Comentário:"
     )
     redes_sociais_file = models.FileField(
         upload_to=upload_to_marketing,
         blank=True,
         null=True,
-        verbose_name="5.08 Atualização e engajamento nas redes sociais",
+        verbose_name="5.08 - Arquivo sobre atualização e engajamento nas redes sociais",
     )
 
     # 5.09
     participacao_congressos = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="5.09 Participação em congressos e convenções"
+        choices=CHOICES, blank=True, null=True, verbose_name="5.09 - Os colaboradores compareceram a congressos e convenções promovidas pela Maple Bear Central (Exemplo: Webinars de ciclo)?"
     )
     participacao_congressos_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 5.09"
+        blank=True, null=True, verbose_name="5.09 - Comentário:"
     )
     participacao_congressos_file = models.FileField(
         upload_to=upload_to_marketing,
         blank=True,
         null=True,
-        verbose_name="5.09 Participação em congressos e convenções",
+        verbose_name="5.09 - Arquivo sobre participação em congressos e convenções",
     )
 
     # 5.10
     uso_testemunhos = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="5.10 Uso de testemunhos e evidências acadêmicas"
+        choices=CHOICES, blank=True, null=True, verbose_name="5.10 - A escola utiliza testemunhos, evidências acadêmicas, depoimentos de membros da comunidade e cases de sucesso para destacar a metodologia, senso de pertencimento e conquistas dos alunos na Maple Bear?"
     )
     uso_testemunhos_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 5.10"
+        blank=True, null=True, verbose_name="5.10 - Comentário:"
     )
     uso_testemunhos_file = models.FileField(
         upload_to=upload_to_marketing,
         blank=True,
         null=True,
-        verbose_name="5.10 Uso de testemunhos e evidências acadêmicas",
+        verbose_name="5.10 - Arquivo sobre uso de testemunhos e evidências acadêmicas",
     )
 
     # 5.11
     registros_crm = models.IntegerField(
-        choices=CHOICES, blank=True, null=True, verbose_name="5.11 Uso do CRM para registros"
+        choices=CHOICES, blank=True, null=True, verbose_name="5.11 - A escola utiliza o CRM para registros em geral?"
     )
     registros_crm_comment = models.TextField(
-        blank=True, null=True, verbose_name="Comentário para 5.11"
+        blank=True, null=True, verbose_name="5.11 - Comentário:"
     )
     registros_crm_file = models.FileField(
         upload_to=upload_to_marketing,
         blank=True,
         null=True,
-        verbose_name="5.11 Uso do CRM para registros",
+        verbose_name="5.11 - Arquivo sobre uso do CRM para registros",
     )
 
     def __str__(self):
