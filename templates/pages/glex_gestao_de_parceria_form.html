@@ -76,14 +76,14 @@
           <div class="col-md-12">
             <div class="card card-plain">
               <div class="section-header text-center" >          
-                <h2 class="section-title" style="padding-top: 2rem;">Domínio 2</h2>
+                <h2 class="section-title" style="padding-top: 2rem;">Glex</h2>
                 <span style="padding-top: 2rem;">MAPLE BEAR</span>
             </div>
               <div class="card-header card-header-success card-header-icon">
                 <div class="card-icon">
                   <i class="material-icons">assignment</i>
                 </div>
-                <h2 class="card-title mt-0">Leadership and Management</h2>
+                <h2 class="card-title mt-0">Formulário</h2>
                 
               </div>
               <div class="card-body">
@@ -123,18 +123,33 @@
                             <div class="radio-options">
                                 {% if field.field.widget.input_type == "file" %}
                                     <!-- Campo de arquivo escondido -->
-                                    <input type="file" id="file-upload-{{ forloop.counter }}" name="{{ field.name }}" style="display: none;">
-                        
+                                    <input
+                                        type="file"
+                                        id="file-upload-{{ forloop.counter }}"
+                                        name="{{ field.name }}"
+                                        style="display: none;"
+                                        data-initial-file="{{ field.value|default_if_none:'' }}"
+                                    >
+                    
                                     <!-- Botão estilizado para upload -->
-                                    <button type="button" class="btn btn-danger btn-round" onclick="document.getElementById('file-upload-{{ forloop.counter }}').click();" id="btn-upload-{{ forloop.counter }}">
+                                    <button
+                                        type="button"
+                                        class="btn btn-danger btn-round"
+                                        onclick="document.getElementById('file-upload-{{ forloop.counter }}').click();"
+                                        id="btn-upload-{{ forloop.counter }}"
+                                    >
                                         <span class="button-content">
                                             <i class="material-icons">attach_file</i>
                                             Attach file
                                         </span>
                                     </button>
-                        
+                    
                                     <!-- Mostrar nome do arquivo selecionado -->
-                                    <button class="file-name btn btn-success btn-round" id="file-name-{{ forloop.counter }}" style="display: none;">
+                                    <button
+                                        class="file-name btn btn-success btn-round"
+                                        id="file-name-{{ forloop.counter }}"
+                                        style="display: none;"
+                                    >
                                         <span class="button-content">
                                             <i class="material-icons">check</i>
                                             Nenhum arquivo escolhido
@@ -148,6 +163,7 @@
                         <br><hr>
                     </div>
                     {% endfor %}
+                    
 
                     <div class="login-button">
                         <button type="submit" class="btn btn-primary">Salvar</button>
@@ -212,23 +228,46 @@
     </div>    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('input[type="file"]').forEach(input => {
-                const idSuffix = input.id.split('-').pop();
-                const fileNameSpan = document.getElementById('file-name-' + idSuffix);
-                const uploadButton = document.getElementById('btn-upload-' + idSuffix);
+            // Função para truncar o nome do arquivo
+            function truncateFilename(filename, maxLength = 20) {
+                if (filename.length > maxLength) {
+                    return filename.slice(0, maxLength) + "...";
+                }
+                return filename;
+            }
         
+            // Gerenciar inputs de arquivo
+            document.querySelectorAll('input[type="file"]').forEach(input => {
+                const idSuffix = input.id.split('-').pop(); // Identifica o sufixo do ID
+                const fileNameSpan = document.getElementById('file-name-' + idSuffix); // Botão verde para exibir o nome
+                const uploadButton = document.getElementById('btn-upload-' + idSuffix); // Botão vermelho de upload
+        
+                // Verificar o nome do arquivo inicial
+                const initialFileName = input.dataset.initialFile; // Valor inicial do arquivo
+                if (initialFileName && initialFileName !== '') {
+                    const truncatedName = truncateFilename(initialFileName); // Trunca o nome
+                    fileNameSpan.innerHTML = `
+                        <span class="button-content">
+                            <i class="material-icons">check</i> ${truncatedName}
+                        </span>`;
+                    fileNameSpan.style.display = 'inline'; // Mostra o botão verde
+                    uploadButton.style.display = 'none'; // Esconde o botão vermelho
+                }
+        
+                // Evento para exibir o nome do arquivo ao selecionar um novo arquivo
                 input.addEventListener('change', function () {
                     if (this.files.length > 0) {
-                        const fileName = this.files[0].name;
+                        const truncatedName = truncateFilename(this.files[0].name); // Trunca o nome do arquivo
                         fileNameSpan.innerHTML = `
                             <span class="button-content">
-                                <i class="material-icons">check</i> ${fileName}
+                                <i class="material-icons">check</i> ${truncatedName}
                             </span>`;
-                        fileNameSpan.style.display = 'inline';
-                        uploadButton.style.display = 'none';
+                        fileNameSpan.style.display = 'inline'; // Exibe o nome do arquivo
+                        uploadButton.style.display = 'none'; // Esconde o botão vermelho
                     } else {
-                        fileNameSpan.style.display = 'none';
-                        uploadButton.style.display = 'inline';
+                        // Caso nenhum arquivo seja selecionado
+                        fileNameSpan.style.display = 'none'; // Esconde o nome do arquivo
+                        uploadButton.style.display = 'inline'; // Mostra o botão vermelho
                     }
                 });
             });
